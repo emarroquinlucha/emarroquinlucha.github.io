@@ -293,6 +293,29 @@ h1, h2, h3 {
   color: var(--resume-body);
 }
 
+/* Blinking text cursor at the end of the headline */
+.text-cursor {
+  display: inline-block;
+  width: 0.1em;
+  height: 1em;
+  margin-left: 0.12em;
+  vertical-align: -0.12em;
+  background: currentColor;
+  animation: cursor-blink 1.8s steps(1, end) infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-cursor {
+    animation: none;
+  }
+}
+
 .resume-label {
   font-size: 16px;
 }
