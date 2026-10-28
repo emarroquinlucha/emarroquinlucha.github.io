@@ -241,6 +241,22 @@ h1, h2, h3 {
   gap: 6px;
 }
 
+.company-header.with-avatar {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.company .avatar {
+  --avatar-size: 56px;
+}
+
 .company-name {
   font-size: 22px;
   font-weight: 500;
@@ -327,6 +343,37 @@ h1, h2, h3 {
   color: var(--resume-text);
 }
 
+/* ===== Avatar (from the "Neo Avatar" Figma component) =====
+   A dark rounded tile with a logo centered inside.
+   Change --avatar-size to resize it; everything inside scales with it. */
+.avatar {
+  --avatar-size: 70px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  overflow: hidden;
+  border: 0.5px solid #cecece;
+  border-radius: calc(var(--avatar-size) * 0.2);
+  background: linear-gradient(136deg, #232323 6.09%, #161616 52.69%, #2b2b2b 97.54%);
+  box-shadow: 0 calc(var(--avatar-size) * 0.08) calc(var(--avatar-size) * 0.16) calc(var(--avatar-size) * -0.04) rgba(12, 12, 13, 0.4);
+}
+
+.avatar img {
+  display: block;
+  width: calc(var(--avatar-size) * 0.74);
+  height: auto;
+}
+
+/* Orange version (from the "Skip Avatar" Figma component) */
+.avatar-skip {
+  border-color: #ffbb75;
+  background: linear-gradient(135deg, #ffa142 0%, #ff8000 50.48%, #ff9121 100%);
+  box-shadow: 0 calc(var(--avatar-size) * 0.086) calc(var(--avatar-size) * 0.171) 0 rgba(153, 77, 0, 0.35);
+}
+
 /* Resume on tablets and phones */
 @media (max-width: 1000px) {
   .resume {
@@ -399,6 +446,14 @@ h1, h2, h3 {
 
   .company-name {
     font-size: 24px;
+  }
+
+  .company .avatar {
+    --avatar-size: 48px;
+  }
+
+  .company-header.with-avatar {
+    gap: 14px;
   }
 
   .role-title {
