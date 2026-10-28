@@ -194,21 +194,63 @@ h1, h2, h3 {
 /* ===== Resume (built from the resume Figma design) ===== */
 .resume-wrap {
   padding: 92px 24px 80px;
+  /* The card's shadow lives here (as drop-shadows) so it follows the folded corner's shape */
+  filter:
+    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.05))
+    drop-shadow(0 8px 10px rgba(12, 12, 13, 0.04))
+    drop-shadow(90px 61px 40px rgba(0, 0, 0, 0.02));
 }
 
 .resume {
+  /* Fold size: the crease runs from --fold-top along the top edge
+     to --fold-side down the right edge. --fold-tip-x / -y is where the folded
+     corner lands (the corner mirrored across the crease). */
+  --fold-top: 144px;
+  --fold-side: 132px;
+  --fold-tip-x: 12.5px;
+  --fold-tip-y: 143.5px;
+  position: relative;
   max-width: 902px;
   margin: 0 auto;
   padding: 80px 74px 92px;
   background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
   border-radius: 3px;
-  box-shadow:
-    0 10px 32px 0 rgba(0, 0, 0, 0.05),
-    0 13px 26px -6px rgba(12, 12, 13, 0.05),
-    90px 61px 80px 0 rgba(0, 0, 0, 0.02);
   color: var(--resume-text);
   line-height: normal;
+  /* Cut off the top-right corner where the paper is folded down */
+  clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
+}
+
+/* ===== Folded corner =====
+   ::after is the folded-over flap (the back of the paper),
+   ::before is the soft shadow the flap casts onto the card.
+   Its size is set by the --fold-* values on .resume. */
+.resume::before,
+.resume::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--fold-top);
+  height: var(--fold-tip-y);
+  pointer-events: none;
+}
+
+.resume::before {
+  /* The flap's shape drawn as an image (not clip-path) so the blur isn't cut off */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 143.5' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L144,132 Q80,133 24,141.6 Q13,143.4 12.2,133 Q10,66 0,0 Z' fill='rgba(24,24,32,0.22)'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
+  filter: blur(7px);
+  transform: translate(-5px, 8px);
+}
+
+.resume::after {
+  /* Gently curled flap: edges bow in slightly and the tip is softly rounded.
+     Shading: a faint shadow right at the crease, a soft highlight just past it,
+     then darker toward the tip, lifting a touch at the very edge */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 143.5' preserveAspectRatio='none'%3E %3Cdefs%3E%3ClinearGradient id='g' gradientUnits='userSpaceOnUse' x1='72' y1='66' x2='8' y2='136'%3E %3Cstop offset='0' stop-color='%23f0f0f3'/%3E%3Cstop offset='0.07' stop-color='%23fdfdfe'/%3E %3Cstop offset='0.4' stop-color='%23ececf0'/%3E%3Cstop offset='0.86' stop-color='%23d7d7dd'/%3E %3Cstop offset='1' stop-color='%23e1e1e6'/%3E%3C/linearGradient%3E%3C/defs%3E %3Cpath d='M0,0 L144,132 Q80,133 24,141.6 Q13,143.4 12.2,133 Q10,66 0,0 Z' fill='url(%23g)'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
 }
 
 .resume :where(h1, h2, h3, h4, p) {
@@ -283,7 +325,8 @@ h1, h2, h3 {
 }
 
 .resume-statement {
-  max-width: 616px;
+  /* 616px in the design, plus room for the hover letters, which lose a little kerning */
+  max-width: 628px;
   margin-top: 93px;
   font-size: 32px;
   font-weight: 500;
@@ -291,6 +334,78 @@ h1, h2, h3 {
 
 .resume-statement .soft {
   color: var(--resume-body);
+}
+
+/* ===== Flowing gradient text =====
+   A band of orange, peach, pink and lavender (colors sampled from the
+   reference video) slides continuously through the letters, so every color
+   passes across the whole phrase. The band repeats seamlessly. */
+.gradient-text {
+  --cycle: linear-gradient(90deg,
+    #e5883c 0%, #e7943f 10%, #e9a592 24%, #e48ec8 40%,
+    #b19adc 55%, #e48ec8 70%, #e9a592 84%, #e5883c 100%);
+  background-image: var(--cycle);
+  background-size: 200% 100%;
+  background-repeat: repeat-x;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-cycle 7s linear infinite;
+}
+
+@keyframes gradient-cycle {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: 0% 0;
+  }
+}
+
+/* When the script splits the phrase into letters, each letter shows its own
+   slice of the same band (--w = phrase width, --x = letter's offset), so the
+   colors still flow as one piece while letters move independently on hover. */
+.gradient-text.is-split {
+  background: none;
+  animation: none;
+}
+
+.gradient-text .letter {
+  display: inline-block;
+  background-image: var(--cycle);
+  background-size: calc(var(--w) * 2) 100%;
+  background-repeat: repeat-x;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: letter-cycle 7s linear infinite;
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* While the cursor is over the phrase, letters follow it quickly;
+   on leave they spring back with a little bounce (the transition above) */
+.gradient-text.is-hovering .letter {
+  transition-duration: 0.18s;
+  transition-timing-function: ease-out;
+}
+
+@keyframes letter-cycle {
+  from {
+    background-position: calc(0px - var(--x)) 0;
+  }
+
+  to {
+    background-position: calc(var(--w) * 2 - var(--x)) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text,
+  .gradient-text .letter {
+    animation: none;
+  }
 }
 
 /* Blinking text cursor at the end of the headline */
@@ -516,6 +631,10 @@ h1, h2, h3 {
   }
 
   .resume {
+    --fold-top: 105px;
+    --fold-side: 96px;
+    --fold-tip-x: 9.4px;
+    --fold-tip-y: 104.6px;
     padding: 56px 24px 56px;
   }
 

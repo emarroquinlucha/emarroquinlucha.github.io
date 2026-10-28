@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=31">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -49,7 +49,7 @@
       </header>
 
       <p class="resume-statement">
-        Shaping <span class="soft">leading digital products</span>, through visual direction,
+        Shaping <span class="soft gradient-text">leading digital products</span>, through visual direction,
         information architecture and the systems behind them.<span class="text-cursor" aria-hidden="true"></span>
       </p>
 
@@ -193,6 +193,93 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Gradient phrase: split into letters so they can move on hover.
+    // Letters near the cursor lift, grow and tilt away from it like a magnetic
+    // wave, then spring back when the cursor leaves.
+    (function () {
+      var phrase = document.querySelector(".gradient-text");
+      if (!phrase) return;
+      var text = phrase.textContent;
+      phrase.setAttribute("aria-label", text);
+      phrase.textContent = "";
+      var letters = [];
+      text.split("").forEach(function (ch) {
+        if (ch === " ") {
+          phrase.appendChild(document.createTextNode(" "));
+          return;
+        }
+        var span = document.createElement("span");
+        span.className = "letter";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = ch;
+        phrase.appendChild(span);
+        letters.push(span);
+      });
+
+      function measure() {
+        var box = phrase.getBoundingClientRect();
+        phrase.style.setProperty("--w", box.width + "px");
+        letters.forEach(function (l) {
+          l.style.setProperty("--x", (l.getBoundingClientRect().left - box.left) + "px");
+        });
+      }
+      phrase.classList.add("is-split");
+      measure();
+      document.fonts.ready.then(measure);
+      window.addEventListener("resize", measure);
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var reach = 70; // how far (px) from the cursor letters react
+
+      var introRunning = false;
+
+      // Bend the letters around a point x (in viewport pixels)
+      function wave(x) {
+        phrase.classList.add("is-hovering");
+        letters.forEach(function (l) {
+          var r = l.getBoundingClientRect();
+          var dx = r.left + r.width / 2 - x;
+          var pull = Math.max(0, 1 - Math.abs(dx) / reach);
+          pull = pull * pull;
+          l.style.transform =
+            "translateY(" + (-9 * pull).toFixed(2) + "px) " +
+            "scale(" + (1 + 0.14 * pull).toFixed(3) + ") " +
+            "rotate(" + (Math.sign(dx) * 7 * pull).toFixed(2) + "deg)";
+        });
+      }
+
+      function release() {
+        phrase.classList.remove("is-hovering");
+        letters.forEach(function (l) { l.style.transform = ""; });
+      }
+
+      phrase.addEventListener("pointermove", function (e) {
+        if (e.pointerType !== "mouse") return;
+        introRunning = false;
+        wave(e.clientX);
+      });
+
+      phrase.addEventListener("pointerleave", release);
+
+      // On page load, sweep the wave once across the phrase, left to right
+      function intro() {
+        var box = phrase.getBoundingClientRect();
+        var start = box.left - reach, end = box.right + reach;
+        var duration = 1800, t0 = null;
+        introRunning = true;
+        (function step(now) {
+          if (!introRunning) return;
+          if (t0 === null) t0 = now;
+          var t = Math.min(1, (now - t0) / duration);
+          var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // ease in-out
+          wave(start + (end - start) * eased);
+          if (t < 1) requestAnimationFrame(step);
+          else { introRunning = false; release(); }
+        })(performance.now());
+      }
+      document.fonts.ready.then(function () { setTimeout(intro, 500); });
+    })();
 
     // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
     // Only reacts on the background, not over the resume card or the menu.
