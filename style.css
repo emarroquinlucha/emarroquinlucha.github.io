@@ -10,19 +10,23 @@
   --accent-text: #ffffff;
   --radius: 10px;
   --max-width: 1040px;
-}
+  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-/* Automatic dark mode when the visitor's device is set to dark */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121212;
-    --surface: #1c1c1c;
-    --text: #ededed;
-    --muted: #a0a0a0;
-    --border: #2c2c2c;
-    --accent: #7c9cff;
-    --accent-text: #0d0d0d;
-  }
+  /* Resume page background (from the "Blank Resume" Figma frame) */
+  --resume-gradient-start: #f2f2f7;
+  --resume-gradient-end: #e0e0e5;
+
+  /* Resume colors (from the resume Figma design) */
+  --resume-paper: #ececef;
+  --resume-paper-border: #d0d0d7;
+  --resume-heading: #19191a;
+  --resume-text: #323234;
+  --resume-body: #616165;
+  --resume-label: #7a7a7f;
+
+  /* The site is light mode only */
+  color-scheme: light;
 }
 
 *,
@@ -38,7 +42,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.65;
   color: var(--text);
@@ -103,8 +107,316 @@ h1, h2, h3 {
   font-size: 15px;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
   color: var(--text);
+}
+
+/* ===== Extra pages (e.g. resume.html) ===== */
+.page {
+  min-height: 60vh;
+  border-top: none;
+}
+
+/* Gradient background used on resume.html */
+.page-resume {
+  min-height: 100%;
+  background: linear-gradient(162deg, var(--resume-gradient-start) 0%, var(--resume-gradient-end) 101%);
+}
+
+.page-resume body {
+  background: transparent;
+}
+
+.page-resume .site-header {
+  background: color-mix(in srgb, var(--resume-gradient-start) 85%, transparent);
+}
+
+.page-resume .site-footer {
+  border-top: none;
+}
+
+/* ===== Resume (built from the resume Figma design) ===== */
+.resume-wrap {
+  padding: 115px 24px 80px;
+}
+
+.resume {
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 308px 92px 115px;
+  background: var(--resume-paper);
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 4px;
+  box-shadow:
+    0 12px 40px 0 rgba(0, 0, 0, 0.05),
+    0 16px 32px -8px rgba(12, 12, 13, 0.05),
+    112px 76px 100px 0 rgba(0, 0, 0, 0.02);
+  color: var(--resume-text);
+  line-height: normal;
+}
+
+.resume :where(h1, h2, h3, h4, p) {
+  margin: 0;
+  line-height: normal;
+}
+
+.resume-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-name {
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: normal;
+  color: var(--resume-heading);
+}
+
+.resume-title,
+.resume-label,
+.company-years,
+.role-years {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--resume-label);
+}
+
+.resume-title {
+  font-size: 24px;
+}
+
+.resume-statement {
+  max-width: 770px;
+  margin-top: 116px;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.resume-statement .soft {
+  color: var(--resume-body);
+}
+
+.resume-label {
+  font-size: 24px;
+}
+
+.resume-statement + .resume-label {
+  margin-top: 150px;
+}
+
+.resume-divider {
+  display: block;
+  max-width: 100%;
+  margin: 48px 0 79px;
+}
+
+.company + .resume-divider {
+  margin-top: 92px;
+  margin-bottom: 92px;
+}
+
+.company + .resume-divider + .expertise {
+  margin-top: -4px;
+}
+
+.company {
+  display: flex;
+  flex-direction: column;
+  gap: 78px;
+  padding-left: 22px;
+}
+
+.company-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.company-name {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--resume-text);
+}
+
+.company-years {
+  font-size: 20px;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 94px;
+}
+
+.role {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 611px);
+  column-gap: 92px;
+  align-items: start;
+}
+
+.role-years {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.role-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.role-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--resume-text);
+}
+
+.highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0;
+  padding: 0 0 0 30px;
+  font-size: 20px;
+  line-height: 36px;
+  color: var(--resume-body);
+}
+
+.highlights strong {
+  display: block;
+  font-weight: 500;
+  color: var(--resume-text);
+}
+
+.highlights .narrow {
+  max-width: 565px;
+  line-height: 38px;
+}
+
+.highlights a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.highlights a:hover {
+  color: var(--resume-text);
+}
+
+.expertise {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 926px;
+}
+
+.expertise p {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 36px;
+  color: var(--resume-text);
+}
+
+/* Resume on tablets and phones */
+@media (max-width: 1000px) {
+  .resume {
+    padding: 120px 48px 80px;
+  }
+
+  .resume-statement {
+    margin-top: 72px;
+    font-size: 32px;
+  }
+
+  .resume-statement + .resume-label {
+    margin-top: 96px;
+  }
+
+  .company {
+    padding-left: 0;
+  }
+
+  .role {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .resume-wrap {
+    padding: 32px 12px 48px;
+  }
+
+  .resume {
+    padding: 56px 24px 56px;
+  }
+
+  .resume-name {
+    font-size: 28px;
+  }
+
+  .resume-title,
+  .resume-label {
+    font-size: 18px;
+  }
+
+  .resume-statement {
+    margin-top: 48px;
+    font-size: 26px;
+  }
+
+  .resume-statement + .resume-label {
+    margin-top: 64px;
+  }
+
+  .resume-divider,
+  .company + .resume-divider {
+    margin: 32px 0 48px;
+  }
+
+  .company {
+    gap: 48px;
+  }
+
+  .roles {
+    gap: 64px;
+  }
+
+  .company-name {
+    font-size: 24px;
+  }
+
+  .role-title {
+    font-size: 21px;
+  }
+
+  .company-years,
+  .role-years {
+    font-size: 16px;
+  }
+
+  .highlights,
+  .expertise p {
+    font-size: 17px;
+    line-height: 30px;
+  }
+
+  .highlights {
+    gap: 28px;
+    padding-left: 22px;
+  }
+
+  .highlights .narrow {
+    line-height: inherit;
+  }
+}
+
+.page h1 {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  letter-spacing: -0.03em;
 }
 
 /* ===== Hero ===== */
@@ -356,8 +668,24 @@ h1, h2, h3 {
     padding: 0 16px;
   }
 
+  .nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    row-gap: 4px;
+  }
+
+  .logo {
+    white-space: nowrap;
+  }
+
   .nav-links {
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
   }
 
   .hero {
