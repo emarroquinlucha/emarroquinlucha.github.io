@@ -151,6 +151,46 @@ h1, h2, h3 {
   border-top: none;
 }
 
+/* Keep the page content above the dot grid */
+.page-resume main,
+.page-resume .site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Dot grid (resume page background) =====
+   2px dots every 24px. A second, darker copy of the grid shows only
+   in a soft circle around the mouse (--x / --y are set by the script in resume.html). */
+.dot-grid {
+  --dot-spacing: 24px;
+  --shift-x: 0px;
+  --shift-y: 0px;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%23D8D8DE'/%3E%3C/svg%3E");
+  background-size: var(--dot-spacing) var(--dot-spacing);
+  background-position: var(--shift-x) var(--shift-y);
+}
+
+.dot-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%23A4A4AD'/%3E%3C/svg%3E");
+  background-size: inherit;
+  background-position: inherit;
+  -webkit-mask-image: radial-gradient(circle 160px at var(--x, -999px) var(--y, -999px), #000 0%, transparent 100%);
+  mask-image: radial-gradient(circle 160px at var(--x, -999px) var(--y, -999px), #000 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.dot-grid.is-active::after {
+  opacity: 1;
+}
+
 /* ===== Resume (built from the resume Figma design) ===== */
 .resume-wrap {
   padding: 92px 24px 80px;
@@ -159,7 +199,7 @@ h1, h2, h3 {
 .resume {
   max-width: 902px;
   margin: 0 auto;
-  padding: 125px 74px 92px;
+  padding: 80px 74px 92px;
   background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
   border-radius: 3px;
@@ -185,6 +225,8 @@ h1, h2, h3 {
   display: grid;
   width: 330px;
   margin-bottom: 2px;
+  /* Shifted left so it sits over the name (exact centering would be -41px) */
+  margin-left: -21px;
 }
 
 /* All copies sit on top of each other */
@@ -252,7 +294,7 @@ h1, h2, h3 {
 }
 
 .resume-label {
-  font-size: 19px;
+  font-size: 16px;
 }
 
 .resume-statement + .resume-label {
@@ -461,11 +503,15 @@ h1, h2, h3 {
   .resume-signature {
     width: 160px;
     margin-bottom: 6px;
+    margin-left: 0;
   }
 
-  .resume-title,
-  .resume-label {
+  .resume-title {
     font-size: 18px;
+  }
+
+  .resume-label {
+    font-size: 16px;
   }
 
   .resume-statement {

@@ -8,9 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=10">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=17">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
+
+  <!-- Dot grid background with a cursor spotlight (see "Dot grid" in style.css) -->
+  <div class="dot-grid" aria-hidden="true"></div>
 
   <!-- ===== Navigation ===== -->
   <header class="site-header">
@@ -36,10 +39,10 @@
         <!-- Signature with a progressive blur: the same image stacked 4 times,
              each copy blurred more and shown only in its band of the lower half -->
         <div class="resume-signature">
-          <img src="images/signature.svg" width="1394" height="762" alt="Edward Marroquin's signature">
-          <img class="blur-1" src="images/signature.svg" width="1394" height="762" alt="" aria-hidden="true">
-          <img class="blur-2" src="images/signature.svg" width="1394" height="762" alt="" aria-hidden="true">
-          <img class="blur-3" src="images/signature.svg" width="1394" height="762" alt="" aria-hidden="true">
+          <img src="images/signature.svg?v=2" width="1394" height="762" alt="Edward Marroquin's signature">
+          <img class="blur-1" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <img class="blur-2" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <img class="blur-3" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
         </div>
         <h1 class="resume-name">Edward Marroquin</h1>
         <p class="resume-title">Staff Product Designer</p>
@@ -190,6 +193,38 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
+    // Only reacts on the background, not over the resume card or the menu.
+    (function () {
+      var grid = document.querySelector(".dot-grid");
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
+      var drift = 0.02; // how far the grid follows the cursor (fraction of the distance from center)
+
+      document.addEventListener("pointermove", function (e) {
+        if (e.pointerType !== "mouse") return;
+        var overContent = e.target.closest(".resume, .site-header, .site-footer");
+        grid.classList.toggle("is-active", !overContent);
+        grid.style.setProperty("--x", e.clientX + "px");
+        grid.style.setProperty("--y", e.clientY + "px");
+        target.x = (e.clientX - window.innerWidth / 2) * drift;
+        target.y = (e.clientY - window.innerHeight / 2) * drift;
+      });
+
+      document.documentElement.addEventListener("mouseleave", function () {
+        grid.classList.remove("is-active");
+      });
+
+      if (reduceMotion) return;
+      (function follow() {
+        current.x += (target.x - current.x) * 0.08;
+        current.y += (target.y - current.y) * 0.08;
+        grid.style.setProperty("--shift-x", current.x.toFixed(2) + "px");
+        grid.style.setProperty("--shift-y", current.y.toFixed(2) + "px");
+        requestAnimationFrame(follow);
+      })();
+    })();
   </script>
 </body>
 </html>
