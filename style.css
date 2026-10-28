@@ -191,6 +191,12 @@ h1, h2, h3 {
   opacity: 1;
 }
 
+/* The fold sizes are registered so they can animate (the fold lifts on hover) */
+@property --fold-top { syntax: "<length>"; inherits: true; initial-value: 0px; }
+@property --fold-side { syntax: "<length>"; inherits: true; initial-value: 0px; }
+@property --fold-tip-x { syntax: "<length>"; inherits: true; initial-value: 0px; }
+@property --fold-tip-y { syntax: "<length>"; inherits: true; initial-value: 0px; }
+
 /* ===== Resume (built from the resume Figma design) ===== */
 .resume-wrap {
   padding: 92px 24px 80px;
@@ -220,37 +226,67 @@ h1, h2, h3 {
   line-height: normal;
   /* Cut off the top-right corner where the paper is folded down */
   clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
+  transition:
+    --fold-top 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-side 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-tip-x 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-tip-y 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* Hovering the corner lifts the fold: it peels back further, the crease starts
+   farther left so the flap's left side grows longer than its bottom, and its
+   shadow drops lower and softer */
+.resume:has(.fold:hover) {
+  --fold-top: 180px;
+  --fold-side: 155.8px;
+  --fold-tip-x: 25.8px;
+  --fold-tip-y: 178.1px;
 }
 
 /* ===== Folded corner =====
-   ::after is the folded-over flap (the back of the paper),
-   ::before is the soft shadow the flap casts onto the card.
-   Its size is set by the --fold-* values on .resume. */
-.resume::before,
-.resume::after {
-  content: "";
+   .fold-flap is the folded-over flap (the back of the paper). Its outline is
+   built from the --fold-* values, so it keeps its gentle curl while it reshapes.
+   .fold casts the flap's shadow onto the card and is the hover area. */
+.fold {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 2;
   width: var(--fold-top);
   height: var(--fold-tip-y);
-  pointer-events: none;
+  filter: drop-shadow(-5px 8px 12px rgba(24, 24, 32, 0.28));
+  transition: filter 0.5s ease;
 }
 
-.resume::before {
-  /* The flap's shape drawn as an image (not clip-path) so the blur isn't cut off */
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 143.5' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L144,132 Q80,133 24,141.6 Q13,143.4 12.2,133 Q10,66 0,0 Z' fill='rgba(24,24,32,0.22)'/%3E%3C/svg%3E") no-repeat;
-  background-size: 100% 100%;
-  filter: blur(7px);
-  transform: translate(-5px, 8px);
+.resume:has(.fold:hover) .fold {
+  filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
-.resume::after {
-  /* Gently curled flap: edges bow in slightly and the tip is softly rounded.
-     Shading: a faint shadow right at the crease, a soft highlight just past it,
+.fold-flap {
+  position: absolute;
+  inset: 0;
+  /* A faint shadow at the crease, a soft highlight just past it,
      then darker toward the tip, lifting a touch at the very edge */
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 143.5' preserveAspectRatio='none'%3E %3Cdefs%3E%3ClinearGradient id='g' gradientUnits='userSpaceOnUse' x1='72' y1='66' x2='8' y2='136'%3E %3Cstop offset='0' stop-color='%23f0f0f3'/%3E%3Cstop offset='0.07' stop-color='%23fdfdfe'/%3E %3Cstop offset='0.4' stop-color='%23ececf0'/%3E%3Cstop offset='0.86' stop-color='%23d7d7dd'/%3E %3Cstop offset='1' stop-color='%23e1e1e6'/%3E%3C/linearGradient%3E%3C/defs%3E %3Cpath d='M0,0 L144,132 Q80,133 24,141.6 Q13,143.4 12.2,133 Q10,66 0,0 Z' fill='url(%23g)'/%3E%3C/svg%3E") no-repeat;
-  background-size: 100% 100%;
+  background: linear-gradient(222.5deg,
+    #f0f0f3 48%, #fdfdfe 51.4%, #ececf0 67.2%, #d7d7dd 89.3%, #e1e1e6 96%);
+  clip-path: polygon(
+      0 0,
+      calc(var(--fold-top) * 1.0) calc(var(--fold-side) * 1.0),
+      calc(var(--fold-top) * 0.8403 + var(--fold-tip-x) * 0.1507) calc(var(--fold-side) * 0.8403 + var(--fold-tip-y) * 0.1507),
+      calc(var(--fold-top) * 0.6837 + var(--fold-tip-x) * 0.3015) calc(var(--fold-side) * 0.6837 + var(--fold-tip-y) * 0.3015),
+      calc(var(--fold-top) * 0.5302 + var(--fold-tip-x) * 0.4524) calc(var(--fold-side) * 0.5302 + var(--fold-tip-y) * 0.4524),
+      calc(var(--fold-top) * 0.3797 + var(--fold-tip-x) * 0.6034) calc(var(--fold-side) * 0.3797 + var(--fold-tip-y) * 0.6034),
+      calc(var(--fold-top) * 0.2323 + var(--fold-tip-x) * 0.7545) calc(var(--fold-side) * 0.2323 + var(--fold-tip-y) * 0.7545),
+      calc(var(--fold-top) * 0.088 + var(--fold-tip-x) * 0.9058) calc(var(--fold-side) * 0.088 + var(--fold-tip-y) * 0.9058),
+      calc(var(--fold-top) * 0.0414 + var(--fold-tip-x) * 0.9476) calc(var(--fold-side) * 0.0414 + var(--fold-tip-y) * 0.9476),
+      calc(var(--fold-top) * 0.0136 + var(--fold-tip-x) * 0.9532) calc(var(--fold-side) * 0.0136 + var(--fold-tip-y) * 0.9532),
+      calc(var(--fold-top) * 0.0046 + var(--fold-tip-x) * 0.9226) calc(var(--fold-side) * 0.0046 + var(--fold-tip-y) * 0.9226),
+      calc(var(--fold-top) * 0.0121 + var(--fold-tip-x) * 0.7602) calc(var(--fold-side) * 0.0121 + var(--fold-tip-y) * 0.7602),
+      calc(var(--fold-top) * 0.0163 + var(--fold-tip-x) * 0.6013) calc(var(--fold-side) * 0.0163 + var(--fold-tip-y) * 0.6013),
+      calc(var(--fold-top) * 0.0172 + var(--fold-tip-x) * 0.4459) calc(var(--fold-side) * 0.0172 + var(--fold-tip-y) * 0.4459),
+      calc(var(--fold-top) * 0.0148 + var(--fold-tip-x) * 0.2938) calc(var(--fold-side) * 0.0148 + var(--fold-tip-y) * 0.2938),
+      calc(var(--fold-top) * 0.009 + var(--fold-tip-x) * 0.1452) calc(var(--fold-side) * 0.009 + var(--fold-tip-y) * 0.1452)
+    );
 }
 
 .resume :where(h1, h2, h3, h4, p) {
@@ -384,6 +420,28 @@ h1, h2, h3 {
   transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Glow: a blurred copy of each letter, filled with the same moving gradient,
+   sits behind it, so the glow's color always matches the letter's color */
+.gradient-text .letter {
+  position: relative;
+}
+
+.gradient-text .letter::before {
+  content: attr(data-ch);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: inherit;
+  background-size: calc(var(--w) * 2) 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: letter-cycle 7s linear infinite;
+  filter: blur(6px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 /* While the cursor is over the phrase, letters follow it quickly;
    on leave they spring back with a little bounce (the transition above) */
 .gradient-text.is-hovering .letter {
@@ -403,8 +461,14 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .gradient-text,
-  .gradient-text .letter {
+  .gradient-text .letter,
+  .gradient-text .letter::before {
     animation: none;
+  }
+
+  .resume,
+  .fold {
+    transition: none;
   }
 }
 
@@ -636,6 +700,13 @@ h1, h2, h3 {
     --fold-tip-x: 9.4px;
     --fold-tip-y: 104.6px;
     padding: 56px 24px 56px;
+  }
+
+  .resume:has(.fold:hover) {
+    --fold-top: 131px;
+    --fold-side: 113.3px;
+    --fold-tip-x: 18.9px;
+    --fold-tip-y: 129.6px;
   }
 
   .resume-name {

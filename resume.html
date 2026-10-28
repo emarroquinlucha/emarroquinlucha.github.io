@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=31">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=35">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -34,6 +34,8 @@
          To add a role, copy one <article class="role">...</article> block and edit it.
          To add a company, copy a whole <section class="company">...</section> block. -->
     <article class="resume">
+      <!-- Folded top-right corner (see "Folded corner" in style.css); hovering it lifts the fold -->
+      <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
 
       <header class="resume-intro">
         <!-- Signature with a progressive blur: the same image stacked 4 times,
@@ -213,6 +215,7 @@
         span.className = "letter";
         span.setAttribute("aria-hidden", "true");
         span.textContent = ch;
+        span.setAttribute("data-ch", ch); // used by the glow copy in CSS
         phrase.appendChild(span);
         letters.push(span);
       });
