@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Portfolio of Your Name: selected projects, background, and contact.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="#top" class="logo">Your Name</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== Intro ===== -->
+    <section class="hero container">
+      <p class="eyebrow">Hi, I'm</p>
+      <h1>Your Name</h1>
+      <p class="lead">
+        A one-sentence description of what you do and what you care about.
+        For example: "I build thoughtful websites and tools that make everyday tasks simpler."
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="button">See my work</a>
+        <a href="#contact" class="button button-ghost">Get in touch</a>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section id="about" class="section container">
+      <h2>About</h2>
+      <div class="about-grid">
+        <div>
+          <p>
+            Write 2–4 sentences about yourself: your background, what you're working on now,
+            and what kind of opportunities you're looking for.
+          </p>
+          <p>
+            Add a second paragraph if you like, maybe something personal: hobbies, where you're based,
+            or what got you into this field.
+          </p>
+        </div>
+        <ul class="skills">
+          <li>Skill one</li>
+          <li>Skill two</li>
+          <li>Skill three</li>
+          <li>Skill four</li>
+          <li>Skill five</li>
+          <li>Skill six</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Projects =====
+         To add a project, copy one <article class="project">...</article> block and edit it.
+         To add an image, put it in an "images" folder and replace the placeholder div with:
+         <img src="images/your-image.jpg" alt="Short description of the image">
+    -->
+    <section id="projects" class="section container">
+      <h2>Projects</h2>
+      <div class="project-grid">
+
+        <article class="project">
+          <div class="project-image placeholder">Project image</div>
+          <div class="project-body">
+            <h3>Project One</h3>
+            <p>One or two sentences on what it is, what problem it solves, and your role.</p>
+            <ul class="tags"><li>Tag</li><li>Tag</li></ul>
+            <div class="project-links">
+              <a href="#">View project →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-image placeholder">Project image</div>
+          <div class="project-body">
+            <h3>Project Two</h3>
+            <p>One or two sentences on what it is, what problem it solves, and your role.</p>
+            <ul class="tags"><li>Tag</li><li>Tag</li></ul>
+            <div class="project-links">
+              <a href="#">View project →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-image placeholder">Project image</div>
+          <div class="project-body">
+            <h3>Project Three</h3>
+            <p>One or two sentences on what it is, what problem it solves, and your role.</p>
+            <ul class="tags"><li>Tag</li><li>Tag</li></ul>
+            <div class="project-links">
+              <a href="#">View project →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== Contact =====
+         The form below needs a form service to actually deliver messages.
+         1. Sign up at https://formspree.io (free plan) and create a form.
+         2. Replace YOUR_FORM_ID in the action="" address with the ID they give you.
+    -->
+    <section id="contact" class="section container">
+      <h2>Contact</h2>
+      <p class="section-intro">Have a question or an opportunity? Send me a message.</p>
+
+      <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <label>
+          Name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label class="full">
+          Message
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit" class="button full">Send message</button>
+      </form>
+
+      <ul class="social">
+        <li><a href="https://github.com/emarroquinlucha">GitHub</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Resume (PDF)</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer container">
+    <p>© <span id="year">2026</span> Your Name</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
