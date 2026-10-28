@@ -138,20 +138,20 @@ h1, h2, h3 {
 
 /* ===== Resume (built from the resume Figma design) ===== */
 .resume-wrap {
-  padding: 115px 24px 80px;
+  padding: 92px 24px 80px;
 }
 
 .resume {
-  max-width: 1128px;
+  max-width: 902px;
   margin: 0 auto;
-  padding: 308px 92px 115px;
+  padding: 125px 74px 92px;
   background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
-  border-radius: 4px;
+  border-radius: 3px;
   box-shadow:
-    0 12px 40px 0 rgba(0, 0, 0, 0.05),
-    0 16px 32px -8px rgba(12, 12, 13, 0.05),
-    112px 76px 100px 0 rgba(0, 0, 0, 0.02);
+    0 10px 32px 0 rgba(0, 0, 0, 0.05),
+    0 13px 26px -6px rgba(12, 12, 13, 0.05),
+    90px 61px 80px 0 rgba(0, 0, 0, 0.02);
   color: var(--resume-text);
   line-height: normal;
 }
@@ -164,11 +164,18 @@ h1, h2, h3 {
 .resume-intro {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+}
+
+.resume-signature {
+  display: block;
+  width: 330px;
+  height: auto;
+  margin-bottom: 26px;
 }
 
 .resume-name {
-  font-size: 36px;
+  font-size: 29px;
   font-weight: 500;
   letter-spacing: normal;
   color: var(--resume-heading);
@@ -184,13 +191,13 @@ h1, h2, h3 {
 }
 
 .resume-title {
-  font-size: 24px;
+  font-size: 19px;
 }
 
 .resume-statement {
-  max-width: 770px;
-  margin-top: 116px;
-  font-size: 40px;
+  max-width: 616px;
+  margin-top: 93px;
+  font-size: 32px;
   font-weight: 500;
 }
 
@@ -199,77 +206,77 @@ h1, h2, h3 {
 }
 
 .resume-label {
-  font-size: 24px;
+  font-size: 19px;
 }
 
 .resume-statement + .resume-label {
-  margin-top: 150px;
+  margin-top: 120px;
 }
 
 .resume-divider {
   display: block;
   max-width: 100%;
-  margin: 48px 0 79px;
+  margin: 38px 0 63px;
 }
 
 .company + .resume-divider {
-  margin-top: 92px;
-  margin-bottom: 92px;
+  margin-top: 74px;
+  margin-bottom: 74px;
 }
 
 .company + .resume-divider + .expertise {
-  margin-top: -4px;
+  margin-top: -3px;
 }
 
 .company {
   display: flex;
   flex-direction: column;
-  gap: 78px;
-  padding-left: 22px;
+  gap: 62px;
+  padding-left: 18px;
 }
 
 .company-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .company-name {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 500;
   color: var(--resume-text);
 }
 
 .company-years {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .roles {
   display: flex;
   flex-direction: column;
-  gap: 94px;
+  gap: 75px;
 }
 
 .role {
   display: grid;
-  grid-template-columns: 132px minmax(0, 611px);
-  column-gap: 92px;
+  grid-template-columns: 106px minmax(0, 489px);
+  column-gap: 74px;
   align-items: start;
 }
 
 .role-years {
-  font-size: 20px;
+  font-size: 16px;
   white-space: nowrap;
 }
 
 .role-body {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 26px;
 }
 
 .role-title {
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 500;
   color: var(--resume-text);
 }
@@ -277,11 +284,11 @@ h1, h2, h3 {
 .highlights {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
   margin: 0;
-  padding: 0 0 0 30px;
-  font-size: 20px;
-  line-height: 36px;
+  padding: 0 0 0 24px;
+  font-size: 16px;
+  line-height: 29px;
   color: var(--resume-body);
 }
 
@@ -292,14 +299,14 @@ h1, h2, h3 {
 }
 
 .highlights .narrow {
-  max-width: 565px;
-  line-height: 38px;
+  max-width: 452px;
+  line-height: 30px;
 }
 
 .highlights a {
   color: inherit;
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 2px;
 }
 
 .highlights a:hover {
@@ -309,14 +316,14 @@ h1, h2, h3 {
 .expertise {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  max-width: 926px;
+  gap: 32px;
+  max-width: 741px;
 }
 
 .expertise p {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 36px;
+  line-height: 29px;
   color: var(--resume-text);
 }
 
@@ -356,6 +363,11 @@ h1, h2, h3 {
 
   .resume-name {
     font-size: 28px;
+  }
+
+  .resume-signature {
+    width: 160px;
+    margin-bottom: 20px;
   }
 
   .resume-title,
