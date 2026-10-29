@@ -50,7 +50,10 @@ body {
 }
 
 /* ===== Grain =====
-   A fixed layer of SVG noise over the whole page.
+   A fixed layer of SVG noise over the whole page. The noise is turned into
+   black specks of varying transparency (feColorMatrix), which darkens the page
+   like the old "multiply" blend did, but without a blend mode, which made the
+   browser re-blend the whole screen on every scroll frame.
    Adjust opacity for strength, and baseFrequency (in the SVG) for how fine the grain is. */
 body::after {
   content: "";
@@ -58,10 +61,9 @@ body::after {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 240px;
-  mix-blend-mode: multiply;
-  opacity: 0.3;
+  opacity: 0.15;
 }
 
 img {
@@ -723,17 +725,14 @@ h1, h2, h3 {
 /* ===== Resume (built from the resume Figma design) ===== */
 .resume-wrap {
   padding: 92px 24px 80px;
-  /* The card's shadow lives here (as drop-shadows) so it follows the folded corner's shape */
-  filter:
-    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.05))
-    drop-shadow(0 8px 10px rgba(12, 12, 13, 0.04))
-    drop-shadow(90px 61px 40px rgba(0, 0, 0, 0.02));
 }
 
-.resume {
-  /* Fold size: the crease runs from --fold-top along the top edge
-     to --fold-side down the right edge. --fold-tip-x / -y is where the folded
-     corner lands (the corner mirrored across the crease). */
+/* The frame holds the card and draws its shadow. The fold sizes live here so
+   both the card and its shadow can use them.
+   Fold size: the crease runs from --fold-top along the top edge
+   to --fold-side down the right edge. --fold-tip-x / -y is where the folded
+   corner lands (the corner mirrored across the crease). */
+.resume-frame {
   --fold-top: 200px;
   --fold-side: 183.3px;
   --fold-tip-x: 17.4px;
@@ -741,6 +740,39 @@ h1, h2, h3 {
   position: relative;
   max-width: 902px;
   margin: 0 auto;
+  transition:
+    --fold-top 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-side 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-tip-x 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
+    --fold-tip-y 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* The card's shadow: a plain box-shadow (cheap to draw, unlike a filter on the
+   whole card) on an empty layer behind the card, trimmed away around the
+   folded corner so no shadow shows where the corner has been folded down */
+.resume-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  box-shadow:
+    0 10px 32px 0 rgba(0, 0, 0, 0.05),
+    0 13px 26px -6px rgba(12, 12, 13, 0.05),
+    90px 61px 80px 0 rgba(0, 0, 0, 0.02);
+  clip-path: polygon(
+    -300px -300px,
+    calc(100% - var(--fold-top)) -300px,
+    calc(100% - var(--fold-top)) 0,
+    100% var(--fold-side),
+    calc(100% + 300px) var(--fold-side),
+    calc(100% + 300px) calc(100% + 300px),
+    -300px calc(100% + 300px)
+  );
+  pointer-events: none;
+}
+
+.resume {
+  position: relative;
   padding: 80px 74px 92px;
   background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
@@ -749,17 +781,12 @@ h1, h2, h3 {
   line-height: normal;
   /* Cut off the top-right corner where the paper is folded down */
   clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
-  transition:
-    --fold-top 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
-    --fold-side 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
-    --fold-tip-x 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
-    --fold-tip-y 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 /* Hovering the corner lifts the fold: it peels back further, the crease starts
    farther left so the flap's left side grows longer than its bottom, and its
    shadow drops lower and softer */
-.resume:has(.fold:hover) {
+.resume-frame:has(.fold:hover) {
   --fold-top: 250px;
   --fold-side: 216.4px;
   --fold-tip-x: 35.9px;
@@ -781,7 +808,7 @@ h1, h2, h3 {
   transition: filter 0.5s ease;
 }
 
-.resume:has(.fold:hover) .fold {
+.resume-frame:has(.fold:hover) .fold {
   filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
@@ -966,7 +993,7 @@ h1, h2, h3 {
     animation: none;
   }
 
-  .resume,
+  .resume-frame,
   .fold {
     transition: none;
   }
@@ -1394,15 +1421,18 @@ h1, h2, h3 {
     padding: 32px 12px 48px;
   }
 
-  .resume {
+  .resume-frame {
     --fold-top: 126px;
     --fold-side: 115.2px;
     --fold-tip-x: 11.3px;
     --fold-tip-y: 125.5px;
+  }
+
+  .resume {
     padding: 56px 24px 56px;
   }
 
-  .resume:has(.fold:hover) {
+  .resume-frame:has(.fold:hover) {
     --fold-top: 157.2px;
     --fold-side: 136px;
     --fold-tip-x: 22.7px;

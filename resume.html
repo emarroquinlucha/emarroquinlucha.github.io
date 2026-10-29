@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=72">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=74">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -26,6 +26,7 @@
     <!-- ===== Resume "paper" =====
          To add a role, copy one <article class="role">...</article> block and edit it.
          To add a company, copy a whole <section class="company">...</section> block. -->
+    <div class="resume-frame">
     <article class="resume">
       <!-- Folded top-right corner (see "Folded corner" in style.css); hovering it lifts the fold -->
       <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
@@ -199,6 +200,7 @@
       </section>
 
     </article>
+    </div>
 
   </main>
 
@@ -621,20 +623,32 @@
         grid.style.setProperty("--y", e.clientY + "px");
         target.x = (e.clientX - window.innerWidth / 2) * drift;
         target.y = (e.clientY - window.innerHeight / 2) * drift;
+        startFollowing();
       });
 
       document.documentElement.addEventListener("mouseleave", function () {
         grid.classList.remove("is-active");
       });
 
-      if (reduceMotion) return;
-      (function follow() {
+      // Ease the grid toward the cursor; the loop stops once it has caught up,
+      // so the grid isn't redrawn on every frame while the mouse is still
+      var following = false;
+      function follow() {
         current.x += (target.x - current.x) * 0.08;
         current.y += (target.y - current.y) * 0.08;
         grid.style.setProperty("--shift-x", current.x.toFixed(2) + "px");
         grid.style.setProperty("--shift-y", current.y.toFixed(2) + "px");
+        if (Math.abs(target.x - current.x) > 0.05 || Math.abs(target.y - current.y) > 0.05) {
+          requestAnimationFrame(follow);
+        } else {
+          following = false;
+        }
+      }
+      function startFollowing() {
+        if (reduceMotion || following) return;
+        following = true;
         requestAnimationFrame(follow);
-      })();
+      }
     })();
   </script>
 </body>
