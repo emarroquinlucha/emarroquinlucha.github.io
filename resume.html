@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=80">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=87">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -106,7 +106,7 @@
                   Led account experience redesigns across credit, savings, and chequing, establishing consistent information hierarchy and a modern visual direction with design and product leadership.
                 </li>
                 <li>
-                  <strong>Credit Card Payment Feature Design</strong>
+                  <strong><span class="popover-trigger" tabindex="0" data-popover="popover-statement-tracker" aria-describedby="popover-statement-tracker"><span class="popover-trigger-text">Credit Card Payment Feature Design</span></span></strong>
                   Designed an in-app credit card statement and payment summary to address customer confusion, making balances, payments, and remaining amounts owed easier to find.
                 </li>
                 <li class="narrow">
@@ -207,6 +207,10 @@
       <span class="fold-hotspot" aria-hidden="true"></span>
     </div>
 
+    <!-- Copyright, just under the card's bottom-left corner -->
+    <footer class="site-footer resume-footer">
+      <p>© <span id="year">2026</span> Edward Marroquin</p>
+    </footer>
   </main>
 
   <!-- ===== Floating dock (bottom-left corner): page stats ===== -->
@@ -313,6 +317,10 @@
     <video src="images/neo-accounts.mp4?v=2" poster="images/neo-accounts-poster.jpg?v=2" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Neo account redesign: the credit card screen with balance, utilization and statement"></video>
   </div>
 
+  <div class="popover popover-video" id="popover-statement-tracker" role="tooltip">
+    <video src="images/statement-tracker.mp4" poster="images/statement-tracker-poster.jpg" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Credit card payment feature: the statement card's remaining balance updating as a payment lands"></video>
+  </div>
+
   <a class="popover" id="popover-skip" href="https://www.skipthedishes.com/" tabindex="-1">
     <div class="popover-media">
       <img src="images/skip-popover.jpg" width="620" height="338" alt="A Skip courier carrying an orange Skip delivery bag up a front walkway">
@@ -324,10 +332,6 @@
       <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
     </svg>
   </a>
-
-  <footer class="site-footer container">
-    <p>© <span id="year">2026</span> Edward Marroquin</p>
-  </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
