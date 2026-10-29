@@ -18,7 +18,7 @@
   --resume-gradient-end: #e0e0e5;
 
   /* Resume colors (from the resume Figma design) */
-  --resume-paper: #f4f4f6;
+  --resume-paper: #f9f9fa;
   --resume-paper-border: #d0d0d7;
   --resume-heading: #19191a;
   --resume-text: #323234;
@@ -747,28 +747,29 @@ h1, h2, h3 {
     --fold-tip-y 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
-/* The card's shadow: a plain box-shadow (cheap to draw, unlike a filter on the
-   whole card) on an empty layer behind the card, trimmed away around the
-   folded corner so no shadow shows where the corner has been folded down */
-.resume-frame::before {
+/* The card's shadow follows the real paper shape, folded corner included.
+   It's cast by an empty copy of the card's shape (::before) behind the card.
+   Because that copy has nothing animated inside it, the browser draws the
+   shadow once and reuses it while scrolling. (A filter on the card itself had
+   to be redrawn every frame because of the animated headline, and a trimmed
+   box-shadow left a hard line next to the fold.) */
+.resume-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 10px 16px rgba(0, 0, 0, 0.05))
+    drop-shadow(0 8px 10px rgba(12, 12, 13, 0.04))
+    drop-shadow(90px 61px 40px rgba(0, 0, 0, 0.02));
+}
+
+.resume-shadow::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 3px;
-  box-shadow:
-    0 10px 32px 0 rgba(0, 0, 0, 0.05),
-    0 13px 26px -6px rgba(12, 12, 13, 0.05),
-    90px 61px 80px 0 rgba(0, 0, 0, 0.02);
-  clip-path: polygon(
-    -300px -300px,
-    calc(100% - var(--fold-top)) -300px,
-    calc(100% - var(--fold-top)) 0,
-    100% var(--fold-side),
-    calc(100% + 300px) var(--fold-side),
-    calc(100% + 300px) calc(100% + 300px),
-    -300px calc(100% + 300px)
-  );
-  pointer-events: none;
+  background: var(--resume-paper);
+  clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
 }
 
 .resume {
@@ -786,17 +787,29 @@ h1, h2, h3 {
 /* Hovering the corner lifts the fold: it peels back further, the crease starts
    farther left so the flap's left side grows longer than its bottom, and its
    shadow drops lower and softer */
-.resume-frame:has(.fold:hover) {
+.resume-frame:has(.fold-hotspot:hover) {
   --fold-top: 250px;
   --fold-side: 216.4px;
   --fold-tip-x: 35.9px;
   --fold-tip-y: 247.3px;
 }
 
+/* The fold's hover area: a box over the corner, outside the (trimmed) card.
+   It's sized from the fold values, so while hovered it grows with the lifted
+   fold and the cursor can't slip out of it mid-animation. */
+.fold-hotspot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  width: var(--fold-top);
+  height: var(--fold-tip-y);
+}
+
 /* ===== Folded corner =====
    .fold-flap is the folded-over flap (the back of the paper). Its outline is
    built from the --fold-* values, so it keeps its gentle curl while it reshapes.
-   .fold casts the flap's shadow onto the card and is the hover area. */
+   .fold casts the flap's shadow onto the card. */
 .fold {
   position: absolute;
   top: 0;
@@ -804,11 +817,12 @@ h1, h2, h3 {
   z-index: 2;
   width: var(--fold-top);
   height: var(--fold-tip-y);
+  pointer-events: none;
   filter: drop-shadow(-5px 8px 12px rgba(24, 24, 32, 0.28));
   transition: filter 0.5s ease;
 }
 
-.resume-frame:has(.fold:hover) .fold {
+.resume-frame:has(.fold-hotspot:hover) .fold {
   filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
@@ -1384,6 +1398,41 @@ h1, h2, h3 {
   transform: scaleY(-1);
 }
 
+/* Video popover: just the video (4px corners, soft shadow), no card or tail.
+   It keeps the popover's slide, bounce and blur-in, but the blur is the only
+   filter: a drop-shadow filter would be redrawn on every video frame, so the
+   shadow is a box-shadow on the video instead. */
+.popover-video,
+.popover-video.is-open {
+  width: 480px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.popover-video {
+  filter: blur(8px);
+}
+
+.popover-video.is-open {
+  filter: none;
+}
+
+.popover-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0.5px solid #fff;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow:
+    0 2px 4px rgba(12, 12, 13, 0.04),
+    0 12px 24px rgba(12, 12, 13, 0.06),
+    0 32px 56px rgba(0, 0, 0, 0.06);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .popover,
   .popover.is-open {
@@ -1432,7 +1481,7 @@ h1, h2, h3 {
     padding: 56px 24px 56px;
   }
 
-  .resume-frame:has(.fold:hover) {
+  .resume-frame:has(.fold-hotspot:hover) {
     --fold-top: 157.2px;
     --fold-side: 136px;
     --fold-tip-x: 22.7px;

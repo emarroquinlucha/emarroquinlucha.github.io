@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=74">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=80">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -27,6 +27,8 @@
          To add a role, copy one <article class="role">...</article> block and edit it.
          To add a company, copy a whole <section class="company">...</section> block. -->
     <div class="resume-frame">
+      <!-- The card's shadow (see "resume-shadow" in style.css) -->
+      <div class="resume-shadow" aria-hidden="true"></div>
     <article class="resume">
       <!-- Folded top-right corner (see "Folded corner" in style.css); hovering it lifts the fold -->
       <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
@@ -100,7 +102,7 @@
               <h4 class="role-title">Staff Product Designer</h4>
               <ul class="highlights">
                 <li>
-                  <strong>Product Redesign</strong>
+                  <strong><span class="popover-trigger" tabindex="0" data-popover="popover-neo-accounts" aria-describedby="popover-neo-accounts"><span class="popover-trigger-text">Neo Accounts Redesign</span></span></strong>
                   Led account experience redesigns across credit, savings, and chequing, establishing consistent information hierarchy and a modern visual direction with design and product leadership.
                 </li>
                 <li>
@@ -200,6 +202,9 @@
       </section>
 
     </article>
+      <!-- Hover area for the folded corner. It sits outside the card so the card's
+           trimmed corner can't cut it off while the fold lifts (which caused flicker). -->
+      <span class="fold-hotspot" aria-hidden="true"></span>
     </div>
 
   </main>
@@ -302,6 +307,11 @@
       <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
     </svg>
   </a>
+
+  <!-- Video popover: just the video, no card. It plays while open (see the popovers script). -->
+  <div class="popover popover-video" id="popover-neo-accounts" role="tooltip">
+    <video src="images/neo-accounts.mp4?v=2" poster="images/neo-accounts-poster.jpg?v=2" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Neo account redesign: the credit card screen with balance, utilization and statement"></video>
+  </div>
 
   <a class="popover" id="popover-skip" href="https://www.skipthedishes.com/" tabindex="-1">
     <div class="popover-media">
@@ -425,11 +435,14 @@
         var pop = document.getElementById(trigger.getAttribute("data-popover"));
         if (!pop) return;
         var hideTimer = null;
+        var video = pop.querySelector("video");
+        var pauseTimer = null;
 
         function place() {
           var t = trigger.getBoundingClientRect();
           var w = pop.offsetWidth, h = pop.offsetHeight;
-          var tail = pop.querySelector(".popover-tail").getBoundingClientRect().height;
+          var tailEl = pop.querySelector(".popover-tail");
+          var tail = tailEl ? tailEl.getBoundingClientRect().height : 0;
           var centerX = t.left + t.width / 2;
 
           // Above if it fits below the sticky header, otherwise below
@@ -437,7 +450,8 @@
           var top = above ? t.top - gap - tail - h : t.bottom + gap + tail;
           pop.classList.toggle("is-below", !above);
 
-          var left = centerX - tailOffset;
+          // With a tail, it points at the trigger's center; without one, line up with its left edge
+          var left = tailEl ? centerX - tailOffset : t.left;
           left = Math.max(edge, Math.min(left, window.innerWidth - w - edge));
           pop.style.top = top + "px";
           pop.style.left = left + "px";
@@ -447,11 +461,22 @@
         function show() {
           clearTimeout(hideTimer);
           place();
+          if (video) {
+            clearTimeout(pauseTimer);
+            // Start from the beginning each time it opens fresh
+            if (!pop.classList.contains("is-open")) video.currentTime = 0;
+            var playing = video.play();
+            if (playing) playing.catch(function () {});
+          }
           pop.classList.add("is-open");
         }
 
         function hide() {
-          hideTimer = setTimeout(function () { pop.classList.remove("is-open"); }, 120);
+          hideTimer = setTimeout(function () {
+            pop.classList.remove("is-open");
+            // Pause once it has faded out
+            if (video) pauseTimer = setTimeout(function () { video.pause(); }, 250);
+          }, 120);
         }
 
         trigger.addEventListener("mouseenter", show);
