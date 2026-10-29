@@ -964,9 +964,10 @@ h1, h2, h3 {
 }
 
 /* Once the loader has faded out (0.5s), the resume comes into focus from a
-   blur as it rises into place, and the pills and menu follow it in */
+   blur as it rises into place with a little bounce, and the pills and menu
+   follow it in */
 .is-revealing .resume-wrap {
-  animation: page-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s backwards;
+  animation: page-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
 }
 
 .is-revealing .floating-dock {
@@ -1306,8 +1307,9 @@ h1, h2, h3 {
 }
 
 .resume-statement {
-  /* 616px in the design, plus room for the hover letters, which lose a little kerning */
-  max-width: 628px;
+  /* Wide enough that the headline wraps into three even lines (no single word
+     left on a fourth), plus room for the hover letters, which lose a little kerning */
+  max-width: 712px;
   margin-top: 93px;
   font-size: 32px;
   font-weight: 500;
