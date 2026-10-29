@@ -420,28 +420,6 @@ h1, h2, h3 {
   transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Glow: a blurred copy of each letter, filled with the same moving gradient,
-   sits behind it, so the glow's color always matches the letter's color */
-.gradient-text .letter {
-  position: relative;
-}
-
-.gradient-text .letter::before {
-  content: attr(data-ch);
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: inherit;
-  background-size: calc(var(--w) * 2) 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: letter-cycle 7s linear infinite;
-  filter: blur(6px);
-  opacity: 0.4;
-  pointer-events: none;
-}
-
 /* While the cursor is over the phrase, letters follow it quickly;
    on leave they spring back with a little bounce (the transition above) */
 .gradient-text.is-hovering .letter {
@@ -461,8 +439,7 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .gradient-text,
-  .gradient-text .letter,
-  .gradient-text .letter::before {
+  .gradient-text .letter {
     animation: none;
   }
 
@@ -662,6 +639,216 @@ h1, h2, h3 {
   border-color: #ffbb75;
   background: linear-gradient(135deg, #ffa142 0%, #ff8000 50.48%, #ff9121 100%);
   box-shadow: 0 calc(var(--avatar-size) * 0.086) calc(var(--avatar-size) * 0.171) 0 rgba(153, 77, 0, 0.35);
+}
+
+/* ===== Popover trigger (a company name with a dotted underline and an arrow) ===== */
+.popover-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.popover-trigger-text {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--resume-label);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.popover-trigger svg {
+  flex-shrink: 0;
+  color: var(--resume-label);
+  transition: transform 0.25s ease, color 0.2s ease;
+}
+
+.popover-trigger:hover .popover-trigger-text,
+.popover-trigger:focus-visible .popover-trigger-text {
+  text-decoration-color: var(--resume-text);
+}
+
+.popover-trigger:hover svg,
+.popover-trigger:focus-visible svg {
+  color: var(--resume-text);
+  transform: translateX(2px);
+}
+
+.popover-trigger:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ===== Popover (from the "Popover" Figma component) =====
+   Positioned by the script in resume.html: above its trigger with the tail
+   pointing down at it, or below (.is-below) when there isn't room above.
+   --tail-x is the tail's center, measured from the popover's left edge. */
+.popover {
+  --tail-x: 61px;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 350px;
+  max-width: calc(100vw - 24px);
+  padding: 20px 20px 24px;
+  background: #f4f4f6;
+  border: 0.5px solid #d0d0d7;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  /* Starts blurred and clears as it appears. Drop-shadows (not box-shadow)
+     so the tail gets the shadow too */
+  filter:
+    blur(8px)
+    drop-shadow(0 20px 32px rgba(12, 12, 13, 0.05))
+    drop-shadow(0 49px 40px rgba(0, 0, 0, 0.05))
+    drop-shadow(112px 76px 100px rgba(0, 0, 0, 0.02));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* Starts 16px lower and slides up with a little bounce as it appears */
+  transform: translateY(16px);
+  transition: opacity 0.2s ease, transform 0.25s ease, filter 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.popover.is-open {
+  filter:
+    blur(0)
+    drop-shadow(0 20px 32px rgba(12, 12, 13, 0.05))
+    drop-shadow(0 49px 40px rgba(0, 0, 0, 0.05))
+    drop-shadow(112px 76px 100px rgba(0, 0, 0, 0.02));
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity 0.25s ease,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.4s ease-out,
+    visibility 0s;
+}
+
+/* Image area at the top, full bleed: it runs to the popover's top, left and
+   right edges (the negative margins cancel the popover's padding) */
+.popover-media {
+  aspect-ratio: 310 / 169;
+  margin: -20px -20px 20px;
+  border-radius: 5.5px 5.5px 0 0;
+  overflow: hidden;
+}
+
+.popover-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* When the popover opens below its trigger, the tail is at the top, right
+   above the photo. The photo then grows upward by the tail's height (23px)
+   and is clipped to the shape of "photo + tail", so one continuous image
+   fills the tail too. --tail-x lines the tail part up with the real tail. */
+.popover.is-below .popover-media:has(img) {
+  position: relative;
+  box-sizing: content-box;
+  padding-top: 23px;
+  margin-top: -43px;
+  border-radius: 0;
+  overflow: visible;
+  clip-path: polygon(
+      0 100%,
+      0.00px 28.50px,
+      0.74px 25.75px,
+      2.75px 23.74px,
+      5.50px 23.00px,
+      calc(var(--tail-x) - 21.25px + 0.00px) 23.00px,
+      calc(var(--tail-x) - 21.25px + 1.59px) 22.98px,
+      calc(var(--tail-x) - 21.25px + 2.62px) 22.84px,
+      calc(var(--tail-x) - 21.25px + 3.39px) 22.56px,
+      calc(var(--tail-x) - 21.25px + 4.06px) 22.16px,
+      calc(var(--tail-x) - 21.25px + 4.73px) 21.49px,
+      calc(var(--tail-x) - 21.25px + 5.54px) 20.37px,
+      calc(var(--tail-x) - 21.25px + 19.00px) 1.23px,
+      calc(var(--tail-x) - 21.25px + 19.75px) 0.62px,
+      calc(var(--tail-x) - 21.25px + 20.73px) 0.41px,
+      calc(var(--tail-x) - 21.25px + 21.70px) 0.62px,
+      calc(var(--tail-x) - 21.25px + 22.46px) 1.23px,
+      calc(var(--tail-x) - 21.25px + 35.91px) 20.37px,
+      calc(var(--tail-x) - 21.25px + 36.73px) 21.49px,
+      calc(var(--tail-x) - 21.25px + 37.39px) 22.16px,
+      calc(var(--tail-x) - 21.25px + 38.07px) 22.56px,
+      calc(var(--tail-x) - 21.25px + 38.83px) 22.84px,
+      calc(var(--tail-x) - 21.25px + 39.86px) 22.98px,
+      calc(var(--tail-x) - 21.25px + 41.45px) 23.00px,
+      calc(100% - 5.50px) 23.00px,
+      calc(100% - 2.75px) 23.74px,
+      calc(100% - 0.74px) 25.75px,
+      calc(100% - 0.00px) 28.50px,
+      100% 100%
+    );
+}
+
+.popover.is-below .popover-media:has(img) img {
+  position: absolute;
+  inset: 0;
+}
+
+/* ...and the tail's own fill steps aside so the photo shows through it */
+.popover.is-below:has(.popover-media img) .popover-tail-fill {
+  fill: transparent;
+}
+
+.popover p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 25px;
+  color: var(--resume-body);
+}
+
+.popover strong {
+  font-weight: 500;
+  color: var(--resume-text);
+}
+
+/* The tail sits on the middle of the popover's 0.5px border (100% is the
+   border's inner edge). Its fill covers the border across the tail's opening,
+   and its edge lines run a few pixels along the border, so they join cleanly. */
+.popover-tail {
+  position: absolute;
+  top: calc(100% + 0.25px);
+  left: calc(var(--tail-x) - 20.75px - 0.5px);
+  overflow: visible;
+}
+
+.popover-tail-fill {
+  fill: #f4f4f6;
+}
+
+.popover-tail-edge {
+  fill: none;
+  stroke: #d0d0d7;
+  stroke-width: 0.5;
+  vector-effect: non-scaling-stroke; /* keeps the edge thin though the tail is squashed */
+}
+
+/* Below the trigger: the tail moves to the top and points up */
+.popover.is-below .popover-tail {
+  top: auto;
+  bottom: calc(100% + 0.25px);
+  transform: scaleY(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover,
+  .popover.is-open {
+    transform: none;
+  }
 }
 
 /* Resume on tablets and phones */

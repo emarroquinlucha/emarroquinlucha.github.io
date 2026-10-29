@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=35">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=43">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -66,7 +66,14 @@
             <img src="images/neo-logo.svg" width="66" height="20" alt="Neo Financial logo">
           </div>
           <div class="company-heading">
-            <h3 class="company-name">Neo Financial</h3>
+            <h3 class="company-name">
+              <a class="popover-trigger" href="https://www.neofinancial.com/" data-popover="popover-neo" aria-describedby="popover-neo">
+                <span class="popover-trigger-text">Neo Financial</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h9.5M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </h3>
             <p class="company-years">2020-2026</p>
           </div>
         </header>
@@ -159,7 +166,14 @@
             <img src="images/skip-logo.svg" width="95" height="40" alt="Skip The Dishes logo">
           </div>
           <div class="company-heading">
-            <h3 class="company-name">Skip The Dishes</h3>
+            <h3 class="company-name">
+              <a class="popover-trigger" href="https://www.skipthedishes.com/" data-popover="popover-skip" aria-describedby="popover-skip">
+                <span class="popover-trigger-text">Skip The Dishes</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h9.5M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </h3>
             <p class="company-years">2018 - 2020</p>
           </div>
         </header>
@@ -189,6 +203,34 @@
 
   </main>
 
+  <!-- ===== Popovers =====
+       Shown when an element with data-popover="<id>" is hovered or focused.
+       Each popover is a link too, so clicking it goes to the same place as its trigger.
+       Kept outside <main> so they can be positioned against the window. -->
+  <a class="popover" id="popover-neo" href="https://www.neofinancial.com/" tabindex="-1">
+    <div class="popover-media">
+      <img src="images/neo-popover.jpg" width="620" height="338" alt="Two Neo Mastercard credit cards, silver and black, on a striped cloth beside sunglasses, keys and a map">
+    </div>
+    <p><strong>Neo Financial</strong> is a Canadian financial technology company founded in 2019 and headquartered in Calgary, Alberta. It provides digital banking, credit, and savings products in partnership with regulated financial institutions.</p>
+    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
+  </a>
+
+  <a class="popover" id="popover-skip" href="https://www.skipthedishes.com/" tabindex="-1">
+    <div class="popover-media">
+      <img src="images/skip-popover.jpg" width="620" height="338" alt="A Skip courier carrying an orange Skip delivery bag up a front walkway">
+    </div>
+    <p><strong>SkipTheDishes</strong> (branded as Skip) is a Canadian online food delivery service headquartered in Winnipeg, Manitoba, and a subsidiary of Just Eat Takeaway.com.</p>
+    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
+  </a>
+
   <footer class="site-footer container">
     <p>© <span id="year">2026</span> Edward Marroquin</p>
   </footer>
@@ -215,7 +257,6 @@
         span.className = "letter";
         span.setAttribute("aria-hidden", "true");
         span.textContent = ch;
-        span.setAttribute("data-ch", ch); // used by the glow copy in CSS
         phrase.appendChild(span);
         letters.push(span);
       });
@@ -282,6 +323,70 @@
         })(performance.now());
       }
       document.fonts.ready.then(function () { setTimeout(intro, 500); });
+    })();
+
+    // Popovers: show on hover/focus of any [data-popover] element. Placed above the
+    // trigger with the tail pointing at it; flips below when there isn't room above,
+    // and stays inside the window horizontally.
+    (function () {
+      var gap = 12;         // space between the trigger and the tail's tip
+      var edge = 12;        // minimum space from the window's edges
+      var tailOffset = 61;  // tail's center from the popover's left edge (from the design)
+      var headerBottom = function () {
+        var h = document.querySelector(".site-header");
+        return h ? h.getBoundingClientRect().bottom : 0;
+      };
+
+      document.querySelectorAll("[data-popover]").forEach(function (trigger) {
+        var pop = document.getElementById(trigger.getAttribute("data-popover"));
+        if (!pop) return;
+        var hideTimer = null;
+
+        function place() {
+          var t = trigger.getBoundingClientRect();
+          var w = pop.offsetWidth, h = pop.offsetHeight;
+          var tail = pop.querySelector(".popover-tail").getBoundingClientRect().height;
+          var centerX = t.left + t.width / 2;
+
+          // Above if it fits below the sticky header, otherwise below
+          var above = t.top - gap - tail - h >= headerBottom() + edge;
+          var top = above ? t.top - gap - tail - h : t.bottom + gap + tail;
+          pop.classList.toggle("is-below", !above);
+
+          var left = centerX - tailOffset;
+          left = Math.max(edge, Math.min(left, window.innerWidth - w - edge));
+          pop.style.top = top + "px";
+          pop.style.left = left + "px";
+          pop.style.setProperty("--tail-x", Math.max(28, Math.min(centerX - left, w - 28)) + "px");
+        }
+
+        function show() {
+          clearTimeout(hideTimer);
+          place();
+          pop.classList.add("is-open");
+        }
+
+        function hide() {
+          hideTimer = setTimeout(function () { pop.classList.remove("is-open"); }, 120);
+        }
+
+        trigger.addEventListener("mouseenter", show);
+        trigger.addEventListener("mouseleave", hide);
+        trigger.addEventListener("focus", show);
+        trigger.addEventListener("blur", hide);
+        // Keep it open while the mouse moves onto the popover itself
+        pop.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+        pop.addEventListener("mouseleave", hide);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") pop.classList.remove("is-open");
+        });
+        window.addEventListener("scroll", function () {
+          if (pop.classList.contains("is-open")) place();
+        }, { passive: true });
+        window.addEventListener("resize", function () {
+          if (pop.classList.contains("is-open")) place();
+        });
+      });
     })();
 
     // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
