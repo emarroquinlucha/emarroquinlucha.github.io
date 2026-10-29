@@ -158,6 +158,213 @@ h1, h2, h3 {
   z-index: 1;
 }
 
+/* ===== Page stats (bottom-left corner of the resume page) ===== */
+.page-stats {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 6;
+  display: flex;
+  gap: 10px;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, #dedee3 85%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--resume-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stat-pill svg {
+  flex-shrink: 0;
+  color: var(--resume-label);
+}
+
+/* Like button */
+.stat-like {
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stat-like:hover {
+  background: color-mix(in srgb, #d4d4da 90%, transparent);
+}
+
+.stat-like:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 2px;
+}
+
+.stat-heart path {
+  fill: #9a9aa0;
+  transition: fill 0.25s ease;
+}
+
+.stat-like.is-liked .stat-heart path {
+  fill: #ff3b5c;
+}
+
+/* A soft red ring bursts out from the heart when it's liked */
+.stat-like::after {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid #ff3b5c;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stat-like.is-bouncing {
+  animation: pill-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-like.is-popping .stat-heart {
+  animation: heart-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-like.is-popping::after {
+  animation: heart-ring 0.6s ease-out;
+}
+
+@keyframes pill-bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.9); }
+  65% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.6); }
+  60% { transform: scale(1.4) rotate(-8deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@keyframes heart-ring {
+  0% { opacity: 0.7; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(2.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-like.is-bouncing,
+  .stat-like.is-popping .stat-heart,
+  .stat-like.is-popping::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .page-stats {
+    left: 12px;
+    bottom: 12px;
+    gap: 6px;
+  }
+
+  .stat-pill {
+    height: 32px;
+    padding: 0 11px;
+    font-size: 13px;
+  }
+}
+
+/* ===== Reading progress (resume page) =====
+   A thin line across the top of the window in the headline's gradient colors.
+   The full gradient always spans the window; the script in resume.html sets
+   --progress (0 to 1) and only that much of the line is revealed. */
+.reading-progress {
+  --progress: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  height: 5px;
+  background: linear-gradient(90deg, #e5883c 0%, #e9a592 35%, #e48ec8 65%, #b19adc 100%);
+  clip-path: inset(0 calc((1 - var(--progress)) * 100%) 0 0);
+  pointer-events: none;
+}
+
+/* ===== Top blur (resume page) =====
+   A band at the top of the window where the page gets progressively blurrier toward the
+   top, so the resume softly blurs out as it scrolls up. Four stacked layers
+   each blur more and only show in their slice of the band (via masks); a soft
+   tint on top helps the content fade into the background. */
+.top-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 112px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.top-blur.is-visible {
+  opacity: 1;
+}
+
+.top-blur > div {
+  position: absolute;
+  inset: 0;
+}
+
+.top-blur > div:nth-child(1) {
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+}
+
+.top-blur > div:nth-child(2) {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to top, transparent 25%, #000 50%);
+  mask-image: linear-gradient(to top, transparent 25%, #000 50%);
+}
+
+.top-blur > div:nth-child(3) {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to top, transparent 50%, #000 75%);
+  mask-image: linear-gradient(to top, transparent 50%, #000 75%);
+}
+
+.top-blur > div:nth-child(4) {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to top, transparent 75%, #000 100%);
+  mask-image: linear-gradient(to top, transparent 75%, #000 100%);
+}
+
+.top-blur::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--resume-gradient-start) 70%, transparent) 40%,
+    transparent 100%);
+}
+
 /* ===== Dot grid (resume page background) =====
    2px dots every 24px. A second, darker copy of the grid shows only
    in a soft circle around the mouse (--x / --y are set by the script in resume.html). */
@@ -169,7 +376,7 @@ h1, h2, h3 {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%23D8D8DE'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%23CDCDD5'/%3E%3C/svg%3E");
   background-size: var(--dot-spacing) var(--dot-spacing);
   background-position: var(--shift-x) var(--shift-y);
 }
@@ -211,10 +418,10 @@ h1, h2, h3 {
   /* Fold size: the crease runs from --fold-top along the top edge
      to --fold-side down the right edge. --fold-tip-x / -y is where the folded
      corner lands (the corner mirrored across the crease). */
-  --fold-top: 144px;
-  --fold-side: 132px;
-  --fold-tip-x: 12.5px;
-  --fold-tip-y: 143.5px;
+  --fold-top: 200px;
+  --fold-side: 183.3px;
+  --fold-tip-x: 17.4px;
+  --fold-tip-y: 199.3px;
   position: relative;
   max-width: 902px;
   margin: 0 auto;
@@ -237,10 +444,10 @@ h1, h2, h3 {
    farther left so the flap's left side grows longer than its bottom, and its
    shadow drops lower and softer */
 .resume:has(.fold:hover) {
-  --fold-top: 180px;
-  --fold-side: 155.8px;
-  --fold-tip-x: 25.8px;
-  --fold-tip-y: 178.1px;
+  --fold-top: 250px;
+  --fold-side: 216.4px;
+  --fold-tip-x: 35.9px;
+  --fold-tip-y: 247.3px;
 }
 
 /* ===== Folded corner =====
@@ -301,10 +508,10 @@ h1, h2, h3 {
 
 .resume-signature {
   display: grid;
-  width: 330px;
+  width: 366px;
   margin-bottom: 2px;
-  /* Shifted left so it sits over the name (exact centering would be -41px) */
-  margin-left: -21px;
+  /* Offset to sit over the name (exact centering would be -59px) */
+  margin-left: -31px;
 }
 
 /* All copies sit on top of each other */
@@ -456,7 +663,7 @@ h1, h2, h3 {
   height: 1em;
   margin-left: 0.12em;
   vertical-align: -0.12em;
-  background: currentColor;
+  background: var(--resume-label);
   animation: cursor-blink 1.8s steps(1, end) infinite;
 }
 
@@ -584,16 +791,6 @@ h1, h2, h3 {
 .highlights .narrow {
   max-width: 452px;
   line-height: 30px;
-}
-
-.highlights a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.highlights a:hover {
-  color: var(--resume-text);
 }
 
 .expertise {
@@ -882,18 +1079,18 @@ h1, h2, h3 {
   }
 
   .resume {
-    --fold-top: 105px;
-    --fold-side: 96px;
-    --fold-tip-x: 9.4px;
-    --fold-tip-y: 104.6px;
+    --fold-top: 126px;
+    --fold-side: 115.2px;
+    --fold-tip-x: 11.3px;
+    --fold-tip-y: 125.5px;
     padding: 56px 24px 56px;
   }
 
   .resume:has(.fold:hover) {
-    --fold-top: 131px;
-    --fold-side: 113.3px;
-    --fold-tip-x: 18.9px;
-    --fold-tip-y: 129.6px;
+    --fold-top: 157.2px;
+    --fold-side: 136px;
+    --fold-tip-x: 22.7px;
+    --fold-tip-y: 155.5px;
   }
 
   .resume-name {

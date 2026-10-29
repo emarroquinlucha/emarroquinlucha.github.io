@@ -8,25 +8,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=43">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=58">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
   <!-- Dot grid background with a cursor spotlight (see "Dot grid" in style.css) -->
   <div class="dot-grid" aria-hidden="true"></div>
 
-  <!-- ===== Navigation ===== -->
-  <header class="site-header">
-    <nav class="nav container">
-      <a href="index.html" class="logo">Edward Marroquin</a>
-      <ul class="nav-links">
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="index.html#projects">Projects</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-        <li><a href="resume.html" aria-current="page">Resume</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Reading progress line across the top of the window -->
+  <div class="reading-progress" aria-hidden="true"></div>
+
+  <!-- Progressive blur at the top of the window (see "Top blur" in style.css) -->
+  <div class="top-blur" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
 
   <main class="resume-wrap">
 
@@ -107,7 +100,7 @@
               <ul class="highlights">
                 <li>
                   <strong>Product Redesign</strong>
-                  Led <a href="#">account experience redesigns</a> across credit, savings, and chequing, establishing consistent information hierarchy and a modern visual direction with design and product leadership.
+                  Led account experience redesigns across credit, savings, and chequing, establishing consistent information hierarchy and a modern visual direction with design and product leadership.
                 </li>
                 <li>
                   <strong>Credit Card Payment Feature Design</strong>
@@ -128,7 +121,7 @@
               <ul class="highlights">
                 <li>
                   <strong>Financial Account Design &amp; Experience</strong>
-                  Led research and partnered with another designer to develop a <a href="#">GIC account experience</a> across mobile and web in three months, covering onboarding, funding, and term selection; product remained unreleased.
+                  Led research and partnered with another designer to develop a GIC account experience across mobile and web in three months, covering onboarding, funding, and term selection; product remained unreleased.
                 </li>
                 <li>
                   <strong>Credit Card Upgrade Flows &amp; Experience</strong>
@@ -184,8 +177,14 @@
             <div class="role-body">
               <h4 class="role-title">UX/UI Designer</h4>
               <ul class="highlights">
-                <li>Conducted on-site restaurant research with a product owner and refined the restaurant app's interface and design system around operational needs.</li>
-                <li>Created and maintained multilingual interactive onboarding tutorials in InVision, designed to help restaurant owners learn independently and reduce support calls.</li>
+                <li>
+                  <strong>Restaurant App Research &amp; Design</strong>
+                  Conducted on-site restaurant research with a product owner and refined the restaurant app's interface and design system around operational needs.
+                </li>
+                <li>
+                  <strong>Self-serve Onboarding</strong>
+                  Created and maintained multilingual interactive onboarding tutorials in InVision, designed to help restaurant owners learn independently and reduce support calls.
+                </li>
               </ul>
             </div>
           </article>
@@ -202,6 +201,27 @@
     </article>
 
   </main>
+
+  <!-- ===== Page stats (bottom-left corner) =====
+       Read time is worked out from the resume's word count. Likes and views are
+       shared counters stored with Abacus (abacus.jasoncameron.dev), a free
+       counter service, since GitHub Pages can't store data itself. -->
+  <div class="page-stats">
+    <span class="stat-pill" id="stat-read">– min read</span>
+    <button class="stat-pill stat-like" id="stat-like" type="button" aria-pressed="false" aria-label="Like this page">
+      <svg class="stat-heart" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 20.5s-7.5-4.6-9.6-9.4C.9 7.6 3.1 4 6.7 4c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.6 0 5.8 3.6 4.3 7.1-2.1 4.8-9.6 9.4-9.6 9.4Z"/>
+      </svg>
+      <span class="stat-count" id="stat-like-count">–</span>
+    </button>
+    <span class="stat-pill" id="stat-views">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <span class="stat-count" id="stat-views-count">–</span>
+    </span>
+  </div>
 
   <!-- ===== Popovers =====
        Shown when an element with data-popover="<id>" is hovered or focused.
@@ -389,7 +409,97 @@
       });
     })();
 
-    // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
+    // Reading progress: fills the line at the top as the page is scrolled
+    (function () {
+      var line = document.querySelector(".reading-progress");
+      var ticking = false;
+      function update() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        line.style.setProperty("--progress", progress.toFixed(4));
+        ticking = false;
+      }
+      function request() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener("scroll", request, { passive: true });
+      window.addEventListener("resize", request);
+      update();
+    })();
+
+        // Page stats: read time, likes and views
+    (function () {
+      // Read time: words in the resume at ~200 words per minute
+      var words = document.querySelector(".resume").innerText.trim().split(/\s+/).length;
+      document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
+
+      // Shared counters (Abacus). Likes = "likes-up" minus "likes-down", since
+      // the service can only count up.
+      var api = "https://abacus.jasoncameron.dev";
+      var ns = "emarroquinlucha-github-io";
+      function counter(action, key) {
+        return fetch(api + "/" + action + "/" + ns + "/" + key)
+          .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
+          .then(function (d) { return Math.max(0, d.value || 0); });
+      }
+      function store(key, value) {
+        try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) {}
+      }
+      function show(el, n) { el.textContent = n.toLocaleString(); }
+
+      // Views: counted once per browser, so refreshes don't inflate it
+      var viewsEl = document.getElementById("stat-views-count");
+      var seen = store("resume-viewed") === "1";
+      counter(seen ? "get" : "hit", "resume-views")
+        .then(function (n) {
+          if (!seen) store("resume-viewed", "1");
+          show(viewsEl, n);
+          document.getElementById("stat-views").setAttribute("aria-label", n.toLocaleString() + " views");
+        })
+        .catch(function () { viewsEl.textContent = "–"; });
+
+      // Likes
+      var likeBtn = document.getElementById("stat-like");
+      var likeEl = document.getElementById("stat-like-count");
+      var liked = store("resume-liked") === "1";
+      var likes = 0;
+      function render() {
+        likeBtn.classList.toggle("is-liked", liked);
+        likeBtn.setAttribute("aria-pressed", liked ? "true" : "false");
+        show(likeEl, likes);
+      }
+      Promise.all([counter("get", "resume-likes-up"), counter("get", "resume-likes-down")])
+        .then(function (v) { likes = Math.max(0, v[0] - v[1]); render(); })
+        .catch(function () { likeEl.textContent = "–"; });
+      likeBtn.classList.toggle("is-liked", liked);
+
+      likeBtn.addEventListener("click", function () {
+        liked = !liked;
+        likes = Math.max(0, likes + (liked ? 1 : -1));
+        store("resume-liked", liked ? "1" : "0");
+        render();
+        // Restart the bounce (and the heart pop when liking)
+        likeBtn.classList.remove("is-bouncing", "is-popping");
+        void likeBtn.offsetWidth;
+        likeBtn.classList.add("is-bouncing");
+        if (liked) likeBtn.classList.add("is-popping");
+        counter("hit", liked ? "resume-likes-up" : "resume-likes-down").catch(function () {});
+      });
+      likeBtn.addEventListener("animationend", function (e) {
+        if (e.animationName === "pill-bounce") likeBtn.classList.remove("is-bouncing");
+        if (e.animationName === "heart-pop") likeBtn.classList.remove("is-popping");
+      });
+    })();
+
+        // Top blur: fades in once the page is scrolled, so it's not there at the very top
+    (function () {
+      var blur = document.querySelector(".top-blur");
+      function update() { blur.classList.toggle("is-visible", window.scrollY > 8); }
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    })();
+
+        // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
     // Only reacts on the background, not over the resume card or the menu.
     (function () {
       var grid = document.querySelector(".dot-grid");
