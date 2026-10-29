@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=89">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=90">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -563,17 +563,38 @@
       var canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!canTilt) return;
-      tilt.addEventListener("pointermove", function (e) {
-        var r = tilt.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width;   // 0 to 1
-        var y = (e.clientY - r.top) / r.height;
+      // The cursor is measured against the stage, which doesn't tilt: measuring
+      // the tilting stamp itself made it jitter at the edges. Each frame the tilt
+      // eases toward the cursor (no CSS transition to restart on every move).
+      var stage = box.querySelector(".lightbox-stage");
+      var target = { x: 0.5, y: 0.5 }, current = { x: 0.5, y: 0.5 };
+      var frame = null;
+
+      function step() {
+        current.x += (target.x - current.x) * 0.18;
+        current.y += (target.y - current.y) * 0.18;
+        tilt.style.setProperty("--ry", ((current.x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
+        tilt.style.setProperty("--rx", ((0.5 - current.y) * 2 * maxTilt).toFixed(2) + "deg");
+        tilt.style.setProperty("--gx", (current.x * 100).toFixed(1) + "%");
+        tilt.style.setProperty("--gy", (current.y * 100).toFixed(1) + "%");
+        var settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
+        frame = settled ? null : requestAnimationFrame(step);
+      }
+
+      stage.addEventListener("pointermove", function (e) {
+        var r = stage.getBoundingClientRect();
+        target.x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        target.y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
         box.classList.add("is-tilting");
-        tilt.style.setProperty("--ry", ((x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
-        tilt.style.setProperty("--rx", ((0.5 - y) * 2 * maxTilt).toFixed(2) + "deg");
-        tilt.style.setProperty("--gx", (x * 100).toFixed(1) + "%");
-        tilt.style.setProperty("--gy", (y * 100).toFixed(1) + "%");
+        if (!frame) frame = requestAnimationFrame(step);
       });
-      tilt.addEventListener("pointerleave", resetTilt);
+
+      stage.addEventListener("pointerleave", function () {
+        if (frame) cancelAnimationFrame(frame);
+        frame = null;
+        target.x = target.y = current.x = current.y = 0.5;
+        resetTilt(); // springs back with the CSS transition
+      });
     })();
 
     // Reading progress: fills the line at the top as the page is scrolled
