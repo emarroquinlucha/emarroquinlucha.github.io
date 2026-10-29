@@ -1192,13 +1192,16 @@ h1, h2, h3 {
    .fold-flap is the folded-over flap (the back of the paper). Its outline is
    built from the --fold-* values, so it keeps its gentle curl while it reshapes.
    .fold casts the flap's shadow onto the card. */
+/* The box is 60px wider and taller than the flap (which sits in its top-right
+   corner) so the shadow has room around the flap's tip: Safari trims a
+   drop-shadow at the edges of the element's box. */
 .fold {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 2;
-  width: var(--fold-top);
-  height: var(--fold-tip-y);
+  width: calc(var(--fold-top) + 60px);
+  height: calc(var(--fold-tip-y) + 60px);
   pointer-events: none;
   filter: drop-shadow(-5px 8px 12px rgba(24, 24, 32, 0.28));
   transition: filter 0.5s ease;
@@ -1210,7 +1213,10 @@ h1, h2, h3 {
 
 .fold-flap {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  width: var(--fold-top);
+  height: var(--fold-tip-y);
   /* A faint shadow at the crease, a soft highlight just past it,
      then darker toward the tip, lifting a touch at the very edge */
   background: linear-gradient(222.5deg,
