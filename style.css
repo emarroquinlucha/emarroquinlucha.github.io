@@ -800,7 +800,7 @@ h1, h2, h3 {
 /* Hovering the corner lifts the fold: it peels back further, the crease starts
    farther left so the flap's left side grows longer than its bottom, and its
    shadow drops lower and softer */
-.resume-frame:has(.fold-hotspot:hover) {
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) {
   --fold-top: 250px;
   --fold-side: 216.4px;
   --fold-tip-x: 35.9px;
@@ -819,6 +819,187 @@ h1, h2, h3 {
   height: var(--fold-tip-y);
 }
 
+/* ===== Stamp (tucked under the folded corner) =====
+   .stamp-pocket is the same box as .fold, just below it, so the flap hides the
+   stamp. The stamp's spot comes from the fold values: it sits in the flap's
+   corner, tilted like the flap's edge, and moves with the fold as it lifts.
+   When the fold is hovered it slides out from under the flap. */
+.stamp-pocket {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: var(--fold-top);
+  height: var(--fold-tip-y);
+  pointer-events: none;
+}
+
+.stamp {
+  position: absolute;
+  left: calc(var(--fold-tip-x) + var(--fold-top) * 0.07);
+  top: calc(var(--fold-tip-y) - var(--fold-top) * 0.08);
+  width: calc(var(--fold-top) * 0.4);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+  transform-origin: 0 100%;
+  transform: translateY(-100%) rotate(-5deg);
+  transition: transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.stamp img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 1px 1.5px rgba(24, 24, 32, 0.18));
+}
+
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .stamp {
+  transform: translate(calc(var(--fold-top) * -0.2), calc(var(--fold-top) * 0.2)) translateY(-100%) rotate(-12deg);
+}
+
+.stamp:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 3px;
+}
+
+/* The fold's hover area opens the stamp too */
+.fold-hotspot {
+  cursor: pointer;
+}
+
+/* ===== Stamp lightbox =====
+   Blurs and fades the page so only the stamp is in view. The stamp comes in
+   like the popovers (slides up with a bounce, clearing from a blur) and tilts
+   in 3D toward the cursor (--rx / --ry, set by the script in resume.html),
+   with a soft glare that follows the cursor (--gx / --gy). */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 32px 24px;
+  background: rgba(228, 228, 233, 0.6);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, visibility 0s linear 0.4s;
+}
+
+.lightbox.is-open {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, visibility 0s;
+}
+
+.lightbox-stage {
+  width: min(760px, 100%);
+  filter: blur(10px);
+  opacity: 0;
+  transform: translateY(24px) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+/* filter: none (not blur(0)) once open, so nothing flattens the 3D tilt */
+.lightbox.is-open .lightbox-stage {
+  filter: none;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.3s ease 0.05s,
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s,
+    filter 0.45s ease-out 0.05s;
+}
+
+.lightbox-tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  --lift: 1;
+  position: relative;
+  /* The perspective is part of the stamp's own transform rather than set on
+     its parent, so it still works in Safari (which flattens 3D under a filter) */
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--lift));
+  transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.lightbox.is-tilting .lightbox-tilt {
+  --lift: 1.03;
+  transition: transform 0.15s ease-out;
+}
+
+.lightbox-tilt img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0 4px 8px rgba(12, 12, 13, 0.08))
+    drop-shadow(0 28px 48px rgba(12, 12, 13, 0.16));
+}
+
+/* Glare, cut to the stamp's shape (perforations included) */
+.lightbox-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 55%);
+  -webkit-mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox.is-tilting .lightbox-glare {
+  opacity: 1;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--resume-text);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: #fff;
+}
+
+.lightbox-close:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp,
+  .lightbox-stage,
+  .lightbox.is-open .lightbox-stage {
+    transition: opacity 0.2s ease;
+  }
+
+  .lightbox-stage {
+    transform: none;
+  }
+}
+
 /* ===== Folded corner =====
    .fold-flap is the folded-over flap (the back of the paper). Its outline is
    built from the --fold-* values, so it keeps its gentle curl while it reshapes.
@@ -835,7 +1016,7 @@ h1, h2, h3 {
   transition: filter 0.5s ease;
 }
 
-.resume-frame:has(.fold-hotspot:hover) .fold {
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .fold {
   filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
@@ -1517,7 +1698,7 @@ h1, h2, h3 {
     padding: 56px 24px 56px;
   }
 
-  .resume-frame:has(.fold-hotspot:hover) {
+  .resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) {
     --fold-top: 157.2px;
     --fold-side: 136px;
     --fold-tip-x: 22.7px;
