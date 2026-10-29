@@ -274,7 +274,7 @@ h1, h2, h3 {
   }
 
   .page-stats,
-  .quick-menu {
+  .quick-inner {
     flex-shrink: 0;
     pointer-events: auto;
   }
@@ -293,7 +293,11 @@ h1, h2, h3 {
   padding: 0 14px;
   border: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, #dedee3 85%, transparent);
+  /* Lightens toward white as the page is scrolled (--progress, 0 to 1, set on
+     .page-stats by the reading progress script), so the pills stay visible
+     against the darker bottom of the page */
+  background: color-mix(in srgb,
+    color-mix(in srgb, #fff calc(var(--progress, 0) * 85%), #dedee3) 85%, transparent);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   font: inherit;
@@ -506,52 +510,26 @@ h1, h2, h3 {
   background: rgba(120, 120, 128, 0.16);
 }
 
-/* Email: after copying, the copy icon swaps to a check */
-.icon-check {
-  opacity: 0;
-  transform: scale(0.6);
-}
-
-.quick-item.is-copied .icon-copy {
-  opacity: 0;
-  transform: scale(0.6);
-}
-
-.quick-item.is-copied .icon-check {
-  opacity: 1;
-  transform: scale(1);
-  color: #2f9e5b;
-}
-
-/* "Copied" replaces the "Email" label while the check shows */
-.quick-label {
-  transition: color 0.2s ease;
-}
-
-.quick-item.is-copied .quick-label {
-  color: #2f9e5b;
-}
-
-/* Announces "Copied" to screen readers without showing it twice */
-.quick-toast {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-/* The "Contact" pill that opens the menu is hidden unless the menu is collapsed */
+/* The "Contact" pill that opens the menu is hidden unless the menu is collapsed.
+   It's styled as a button: white with a thin gray border and a soft shadow,
+   like the popovers */
 .quick-toggle {
   display: none;
+  border: 0.5px solid #d0d0d7;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(12, 12, 13, 0.04),
+    0 4px 12px rgba(12, 12, 13, 0.06);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .quick-toggle:hover,
 .quick-dock.menu-open .quick-toggle {
-  background: color-mix(in srgb, #d4d4da 90%, transparent);
+  background: #f4f4f6;
+  box-shadow:
+    0 1px 2px rgba(12, 12, 13, 0.04),
+    0 2px 6px rgba(12, 12, 13, 0.05);
 }
 
 .quick-toggle:focus-visible {
@@ -559,10 +537,52 @@ h1, h2, h3 {
   outline-offset: 2px;
 }
 
-/* Screens from 1001px to 1507px: the menu would be under 19px from the resume,
+.quick-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Screens up to 1507px: there isn't room for the open menu beside the resume,
    so it collapses behind the "Contact" pill and opens above it,
-   sliding up and un-blurring like the popovers */
-@media (min-width: 1001px) and (max-width: 1507px) {
+   sliding up and un-blurring like the popovers.
+   The pill follows the same rule as the wide-screen docks: centered in the gap
+   between the resume and the window edge, but never more than 72px from the
+   resume. The spacer on the edge side is at least 20px, and min-width keeps
+   the dock at least as wide as the pill plus that spacer, so when the gap is
+   too narrow the pill sits 20px from the window edge. */
+@media (max-width: 1507px) {
+  .quick-dock {
+    right: 0;
+    flex-direction: row;
+    align-items: flex-end;
+    width: calc(50% - 451px);
+    min-width: max-content;
+    pointer-events: none;
+  }
+
+  .quick-dock::before,
+  .quick-dock::after {
+    content: "";
+    flex: 1;
+  }
+
+  /* The spacer next to the resume */
+  .quick-dock::before {
+    max-width: 72px;
+  }
+
+  /* The spacer next to the window edge */
+  .quick-dock::after {
+    min-width: 20px;
+  }
+
+  .quick-inner {
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+
   .quick-toggle {
     display: inline-flex;
   }
@@ -593,24 +613,26 @@ h1, h2, h3 {
   }
 }
 
-@media (min-width: 1001px) and (max-width: 1507px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 1507px) and (prefers-reduced-motion: reduce) {
   .quick-menu,
   .quick-dock.menu-open .quick-menu {
     transform: none;
   }
 }
 
-/* Below 1000px there isn't room beside the resume, so the menu sits under it
-   in the page instead of floating (the stats pills keep floating) */
-@media (max-width: 1000px) {
+/* Phones: the Contact pill sits in the bottom-right corner, lined up with
+   the stats pills, and the open menu stays inside the screen */
+@media (max-width: 720px) {
   .quick-dock {
-    position: static;
-    align-items: center;
-    padding: 0 12px 40px;
+    bottom: 12px;
+  }
+
+  .quick-dock::after {
+    min-width: 12px;
   }
 
   .quick-menu {
-    max-width: 100%;
+    max-width: calc(100vw - 24px);
   }
 }
 
@@ -817,6 +839,163 @@ h1, h2, h3 {
   z-index: 3;
   width: var(--fold-top);
   height: var(--fold-tip-y);
+}
+
+/* ===== Loading screen (resume page) =====
+   While <html> has .is-loading (set in the page's <head>), the page is hidden
+   and the loader shows: the stamp sways in 3D with a shine passing over it,
+   the bar fills in the reading progress colors over 2s, and "Loading" sits
+   below. Then .is-revealing fades and blurs the loader out while the resume
+   comes in from a blur. */
+.loader {
+  display: none;
+}
+
+.is-loading .loader,
+.is-revealing .loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.is-revealing .loader {
+  animation: loader-out 0.5s ease forwards;
+}
+
+@keyframes loader-out {
+  to {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.04);
+  }
+}
+
+.loader-stamp {
+  position: relative;
+  width: 200px;
+  animation:
+    loader-stamp-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+    loader-stamp-sway 2.4s ease-in-out infinite alternate;
+}
+
+.loader-stamp img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0 2px 4px rgba(12, 12, 13, 0.08))
+    drop-shadow(0 16px 28px rgba(12, 12, 13, 0.12));
+}
+
+@keyframes loader-stamp-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    translate: 0 16px;
+  }
+}
+
+@keyframes loader-stamp-sway {
+  from { transform: perspective(700px) rotateY(-16deg) rotateX(6deg) rotateZ(-2deg); }
+  to   { transform: perspective(700px) rotateY(16deg) rotateX(-4deg) rotateZ(2deg); }
+}
+
+/* A band of light that sweeps across, cut to the stamp's shape */
+.loader-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 65%)
+    0 0 / 300% 100% no-repeat;
+  -webkit-mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  animation: loader-shine 1.6s ease-in-out 0.3s infinite;
+}
+
+@keyframes loader-shine {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+/* The bar: the full gradient, revealed left to right over 2s */
+.loader-bar {
+  width: 160px;
+  height: 3px;
+  margin-top: 40px;
+  border-radius: 3px;
+  background: rgba(50, 50, 52, 0.08);
+  overflow: hidden;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #e5883c 0%, #e9a592 35%, #e48ec8 65%, #b19adc 100%);
+  animation: loader-fill 1.9s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+}
+
+@keyframes loader-fill {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.loader-text {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--resume-label);
+}
+
+/* The page stays hidden while loading. The pills and menu have no load
+   animation yet, so theirs plays (from the start) once the page is revealed. */
+.is-loading .resume-wrap,
+.is-loading .floating-dock,
+.is-loading .quick-dock {
+  opacity: 0;
+  animation: none;
+}
+
+/* Once the loader has faded out (0.5s), the resume comes into focus from a
+   blur as it rises into place, and the pills and menu follow it in */
+.is-revealing .resume-wrap {
+  animation: page-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s backwards;
+}
+
+.is-revealing .floating-dock {
+  animation-delay: 1s;
+}
+
+.is-revealing .quick-dock {
+  animation-delay: 1.15s;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-stamp,
+  .loader-shine {
+    animation: none;
+  }
+
+  @keyframes page-in {
+    from { opacity: 0; }
+  }
+
+  @keyframes loader-out {
+    to { opacity: 0; }
+  }
 }
 
 /* ===== Stamp (tucked under the folded corner) =====
@@ -1363,9 +1542,9 @@ h1, h2, h3 {
 
 .expertise p {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 29px;
-  color: var(--resume-text);
+  color: #616165;
 }
 
 /* ===== Avatar (from the "Neo Avatar" Figma component) =====
@@ -1660,11 +1839,6 @@ h1, h2, h3 {
 
 /* Resume on tablets and phones */
 @media (max-width: 1000px) {
-  /* The action menu sits under the resume here: 48px between it and the copyright */
-  .resume-wrap {
-    padding-bottom: 48px;
-  }
-
   .resume {
     padding: 120px 48px 80px;
   }
@@ -1689,8 +1863,9 @@ h1, h2, h3 {
 }
 
 @media (max-width: 720px) {
+  /* Bottom: room for the pills (12px from the bottom + 32px tall) plus 48px */
   .resume-wrap {
-    padding: 32px 12px 48px;
+    padding: 32px 12px 92px;
   }
 
   .resume-frame {
