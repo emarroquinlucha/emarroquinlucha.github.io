@@ -469,9 +469,11 @@ h1, h2, h3 {
   white-space: nowrap;
 }
 
+/* Sits at the bottom of the item, level with the value line */
 .quick-icon {
   display: grid;
   flex-shrink: 0;
+  align-self: flex-end;
   margin-left: auto;
   color: var(--resume-label);
   transition: color 0.2s ease, transform 0.2s ease;
@@ -1419,8 +1421,16 @@ h1, h2, h3 {
   font-size: 16px;
 }
 
-.resume-statement + .resume-label {
-  margin-top: 120px;
+/* A short note under the headline, set like the labels */
+.resume-note {
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--resume-label);
+}
+
+.resume-note + .resume-label {
+  margin-top: 112px;
 }
 
 .resume-divider {
@@ -1848,8 +1858,8 @@ h1, h2, h3 {
     font-size: 32px;
   }
 
-  .resume-statement + .resume-label {
-    margin-top: 96px;
+  .resume-note + .resume-label {
+    margin-top: 80px;
   }
 
   .company {
@@ -1909,8 +1919,12 @@ h1, h2, h3 {
     font-size: 26px;
   }
 
-  .resume-statement + .resume-label {
-    margin-top: 64px;
+  .resume-note {
+    margin-top: 16px;
+  }
+
+  .resume-note + .resume-label {
+    margin-top: 52px;
   }
 
   .resume-divider,
