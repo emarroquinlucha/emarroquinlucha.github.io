@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=58">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=72">  <!-- bump the number after changing style.css so browsers load the new version -->
 </head>
 <body>
 
@@ -202,25 +202,87 @@
 
   </main>
 
-  <!-- ===== Page stats (bottom-left corner) =====
-       Read time is worked out from the resume's word count. Likes and views are
-       shared counters stored with Abacus (abacus.jasoncameron.dev), a free
-       counter service, since GitHub Pages can't store data itself. -->
-  <div class="page-stats">
-    <span class="stat-pill" id="stat-read">– min read</span>
-    <button class="stat-pill stat-like" id="stat-like" type="button" aria-pressed="false" aria-label="Like this page">
-      <svg class="stat-heart" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 20.5s-7.5-4.6-9.6-9.4C.9 7.6 3.1 4 6.7 4c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.6 0 5.8 3.6 4.3 7.1-2.1 4.8-9.6 9.4-9.6 9.4Z"/>
+  <!-- ===== Floating dock (bottom-left corner): page stats ===== -->
+  <div class="floating-dock">
+    <!-- ===== Page stats =====
+         Read time is worked out from the resume's word count. Likes and views are
+         shared counters stored with Abacus (abacus.jasoncameron.dev), a free
+         counter service, since GitHub Pages can't store data itself. -->
+    <div class="page-stats">
+      <span class="stat-pill" id="stat-read">– min read</span>
+      <button class="stat-pill stat-like" id="stat-like" type="button" aria-pressed="false" aria-label="Like this page">
+        <svg class="stat-heart" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20.5s-7.5-4.6-9.6-9.4C.9 7.6 3.1 4 6.7 4c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.6 0 5.8 3.6 4.3 7.1-2.1 4.8-9.6 9.4-9.6 9.4Z"/>
+        </svg>
+        <span class="stat-count" id="stat-like-count">–</span>
+      </button>
+      <span class="stat-pill" id="stat-views">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span class="stat-count" id="stat-views-count">–</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== Quick action dock (bottom-right corner) =====
+       The menu from the "Quick Action Menu" Figma component. On laptop-size screens
+       it collapses behind the "Contact" pill. -->
+  <div class="quick-dock">
+    <!-- Quick action menu (from the "Quick Action Menu" Figma component) -->
+    <nav class="quick-menu" id="quick-menu" aria-label="Contact and resume">
+      <button class="quick-item" type="button" id="quick-email" data-copy="emarroquinlucha@gmail.com">
+        <span class="quick-text">
+          <span class="quick-label">Email</span>
+          <span class="quick-value">emarroquinlucha@gmail.com</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg class="icon-copy" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect x="8.5" y="8.5" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15.5 8.5V6A2.5 2.5 0 0 0 13 3.5H6A2.5 2.5 0 0 0 3.5 6v7A2.5 2.5 0 0 0 6 15.5h2.5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <svg class="icon-check" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="quick-toast" role="status" aria-live="polite"></span>
+      </button>
+
+      <a class="quick-item" href="https://www.linkedin.com/in/edward-a-marroquin-35177518a" target="_blank" rel="noopener">
+        <span class="quick-text">
+          <span class="quick-label">LinkedIn</span>
+          <span class="quick-value">Edward Marroquin</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M13.5 4.5h6v6M19.5 4.5 11 13M18 14.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Add your resume PDF to the site folder as emarroquinlucha.pdf -->
+      <a class="quick-item" href="emarroquinlucha.pdf" download>
+        <span class="quick-text">
+          <span class="quick-label">Resume</span>
+          <span class="quick-value">emarroquinlucha.PDF</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </nav>
+
+    <!-- Shown only on screens where the menu would cover the resume: opens the menu -->
+    <button class="stat-pill quick-toggle" type="button" aria-expanded="false" aria-controls="quick-menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
       </svg>
-      <span class="stat-count" id="stat-like-count">–</span>
+      Contact
     </button>
-    <span class="stat-pill" id="stat-views">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <span class="stat-count" id="stat-views-count">–</span>
-    </span>
   </div>
 
   <!-- ===== Popovers =====
@@ -491,6 +553,50 @@
       });
     })();
 
+        // Quick menu toggle (laptop-size screens): opens and closes the menu,
+    // and closes it on Esc or a click anywhere else
+    (function () {
+      var dock = document.querySelector(".quick-dock");
+      var toggle = dock.querySelector(".quick-toggle");
+      function setOpen(open) {
+        dock.classList.toggle("menu-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", function () {
+        setOpen(!dock.classList.contains("menu-open"));
+      });
+      document.addEventListener("click", function (e) {
+        if (!dock.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") setOpen(false);
+      });
+    })();
+
+        // Quick menu: the email item copies the address and briefly confirms it
+    (function () {
+      var item = document.getElementById("quick-email");
+      var toast = item.querySelector(".quick-toast");
+      var label = item.querySelector(".quick-label");
+      var labelText = label.textContent;
+      var timer = null;
+      item.addEventListener("click", function () {
+        var text = item.getAttribute("data-copy");
+        var done = function () {
+          item.classList.add("is-copied");
+          label.textContent = "Copied";
+          toast.textContent = "Email address copied";
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            item.classList.remove("is-copied");
+            label.textContent = labelText;
+            toast.textContent = "";
+          }, 1600);
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+      });
+    })();
+
         // Top blur: fades in once the page is scrolled, so it's not there at the very top
     (function () {
       var blur = document.querySelector(".top-blur");
@@ -509,7 +615,7 @@
 
       document.addEventListener("pointermove", function (e) {
         if (e.pointerType !== "mouse") return;
-        var overContent = e.target.closest(".resume, .site-header, .site-footer");
+        var overContent = e.target.closest(".resume, .site-header, .site-footer, .floating-dock, .quick-dock");
         grid.classList.toggle("is-active", !overContent);
         grid.style.setProperty("--x", e.clientX + "px");
         grid.style.setProperty("--y", e.clientY + "px");

@@ -18,7 +18,7 @@
   --resume-gradient-end: #e0e0e5;
 
   /* Resume colors (from the resume Figma design) */
-  --resume-paper: #ececef;
+  --resume-paper: #f4f4f6;
   --resume-paper-border: #d0d0d7;
   --resume-heading: #19191a;
   --resume-text: #323234;
@@ -159,11 +159,115 @@ h1, h2, h3 {
 }
 
 /* ===== Page stats (bottom-left corner of the resume page) ===== */
-.page-stats {
+/* Bottom-left: the stats pills */
+.floating-dock {
   position: fixed;
   left: 20px;
-  bottom: 20px;
+  bottom: 40px;
   z-index: 6;
+}
+
+/* Bottom-right: the quick action menu (and its "Contact" pill when collapsed) */
+.quick-dock {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* On page load, the pills and the action menu fade in, slide up 16px with a
+   little bounce and come into focus from a blur, like the popovers. The menu
+   follows the pills by a beat. ("backwards" only holds the start state during
+   the delay, so nothing lingers once the animation is done.) */
+.floating-dock,
+.quick-dock {
+  animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
+}
+
+.quick-dock {
+  animation-delay: 0.65s;
+}
+
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-dock,
+  .quick-dock {
+    animation-name: dock-fade-in;
+    animation-timing-function: ease;
+  }
+
+  @keyframes dock-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* 1508px and wider: the pills (left) and the open menu (right) are each
+   centered in the gap between the resume and the window edge, until they're
+   72px from the resume; on wider screens they hold 72px from it.
+   How: each dock spans its whole gap (the card is 902px wide and centered, so
+   each gap is 50% - 451px wide) and has two flexible spacers around its
+   content. The spacers share the leftover space equally (centered), but the
+   one next to the resume can't grow past 72px. This works whatever the
+   pills' or menu's width is. Below 1508px the menu would be under 19px from
+   the resume, so it collapses behind the "Contact" pill instead (see below). */
+@media (min-width: 1508px) {
+  .floating-dock,
+  .quick-dock {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: calc(50% - 451px);
+    pointer-events: none;
+  }
+
+  .floating-dock {
+    left: 0;
+  }
+
+  .quick-dock {
+    left: auto;
+    right: 0;
+  }
+
+  .floating-dock::before,
+  .floating-dock::after,
+  .quick-dock::before,
+  .quick-dock::after {
+    content: "";
+    flex: 1;
+  }
+
+  /* The spacer next to the resume */
+  .floating-dock::after,
+  .quick-dock::before {
+    max-width: 72px;
+  }
+
+  .page-stats,
+  .quick-menu {
+    flex-shrink: 0;
+    pointer-events: auto;
+  }
+}
+
+.page-stats {
   display: flex;
   gap: 10px;
 }
@@ -272,9 +376,12 @@ h1, h2, h3 {
 }
 
 @media (max-width: 720px) {
-  .page-stats {
+  .floating-dock {
     left: 12px;
     bottom: 12px;
+  }
+
+  .page-stats {
     gap: 6px;
   }
 
@@ -282,6 +389,215 @@ h1, h2, h3 {
     height: 32px;
     padding: 0 11px;
     font-size: 13px;
+  }
+}
+
+/* ===== Quick action menu (from the "Quick Action Menu" Figma component) ===== */
+.quick-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 32px in the design, minus the items' 8px hover padding above and below */
+  /* As wide as the longest row: its value, 16px of space, then the icon */
+  width: max-content;
+  padding: 16px 10px;
+  line-height: normal;
+  background: #f4f4f6;
+  border: 0.5px solid #d0d0d7;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 40px 0 rgba(0, 0, 0, 0.05),
+    0 16px 32px 0 rgba(12, 12, 13, 0.05),
+    112px 76px 100px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Each row is clickable; the 8px / 10px padding gives the hover background
+   room around the text while keeping the text where the design puts it */
+.quick-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quick-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.quick-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--resume-label);
+}
+
+.quick-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--resume-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-icon {
+  display: grid;
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--resume-label);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.quick-icon svg {
+  grid-area: 1 / 1;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+/* Hover / keyboard focus: a soft background, and the icon darkens and nudges */
+.quick-item:hover,
+.quick-item:focus-visible {
+  background: rgba(120, 120, 128, 0.1);
+}
+
+.quick-item:hover .quick-icon,
+.quick-item:focus-visible .quick-icon {
+  color: var(--resume-text);
+}
+
+.quick-item[target="_blank"]:hover .quick-icon {
+  transform: translate(1px, -1px);
+}
+
+.quick-item[download]:hover .quick-icon {
+  transform: translateY(1px);
+}
+
+.quick-item:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: -2px;
+}
+
+.quick-item:active {
+  background: rgba(120, 120, 128, 0.16);
+}
+
+/* Email: after copying, the copy icon swaps to a check */
+.icon-check {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.quick-item.is-copied .icon-copy {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.quick-item.is-copied .icon-check {
+  opacity: 1;
+  transform: scale(1);
+  color: #2f9e5b;
+}
+
+/* "Copied" replaces the "Email" label while the check shows */
+.quick-label {
+  transition: color 0.2s ease;
+}
+
+.quick-item.is-copied .quick-label {
+  color: #2f9e5b;
+}
+
+/* Announces "Copied" to screen readers without showing it twice */
+.quick-toast {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The "Contact" pill that opens the menu is hidden unless the menu is collapsed */
+.quick-toggle {
+  display: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quick-toggle:hover,
+.quick-dock.menu-open .quick-toggle {
+  background: color-mix(in srgb, #d4d4da 90%, transparent);
+}
+
+.quick-toggle:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 2px;
+}
+
+/* Screens from 1001px to 1507px: the menu would be under 19px from the resume,
+   so it collapses behind the "Contact" pill and opens above it,
+   sliding up and un-blurring like the popovers */
+@media (min-width: 1001px) and (max-width: 1507px) {
+  .quick-toggle {
+    display: inline-flex;
+  }
+
+  .quick-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+    filter: blur(6px);
+    transition: opacity 0.2s ease, transform 0.25s ease, filter 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .quick-dock.menu-open .quick-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    filter: blur(0);
+    transition:
+      opacity 0.25s ease,
+      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+      filter 0.35s ease-out,
+      visibility 0s;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1507px) and (prefers-reduced-motion: reduce) {
+  .quick-menu,
+  .quick-dock.menu-open .quick-menu {
+    transform: none;
+  }
+}
+
+/* Below 1000px there isn't room beside the resume, so the menu sits under it
+   in the page instead of floating (the stats pills keep floating) */
+@media (max-width: 1000px) {
+  .quick-dock {
+    position: static;
+    align-items: center;
+    padding: 0 12px 40px;
+  }
+
+  .quick-menu {
+    max-width: 100%;
   }
 }
 
