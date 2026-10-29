@@ -490,6 +490,8 @@
         return h ? h.getBoundingClientRect().bottom : 0;
       };
 
+      var phone = window.matchMedia("(max-width: 720px)");
+
       document.querySelectorAll("[data-popover]").forEach(function (trigger) {
         var pop = document.getElementById(trigger.getAttribute("data-popover"));
         if (!pop) return;
@@ -518,6 +520,8 @@
         }
 
         function show() {
+          // On phones the company names (links) just go to the company's site
+          if (trigger.matches("a") && phone.matches) return;
           clearTimeout(hideTimer);
           place();
           if (video) {
