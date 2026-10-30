@@ -1491,10 +1491,59 @@ h1, h2, h3 {
 }
 
 .company {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 62px;
   padding-left: 18px;
+}
+
+/* ===== Company marker =====
+   A small version of the company's logo, with a caret in the logo's colour, that
+   stays pinned while you scroll through that company's roles, so you know whose
+   roles you're reading once the header has gone. Its left edge lines up with
+   the big logo and the role years. The rail spans the whole company
+   section; the marker sticks just below the top blur and is pushed off by the
+   end of the section, so the next company's marker takes over.
+   The script sets .is-past-header once the header has scrolled away (shows it)
+   and .is-over-years while a role's years pass under it (hides it). */
+.company-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18px; /* same left edge as the big logo and the years */
+  pointer-events: none;
+}
+
+.company-marker {
+  position: sticky;
+  top: 128px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #232323; /* the caret, matching the Neo logo's tile */
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(8px) scale(0.85);
+  transition: opacity 0.25s ease, filter 0.25s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.company-marker.is-skip {
+  color: #ff8000;
+}
+
+.company .company-marker .avatar {
+  --avatar-size: 28px;
+}
+
+.company-marker-caret {
+  flex-shrink: 0;
+}
+
+.company.is-past-header:not(.is-over-years) .company-marker {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
 }
 
 .company-header {
@@ -1909,6 +1958,11 @@ h1, h2, h3 {
 
   .company {
     padding-left: 0;
+  }
+
+  /* No pinned company logo on tablets and phones */
+  .company-rail {
+    display: none;
   }
 
   .role {

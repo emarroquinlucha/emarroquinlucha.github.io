@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=114">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=120">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -104,6 +104,14 @@
             <p class="company-years">2020-2026</p>
           </div>
         </header>
+        <!-- A small logo (and caret) that stays pinned under the big one while this
+             company's roles scroll, once the header above has scrolled out of view -->
+        <div class="company-rail" aria-hidden="true">
+          <div class="company-marker">
+            <div class="avatar"><img src="images/neo-logo.svg" width="66" height="20" alt=""></div>
+            <svg class="company-marker-caret" width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1.6 1.4 6.6 5l-5 3.6Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
 
         <div class="roles">
           <article class="role">
@@ -204,6 +212,12 @@
             <p class="company-years">2018 - 2020</p>
           </div>
         </header>
+        <div class="company-rail" aria-hidden="true">
+          <div class="company-marker is-skip">
+            <div class="avatar avatar-skip"><img src="images/skip-logo.svg" width="95" height="40" alt=""></div>
+            <svg class="company-marker-caret" width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1.6 1.4 6.6 5l-5 3.6Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
 
         <div class="roles">
           <article class="role">
@@ -539,6 +553,38 @@
         target.x = target.y = 0.5; // eases back to flat
         if (!frame) frame = requestAnimationFrame(step);
       });
+    })();
+
+    // Company markers: each company's small logo shows under its big one once the
+    // header has scrolled up past the top blur, and hides again when the header
+    // comes back into view. It also steps aside while a role's years pass under
+    // it: hidden from a little before it would touch them until just after.
+    // (Checked on every scroll rather than with an IntersectionObserver, which
+    // misses big jumps that skip straight past the header.)
+    (function () {
+      var topBand = 112; // height of the top blur
+      var clearance = 16; // how close it can get to the years before hiding
+      var companies = [].slice.call(document.querySelectorAll(".company"));
+      var ticking = false;
+      function update() {
+        companies.forEach(function (company) {
+          var header = company.querySelector(".company-header");
+          company.classList.toggle("is-past-header", header.getBoundingClientRect().bottom < topBand);
+
+          var marker = company.querySelector(".company-marker").getBoundingClientRect();
+          var overYears = [].some.call(company.querySelectorAll(".role-years"), function (years) {
+            var y = years.getBoundingClientRect();
+            return y.bottom > marker.top - clearance && y.top < marker.bottom + clearance;
+          });
+          company.classList.toggle("is-over-years", overYears);
+        });
+        ticking = false;
+      }
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      window.addEventListener("resize", update);
+      update();
     })();
 
     // Popovers: show on hover/focus of any [data-popover] element. Placed above the
