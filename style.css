@@ -1675,6 +1675,13 @@ h1, h2, h3 {
   transform: translateX(2px);
 }
 
+/* The eye beside the titles that open a video: darkens on hover, but stays put
+   (the arrow's nudge suits a link, not a "watch" hint) */
+.popover-trigger:hover .popover-eye,
+.popover-trigger:focus-visible .popover-eye {
+  transform: none;
+}
+
 .popover-trigger:focus-visible {
   outline: 2px solid var(--resume-label);
   outline-offset: 4px;
