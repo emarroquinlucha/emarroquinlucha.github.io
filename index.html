@@ -8,21 +8,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=110">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=111">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
     document.documentElement.classList.add("is-loading");
     window.loadStart = performance.now();
   </script>
-  <link rel="preload" href="images/stamp.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
 </head>
 <body>
 
   <!-- ===== Loading screen: the stamp sways while the bar fills, then the page comes in ===== -->
   <div class="loader" role="status" aria-label="Loading">
     <div class="loader-stamp">
-      <img src="images/stamp.webp" width="2000" height="1682" alt="">
+      <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="">
       <span class="loader-shine" aria-hidden="true"></span>
     </div>
     <div class="loader-bar" aria-hidden="true"><span></span></div>
@@ -52,7 +52,7 @@
            clicking it (or the fold) opens it full size (see "Stamp" in style.css) -->
       <span class="stamp-pocket">
         <button class="stamp" type="button" aria-label="Open the hidden stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
-          <img src="images/stamp.webp" width="2000" height="1682" alt="">
+          <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="">
         </button>
       </span>
       <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
@@ -348,7 +348,7 @@
   <div class="lightbox" id="stamp-lightbox" role="dialog" aria-modal="true" aria-label="Stamp: Design is rad, Canada is cool">
     <div class="lightbox-stage">
       <div class="lightbox-tilt">
-        <img src="images/stamp.webp" width="2000" height="1682" alt="A vintage-style Canadian postage stamp reading “Design is rad” and “Canada is cool”: a beige retro computer glowing in a purple forest, its green screen showing C:\> DESIGN.EXE, STATUS: RAD, EH? OK! Below, “CANADA 94”.">
+        <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="A vintage-style Canadian postage stamp reading “Design is rad” and “Canada is cool” with a maple leaf: a beige retro computer glowing in a purple forest, its green screen showing C:\> DESIGN.EXE, STATUS: RAD, EH? OK! Along the bottom, “Edward A. Marroquin”, his signature and “94¢”.">
         <span class="lightbox-glare" aria-hidden="true"></span>
       </div>
     </div>

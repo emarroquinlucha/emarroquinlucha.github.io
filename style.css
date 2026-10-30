@@ -914,8 +914,8 @@ h1, h2, h3 {
   background: linear-gradient(105deg,
     rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 65%)
     0 0 / 300% 100% no-repeat;
-  -webkit-mask: url("images/stamp.webp") center / 100% 100% no-repeat;
-  mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  -webkit-mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
+  mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
   animation: loader-shine 1.6s ease-in-out 0.3s infinite;
 }
 
@@ -1140,8 +1140,8 @@ h1, h2, h3 {
   inset: 0;
   pointer-events: none;
   background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
-  -webkit-mask: url("images/stamp.webp") center / 100% 100% no-repeat;
-  mask: url("images/stamp.webp") center / 100% 100% no-repeat;
+  -webkit-mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
+  mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
