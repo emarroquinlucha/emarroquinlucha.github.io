@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume" data-preview>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- V2 of the resume, in progress. A preview copy of index.html: hidden from
+       search engines and doesn't add to the view or like counts (data-preview).
+       To launch it, copy this file over index.html, then remove data-preview,
+       the robots tag and this comment. -->
+  <title>Edward A. Marroquin | Product Designer</title>
+  <meta name="robots" content="noindex">
+  <!-- Favicon: a tiny stamp with a serif E -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="description" content="Resume of Edward Marroquin, Staff Product Designer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=165">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
+       Set here, before anything draws, so the page never flashes in first. -->
+  <script>
+    document.documentElement.classList.add("is-loading");
+    window.loadStart = performance.now();
+  </script>
+  <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
+</head>
+<body>
+
+  <!-- ===== Loading screen: the stamp sways while the bar fills, then the page comes in ===== -->
+  <div class="loader" role="status" aria-label="Loading">
+    <div class="loader-stamp">
+      <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="">
+      <span class="loader-shine" aria-hidden="true"></span>
+    </div>
+    <div class="loader-bar" aria-hidden="true"><span></span></div>
+    <p class="loader-text">Loading</p>
+  </div>
+
+  <!-- Dot grid background with a cursor spotlight (see "Dot grid" in style.css) -->
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <!-- Reading progress line across the top of the window -->
+  <div class="reading-progress" aria-hidden="true"></div>
+
+  <!-- Progressive blur at the top of the window (see "Top blur" in style.css) -->
+  <div class="top-blur" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+
+  <!-- ===== Contents: a small list beside the paper (wide screens only) that
+       jumps to each section and marks the one being read ===== -->
+  <nav class="page-toc" aria-label="On this page">
+    <ul>
+      <li><a href="#intro">Intro</a></li>
+      <li><a href="#selected-work">Selected Impact</a></li>
+      <li><a href="#case-studies">Case Studies</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+    </ul>
+  </nav>
+
+  <main class="resume-wrap">
+
+    <!-- ===== Resume "paper" =====
+         To add a role, copy one <article class="role">...</article> block and edit it.
+         To add a company, copy a whole <section class="company">...</section> block. -->
+    <div class="resume-frame">
+      <!-- The card's shadow (see "resume-shadow" in style.css) -->
+      <div class="resume-shadow" aria-hidden="true"></div>
+    <article class="resume" id="intro">
+      <!-- Folded top-right corner (see "Folded corner" in style.css); hovering it lifts the fold -->
+      <!-- A stamp tucked under the fold: it peeks out when the fold lifts, and
+           clicking it (or the fold) opens it full size (see "Stamp" in style.css) -->
+      <span class="stamp-pocket">
+        <button class="stamp" type="button" aria-label="Open the hidden stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
+          <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="">
+        </button>
+      </span>
+      <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+
+      <header class="resume-intro">
+        <!-- Signature with a progressive blur: the same image stacked 4 times,
+             each copy blurred more and shown only in its band of the lower half -->
+        <div class="resume-signature">
+          <img src="images/signature.svg?v=2" width="1394" height="762" alt="Edward Marroquin's signature">
+          <img class="blur-1" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <img class="blur-2" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <img class="blur-3" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <!-- A band of light that sweeps across the ink once the headline's wave has played -->
+          <span class="signature-shimmer" aria-hidden="true"></span>
+        </div>
+        <h1 class="resume-name">Edward A. Marroquin</h1>
+        <p class="resume-title">Product Design Lead</p>
+      </header>
+
+      <p class="resume-statement">
+        I bring <span class="soft gradient-text">structure and beauty</span> to complex digital products,
+        connecting thoughtful experiences with the systems that make them possible.<span class="text-cursor" aria-hidden="true"></span>
+      </p>
+
+      <h2 class="resume-label" id="selected-work">Selected Impact</h2>
+
+      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+
+      <!-- Selected work: copy one <article class="work-item">...</article> to add another.
+           A stamp goes first in the item, as <button class="work-stamp">…</button>:
+           it tilts on hover and opens in the lightbox when clicked -->
+      <div class="work-list">
+        <div class="work-intro">
+          <p class="work-intro-title">A few things I helped shape in my previous role.</p>
+          <p class="work-context">
+            <span class="avatar" aria-hidden="true"><img src="images/neo-logo.svg" width="66" height="20" alt=""></span>
+            Neo Financial, 2021–2026
+          </p>
+        </div>
+
+        <article class="work-item">
+          <button class="work-stamp" type="button" aria-label="Open the Product Architecture stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
+            <span class="work-stamp-tilt">
+              <img src="images/stamp-product-architecture.webp?v=2" width="640" height="640" alt="A vintage-style postage stamp reading “Product Architecture”: a crane lifting a stone block onto a classical columned temple under construction at sunset, with scaffolding beside it. Along the bottom, “Edward A. Marroquin”, his signature and “50¢”." loading="lazy">
+              <span class="work-stamp-glare" aria-hidden="true"></span>
+            </span>
+          </button>
+          <div class="work-text">
+            <p class="work-kicker">Product Architecture</p>
+            <h3 class="work-title">Building the foundations of a growing digital bank</h3>
+            <p class="work-desc">Led the redesign of Neo Financial's core account experiences, establishing a scalable information architecture across financial products, navigation, transactions, and emerging features.</p>
+          </div>
+        </article>
+
+        <article class="work-item">
+          <button class="work-stamp" type="button" aria-label="Open the Design Systems stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
+            <span class="work-stamp-tilt">
+              <img src="images/stamp-design-systems.webp" width="640" height="640" alt="A vintage-style postage stamp reading “Design Systems”: interface pieces stacked like a pyramid at sunset — type, colour swatches, icons, a button, a toggle, a slider and cards — on a grid with spacing marks. Along the bottom, “Edward A. Marroquin”, his signature and “95¢”." loading="lazy">
+              <span class="work-stamp-glare" aria-hidden="true"></span>
+            </span>
+          </button>
+          <div class="work-text">
+            <p class="work-kicker">Design Systems</p>
+            <h3 class="work-title">Creating consistency across products and teams</h3>
+            <p class="work-desc">Led the evolution of shared design foundations, unifying patterns, strengthening design and engineering collaboration, and helping teams deliver more cohesive experiences at scale.</p>
+          </div>
+        </article>
+
+        <article class="work-item">
+          <button class="work-stamp" type="button" aria-label="Open the Visual Direction stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
+            <span class="work-stamp-tilt">
+              <img src="images/stamp-visual-direction.webp" width="640" height="640" alt="A vintage-style postage stamp reading “Visual Direction”: a web page on an easel at sunset, showing an image, “Aa” type, a colour palette and buttons, with a compass star in the sky. Along the bottom, “Edward A. Marroquin”, his signature and “75¢”." loading="lazy">
+              <span class="work-stamp-glare" aria-hidden="true"></span>
+            </span>
+          </button>
+          <div class="work-text">
+            <p class="work-kicker">Visual Direction</p>
+            <h3 class="work-title">Shaping a cohesive product experience</h3>
+            <p class="work-desc">Helped evolve the visual direction of Neo's digital products, translating brand expression into thoughtful, consistent interfaces across the mobile app and broader product ecosystem.</p>
+          </div>
+        </article>
+      </div>
+
+      <h2 class="resume-label" id="case-studies">Selected Case Studies</h2>
+
+      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+
+      <!-- Case studies: copy one <article class="case-item">...</article> to add another -->
+      <div class="case-list">
+        <article class="case-item">
+          <!-- Placeholder until the case study has a cover image: swap this div for
+               <img class="case-image" src="images/…" width="…" height="…" alt="…"> -->
+          <div class="case-image case-image-placeholder" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.75"/><path d="M21 16l-5-5-9 9"/></svg>
+          </div>
+          <h3 class="case-title">Accounts Architecture @ Neo</h3>
+          <p class="case-desc">Designing the foundations of a growing digital bank.</p>
+          <p class="case-status">Coming soon</p>
+        </article>
+      </div>
+
+      <h2 class="resume-label" id="experience">Experience</h2>
+
+      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+
+      <!-- Neo Financial -->
+      <section class="company">
+        <header class="company-header with-avatar">
+          <div class="avatar">
+            <img src="images/neo-logo.svg" width="66" height="20" alt="Neo Financial logo">
+          </div>
+          <div class="company-heading">
+            <h3 class="company-name">
+              <a class="popover-trigger" href="https://www.neofinancial.com/" data-popover="popover-neo" aria-describedby="popover-neo">
+                <span class="popover-trigger-text">Neo Financial</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h9.5M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </h3>
+            <p class="company-years">2020-2026</p>
+          </div>
+        </header>
+        <!-- A small logo (and caret) that stays pinned under the big one while this
+             company's roles scroll, once the header above has scrolled out of view -->
+        <div class="company-rail" aria-hidden="true">
+          <div class="company-marker">
+            <div class="avatar"><img src="images/neo-logo.svg" width="66" height="20" alt=""></div>
+            <svg class="company-marker-caret" width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1.6 1.4 6.6 5l-5 3.6Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+
+        <div class="roles">
+          <article class="role">
+            <p class="role-years">2025 - 2026</p>
+            <div class="role-body">
+              <h4 class="role-title">Lead, Product Designer &amp; Design Systems</h4>
+              <ul class="highlights">
+                <li>
+                  <strong>Design System Unification</strong>
+                  Unified product and marketing design foundations through shared components, patterns, and documentation.
+                </li>
+                <li>
+                  <strong>Engineering Partnership</strong>
+                  Collaborated on React Native component migration and design fidelity; initiated Figma Code Connect mapping.
+                </li>
+                <li class="narrow">
+                  <strong>App Rebrand</strong>
+                  Led the visual refresh of Neo's app, including home screen, iconography, and supporting assets.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <p class="role-years">2024 - 2025</p>
+            <div class="role-body">
+              <h4 class="role-title">Lead Product Designer</h4>
+              <ul class="highlights">
+                <li>
+                  <strong><span class="popover-trigger" tabindex="0" data-popover="popover-neo-accounts" aria-describedby="popover-neo-accounts"><span class="popover-trigger-text">Accounts Redesign</span><svg class="popover-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg></span></strong>
+                  Established consistent account structures and visual direction across credit, savings, and chequing.
+                </li>
+                <li>
+                  <strong><span class="popover-trigger" tabindex="0" data-popover="popover-statement-tracker" aria-describedby="popover-statement-tracker"><span class="popover-trigger-text">Credit Card Payments</span><svg class="popover-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg></span></strong>
+                  Simplified statement and payment summaries to clarify balances, payments, and amounts owed.
+                </li>
+                <li class="narrow">
+                  <strong>App Architecture</strong>
+                  Defined navigation, terminology, and reusable patterns across home, profile, and money movement.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <p class="role-years">2021 - 2024</p>
+            <div class="role-body">
+              <h4 class="role-title">Senior Product Designer</h4>
+              <ul class="highlights">
+                <li>
+                  <strong>GIC Experience</strong>
+                  Co-designed a mobile and web GIC experience in three months, spanning onboarding, funding, and term selection. Unreleased.
+                </li>
+                <li>
+                  <strong>Credit Card Upgrades</strong>
+                  Designed the end-to-end card upgrade experience for customers moving to higher-tier products.
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <p class="role-years">2020 - 2021</p>
+            <div class="role-body">
+              <h4 class="role-title">Product Designer</h4>
+              <ul class="highlights">
+                <li>
+                  <strong>Investment Product</strong>
+                  Helped launch Neo's investment experience, covering accounts, portfolios, and holdings.
+                </li>
+                <li>
+                  <strong>Automatic Payments</strong>
+                  Designed the end-to-end Autopay experience for credit card payments.
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+
+      <!-- SkipTheDishes -->
+      <section class="company">
+        <header class="company-header with-avatar">
+          <div class="avatar avatar-skip">
+            <img src="images/skip-logo.svg" width="95" height="40" alt="SkipTheDishes logo">
+          </div>
+          <div class="company-heading">
+            <h3 class="company-name">
+              <a class="popover-trigger" href="https://www.skipthedishes.com/" data-popover="popover-skip" aria-describedby="popover-skip">
+                <span class="popover-trigger-text">SkipTheDishes</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h9.5M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </h3>
+            <p class="company-years">2018 - 2020</p>
+          </div>
+        </header>
+        <div class="company-rail" aria-hidden="true">
+          <div class="company-marker is-skip">
+            <div class="avatar avatar-skip"><img src="images/skip-logo.svg" width="95" height="40" alt=""></div>
+            <svg class="company-marker-caret" width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1.6 1.4 6.6 5l-5 3.6Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+
+        <div class="roles">
+          <article class="role">
+            <p class="role-years">2018 - 2020</p>
+            <div class="role-body">
+              <h4 class="role-title">UX/UI Designer</h4>
+              <ul class="highlights">
+                <li>
+                  <strong>Restaurant App Research &amp; Design</strong>
+                  Conducted on-site restaurant research with a product owner and refined the restaurant app's interface and design system around operational needs.
+                </li>
+                <li>
+                  <strong>Self-serve Onboarding</strong>
+                  Created and maintained multilingual interactive onboarding tutorials in InVision, designed to help restaurant owners learn independently and reduce support calls.
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <h2 class="resume-label" id="expertise">Expertise</h2>
+
+      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+
+      <section class="expertise" aria-label="Expertise">
+        <!-- Each group: an icon and a title set like the bullet titles, then its skills -->
+        <div class="expertise-groups">
+          <div class="expertise-group">
+            <h3 class="expertise-title"><svg class="expertise-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.83 2.83 0 0 0-4-4L4 16v4Z"/><path d="M13.5 6.5l4 4"/></svg>Design</h3>
+            <p>Product Strategy · Information Architecture · Interaction Design · Visual Design · Design Systems</p>
+          </div>
+          <div class="expertise-group">
+            <h3 class="expertise-title"><svg class="expertise-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2Z"/></svg>Leadership</h3>
+            <p>Design Direction · Cross-functional Collaboration · Design Governance · Systems Thinking</p>
+          </div>
+          <div class="expertise-group">
+            <h3 class="expertise-title"><svg class="expertise-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/><path d="M13.5 5.5l-3 13"/></svg>Tools &amp; Technology</h3>
+            <p>Figma · Prototyping · Design Tokens · Claude · ChatGPT · AI-assisted Design &amp; Development</p>
+          </div>
+        </div>
+      </section>
+
+    </article>
+      <!-- Hover area for the folded corner. It sits outside the card so the card's
+           trimmed corner can't cut it off while the fold lifts (which caused flicker). -->
+      <span class="fold-hotspot" aria-hidden="true"></span>
+    </div>
+
+    <!-- Copyright, just under the card's bottom-left corner -->
+    <footer class="site-footer resume-footer">
+      <p>© <span id="year">2026</span> Edward A. Marroquin</p>
+    </footer>
+  </main>
+
+  <!-- ===== Floating dock (bottom-left corner): page stats ===== -->
+  <div class="floating-dock">
+    <!-- ===== Page stats =====
+         Read time is worked out from the resume's word count. Likes and views are
+         shared counters stored with Abacus (abacus.jasoncameron.dev), a free
+         counter service, since GitHub Pages can't store data itself. -->
+    <div class="page-stats">
+      <span class="stat-pill" id="stat-read">– min read</span>
+      <button class="stat-pill stat-like" id="stat-like" type="button" aria-pressed="false" aria-label="Like this page">
+        <svg class="stat-heart" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20.5s-7.5-4.6-9.6-9.4C.9 7.6 3.1 4 6.7 4c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.6 0 5.8 3.6 4.3 7.1-2.1 4.8-9.6 9.4-9.6 9.4Z"/>
+        </svg>
+        <span class="stat-count" id="stat-like-count">–</span>
+      </button>
+      <span class="stat-pill" id="stat-views">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="stat-count" id="stat-views-count">–</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== Quick action dock (bottom-right corner) =====
+       The menu from the "Quick Action Menu" Figma component. On laptop-size screens
+       it collapses behind the "Contact" pill. -->
+  <div class="quick-dock">
+    <!-- The menu and its Contact pill, kept together so the menu opens right above the pill -->
+    <div class="quick-inner">
+    <!-- Quick action menu (from the "Quick Action Menu" Figma component) -->
+    <nav class="quick-menu" id="quick-menu" aria-label="Contact and resume">
+      <a class="quick-item" href="https://www.linkedin.com/in/ed-marroquin" target="_blank" rel="noopener">
+        <span class="quick-text">
+          <span class="quick-label">LinkedIn</span>
+          <span class="quick-value">Edward A. Marroquin</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M13.5 4.5h6v6M19.5 4.5 11 13M18 14.5V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- The resume PDF. To update it, replace Edward-Marroquin-Resume.pdf in the site folder -->
+      <a class="quick-item" href="Edward-Marroquin-Resume.pdf" download>
+        <span class="quick-text">
+          <span class="quick-label">Resume</span>
+          <span class="quick-value">Edward-Marroquin-Resume.pdf</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </nav>
+
+    <!-- Shown only on screens where the menu would cover the resume: opens the menu -->
+    <button class="stat-pill quick-toggle" type="button" aria-expanded="false" aria-controls="quick-menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="2"/>
+        <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      Contact
+    </button>
+    </div>
+  </div>
+
+  <!-- ===== Popovers =====
+       Shown when an element with data-popover="<id>" is hovered or focused.
+       Each popover is a link too, so clicking it goes to the same place as its trigger.
+       Kept outside <main> so they can be positioned against the window. -->
+  <a class="popover" id="popover-neo" href="https://www.neofinancial.com/" tabindex="-1">
+    <div class="popover-media">
+      <img src="images/neo-popover.jpg" width="620" height="338" alt="Two Neo Mastercard credit cards, silver and black, on a striped cloth beside sunglasses, keys and a map">
+    </div>
+    <p><strong>Neo Financial</strong> is a Canadian financial technology company founded in 2019 and headquartered in Calgary, Alberta. It provides digital banking, credit, and savings products in partnership with regulated financial institutions.</p>
+    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
+  </a>
+
+  <!-- Video popover: just the video, no card. It plays while open (see the popovers script). -->
+  <div class="popover popover-video" id="popover-neo-accounts" role="tooltip">
+    <video src="images/neo-accounts.mp4?v=2" poster="images/neo-accounts-poster.jpg?v=2" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Neo account redesign: the credit card screen with balance, utilization and statement"></video>
+  </div>
+
+  <div class="popover popover-video" id="popover-statement-tracker" role="tooltip">
+    <video src="images/statement-tracker.mp4" poster="images/statement-tracker-poster.jpg" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Credit card payment feature: the statement card's remaining balance updating as a payment lands"></video>
+  </div>
+
+  <a class="popover" id="popover-skip" href="https://www.skipthedishes.com/" tabindex="-1">
+    <div class="popover-media">
+      <img src="images/skip-popover.jpg" width="620" height="338" alt="A Skip courier carrying an orange Skip delivery bag up a front walkway">
+    </div>
+    <p><strong>SkipTheDishes</strong> (branded as Skip) is a Canadian online food delivery service headquartered in Winnipeg, Manitoba, and a subsidiary of Just Eat Takeaway.com.</p>
+    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
+  </a>
+
+  <!-- ===== Stamp lightbox: the hidden stamp at full size ===== -->
+  <div class="lightbox" id="stamp-lightbox" role="dialog" aria-modal="true" aria-label="Stamp: Design is rad, Canada is cool">
+    <div class="lightbox-stage">
+      <div class="lightbox-tilt">
+        <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="A vintage-style Canadian postage stamp reading “Design is rad” and “Canada is cool” with a maple leaf: a beige retro computer glowing in a purple forest, its green screen showing C:\> DESIGN.EXE, STATUS: RAD, EH? OK! Along the bottom, “Edward A. Marroquin”, his signature and “94¢”.">
+        <span class="lightbox-glare" aria-hidden="true"></span>
+      </div>
+    </div>
+    <button class="lightbox-close" type="button" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    // Loading screen: shows for 2s from the start of loading (longer only if the
+    // page is still loading), then fades and blurs out, and then the page blurs in.
+    // Other scripts can wait for the "page:revealed" event.
+    (function () {
+      var root = document.documentElement;
+      var loader = document.querySelector(".loader");
+      var minTime = 2000;
+      var loaded = document.readyState === "complete";
+      var timeUp = false;
+
+      function reveal() {
+        if (!loaded || !timeUp) return;
+        root.classList.remove("is-loading");
+        root.classList.add("is-revealing");
+        document.dispatchEvent(new Event("page:revealed"));
+        setTimeout(function () {
+          root.classList.remove("is-revealing");
+          loader.remove();
+        }, 2500); // after the page, pills and menu have all come in
+      }
+
+      window.addEventListener("load", function () { loaded = true; reveal(); });
+      setTimeout(function () { timeUp = true; reveal(); },
+        Math.max(0, minTime - (performance.now() - (window.loadStart || 0))));
+    })();
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Gradient phrase: split into letters so they can move on hover.
+    // Letters near the cursor lift, grow and tilt away from it like a magnetic
+    // wave, then spring back when the cursor leaves.
+    (function () {
+      var phrase = document.querySelector(".gradient-text");
+      if (!phrase) return;
+      var text = phrase.textContent;
+      phrase.setAttribute("aria-label", text);
+      phrase.textContent = "";
+      var letters = [];
+      text.split("").forEach(function (ch) {
+        if (ch === " ") {
+          phrase.appendChild(document.createTextNode(" "));
+          return;
+        }
+        var span = document.createElement("span");
+        span.className = "letter";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = ch;
+        phrase.appendChild(span);
+        letters.push(span);
+      });
+
+      function measure() {
+        var box = phrase.getBoundingClientRect();
+        phrase.style.setProperty("--w", box.width + "px");
+        letters.forEach(function (l) {
+          l.style.setProperty("--x", (l.getBoundingClientRect().left - box.left) + "px");
+        });
+      }
+      phrase.classList.add("is-split");
+      measure();
+      document.fonts.ready.then(measure);
+      window.addEventListener("resize", measure);
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var reach = 70; // how far (px) from the cursor letters react
+
+      var introRunning = false;
+
+      // Bend the letters around a point x (in viewport pixels)
+      function wave(x) {
+        phrase.classList.add("is-hovering");
+        letters.forEach(function (l) {
+          var r = l.getBoundingClientRect();
+          var dx = r.left + r.width / 2 - x;
+          var pull = Math.max(0, 1 - Math.abs(dx) / reach);
+          pull = pull * pull;
+          l.style.transform =
+            "translateY(" + (-9 * pull).toFixed(2) + "px) " +
+            "scale(" + (1 + 0.14 * pull).toFixed(3) + ") " +
+            "rotate(" + (Math.sign(dx) * 7 * pull).toFixed(2) + "deg)";
+        });
+      }
+
+      function release() {
+        phrase.classList.remove("is-hovering");
+        letters.forEach(function (l) { l.style.transform = ""; });
+      }
+
+      phrase.addEventListener("pointermove", function (e) {
+        if (e.pointerType !== "mouse") return;
+        introRunning = false;
+        wave(e.clientX);
+      });
+
+      phrase.addEventListener("pointerleave", release);
+
+      // On page load, sweep the wave once across the phrase, left to right
+      function intro() {
+        var box = phrase.getBoundingClientRect();
+        var start = box.left - reach, end = box.right + reach;
+        var duration = 1800, t0 = null;
+        introRunning = true;
+        (function step(now) {
+          if (!introRunning) { waved(); return; }
+          if (t0 === null) t0 = now;
+          var t = Math.min(1, (now - t0) / duration);
+          var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // ease in-out
+          wave(start + (end - start) * eased);
+          if (t < 1) requestAnimationFrame(step);
+          else { introRunning = false; release(); waved(); }
+        })(performance.now());
+      }
+
+      // Lets the signature know the wave is over, so its shimmer follows it
+      var wavedSent = false;
+      function waved() {
+        if (wavedSent) return;
+        wavedSent = true;
+        document.dispatchEvent(new Event("headline:waved"));
+      }
+      // Starts once the loading screen has revealed the page
+      document.addEventListener("page:revealed", function () {
+        document.fonts.ready.then(function () { setTimeout(intro, 500); });
+      });
+    })();
+
+    // Signature: tilts gently in 3D toward the cursor on hover, and a shimmer of
+    // light passes over it once the headline's wave has played
+    (function () {
+      var sig = document.querySelector(".resume-signature");
+
+      document.addEventListener("headline:waved", function () {
+        sig.classList.add("is-shimmering");
+      });
+      sig.querySelector(".signature-shimmer").addEventListener("animationend", function () {
+        sig.classList.remove("is-shimmering");
+      });
+
+      var canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!canTilt) return;
+      var phone = window.matchMedia("(max-width: 720px)"); // no tilt at phone sizes
+
+      var maxTilt = 12; // degrees
+      // The box is measured when the cursor arrives, while the signature is flat,
+      // so the tilt doesn't change the measurement it's based on
+      var box = null;
+      var target = { x: 0.5, y: 0.5 }, current = { x: 0.5, y: 0.5 };
+      var frame = null;
+
+      function step() {
+        current.x += (target.x - current.x) * 0.12;
+        current.y += (target.y - current.y) * 0.12;
+        sig.style.setProperty("--sig-ry", ((current.x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
+        sig.style.setProperty("--sig-rx", ((0.5 - current.y) * 2 * maxTilt).toFixed(2) + "deg");
+        var settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
+        frame = settled ? null : requestAnimationFrame(step);
+      }
+
+      sig.addEventListener("pointerenter", function () {
+        if (!box || !frame) box = sig.getBoundingClientRect();
+      });
+      sig.addEventListener("pointermove", function (e) {
+        if (phone.matches) return;
+        if (!box) box = sig.getBoundingClientRect();
+        target.x = Math.min(1, Math.max(0, (e.clientX - box.left) / box.width));
+        target.y = Math.min(1, Math.max(0, (e.clientY - box.top) / box.height));
+        if (!frame) frame = requestAnimationFrame(step);
+      });
+      sig.addEventListener("pointerleave", function () {
+        target.x = target.y = 0.5; // eases back to flat
+        if (!frame) frame = requestAnimationFrame(step);
+      });
+    })();
+
+    // Company markers: each company's small logo shows under its big one once the
+    // header has scrolled up past the top blur, and hides again when the header
+    // comes back into view. It also steps aside while a role's years pass under
+    // it: hidden from a little before it would touch them until just after.
+    // (Checked on every scroll rather than with an IntersectionObserver, which
+    // misses big jumps that skip straight past the header.)
+    (function () {
+      var topBand = 112; // height of the top blur
+      var clearance = 16; // how close it can get to the years before hiding
+      var companies = [].slice.call(document.querySelectorAll(".company"));
+      var ticking = false;
+      function update() {
+        companies.forEach(function (company) {
+          var header = company.querySelector(".company-header");
+          company.classList.toggle("is-past-header", header.getBoundingClientRect().bottom < topBand);
+
+          var marker = company.querySelector(".company-marker").getBoundingClientRect();
+          var overYears = [].some.call(company.querySelectorAll(".role-years"), function (years) {
+            var y = years.getBoundingClientRect();
+            return y.bottom > marker.top - clearance && y.top < marker.bottom + clearance;
+          });
+          company.classList.toggle("is-over-years", overYears);
+        });
+        ticking = false;
+      }
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    })();
+
+    // Popovers: show on hover/focus of any [data-popover] element. Placed above the
+    // trigger with the tail pointing at it; flips below when there isn't room above,
+    // and stays inside the window horizontally.
+    (function () {
+      var gap = 12;         // space between the trigger and the tail's tip
+      var edge = 12;        // minimum space from the window's edges
+      var tailOffset = 61;  // tail's center from the popover's left edge (from the design)
+      var headerBottom = function () {
+        var h = document.querySelector(".site-header");
+        return h ? h.getBoundingClientRect().bottom : 0;
+      };
+
+      var phone = window.matchMedia("(max-width: 720px)");
+
+      document.querySelectorAll("[data-popover]").forEach(function (trigger) {
+        var pop = document.getElementById(trigger.getAttribute("data-popover"));
+        if (!pop) return;
+        var hideTimer = null;
+        var video = pop.querySelector("video");
+        var pauseTimer = null;
+
+        function place() {
+          var t = trigger.getBoundingClientRect();
+          var w = pop.offsetWidth, h = pop.offsetHeight;
+          var tailEl = pop.querySelector(".popover-tail");
+          var tail = tailEl ? tailEl.getBoundingClientRect().height : 0;
+          var centerX = t.left + t.width / 2;
+
+          // Above if it fits below the sticky header, otherwise below
+          var above = t.top - gap - tail - h >= headerBottom() + edge;
+          var top = above ? t.top - gap - tail - h : t.bottom + gap + tail;
+          pop.classList.toggle("is-below", !above);
+
+          // With a tail, it points at the trigger's center; without one, line up with its left edge
+          var left = tailEl ? centerX - tailOffset : t.left;
+          left = Math.max(edge, Math.min(left, window.innerWidth - w - edge));
+          pop.style.top = top + "px";
+          pop.style.left = left + "px";
+          pop.style.setProperty("--tail-x", Math.max(28, Math.min(centerX - left, w - 28)) + "px");
+        }
+
+        function show() {
+          // On phones the company names (links) just go to the company's site
+          if (trigger.matches("a") && phone.matches) return;
+          clearTimeout(hideTimer);
+          place();
+          if (video) {
+            clearTimeout(pauseTimer);
+            // Start from the beginning each time it opens fresh
+            if (!pop.classList.contains("is-open")) video.currentTime = 0;
+            var playing = video.play();
+            if (playing) playing.catch(function () {});
+          }
+          pop.classList.add("is-open");
+        }
+
+        function hide() {
+          hideTimer = setTimeout(function () {
+            pop.classList.remove("is-open");
+            // Pause once it has faded out
+            if (video) pauseTimer = setTimeout(function () { video.pause(); }, 250);
+          }, 120);
+        }
+
+        trigger.addEventListener("mouseenter", show);
+        trigger.addEventListener("mouseleave", hide);
+        trigger.addEventListener("focus", show);
+        trigger.addEventListener("blur", hide);
+        // Keep it open while the mouse moves onto the popover itself
+        pop.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+        pop.addEventListener("mouseleave", hide);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") pop.classList.remove("is-open");
+        });
+        window.addEventListener("scroll", function () {
+          if (pop.classList.contains("is-open")) place();
+        }, { passive: true });
+        window.addEventListener("resize", function () {
+          if (pop.classList.contains("is-open")) place();
+        });
+      });
+    })();
+
+    // Stamp lightbox: clicking the stamp (or the fold) opens it; clicking anywhere,
+    // the close button or Esc closes it. On hover the stamp tilts toward the cursor.
+    // The work stamps open in it too: it swaps in the clicked stamp's image, and
+    // goes back to the hidden stamp for the next time that one is opened.
+    (function () {
+      var box = document.getElementById("stamp-lightbox");
+      var tilt = box.querySelector(".lightbox-tilt");
+      var closeBtn = box.querySelector(".lightbox-close");
+      var img = tilt.querySelector("img");
+      var maxTilt = 14; // degrees
+      var lastFocus = null;
+      var hidden = {
+        src: img.getAttribute("src"), alt: img.alt, w: img.width, h: img.height,
+        label: box.getAttribute("aria-label")
+      };
+
+      // Shows a stamp in the lightbox; with no argument, the hidden stamp
+      function show(stamp) {
+        var s = stamp ? stamp.querySelector("img") : null;
+        var next = s ? {
+          src: s.currentSrc || s.src, alt: s.alt,
+          w: s.getAttribute("width"), h: s.getAttribute("height"),
+          label: stamp.getAttribute("aria-label").replace(/^Open the (.*) stamp$/, "Stamp: $1")
+        } : hidden;
+        img.src = next.src;
+        img.alt = next.alt;
+        img.width = next.w;
+        img.height = next.h;
+        box.setAttribute("aria-label", next.label);
+        var stage = box.querySelector(".lightbox-stage");
+        if (s) {
+          stage.style.setProperty("--stage-max", next.w + "px");
+          stage.style.setProperty("--stage-ratio", (next.w / next.h).toFixed(3));
+          tilt.style.setProperty("--stamp-mask", 'url("' + img.src + '")');
+        } else {
+          stage.style.removeProperty("--stage-max");
+          stage.style.removeProperty("--stage-ratio");
+          tilt.style.removeProperty("--stamp-mask");
+        }
+      }
+
+      function open(stamp) {
+        show(stamp);
+        lastFocus = document.activeElement;
+        box.classList.add("is-open");
+        closeBtn.focus({ preventScroll: true });
+      }
+
+      function close() {
+        if (!box.classList.contains("is-open")) return;
+        box.classList.remove("is-open");
+        resetTilt();
+        if (lastFocus) lastFocus.focus({ preventScroll: true });
+      }
+
+      function resetTilt() {
+        box.classList.remove("is-tilting");
+        tilt.style.setProperty("--rx", "0deg");
+        tilt.style.setProperty("--ry", "0deg");
+      }
+
+      document.querySelector(".stamp").addEventListener("click", function () { open(); });
+      document.querySelector(".fold-hotspot").addEventListener("click", function () { open(); });
+      document.querySelectorAll(".work-stamp").forEach(function (stamp) {
+        stamp.addEventListener("click", function () { open(stamp); });
+      });
+      box.addEventListener("click", close);
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") close();
+      });
+
+      // 3D tilt, only with a mouse and when motion is welcome
+      var canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!canTilt) return;
+      // The cursor is measured against the stage, which doesn't tilt: measuring
+      // the tilting stamp itself made it jitter at the edges. Each frame the tilt
+      // eases toward the cursor (no CSS transition to restart on every move).
+      var stage = box.querySelector(".lightbox-stage");
+      var target = { x: 0.5, y: 0.5 }, current = { x: 0.5, y: 0.5 };
+      var frame = null;
+
+      function step() {
+        current.x += (target.x - current.x) * 0.18;
+        current.y += (target.y - current.y) * 0.18;
+        tilt.style.setProperty("--ry", ((current.x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
+        tilt.style.setProperty("--rx", ((0.5 - current.y) * 2 * maxTilt).toFixed(2) + "deg");
+        tilt.style.setProperty("--gx", (current.x * 100).toFixed(1) + "%");
+        tilt.style.setProperty("--gy", (current.y * 100).toFixed(1) + "%");
+        var settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
+        frame = settled ? null : requestAnimationFrame(step);
+      }
+
+      stage.addEventListener("pointermove", function (e) {
+        var r = stage.getBoundingClientRect();
+        target.x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        target.y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        box.classList.add("is-tilting");
+        if (!frame) frame = requestAnimationFrame(step);
+      });
+
+      stage.addEventListener("pointerleave", function () {
+        if (frame) cancelAnimationFrame(frame);
+        frame = null;
+        target.x = target.y = current.x = current.y = 0.5;
+        resetTilt(); // springs back with the CSS transition
+      });
+    })();
+
+    // Work stamps: each tilts in 3D toward the cursor on hover, with a glare
+    // that follows it, the same way as the stamp in the lightbox. The glare is
+    // cut to the stamp's shape with its own image as the mask.
+    (function () {
+      var stamps = document.querySelectorAll(".work-stamp");
+      stamps.forEach(function (stamp) {
+        var img = stamp.querySelector("img");
+        stamp.querySelector(".work-stamp-tilt").style.setProperty("--stamp-mask", 'url("' + img.src + '")');
+      });
+
+      var canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!canTilt) return;
+      var maxTilt = 18; // degrees
+
+      stamps.forEach(function (stamp) {
+        var tilt = stamp.querySelector(".work-stamp-tilt");
+        var target = { x: 0.5, y: 0.5 }, current = { x: 0.5, y: 0.5 };
+        var frame = null;
+
+        function step() {
+          current.x += (target.x - current.x) * 0.18;
+          current.y += (target.y - current.y) * 0.18;
+          tilt.style.setProperty("--ry", ((current.x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
+          tilt.style.setProperty("--rx", ((0.5 - current.y) * 2 * maxTilt).toFixed(2) + "deg");
+          tilt.style.setProperty("--gx", (current.x * 100).toFixed(1) + "%");
+          tilt.style.setProperty("--gy", (current.y * 100).toFixed(1) + "%");
+          var settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
+          frame = settled ? null : requestAnimationFrame(step);
+        }
+
+        // Measured against the button, which doesn't tilt
+        stamp.addEventListener("pointermove", function (e) {
+          var r = stamp.getBoundingClientRect();
+          target.x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+          target.y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+          stamp.classList.add("is-tilting");
+          if (!frame) frame = requestAnimationFrame(step);
+        });
+
+        stamp.addEventListener("pointerleave", function () {
+          if (frame) cancelAnimationFrame(frame);
+          frame = null;
+          target.x = target.y = current.x = current.y = 0.5;
+          stamp.classList.remove("is-tilting");
+          tilt.style.setProperty("--rx", "0deg"); // springs back with the CSS transition
+          tilt.style.setProperty("--ry", "0deg");
+        });
+      });
+    })();
+
+    // Contents: marks the section being read. A section counts once its top
+    // passes 35% of the way down the window; at the very bottom of the page the
+    // last one is marked, since it may never get that far up.
+    (function () {
+      var links = [].slice.call(document.querySelectorAll(".page-toc a"));
+      var targets = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var line = window.innerHeight * 0.35;
+        var current = 0;
+        targets.forEach(function (t, i) {
+          if (t.getBoundingClientRect().top <= line) current = i;
+        });
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+          current = targets.length - 1;
+        }
+        links.forEach(function (a, i) {
+          a.classList.toggle("is-current", i === current);
+          if (i === current) a.setAttribute("aria-current", "location");
+          else a.removeAttribute("aria-current");
+        });
+      }
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    })();
+
+    // Reading progress: fills the line at the top as the page is scrolled.
+    // The stats pills get the same value so they lighten toward the bottom.
+    (function () {
+      var line = document.querySelector(".reading-progress");
+      var stats = document.querySelector(".page-stats");
+      var ticking = false;
+      function update() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        line.style.setProperty("--progress", progress.toFixed(4));
+        stats.style.setProperty("--progress", progress.toFixed(4));
+        ticking = false;
+      }
+      function request() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+      window.addEventListener("scroll", request, { passive: true });
+      window.addEventListener("resize", request);
+      update();
+    })();
+
+        // Page stats: read time, likes and views
+    (function () {
+      // Read time: words in the resume at ~200 words per minute
+      var words = document.querySelector(".resume").innerText.trim().split(/\s+/).length;
+      document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
+
+      // Shared counters (Abacus). Likes = "likes-up" minus "likes-down", since
+      // the service can only count up.
+      var api = "https://abacus.jasoncameron.dev";
+      var ns = "emarroquinlucha-github-io";
+      // Preview copies of the page (<html data-preview>, e.g. v2.html) show the
+      // live counts but don't add views or likes to them
+      var preview = document.documentElement.hasAttribute("data-preview");
+      function counter(action, key) {
+        return fetch(api + "/" + action + "/" + ns + "/" + key)
+          .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
+          .then(function (d) { return Math.max(0, d.value || 0); });
+      }
+      function store(key, value) {
+        try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) {}
+      }
+      function show(el, n) { el.textContent = n.toLocaleString(); }
+
+      // Views: counted once per browser, so refreshes don't inflate it
+      var viewsEl = document.getElementById("stat-views-count");
+      var seen = store("resume-viewed") === "1";
+      counter(seen || preview ? "get" : "hit", "resume-views")
+        .then(function (n) {
+          if (!seen && !preview) store("resume-viewed", "1");
+          show(viewsEl, n);
+          document.getElementById("stat-views").setAttribute("aria-label", n.toLocaleString() + " views");
+        })
+        .catch(function () { viewsEl.textContent = "–"; });
+
+      // Likes
+      var likeBtn = document.getElementById("stat-like");
+      var likeEl = document.getElementById("stat-like-count");
+      var liked = store("resume-liked") === "1";
+      var likes = 0;
+      function render() {
+        likeBtn.classList.toggle("is-liked", liked);
+        likeBtn.setAttribute("aria-pressed", liked ? "true" : "false");
+        show(likeEl, likes);
+      }
+      Promise.all([counter("get", "resume-likes-up"), counter("get", "resume-likes-down")])
+        .then(function (v) { likes = Math.max(0, v[0] - v[1]); render(); })
+        .catch(function () { likeEl.textContent = "–"; });
+      likeBtn.classList.toggle("is-liked", liked);
+
+      likeBtn.addEventListener("click", function () {
+        liked = !liked;
+        likes = Math.max(0, likes + (liked ? 1 : -1));
+        if (!preview) store("resume-liked", liked ? "1" : "0");
+        render();
+        // Restart the bounce (and the heart pop when liking)
+        likeBtn.classList.remove("is-bouncing", "is-popping");
+        void likeBtn.offsetWidth;
+        likeBtn.classList.add("is-bouncing");
+        if (liked) likeBtn.classList.add("is-popping");
+        if (!preview) counter("hit", liked ? "resume-likes-up" : "resume-likes-down").catch(function () {});
+      });
+      likeBtn.addEventListener("animationend", function (e) {
+        if (e.animationName === "pill-bounce") likeBtn.classList.remove("is-bouncing");
+        if (e.animationName === "heart-pop") likeBtn.classList.remove("is-popping");
+      });
+    })();
+
+        // Quick menu toggle (screens up to 1507px wide): opens and closes the menu,
+    // and closes it on Esc or a click anywhere else
+    (function () {
+      var dock = document.querySelector(".quick-dock");
+      var toggle = dock.querySelector(".quick-toggle");
+      function setOpen(open) {
+        dock.classList.toggle("menu-open", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      toggle.addEventListener("click", function () {
+        setOpen(!dock.classList.contains("menu-open"));
+      });
+      document.addEventListener("click", function (e) {
+        if (!dock.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") setOpen(false);
+      });
+    })();
+
+        // Top blur: fades in once the page is scrolled, so it's not there at the very top
+    (function () {
+      var blur = document.querySelector(".top-blur");
+      function update() { blur.classList.toggle("is-visible", window.scrollY > 8); }
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+    })();
+
+        // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
+    // Only reacts on the background, not over the resume card or the menu.
+    (function () {
+      var grid = document.querySelector(".dot-grid");
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
+      var drift = 0.02; // how far the grid follows the cursor (fraction of the distance from center)
+
+      document.addEventListener("pointermove", function (e) {
+        if (e.pointerType !== "mouse") return;
+        var overContent = e.target.closest(".resume, .site-header, .site-footer, .floating-dock, .quick-dock");
+        grid.classList.toggle("is-active", !overContent);
+        grid.style.setProperty("--x", e.clientX + "px");
+        grid.style.setProperty("--y", e.clientY + "px");
+        target.x = (e.clientX - window.innerWidth / 2) * drift;
+        target.y = (e.clientY - window.innerHeight / 2) * drift;
+        startFollowing();
+      });
+
+      document.documentElement.addEventListener("mouseleave", function () {
+        grid.classList.remove("is-active");
+      });
+
+      // Ease the grid toward the cursor; the loop stops once it has caught up,
+      // so the grid isn't redrawn on every frame while the mouse is still
+      var following = false;
+      function follow() {
+        current.x += (target.x - current.x) * 0.08;
+        current.y += (target.y - current.y) * 0.08;
+        grid.style.setProperty("--shift-x", current.x.toFixed(2) + "px");
+        grid.style.setProperty("--shift-y", current.y.toFixed(2) + "px");
+        if (Math.abs(target.x - current.x) > 0.05 || Math.abs(target.y - current.y) > 0.05) {
+          requestAnimationFrame(follow);
+        } else {
+          following = false;
+        }
+      }
+      function startFollowing() {
+        if (reduceMotion || following) return;
+        following = true;
+        requestAnimationFrame(follow);
+      }
+    })();
+  </script>
+</body>
+</html>

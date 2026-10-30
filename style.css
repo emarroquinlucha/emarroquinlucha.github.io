@@ -25,6 +25,24 @@
   --resume-body: #616165;
   --resume-label: #7a7a7f;
 
+  /* Type styles for the resume. Each one is a full font setting
+     (weight size/line-height family), used as  font: var(--type-…);
+     The phone sizes are set further down, at the end of the file. */
+  --type-display: 500 32px/normal var(--font-sans);       /* Headline */
+  --type-h1: 500 29px/normal var(--font-sans);            /* Your name */
+  --type-h2: 500 22px/normal var(--font-sans);            /* Company names */
+  --type-h3: 500 19px/normal var(--font-sans);            /* Role and work titles */
+  --type-body-strong: 500 16px/29px var(--font-sans);     /* Bullet titles */
+  --type-body: 400 16px/29px var(--font-sans);            /* Body text */
+  --type-body-small: 400 15px/25px var(--font-sans);      /* Popover text */
+  --type-ui: 500 15px/normal var(--font-sans);            /* Stats pills, Contact button */
+  --type-ui-small: 500 14px/normal var(--font-sans);      /* Action menu values */
+  --type-caption: 400 14px/1.65 var(--font-sans);         /* Copyright */
+  --type-label-l: 400 19px/normal var(--font-mono);       /* Job title */
+  --type-label-m: 400 16px/normal var(--font-mono);       /* Section labels, years */
+  --type-label-s: 400 14px/normal var(--font-mono);       /* Work numbers */
+  --type-label-xs: 400 12px/normal var(--font-mono);      /* Action menu labels, "Loading" */
+
   /* The site is light mode only */
   color-scheme: light;
 }
@@ -220,7 +238,8 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   .floating-dock,
-  .quick-dock {
+  .quick-dock,
+  .page-toc {
     animation-name: dock-fade-in;
     animation-timing-function: ease;
   }
@@ -229,6 +248,104 @@ h1, h2, h3 {
     from { opacity: 0; }
     to { opacity: 1; }
   }
+}
+
+/* ===== Contents (v2) =====
+   A quiet list to the left of the paper: a thin rounded line down its left side, the
+   section being read in dark text with a dark stretch of the line beside it,
+   the rest in grey. It sits centered in the gap left of the paper until it's
+   72px from it, like the menu on the right, and only shows from 1280px wide,
+   where it has room. --toc-width is the width of its longest item
+   ("Selected Impact"), used to work out the centering. */
+.page-toc {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .page-toc {
+    --toc-width: 126px;
+    position: fixed;
+    top: 140px;
+    right: calc(50% + 451px + min(72px, (50% - 451px - var(--toc-width)) / 2));
+    z-index: 5;
+    display: block;
+    width: max-content;
+    animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
+  }
+}
+
+.page-toc ul {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The track: a 2px line with rounded ends down the left side */
+.page-toc ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: rgba(12, 12, 13, 0.12);
+}
+
+.page-toc a {
+  position: relative;
+  display: block;
+  padding: 4px 0 4px 18px;
+  font: var(--type-ui-small);
+  color: var(--resume-label);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* The dark stretch of line beside the current item */
+.page-toc a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--resume-text);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.page-toc a:hover,
+.page-toc a.is-current {
+  color: var(--resume-text);
+}
+
+.page-toc a.is-current::before {
+  opacity: 1;
+}
+
+.page-toc a:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Jumping to a section: on top of the page's 80px scroll padding, a little
+   more room for the blur at the top. Intro goes back to the very top. */
+#selected-work,
+#case-studies,
+#experience,
+#expertise {
+  scroll-margin-top: 16px;
+}
+
+#intro {
+  scroll-margin-top: 12px;
 }
 
 /* 1508px and wider: the pills (left) and the open menu (right) are each
@@ -300,9 +417,7 @@ h1, h2, h3 {
     color-mix(in srgb, #fff calc(var(--progress, 0) * 85%), #dedee3) 85%, transparent);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  font: inherit;
-  font-size: 15px;
-  font-weight: 500;
+  font: var(--type-ui);
   color: var(--resume-text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -405,7 +520,6 @@ h1, h2, h3 {
   .stat-pill {
     height: 32px;
     padding: 0 11px;
-    font-size: 13px;
   }
 }
 
@@ -455,14 +569,12 @@ h1, h2, h3 {
 }
 
 .quick-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font: var(--type-label-xs);
   color: var(--resume-label);
 }
 
 .quick-value {
-  font-size: 14px;
-  font-weight: 500;
+  font: var(--type-ui-small);
   color: var(--resume-text);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -948,8 +1060,7 @@ h1, h2, h3 {
 
 .loader-text {
   margin: 14px 0 0;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font: var(--type-label-xs);
   letter-spacing: 0.02em;
   color: var(--resume-label);
 }
@@ -1081,8 +1192,11 @@ h1, h2, h3 {
   transition: opacity 0.3s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, visibility 0s;
 }
 
+/* --stage-max and --stage-ratio are changed by the script when a work stamp
+   (square, 640px) is shown instead of the hidden stamp; the height limit
+   keeps a square stamp inside short windows */
 .lightbox-stage {
-  width: min(760px, 100%);
+  width: min(var(--stage-max, 760px), 100%, calc((100dvh - 64px) * var(--stage-ratio, 1.19)));
   filter: blur(10px);
   opacity: 0;
   transform: translateY(24px) scale(0.94);
@@ -1140,8 +1254,8 @@ h1, h2, h3 {
   inset: 0;
   pointer-events: none;
   background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
-  -webkit-mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
-  mask: url("images/stamp.webp?v=2") center / 100% 100% no-repeat;
+  -webkit-mask: var(--stamp-mask, url("images/stamp.webp?v=2")) center / 100% 100% no-repeat;
+  mask: var(--stamp-mask, url("images/stamp.webp?v=2")) center / 100% 100% no-repeat;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -1326,8 +1440,7 @@ h1, h2, h3 {
 }
 
 .resume-name {
-  font-size: 29px;
-  font-weight: 500;
+  font: var(--type-h1);
   letter-spacing: normal;
   color: var(--resume-heading);
 }
@@ -1336,14 +1449,13 @@ h1, h2, h3 {
 .resume-label,
 .company-years,
 .role-years {
-  font-family: var(--font-mono);
-  font-weight: 400;
+  font: var(--type-label-m);
   color: var(--resume-label);
 }
 
 .resume-title {
   margin-top: 6px;
-  font-size: 19px;
+  font: var(--type-label-l);
 }
 
 .resume-statement {
@@ -1351,8 +1463,7 @@ h1, h2, h3 {
      left on a fourth), plus room for the hover letters, which lose a little kerning */
   max-width: 712px;
   margin-top: 93px;
-  font-size: 32px;
-  font-weight: 500;
+  font: var(--type-display);
 }
 
 .resume-statement .soft {
@@ -1459,20 +1570,234 @@ h1, h2, h3 {
   }
 }
 
-.resume-label {
-  font-size: 16px;
-}
-
 /* A short note under the headline, set like the labels */
 .resume-note {
   margin-top: 24px;
-  font-family: var(--font-mono);
-  font-size: 16px;
+  font: var(--type-label-m);
   color: var(--resume-label);
 }
 
-.resume-note + .resume-label {
+.resume-note + .resume-label,
+.resume-statement + .resume-label,
+.work-list + .resume-label,
+.case-list + .resume-label,
+.company + .resume-label {
   margin-top: 112px;
+}
+
+/* ===== Selected work (v2) =====
+   Short case-study blurbs: a numbered kicker in the label style, a title, and
+   a description, indented to line up with the company sections below */
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding-left: 18px;
+}
+
+/* Intro title (H2), then where the work was done, with the company's logo,
+   set like the company years */
+.work-intro {
+  margin-bottom: 8px; /* a little more room below than between the items */
+}
+
+.resume .work-intro-title {
+  font: var(--type-h2);
+  color: var(--resume-text);
+}
+
+.resume .work-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font: var(--type-label-m);
+  color: var(--resume-label);
+}
+
+.work-context .avatar {
+  --avatar-size: 24px;
+  margin-right: 2px;
+}
+
+/* Each item: a stamp in a column on the left, the text beside it. Items
+   without a stamp keep the column empty so all the text lines up. */
+.work-item {
+  display: grid;
+  /* 98 + 48 + 523 = 669px, so the text ends where the role text below ends */
+  grid-template-columns: 98px minmax(0, 523px);
+  column-gap: 48px;
+  align-items: start;
+}
+
+.work-text {
+  grid-column: 2;
+}
+
+/* The stamp: a button that opens it in the lightbox. On hover the inner
+   .work-stamp-tilt leans toward the cursor in 3D (--rx / --ry, set by the
+   script in v2.html) with a glare that follows it (--gx / --gy). The button
+   itself stays still, so the cursor is measured against something that
+   doesn't move. */
+.work-stamp {
+  grid-column: 1;
+  display: block;
+  width: 98px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.work-stamp:focus-visible {
+  outline: 2px solid var(--resume-label);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.work-stamp-tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  --lift: 1;
+  position: relative;
+  display: block;
+  /* Perspective lives in the transform itself, as on the lightbox stamp,
+     so Safari keeps the 3D */
+  transform: perspective(500px) rotateX(var(--rx)) rotateY(var(--ry));
+  scale: var(--lift);
+  transition: transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1), scale 0.4s ease;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* While the cursor is over it the script eases the tilt each frame,
+   so only the lift animates here */
+.work-stamp.is-tilting .work-stamp-tilt {
+  --lift: 1.08;
+  transition: scale 0.4s ease;
+}
+
+/* A thin white edge that follows the perforations (four 0.5px offsets),
+   then a soft shadow that deepens as the stamp lifts */
+.work-stamp img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0.5px 0 0 #fff)
+    drop-shadow(-0.5px 0 0 #fff)
+    drop-shadow(0 0.5px 0 #fff)
+    drop-shadow(0 -0.5px 0 #fff)
+    drop-shadow(0 2px 4px rgba(12, 12, 13, 0.08))
+    drop-shadow(0 10px 20px rgba(12, 12, 13, 0.1));
+  transition: filter 0.4s ease;
+}
+
+.work-stamp.is-tilting img {
+  filter:
+    drop-shadow(0.5px 0 0 #fff)
+    drop-shadow(-0.5px 0 0 #fff)
+    drop-shadow(0 0.5px 0 #fff)
+    drop-shadow(0 -0.5px 0 #fff)
+    drop-shadow(0 4px 8px rgba(12, 12, 13, 0.1))
+    drop-shadow(0 18px 28px rgba(12, 12, 13, 0.16));
+}
+
+/* Glare, cut to the stamp's shape: the script sets the mask to the stamp's
+   own image */
+.work-stamp-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
+  -webkit-mask: var(--stamp-mask, none) center / 100% 100% no-repeat;
+  mask: var(--stamp-mask, none) center / 100% 100% no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.work-stamp.is-tilting .work-stamp-glare {
+  opacity: 1;
+}
+
+/* The kicker ("Product Architecture") is the heading, at H3 like the
+   role titles below, and the title under it is set like the bullet titles */
+.resume .work-kicker {
+  font: var(--type-h3);
+  color: var(--resume-text);
+}
+
+/* 18px down to the bullet title (a little tighter than a role title and its
+   first bullet in Experience), then the description right under it */
+.resume .work-title {
+  margin-top: 18px;
+  font: var(--type-body-strong);
+  color: var(--resume-text);
+}
+
+
+.resume .work-desc {
+  margin-top: 0;
+  font: var(--type-body);
+  color: var(--resume-body);
+}
+
+/* ===== Selected case studies (v2) =====
+   Each case study: a cover image, its title set like the bullet titles with
+   the line about it right under it, then a small status
+   pill ("Coming soon") until it has a page to link to. Indented like the
+   selected work above. */
+.case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding-left: 18px;
+}
+
+/* The cover image: 385 × 289 (4:3) with rounded corners, the size of the
+   cover design. Until there is one, the placeholder is a soft tinted panel
+   with an image icon in the middle. */
+.case-image {
+  display: block;
+  width: 385px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.case-image-placeholder {
+  display: grid;
+  place-items: center;
+  background: rgba(12, 12, 13, 0.035);
+  border: 0.5px solid var(--resume-paper-border);
+  color: var(--resume-label);
+}
+
+.resume .case-title {
+  font: var(--type-body-strong);
+  color: var(--resume-text);
+}
+
+.resume .case-desc {
+  font: var(--type-body);
+  color: var(--resume-body);
+}
+
+.resume .case-status {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 10px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 999px;
+  font: var(--type-label-s);
+  color: var(--resume-label);
 }
 
 .resume-divider {
@@ -1488,6 +1813,11 @@ h1, h2, h3 {
 
 .company + .resume-divider + .expertise {
   margin-top: -3px;
+}
+
+/* Under the Expertise label (v2), a shorter gap down to the groups */
+.resume-label + .resume-divider:has(+ .expertise) {
+  margin-bottom: 40px;
 }
 
 .company {
@@ -1569,13 +1899,8 @@ h1, h2, h3 {
 }
 
 .company-name {
-  font-size: 22px;
-  font-weight: 500;
+  font: var(--type-h2);
   color: var(--resume-text);
-}
-
-.company-years {
-  font-size: 16px;
 }
 
 .roles {
@@ -1592,7 +1917,6 @@ h1, h2, h3 {
 }
 
 .role-years {
-  font-size: 16px;
   white-space: nowrap;
 }
 
@@ -1603,8 +1927,7 @@ h1, h2, h3 {
 }
 
 .role-title {
-  font-size: 19px;
-  font-weight: 500;
+  font: var(--type-h3);
   color: var(--resume-text);
 }
 
@@ -1614,8 +1937,7 @@ h1, h2, h3 {
   gap: 32px;
   margin: 0;
   padding: 0 0 0 24px;
-  font-size: 16px;
-  line-height: 29px;
+  font: var(--type-body);
   color: var(--resume-body);
 }
 
@@ -1625,7 +1947,7 @@ h1, h2, h3 {
 
 .highlights strong {
   display: block;
-  font-weight: 500;
+  font: var(--type-body-strong);
   color: var(--resume-text);
 }
 
@@ -1642,10 +1964,35 @@ h1, h2, h3 {
 }
 
 .expertise p {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 29px;
+  font: var(--type-body);
   color: #616165;
+}
+
+/* Expertise groups (v2): spaced like the Experience bullets, with each title
+   set like a bullet title and its skills right under it */
+.expertise-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.resume .expertise-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: var(--type-body-strong);
+  color: var(--resume-text);
+}
+
+/* The small line icon before each group title, in the label grey */
+.expertise-icon {
+  flex-shrink: 0;
+  color: var(--resume-label);
+}
+
+/* The skills line up under the title's text, past the icon (18px + 10px gap) */
+.expertise-group p {
+  padding-left: 28px;
 }
 
 /* ===== Avatar (from the "Neo Avatar" Figma component) =====
@@ -1860,8 +2207,7 @@ h1, h2, h3 {
 
 .popover p {
   margin: 0;
-  font-size: 15px;
-  line-height: 25px;
+  font: var(--type-body-small);
   color: var(--resume-body);
 }
 
@@ -1949,11 +2295,18 @@ h1, h2, h3 {
 
   .resume-statement {
     margin-top: 72px;
-    font-size: 32px;
   }
 
-  .resume-note + .resume-label {
+  .resume-note + .resume-label,
+  .resume-statement + .resume-label,
+  .work-list + .resume-label,
+  .case-list + .resume-label,
+  .company + .resume-label {
     margin-top: 80px;
+  }
+
+  .work-list {
+    padding-left: 0;
   }
 
   .company {
@@ -1995,10 +2348,6 @@ h1, h2, h3 {
     --fold-tip-y: 155.5px;
   }
 
-  .resume-name {
-    font-size: 28px;
-  }
-
   .resume-signature {
     width: 160px;
     margin-bottom: 6px;
@@ -2006,30 +2355,47 @@ h1, h2, h3 {
     transform: none; /* no 3D hover tilt on phones */
   }
 
-  .resume-title {
-    font-size: 18px;
-  }
-
-  .resume-label {
-    font-size: 16px;
-  }
-
   .resume-statement {
     margin-top: 48px;
-    font-size: 26px;
   }
 
   .resume-note {
     margin-top: 16px;
   }
 
-  .resume-note + .resume-label {
+  .resume-note + .resume-label,
+  .resume-statement + .resume-label,
+  .work-list + .resume-label,
+  .case-list + .resume-label,
+  .company + .resume-label {
     margin-top: 52px;
+  }
+
+  .work-list {
+    gap: 40px;
+  }
+
+  .work-item {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+  }
+
+  .work-text,
+  .work-stamp {
+    grid-column: 1;
+  }
+
+  .work-stamp {
+    width: 88px;
   }
 
   .resume-divider,
   .company + .resume-divider {
     margin: 32px 0 48px;
+  }
+
+  .resume-label + .resume-divider:has(+ .expertise) {
+    margin-bottom: 32px;
   }
 
   .company {
@@ -2040,10 +2406,6 @@ h1, h2, h3 {
     gap: 64px;
   }
 
-  .company-name {
-    font-size: 24px;
-  }
-
   .company .avatar {
     --avatar-size: 48px;
   }
@@ -2052,24 +2414,13 @@ h1, h2, h3 {
     gap: 14px;
   }
 
-  .role-title {
-    font-size: 21px;
-  }
-
-  .company-years,
-  .role-years {
-    font-size: 16px;
-  }
-
-  .highlights,
-  .expertise p {
-    font-size: 17px;
-    line-height: 30px;
-  }
-
   .highlights {
     gap: 28px;
     padding-left: 22px;
+  }
+
+  .expertise-groups {
+    gap: 28px;
   }
 
   .highlights .narrow {
@@ -2322,7 +2673,12 @@ h1, h2, h3 {
   padding-bottom: 48px;
   border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 14px;
+  font: var(--type-caption);
+}
+
+/* Resume page: the copyright uses the same grey as the labels */
+.page-resume .site-footer {
+  color: var(--resume-label);
 }
 
 /* ===== Phones & small screens ===== */
@@ -2364,5 +2720,20 @@ h1, h2, h3 {
   .about-grid,
   .contact-form {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Type styles on phones =====
+   The phone versions of the type styles defined at the top of the file */
+@media (max-width: 720px) {
+  :root {
+    --type-display: 500 26px/normal var(--font-sans);
+    --type-h1: 500 28px/normal var(--font-sans);
+    --type-h2: 500 24px/normal var(--font-sans);
+    --type-h3: 500 21px/normal var(--font-sans);
+    --type-body-strong: 500 17px/30px var(--font-sans);
+    --type-body: 400 17px/30px var(--font-sans);
+    --type-ui: 500 13px/normal var(--font-sans);
+    --type-label-l: 400 18px/normal var(--font-mono);
   }
 }

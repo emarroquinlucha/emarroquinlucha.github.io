@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=120">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=165">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -774,6 +774,9 @@
       // the service can only count up.
       var api = "https://abacus.jasoncameron.dev";
       var ns = "emarroquinlucha-github-io";
+      // Preview copies of the page (<html data-preview>, e.g. v2.html) show the
+      // live counts but don't add views or likes to them
+      var preview = document.documentElement.hasAttribute("data-preview");
       function counter(action, key) {
         return fetch(api + "/" + action + "/" + ns + "/" + key)
           .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
@@ -787,9 +790,9 @@
       // Views: counted once per browser, so refreshes don't inflate it
       var viewsEl = document.getElementById("stat-views-count");
       var seen = store("resume-viewed") === "1";
-      counter(seen ? "get" : "hit", "resume-views")
+      counter(seen || preview ? "get" : "hit", "resume-views")
         .then(function (n) {
-          if (!seen) store("resume-viewed", "1");
+          if (!seen && !preview) store("resume-viewed", "1");
           show(viewsEl, n);
           document.getElementById("stat-views").setAttribute("aria-label", n.toLocaleString() + " views");
         })
@@ -813,14 +816,14 @@
       likeBtn.addEventListener("click", function () {
         liked = !liked;
         likes = Math.max(0, likes + (liked ? 1 : -1));
-        store("resume-liked", liked ? "1" : "0");
+        if (!preview) store("resume-liked", liked ? "1" : "0");
         render();
         // Restart the bounce (and the heart pop when liking)
         likeBtn.classList.remove("is-bouncing", "is-popping");
         void likeBtn.offsetWidth;
         likeBtn.classList.add("is-bouncing");
         if (liked) likeBtn.classList.add("is-popping");
-        counter("hit", liked ? "resume-likes-up" : "resume-likes-down").catch(function () {});
+        if (!preview) counter("hit", liked ? "resume-likes-up" : "resume-likes-down").catch(function () {});
       });
       likeBtn.addEventListener("animationend", function (e) {
         if (e.animationName === "pill-bounce") likeBtn.classList.remove("is-bouncing");
