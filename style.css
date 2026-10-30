@@ -1251,12 +1251,18 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
+/* On hover the signature tilts toward the cursor (--sig-rx / --sig-ry, eased
+   by the script in index.html) */
 .resume-signature {
+  --sig-rx: 0deg;
+  --sig-ry: 0deg;
+  position: relative;
   display: grid;
   width: 366px;
   margin-bottom: 2px;
   /* Offset to sit over the name (exact centering would be -59px) */
   margin-left: -31px;
+  transform: perspective(600px) rotateX(var(--sig-rx)) rotateY(var(--sig-ry));
 }
 
 /* All copies sit on top of each other */
@@ -1289,6 +1295,34 @@ h1, h2, h3 {
   filter: blur(3px);
   -webkit-mask-image: linear-gradient(to bottom, transparent 83%, #000 100%);
   mask-image: linear-gradient(to bottom, transparent 83%, #000 100%);
+}
+
+/* Shimmer: a soft band of light, cut to the signature's strokes (and faded out
+   over the blurry lower half), that sweeps left to right once */
+.signature-shimmer {
+  grid-area: 1 / 1;
+  pointer-events: none;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 62%)
+    100% 0 / 300% 100% no-repeat;
+  -webkit-mask:
+    url("images/signature.svg?v=2") 0 0 / 100% 100% no-repeat,
+    linear-gradient(to bottom, #000 45%, transparent 80%);
+  -webkit-mask-composite: source-in;
+  mask:
+    url("images/signature.svg?v=2") 0 0 / 100% 100% no-repeat,
+    linear-gradient(to bottom, #000 45%, transparent 80%);
+  mask-composite: intersect;
+  opacity: 0;
+}
+
+.resume-signature.is-shimmering .signature-shimmer {
+  animation: signature-shimmer 1.4s ease-in-out;
+}
+
+@keyframes signature-shimmer {
+  0%   { opacity: 1; background-position: 100% 0; }
+  100% { opacity: 1; background-position: 0 0; }
 }
 
 .resume-name {
@@ -1908,6 +1942,7 @@ h1, h2, h3 {
     width: 160px;
     margin-bottom: 6px;
     margin-left: 0;
+    transform: none; /* no 3D hover tilt on phones */
   }
 
   .resume-title {

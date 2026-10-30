@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=111">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=113">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -69,6 +69,8 @@
           <img class="blur-1" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
           <img class="blur-2" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
           <img class="blur-3" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
+          <!-- A band of light that sweeps across the ink once the headline's wave has played -->
+          <span class="signature-shimmer" aria-hidden="true"></span>
         </div>
         <h1 class="resume-name">Edward A. Marroquin</h1>
         <p class="resume-title">Staff Product Designer</p>
@@ -467,18 +469,75 @@
         var duration = 1800, t0 = null;
         introRunning = true;
         (function step(now) {
-          if (!introRunning) return;
+          if (!introRunning) { waved(); return; }
           if (t0 === null) t0 = now;
           var t = Math.min(1, (now - t0) / duration);
           var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // ease in-out
           wave(start + (end - start) * eased);
           if (t < 1) requestAnimationFrame(step);
-          else { introRunning = false; release(); }
+          else { introRunning = false; release(); waved(); }
         })(performance.now());
+      }
+
+      // Lets the signature know the wave is over, so its shimmer follows it
+      var wavedSent = false;
+      function waved() {
+        if (wavedSent) return;
+        wavedSent = true;
+        document.dispatchEvent(new Event("headline:waved"));
       }
       // Starts once the loading screen has revealed the page
       document.addEventListener("page:revealed", function () {
         document.fonts.ready.then(function () { setTimeout(intro, 500); });
+      });
+    })();
+
+    // Signature: tilts gently in 3D toward the cursor on hover, and a shimmer of
+    // light passes over it once the headline's wave has played
+    (function () {
+      var sig = document.querySelector(".resume-signature");
+
+      document.addEventListener("headline:waved", function () {
+        sig.classList.add("is-shimmering");
+      });
+      sig.querySelector(".signature-shimmer").addEventListener("animationend", function () {
+        sig.classList.remove("is-shimmering");
+      });
+
+      var canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!canTilt) return;
+      var phone = window.matchMedia("(max-width: 720px)"); // no tilt at phone sizes
+
+      var maxTilt = 12; // degrees
+      // The box is measured when the cursor arrives, while the signature is flat,
+      // so the tilt doesn't change the measurement it's based on
+      var box = null;
+      var target = { x: 0.5, y: 0.5 }, current = { x: 0.5, y: 0.5 };
+      var frame = null;
+
+      function step() {
+        current.x += (target.x - current.x) * 0.12;
+        current.y += (target.y - current.y) * 0.12;
+        sig.style.setProperty("--sig-ry", ((current.x - 0.5) * 2 * maxTilt).toFixed(2) + "deg");
+        sig.style.setProperty("--sig-rx", ((0.5 - current.y) * 2 * maxTilt).toFixed(2) + "deg");
+        var settled = Math.abs(target.x - current.x) < 0.001 && Math.abs(target.y - current.y) < 0.001;
+        frame = settled ? null : requestAnimationFrame(step);
+      }
+
+      sig.addEventListener("pointerenter", function () {
+        if (!box || !frame) box = sig.getBoundingClientRect();
+      });
+      sig.addEventListener("pointermove", function (e) {
+        if (phone.matches) return;
+        if (!box) box = sig.getBoundingClientRect();
+        target.x = Math.min(1, Math.max(0, (e.clientX - box.left) / box.width));
+        target.y = Math.min(1, Math.max(0, (e.clientY - box.top) / box.height));
+        if (!frame) frame = requestAnimationFrame(step);
+      });
+      sig.addEventListener("pointerleave", function () {
+        target.x = target.y = 0.5; // eases back to flat
+        if (!frame) frame = requestAnimationFrame(step);
       });
     })();
 
