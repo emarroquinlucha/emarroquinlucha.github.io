@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=175">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=183">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -486,6 +486,11 @@
         <span class="lightbox-glare" aria-hidden="true"></span>
       </div>
     </div>
+    <!-- About me: shown under the hidden stamp only (not the work stamps) -->
+    <div class="lightbox-about">
+      <h2 class="lightbox-about-title">About Eddie <span class="nowrap">(That’s Me!)</span></h2>
+      <p>I work where structure meets feeling, the point where a system starts to feel like intuition. Good design is a kind of listening. The rest is just pixels.</p>
+    </div>
     <button class="lightbox-close" type="button" aria-label="Close">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -813,6 +818,7 @@
         img.width = next.w;
         img.height = next.h;
         box.setAttribute("aria-label", next.label);
+        box.classList.toggle("has-about", !s);
         var stage = box.querySelector(".lightbox-stage");
         if (s) {
           stage.style.setProperty("--stage-max", next.w + "px");

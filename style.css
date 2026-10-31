@@ -1266,6 +1266,67 @@ h1, h2, h3 {
   opacity: 1;
 }
 
+/* V2: under the hidden stamp, an About heading (h1 style) and paragraph, the
+   same width as the stamp. The stamp shrinks (520px at most) so both fit in
+   the window, and the text comes in just after it. */
+.lightbox-about {
+  display: none;
+}
+
+.lightbox.has-about {
+  --about-w: min(520px, 100%, calc((100dvh - 240px) * 1.19));
+  grid-template-columns: var(--about-w);
+  justify-content: center;
+  align-content: center;
+  row-gap: 40px;
+  overflow-y: auto;
+}
+
+.lightbox.has-about .lightbox-stage {
+  width: 100%;
+}
+
+.lightbox.has-about .lightbox-about {
+  display: block;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.2s ease, transform 0.3s ease;
+}
+
+.lightbox.has-about.is-open .lightbox-about {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.4s ease 0.15s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+}
+
+.lightbox-about-title {
+  margin: 0 0 12px;
+  font: var(--type-h1);
+  color: var(--resume-text);
+}
+
+/* Keeps "(That's Me!)" together when the heading wraps */
+.lightbox-about-title .nowrap {
+  white-space: nowrap;
+}
+
+.lightbox-about p {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--resume-body);
+}
+
+/* Phones: room at the top for the close button, a little less space under
+   the stamp, and more height kept for the longer wrapped text */
+@media (max-width: 720px) {
+  .lightbox.has-about {
+    --about-w: min(100%, 400px, calc((100dvh - 360px) * 1.19));
+    row-gap: 28px;
+    padding-top: 72px;
+  }
+}
+
 .lightbox-close {
   position: absolute;
   top: 20px;
@@ -1295,11 +1356,14 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .stamp,
   .lightbox-stage,
-  .lightbox.is-open .lightbox-stage {
+  .lightbox.is-open .lightbox-stage,
+  .lightbox.has-about .lightbox-about,
+  .lightbox.has-about.is-open .lightbox-about {
     transition: opacity 0.2s ease;
   }
 
-  .lightbox-stage {
+  .lightbox-stage,
+  .lightbox.has-about .lightbox-about {
     transform: none;
   }
 }
@@ -1611,7 +1675,7 @@ h1, h2, h3 {
 .work-list {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 44px;
   padding-left: 18px;
 }
 
@@ -1754,7 +1818,7 @@ h1, h2, h3 {
 /* 18px down to the bullet title (a little tighter than a role title and its
    first bullet in Experience), then the description right under it */
 .resume .work-title {
-  margin-top: 18px;
+  margin-top: 10px;
   font: var(--type-body-strong);
   color: var(--resume-text);
 }
@@ -2478,7 +2542,7 @@ h1, h2, h3 {
   }
 
   .work-list {
-    gap: 40px;
+    gap: 32px;
   }
 
   .work-item {
