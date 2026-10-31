@@ -1862,7 +1862,7 @@ h1, h2, h3 {
 }
 
 .resume .case-title {
-  font: var(--type-body-strong);
+  font: var(--type-h2);
   color: var(--resume-text);
 }
 
