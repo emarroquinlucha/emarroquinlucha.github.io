@@ -1501,6 +1501,13 @@ h1, h2, h3 {
   animation: gradient-cycle 7s linear infinite;
 }
 
+/* V2 preview: the same band, a little more saturated (letters inherit it) */
+.resume-statement-v2 .gradient-text {
+  --cycle: linear-gradient(90deg,
+    #f1842a 0%, #f3912d 10%, #f39980 24%, #ee7dc9 40%,
+    #aa8ce3 55%, #ee7dc9 70%, #f39980 84%, #f1842a 100%);
+}
+
 @keyframes gradient-cycle {
   from {
     background-position: 200% 0;
