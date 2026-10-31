@@ -1796,13 +1796,20 @@ h1, h2, h3 {
   color: var(--resume-label);
 }
 
-/* Cover video: the portrait phone recording sits centered in the 4:3 card,
-   on white to match the video's own background. The round button in the
-   corner pauses and resumes it. */
+/* Cover video: a tall card in the phone recording's own shape (468 × 904),
+   on the paper colour to match the video's background, so the phone fills it. It
+   sits on the left, in a 240px column. The round button in the corner pauses
+   and resumes it. */
+.case-item:has(.case-media) {
+  grid-template-columns: minmax(0, 240px) minmax(220px, 1fr);
+}
+
 .case-media {
+  order: -1;
   position: relative;
+  aspect-ratio: 468 / 904;
   overflow: hidden;
-  background: #fff;
+  background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
 }
 
@@ -2485,6 +2492,14 @@ h1, h2, h3 {
   .case-image {
     order: -1;
     max-width: 385px;
+  }
+
+  .case-item:has(.case-media) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-media {
+    max-width: 240px;
   }
 
   .company {
