@@ -47,6 +47,13 @@
   color-scheme: light;
 }
 
+/* V2 preview: body copy sits a little tighter (27px instead of 29px).
+   When V2 launches and data-preview is removed, move these into :root. */
+html[data-preview] {
+  --type-body-strong: 500 16px/27px var(--font-sans);
+  --type-body: 400 16px/27px var(--font-sans);
+}
+
 *,
 *::before,
 *::after {
@@ -1727,6 +1734,7 @@ h1, h2, h3 {
   grid-column: 1;
   display: block;
   width: 98px;
+  margin-top: 8px;
   padding: 0;
   border: 0;
   background: none;
@@ -2226,6 +2234,13 @@ h1, h2, h3 {
 .popover-trigger:focus-visible svg {
   color: var(--resume-text);
   transform: translateX(2px);
+}
+
+/* The launch icon on the company links (V2): nudges up and right on hover,
+   the way it opens out to the company's site */
+.popover-trigger:hover .popover-launch,
+.popover-trigger:focus-visible .popover-launch {
+  transform: translate(1px, -1px);
 }
 
 /* The eye beside the titles that open a video: darkens on hover, but stays put
@@ -2923,6 +2938,12 @@ h1, h2, h3 {
     --type-body: 400 17px/30px var(--font-sans);
     --type-ui: 500 13px/normal var(--font-sans);
     --type-label-l: 400 18px/normal var(--font-mono);
+  }
+
+  /* V2 preview's tighter body copy on phones (28px instead of 30px) */
+  html[data-preview] {
+    --type-body-strong: 500 17px/28px var(--font-sans);
+    --type-body: 400 17px/28px var(--font-sans);
   }
 }
 
