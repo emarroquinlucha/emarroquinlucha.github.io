@@ -1474,6 +1474,11 @@ h1, h2, h3 {
   font: var(--type-display);
 }
 
+/* V2 preview: the headline sits 8px closer to the name */
+.resume-statement-v2 {
+  margin-top: 85px;
+}
+
 .resume-statement .soft {
   color: var(--resume-body);
 }
@@ -2378,6 +2383,10 @@ h1, h2, h3 {
     margin-top: 72px;
   }
 
+  .resume-statement-v2 {
+    margin-top: 64px;
+  }
+
   .resume-note + .resume-label,
   .resume-statement + .resume-label,
   .work-list + .resume-label,
@@ -2443,6 +2452,10 @@ h1, h2, h3 {
 
   .resume-statement {
     margin-top: 48px;
+  }
+
+  .resume-statement-v2 {
+    margin-top: 40px;
   }
 
   .resume-note {
