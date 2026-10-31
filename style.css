@@ -1069,7 +1069,8 @@ h1, h2, h3 {
    animation yet, so theirs plays (from the start) once the page is revealed. */
 .is-loading .resume-wrap,
 .is-loading .floating-dock,
-.is-loading .quick-dock {
+.is-loading .quick-dock,
+.is-loading .page-toc {
   opacity: 0;
   animation: none;
 }
@@ -1081,7 +1082,8 @@ h1, h2, h3 {
   animation: page-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
 }
 
-.is-revealing .floating-dock {
+.is-revealing .floating-dock,
+.is-revealing .page-toc {
   animation-delay: 1s;
 }
 
@@ -1377,6 +1379,12 @@ h1, h2, h3 {
   /* Offset to sit over the name (exact centering would be -59px) */
   margin-left: -31px;
   transform: perspective(600px) rotateX(var(--sig-rx)) rotateY(var(--sig-ry));
+}
+
+/* V2: a little bigger (400px), and nudged 6px further right */
+.resume-signature-v2 {
+  width: 400px;
+  margin-left: -25px;
 }
 
 /* All copies sit on top of each other */
@@ -1747,8 +1755,8 @@ h1, h2, h3 {
 }
 
 /* ===== Selected case studies (v2) =====
-   Each case study: a cover image, its title set like the bullet titles with
-   the line about it right under it, then a small status
+   Each case study: its title set like the bullet titles with the line
+   about it right under it, then a small status
    pill ("Coming soon") until it has a page to link to. Indented like the
    selected work above. */
 .case-list {
@@ -1758,16 +1766,24 @@ h1, h2, h3 {
   padding-left: 18px;
 }
 
+/* Each case study: the text on the left, centered against the cover image
+   on the right. On narrow tablets the image shrinks so the text keeps at
+   least 220px; on phones the image goes on top (see the phone rules). */
+.case-item {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 385px);
+  column-gap: 48px;
+  align-items: center;
+}
+
 /* The cover image: 385 × 289 (4:3) with rounded corners, the size of the
    cover design. Until there is one, the placeholder is a soft tinted panel
    with an image icon in the middle. */
 .case-image {
   display: block;
-  width: 385px;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
-  margin-bottom: 20px;
   border-radius: 20px;
   object-fit: cover;
 }
@@ -1778,6 +1794,64 @@ h1, h2, h3 {
   background: rgba(12, 12, 13, 0.035);
   border: 0.5px solid var(--resume-paper-border);
   color: var(--resume-label);
+}
+
+/* Cover video: the portrait phone recording sits centered in the 4:3 card,
+   on white to match the video's own background. The round button in the
+   corner pauses and resumes it. */
+.case-media {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 0.5px solid var(--resume-paper-border);
+}
+
+.case-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.case-video-toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--resume-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.case-video-toggle:hover {
+  background: #fff;
+}
+
+.case-video-toggle:active {
+  transform: scale(0.94);
+}
+
+.case-video-toggle:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 2px;
+}
+
+.case-video-toggle .icon-play,
+.case-media.is-paused .case-video-toggle .icon-pause {
+  display: none;
+}
+
+.case-media.is-paused .case-video-toggle .icon-play {
+  display: block;
 }
 
 .resume .case-title {
@@ -2355,6 +2429,11 @@ h1, h2, h3 {
     transform: none; /* no 3D hover tilt on phones */
   }
 
+  .resume-signature-v2 {
+    width: 175px;
+    margin-left: 3px;
+  }
+
   .resume-statement {
     margin-top: 48px;
   }
@@ -2396,6 +2475,16 @@ h1, h2, h3 {
 
   .resume-label + .resume-divider:has(+ .expertise) {
     margin-bottom: 32px;
+  }
+
+  .case-item {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+  }
+
+  .case-image {
+    order: -1;
+    max-width: 385px;
   }
 
   .company {

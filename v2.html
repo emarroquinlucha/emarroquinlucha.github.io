@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=165">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=169">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -81,7 +81,7 @@
       <header class="resume-intro">
         <!-- Signature with a progressive blur: the same image stacked 4 times,
              each copy blurred more and shown only in its band of the lower half -->
-        <div class="resume-signature">
+        <div class="resume-signature resume-signature-v2">
           <img src="images/signature.svg?v=2" width="1394" height="762" alt="Edward Marroquin's signature">
           <img class="blur-1" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
           <img class="blur-2" src="images/signature.svg?v=2" width="1394" height="762" alt="" aria-hidden="true">
@@ -123,8 +123,8 @@
           </button>
           <div class="work-text">
             <p class="work-kicker">Product Architecture</p>
-            <h3 class="work-title">Building the foundations of a growing digital bank</h3>
-            <p class="work-desc">Led the redesign of Neo Financial's core account experiences, establishing a scalable information architecture across financial products, navigation, transactions, and emerging features.</p>
+            <h3 class="work-title">Building the foundations of a digital bank</h3>
+            <p class="work-desc">Redesigned core account experiences, establishing scalable structures for navigation, transactions, and emerging financial products.</p>
           </div>
         </article>
 
@@ -137,8 +137,8 @@
           </button>
           <div class="work-text">
             <p class="work-kicker">Design Systems</p>
-            <h3 class="work-title">Creating consistency across products and teams</h3>
-            <p class="work-desc">Led the evolution of shared design foundations, unifying patterns, strengthening design and engineering collaboration, and helping teams deliver more cohesive experiences at scale.</p>
+            <h3 class="work-title">Creating consistency across teams</h3>
+            <p class="work-desc">Unified design foundations, strengthened shared patterns, and improved collaboration between design and engineering.</p>
           </div>
         </article>
 
@@ -152,7 +152,7 @@
           <div class="work-text">
             <p class="work-kicker">Visual Direction</p>
             <h3 class="work-title">Shaping a cohesive product experience</h3>
-            <p class="work-desc">Helped evolve the visual direction of Neo's digital products, translating brand expression into thoughtful, consistent interfaces across the mobile app and broader product ecosystem.</p>
+            <p class="work-desc">Evolved Neo's visual direction, bringing greater consistency to the app's interface, iconography, and brand expression.</p>
           </div>
         </article>
       </div>
@@ -164,14 +164,20 @@
       <!-- Case studies: copy one <article class="case-item">...</article> to add another -->
       <div class="case-list">
         <article class="case-item">
-          <!-- Placeholder until the case study has a cover image: swap this div for
-               <img class="case-image" src="images/…" width="…" height="…" alt="…"> -->
-          <div class="case-image case-image-placeholder" aria-hidden="true">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.75"/><path d="M21 16l-5-5-9 9"/></svg>
+          <div class="case-text">
+            <h3 class="case-title">Accounts Architecture @ Neo</h3>
+            <p class="case-desc">Designing the foundations of a growing digital bank.</p>
+            <p class="case-status">Coming soon</p>
           </div>
-          <h3 class="case-title">Accounts Architecture @ Neo</h3>
-          <p class="case-desc">Designing the foundations of a growing digital bank.</p>
-          <p class="case-status">Coming soon</p>
+          <!-- Cover video: plays muted on a loop while on screen; the button
+               pauses and resumes it (see the case video script) -->
+          <div class="case-image case-media">
+            <video src="images/neo-accounts-showcase.mp4" poster="images/neo-accounts-showcase-poster.jpg" width="468" height="904" muted loop playsinline preload="metadata" aria-label="Neo accounts redesign: credit card, chequing and savings account screens"></video>
+            <button class="case-video-toggle" type="button" aria-label="Pause video">
+              <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
+              <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+            </button>
+          </div>
         </article>
       </div>
 
@@ -1126,6 +1132,51 @@
         following = true;
         requestAnimationFrame(follow);
       }
+    })();
+  </script>
+  <!-- Case study cover videos: play while on screen (unless the visitor asked
+       for reduced motion or pressed pause); the button toggles play/pause. -->
+  <script>
+    (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll(".case-media").forEach(function (media) {
+        var video = media.querySelector("video");
+        var toggle = media.querySelector(".case-video-toggle");
+        var wantsPlay = !reduce;
+        var visible = false;
+
+        function sync() {
+          if (wantsPlay && visible) {
+            var playing = video.play();
+            if (playing) playing.catch(function () {});
+          } else {
+            video.pause();
+          }
+        }
+
+        function label() {
+          var paused = !wantsPlay;
+          media.classList.toggle("is-paused", paused);
+          toggle.setAttribute("aria-label", paused ? "Play video" : "Pause video");
+        }
+
+        toggle.addEventListener("click", function () {
+          wantsPlay = !wantsPlay;
+          label();
+          sync();
+        });
+
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver(function (entries) {
+            visible = entries[0].isIntersecting;
+            sync();
+          }, { threshold: 0.25 }).observe(media);
+        } else {
+          visible = true;
+          sync();
+        }
+        label();
+      });
     })();
   </script>
 </body>
