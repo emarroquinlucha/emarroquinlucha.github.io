@@ -1077,9 +1077,16 @@ h1, h2, h3 {
 .is-loading .resume-wrap,
 .is-loading .floating-dock,
 .is-loading .quick-dock,
-.is-loading .page-toc {
+.is-loading .page-toc,
+.is-loading .reading-progress {
   opacity: 0;
   animation: none;
+}
+
+/* No scrolling until the page is revealed */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
 }
 
 /* Once the loader has faded out (0.5s), the resume comes into focus from a
@@ -1284,9 +1291,18 @@ h1, h2, h3 {
   --about-w: min(520px, 100%, calc((100dvh - 240px) * 1.19));
   grid-template-columns: var(--about-w);
   justify-content: center;
-  align-content: center;
+  /* safe: when the text is taller than the window it starts at the top and
+     scrolls, instead of being cut off above */
+  align-content: safe center;
   row-gap: 40px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* The page behind stays put while the lightbox is open */
+html:has(.lightbox.is-open),
+html:has(.lightbox.is-open) body {
+  overflow: hidden;
 }
 
 .lightbox.has-about .lightbox-stage {
@@ -1308,8 +1324,8 @@ h1, h2, h3 {
 }
 
 .lightbox-about-title {
-  margin: 0 0 12px;
-  font: var(--type-h1);
+  margin: 0 0 16px;
+  font: var(--type-h3);
   color: var(--resume-text);
 }
 
@@ -1322,6 +1338,60 @@ h1, h2, h3 {
   margin: 0;
   font: var(--type-body);
   color: var(--resume-body);
+}
+
+.lightbox-about p + p {
+  margin-top: 16px;
+}
+
+.lightbox-about-subtitle {
+  margin: 0 0 16px;
+  font: var(--type-h3);
+  color: var(--resume-text);
+}
+
+/* The line between the sections and before the sign-off */
+.lightbox-about-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 32px 0;
+}
+
+.lightbox-about p.lightbox-about-signoff {
+  font: var(--type-body-strong);
+  color: var(--resume-text);
+}
+
+/* Wide windows: the stamp (a bit smaller, 420px at most) on the left and
+   the About text beside it on the right, both centred in the window */
+@media (min-width: 900px) {
+  .lightbox.has-about {
+    --about-stamp-w: min(420px, calc((100dvh - 64px) * 1.19));
+    grid-template-columns: var(--about-stamp-w) minmax(0, 440px);
+    column-gap: 64px;
+    align-items: start;
+  }
+
+  /* Both sit 80px lower than centred (top: 80px on each) */
+  .lightbox.has-about .lightbox-stage,
+  .lightbox.has-about .lightbox-about {
+    position: relative;
+    top: 80px;
+  }
+
+  .lightbox.has-about .lightbox-stage {
+    margin-top: 20px;
+  }
+
+  /* When the text is taller than the window, it scrolls in its own column,
+     so the stamp and close button stay in place (80px less tall, for the
+     offset above, with 32px kept clear at the bottom) */
+  .lightbox.has-about .lightbox-about {
+    max-height: calc(100dvh - 176px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
 }
 
 /* Phones: room at the top for the close button, a little less space under

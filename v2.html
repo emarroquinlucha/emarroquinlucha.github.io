@@ -27,11 +27,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=194">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=203">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
     document.documentElement.classList.add("is-loading");
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.loadStart = performance.now();
   </script>
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
@@ -503,8 +504,15 @@
     </div>
     <!-- About me: shown under the hidden stamp only (not the work stamps) -->
     <div class="lightbox-about">
-      <h2 class="lightbox-about-title">About Eddie <span class="nowrap">(That’s Me!)</span></h2>
-      <p>I work where structure meets feeling, the point where a system starts to feel like intuition. Good design is a kind of listening. The rest is just pixels.</p>
+      <h2 class="lightbox-about-title">About me</h2>
+      <p>I was born in the coldest city on earth, Winnipeg, Manitoba! So I’d spend many winters inside watching movies and listening to music, drawing, photography, and eventually, trying to make websites.</p>
+      <p>I ended up going to school for graphic design, hoping that it could land me a job in the movie industry or something. But I found the love of making digital things move, and buttons flip on a mouse hover. I’ve been hooked with digital design ever since. (It’s also a lot easier than printing posters with ink, it never turns out right!)</p>
+      <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <h3 class="lightbox-about-subtitle">Designing</h3>
+      <p>I believe with making things simple, and using the established patterns around is to make things clearer to understand for people. It makes the design and building process smoother, practical and efficient.</p>
+      <p>But every so often, we have to design something no one has seen before, and that’s still a dragon worth chasing, baby!</p>
+      <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <p class="lightbox-about-signoff">Thanks for visiting, and in case I don’t see ya, good afternoon, good evening, and good night.</p>
     </div>
     <button class="lightbox-close" type="button" aria-label="Close">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
