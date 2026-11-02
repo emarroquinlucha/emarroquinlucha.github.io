@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=203">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=214">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -421,9 +421,9 @@
     <!-- Quick action menu (from the "Quick Action Menu" Figma component) -->
     <nav class="quick-menu" id="quick-menu" aria-label="Contact and resume">
       <a class="quick-item" href="https://www.linkedin.com/in/ed-marroquin" target="_blank" rel="noopener">
+        <img class="quick-avatar" src="images/linkedin-avatar.svg?v=2" width="32" height="32" alt="">
         <span class="quick-text">
-          <span class="quick-label">LinkedIn</span>
-          <span class="quick-value">Edward A. Marroquin</span>
+          <span class="quick-value">LinkedIn</span>
         </span>
         <span class="quick-icon" aria-hidden="true">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -434,14 +434,9 @@
 
       <!-- The resume PDF. To update it, replace Edward-Marroquin-Resume.pdf in the site folder -->
       <a class="quick-item" href="Edward-Marroquin-Resume.pdf" download>
+        <img class="quick-avatar" src="images/resume-avatar.svg?v=3" width="32" height="32" alt="">
         <span class="quick-text">
-          <span class="quick-label">Resume</span>
-          <span class="quick-value">Edward-Marroquin-Resume.pdf</span>
-        </span>
-        <span class="quick-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <span class="quick-value">Download Resume</span>
         </span>
       </a>
     </nav>
@@ -496,23 +491,28 @@
 
   <!-- ===== Stamp lightbox: the hidden stamp at full size ===== -->
   <div class="lightbox" id="stamp-lightbox" role="dialog" aria-modal="true" aria-label="Stamp: Design is rad, Canada is cool">
-    <div class="lightbox-stage">
-      <div class="lightbox-tilt">
-        <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="A vintage-style Canadian postage stamp reading “Design is rad” and “Canada is cool” with a maple leaf: a beige retro computer glowing in a purple forest, its green screen showing C:\> DESIGN.EXE, STATUS: RAD, EH? OK! Along the bottom, “Edward A. Marroquin”, his signature and “94¢”.">
-        <span class="lightbox-glare" aria-hidden="true"></span>
+    <!-- The stamp and About text; on wide windows this scrolls (see style.css) -->
+    <div class="lightbox-content">
+      <div class="lightbox-stage">
+        <div class="lightbox-tilt">
+          <img src="images/stamp.webp?v=2" width="1604" height="1344" alt="A vintage-style Canadian postage stamp reading “Design is rad” and “Canada is cool” with a maple leaf: a beige retro computer glowing in a purple forest, its green screen showing C:\> DESIGN.EXE, STATUS: RAD, EH? OK! Along the bottom, “Edward A. Marroquin”, his signature and “94¢”.">
+          <span class="lightbox-glare" aria-hidden="true"></span>
+        </div>
+        <!-- Shown under the hidden stamp only (the About page) -->
+        <p class="lightbox-caption">I hope no one on the internet steals my signature.</p>
       </div>
-    </div>
-    <!-- About me: shown under the hidden stamp only (not the work stamps) -->
-    <div class="lightbox-about">
-      <h2 class="lightbox-about-title">About me</h2>
-      <p>I was born in the coldest city on earth, Winnipeg, Manitoba! So I’d spend many winters inside watching movies and listening to music, drawing, photography, and eventually, trying to make websites.</p>
-      <p>I ended up going to school for graphic design, hoping that it could land me a job in the movie industry or something. But I found the love of making digital things move, and buttons flip on a mouse hover. I’ve been hooked with digital design ever since. (It’s also a lot easier than printing posters with ink, it never turns out right!)</p>
-      <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
-      <h3 class="lightbox-about-subtitle">Designing</h3>
-      <p>I believe with making things simple, and using the established patterns around is to make things clearer to understand for people. It makes the design and building process smoother, practical and efficient.</p>
-      <p>But every so often, we have to design something no one has seen before, and that’s still a dragon worth chasing, baby!</p>
-      <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
-      <p class="lightbox-about-signoff">Thanks for visiting, and in case I don’t see ya, good afternoon, good evening, and good night.</p>
+      <!-- About me: shown under the hidden stamp only (not the work stamps) -->
+      <div class="lightbox-about">
+        <h2 class="lightbox-about-title">About me</h2>
+        <p>I was born in Winnipeg, Manitoba, the coldest city on earth! I spent long winters indoors watching movies, listening to music, drawing, taking photos and, eventually, trying my hand at making websites.</p>
+        <p>I went to school for graphic design, hoping it might land me a job in the movie industry. Instead, I fell in love with making digital things move, like buttons that flip when you hover over them. I’ve been hooked on digital design ever since. (It’s also a lot easier than printing posters. Those never turn out right!)</p>
+        <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+        <h3 class="lightbox-about-subtitle">Designing</h3>
+        <p>I believe in keeping things simple and leaning on established patterns, so people can easily understand what’s in front of them. It also makes designing and building smoother, more practical and more efficient.</p>
+        <p>But every so often, we get to design something no one has seen before, and that’s still a dragon worth chasing, baby!</p>
+        <img class="lightbox-about-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+        <p class="lightbox-about-signoff">Thanks for visiting, and in case I don’t see ya: good afternoon, good evening, and good night.</p>
+      </div>
     </div>
     <button class="lightbox-close" type="button" aria-label="Close">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -880,6 +880,8 @@
         stamp.addEventListener("click", function () { open(stamp); });
       });
       box.addEventListener("click", close);
+      // Clicking the About text (to read or select it) leaves the lightbox open
+      box.querySelector(".lightbox-about").addEventListener("click", function (e) { e.stopPropagation(); });
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") close();
       });

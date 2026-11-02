@@ -32,8 +32,8 @@
   --type-h1: 500 29px/normal var(--font-sans);            /* Your name */
   --type-h2: 500 22px/normal var(--font-sans);            /* Company names */
   --type-h3: 500 19px/normal var(--font-sans);            /* Role and work titles */
-  --type-body-strong: 500 16px/29px var(--font-sans);     /* Bullet titles */
-  --type-body: 400 16px/29px var(--font-sans);            /* Body text */
+  --type-body-strong: 500 16px/27px var(--font-sans);     /* Bullet titles */
+  --type-body: 400 16px/27px var(--font-sans);            /* Body text */
   --type-body-small: 400 15px/25px var(--font-sans);      /* Popover text */
   --type-ui: 500 15px/normal var(--font-sans);            /* Stats pills, Contact button */
   --type-ui-small: 500 14px/normal var(--font-sans);      /* Action menu values */
@@ -45,13 +45,6 @@
 
   /* The site is light mode only */
   color-scheme: light;
-}
-
-/* V2 preview: body copy sits a little tighter (27px instead of 29px).
-   When V2 launches and data-preview is removed, move these into :root. */
-html[data-preview] {
-  --type-body-strong: 500 16px/27px var(--font-sans);
-  --type-body: 400 16px/27px var(--font-sans);
 }
 
 *,
@@ -601,6 +594,37 @@ h1, h2, h3 {
 .quick-icon svg {
   grid-area: 1 / 1;
   transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+/* V2: an app-style avatar at the start of each row, like the Tools &
+   Technology icons. With a single line of text, the icon centres on it. */
+.quick-avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-right: -4px; /* 12px to the text, not the row's 16px */
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(50, 50, 52, 0.14), 0 1px 2px rgba(50, 50, 52, 0.1);
+}
+
+.quick-item:has(.quick-avatar) .quick-icon {
+  align-self: center;
+}
+
+/* The menu as a small card of the resume's paper: its colour, its 6px
+   corners and its shadow, with the corners stepping down inside it
+   (rows 4px, avatars 4px) */
+.quick-menu:has(.quick-avatar) {
+  background: var(--resume-paper);
+  border-radius: 6px;
+  box-shadow:
+    0 10px 16px rgba(0, 0, 0, 0.05),
+    0 8px 10px rgba(12, 12, 13, 0.04),
+    90px 61px 40px rgba(0, 0, 0, 0.02);
+}
+
+.quick-item:has(.quick-avatar) {
+  border-radius: 4px;
 }
 
 /* Hover / keyboard focus: a soft background, and the icon darkens and nudges */
@@ -1355,7 +1379,20 @@ html:has(.lightbox.is-open) body {
   display: block;
   width: 100%;
   height: 1px;
-  margin: 32px 0;
+  margin: 40px 0;
+}
+
+/* A small note under the hidden stamp, on the About page only */
+.lightbox-caption {
+  display: none;
+  margin: 20px 0 0;
+  font: var(--type-caption);
+  color: var(--resume-label);
+  text-align: center;
+}
+
+.lightbox.has-about .lightbox-caption {
+  display: block;
 }
 
 .lightbox-about p.lightbox-about-signoff {
@@ -1363,34 +1400,53 @@ html:has(.lightbox.is-open) body {
   color: var(--resume-text);
 }
 
-/* Wide windows: the stamp (a bit smaller, 420px at most) on the left and
-   the About text beside it on the right, both centred in the window */
+/* The stamp and About text share a wrapper. It does nothing on its own
+   (display: contents), so a work stamp lays out as before. */
+.lightbox-content {
+  display: contents;
+}
+
+/* Wide windows: the stamp (420px at most) on the left and the About text on
+   the right, starting near the top. The wrapper fills the lightbox and
+   scrolls, so the whole page scrolls the text while the stamp stays put
+   (sticky) and the close button stays in its corner. */
 @media (min-width: 900px) {
   .lightbox.has-about {
-    --about-stamp-w: min(420px, calc((100dvh - 64px) * 1.19));
+    --about-stamp-w: min(420px, calc((100dvh - 140px) * 1.19));
+    overflow: hidden;
+  }
+
+  .lightbox.has-about .lightbox-content {
+    position: absolute;
+    inset: 0;
+    display: grid;
     grid-template-columns: var(--about-stamp-w) minmax(0, 440px);
-    column-gap: 64px;
+    justify-content: center;
     align-items: start;
+    column-gap: 64px;
+    padding: 88px 24px 64px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
-  /* Both sit 80px lower than centred (top: 80px on each) */
-  .lightbox.has-about .lightbox-stage,
-  .lightbox.has-about .lightbox-about {
-    position: relative;
-    top: 80px;
-  }
-
+  /* top is counted from inside the wrapper's 88px top padding, so 20px
+     holds the stamp exactly where it starts */
   .lightbox.has-about .lightbox-stage {
+    position: sticky;
+    top: 20px;
     margin-top: 20px;
   }
 
-  /* When the text is taller than the window, it scrolls in its own column,
-     so the stamp and close button stay in place (80px less tall, for the
-     offset above, with 32px kept clear at the bottom) */
+  /* The heading starts just below the top of the stamp */
   .lightbox.has-about .lightbox-about {
-    max-height: calc(100dvh - 176px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    margin-top: 32px;
+  }
+}
+
+/* Larger screens: more room between the stamp and the text */
+@media (min-width: 1200px) {
+  .lightbox.has-about .lightbox-content {
+    column-gap: 104px;
   }
 }
 
@@ -3004,16 +3060,10 @@ html:has(.lightbox.is-open) body {
     --type-h1: 500 28px/normal var(--font-sans);
     --type-h2: 500 24px/normal var(--font-sans);
     --type-h3: 500 21px/normal var(--font-sans);
-    --type-body-strong: 500 17px/30px var(--font-sans);
-    --type-body: 400 17px/30px var(--font-sans);
-    --type-ui: 500 13px/normal var(--font-sans);
-    --type-label-l: 400 18px/normal var(--font-mono);
-  }
-
-  /* V2 preview's tighter body copy on phones (28px instead of 30px) */
-  html[data-preview] {
     --type-body-strong: 500 17px/28px var(--font-sans);
     --type-body: 400 17px/28px var(--font-sans);
+    --type-ui: 500 13px/normal var(--font-sans);
+    --type-label-l: 400 18px/normal var(--font-mono);
   }
 }
 
