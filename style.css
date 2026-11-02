@@ -182,6 +182,11 @@ h1, h2, h3 {
   margin: 0;
 }
 
+/* Colophon: sits right above the copyright */
+.resume-footer .resume-colophon {
+  margin-bottom: 2px;
+}
+
 /* Keep the page content above the dot grid */
 .page-resume main,
 .page-resume .site-footer {
