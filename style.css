@@ -1858,7 +1858,7 @@ html:has(.lightbox.is-open) body {
 
 /* The stamp: a button that opens it in the lightbox. On hover the inner
    .work-stamp-tilt leans toward the cursor in 3D (--rx / --ry, set by the
-   script in v2.html) with a glare that follows it (--gx / --gy). The button
+   script in index.html) with a glare that follows it (--gx / --gy). The button
    itself stays still, so the cursor is measured against something that
    doesn't move. */
 .work-stamp {
