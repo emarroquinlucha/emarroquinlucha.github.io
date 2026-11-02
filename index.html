@@ -410,12 +410,12 @@
 
   <!-- ===== Quick action dock (bottom-right corner) =====
        The menu from the "Quick Action Menu" Figma component. On laptop-size screens
-       it collapses behind the "Contact" pill. -->
+       it collapses behind the "Connect" pill. -->
   <div class="quick-dock">
-    <!-- The menu and its Contact pill, kept together so the menu opens right above the pill -->
+    <!-- The menu and its Connect pill, kept together so the menu opens right above the pill -->
     <div class="quick-inner">
     <!-- Quick action menu (from the "Quick Action Menu" Figma component) -->
-    <nav class="quick-menu" id="quick-menu" aria-label="Contact and resume">
+    <nav class="quick-menu" id="quick-menu" aria-label="Connect and resume">
       <a class="quick-item" href="https://www.linkedin.com/in/ed-marroquin" target="_blank" rel="noopener">
         <img class="quick-avatar" src="images/linkedin-avatar.svg?v=2" width="32" height="32" alt="">
         <span class="quick-text">
@@ -429,10 +429,15 @@
       </a>
 
       <!-- The resume PDF. To update it, replace Edward-Marroquin-Resume.pdf in the site folder -->
-      <a class="quick-item" href="Edward-Marroquin-Resume.pdf" download>
+      <a class="quick-item" href="Edward-Marroquin-Resume.pdf?v=2" download="Edward-Marroquin-Resume.pdf">
         <img class="quick-avatar" src="images/resume-avatar.svg?v=3" width="32" height="32" alt="">
         <span class="quick-text">
-          <span class="quick-value">Download Resume</span>
+          <span class="quick-value">Resume</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </span>
       </a>
     </nav>
@@ -440,10 +445,10 @@
     <!-- Shown only on screens where the menu would cover the resume: opens the menu -->
     <button class="stat-pill quick-toggle" type="button" aria-expanded="false" aria-controls="quick-menu">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="currentColor" stroke-width="2"/>
-        <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="12" cy="8" r="3.75" stroke="currentColor" stroke-width="2"/>
+        <path d="M4.75 20c.6-3.6 3.6-6 7.25-6s6.65 2.4 7.25 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      Contact
+      Connect
     </button>
     </div>
   </div>
