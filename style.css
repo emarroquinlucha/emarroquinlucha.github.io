@@ -532,7 +532,7 @@ h1, h2, h3 {
 .quick-menu {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Room between rows, on top of the items' 8px hover padding */
+  gap: 8px; /* Room between rows, on top of the items' 8px hover padding */
   /* As wide as the longest row: its value, 16px of space, then the icon */
   width: max-content;
   padding: 16px 10px;
@@ -694,15 +694,15 @@ h1, h2, h3 {
   align-items: flex-end;
 }
 
-/* Screens up to 1507px: there isn't room for the open menu beside the resume,
-   so it collapses behind the "Contact" pill and opens above it,
+/* Screens up to 1380px: there isn't room for the open menu beside the resume,
+   so it collapses behind the "Connect" pill and opens above it,
    sliding up and un-blurring like the popovers.
    The pill follows the same rule as the wide-screen docks: centered in the gap
    between the resume and the window edge, but never more than 72px from the
    resume. The spacer on the edge side is at least 20px, and min-width keeps
    the dock at least as wide as the pill plus that spacer, so when the gap is
    too narrow the pill sits 20px from the window edge. */
-@media (max-width: 1507px) {
+@media (max-width: 1380px) {
   .quick-dock {
     right: 0;
     flex-direction: row;
@@ -763,7 +763,7 @@ h1, h2, h3 {
   }
 }
 
-@media (max-width: 1507px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 1380px) and (prefers-reduced-motion: reduce) {
   .quick-menu,
   .quick-dock.menu-open .quick-menu {
     transform: none;
