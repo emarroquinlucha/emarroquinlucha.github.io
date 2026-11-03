@@ -991,8 +991,10 @@ h1, h2, h3 {
 
 /* Hovering the corner lifts the fold: it peels back further, the crease starts
    farther left so the flap's left side grows longer than its bottom, and its
-   shadow drops lower and softer */
-.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) {
+   shadow drops lower and softer. On touch screens, where there's no hover, the
+   script adds .is-peeling to play the same thing before the stamp opens. */
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible),
+.resume-frame.is-peeling {
   --fold-top: 250px;
   --fold-side: 216.4px;
   --fold-tip-x: 35.9px;
@@ -1214,7 +1216,8 @@ html.is-loading body {
   filter: drop-shadow(0 1px 1.5px rgba(24, 24, 32, 0.18));
 }
 
-.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .stamp {
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .stamp,
+.resume-frame.is-peeling .stamp {
   transform: translate(calc(var(--fold-top) * -0.2), calc(var(--fold-top) * 0.2)) translateY(-100%) rotate(-12deg);
 }
 
@@ -1545,7 +1548,8 @@ html:has(.lightbox.is-open) body {
   transition: filter 0.5s ease;
 }
 
-.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .fold {
+.resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) .fold,
+.resume-frame.is-peeling .fold {
   filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
@@ -2753,7 +2757,8 @@ html:has(.lightbox.is-open) body {
     padding: 56px 24px 56px;
   }
 
-  .resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible) {
+  .resume-frame:has(.fold-hotspot:hover, .stamp:hover, .stamp:focus-visible),
+  .resume-frame.is-peeling {
     --fold-top: 157.2px;
     --fold-side: 136px;
     --fold-tip-x: 22.7px;

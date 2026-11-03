@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=228">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=229">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -915,9 +915,23 @@
         closeBtn.focus({ preventScroll: true });
       }
 
+      // The hidden stamp. Touch screens have no hover to reveal it, so a tap
+      // plays the fold's peel first, then opens it. The fold settles on close.
+      var frame = document.querySelector(".resume-frame");
+      var peelTime = 650; // ms, a little past the peel's 0.5s so it finishes
+      function openHidden() {
+        var noHover = window.matchMedia("(hover: none)").matches;
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!noHover || reduceMotion) { open(); return; }
+        if (frame.classList.contains("is-peeling")) return;
+        frame.classList.add("is-peeling");
+        setTimeout(open, peelTime);
+      }
+
       function close() {
         if (!box.classList.contains("is-open")) return;
         box.classList.remove("is-open");
+        frame.classList.remove("is-peeling");
         resetTilt();
         if (lastFocus) lastFocus.focus({ preventScroll: true });
       }
@@ -928,8 +942,8 @@
         tilt.style.setProperty("--ry", "0deg");
       }
 
-      document.querySelector(".stamp").addEventListener("click", function () { open(); });
-      document.querySelector(".fold-hotspot").addEventListener("click", function () { open(); });
+      document.querySelector(".stamp").addEventListener("click", openHidden);
+      document.querySelector(".fold-hotspot").addEventListener("click", openHidden);
       document.querySelectorAll(".work-stamp").forEach(function (stamp) {
         stamp.addEventListener("click", function () { open(stamp); });
       });
