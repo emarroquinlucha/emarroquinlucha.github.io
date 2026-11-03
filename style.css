@@ -606,6 +606,14 @@ h1, h2, h3 {
   white-space: nowrap;
 }
 
+/* The email address under "Email" keeps the menu inside small screens */
+.quick-text .quick-label {
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Sits at the bottom of the item, level with the value line */
 .quick-icon {
   display: grid;
@@ -671,6 +679,42 @@ h1, h2, h3 {
   transform: translateY(1px);
 }
 
+/* The email row: its three icons share one spot (.quick-icon is a grid) and
+   only the one for the current state shows. Copied is green, failed is red. */
+.quick-copy .quick-icon-done,
+.quick-copy .quick-icon-failed,
+.quick-copy.is-copied .quick-icon-copy,
+.quick-copy.is-failed .quick-icon-copy {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.quick-copy.is-copied .quick-icon-done,
+.quick-copy.is-failed .quick-icon-failed {
+  opacity: 1;
+  transform: none;
+}
+
+.quick-copy.is-copied .quick-icon,
+.quick-copy.is-copied .quick-value {
+  color: #1f7a4d;
+}
+
+.quick-copy.is-failed .quick-icon,
+.quick-copy.is-failed .quick-value {
+  color: #c0392b;
+}
+
+/* Read out by screen readers, not shown */
+.quick-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .quick-item:focus-visible {
   outline: 2px solid var(--resume-label);
   outline-offset: -2px;
@@ -714,7 +758,7 @@ h1, h2, h3 {
   align-items: flex-end;
 }
 
-/* Screens up to 1380px: there isn't room for the open menu beside the resume,
+/* Screens up to 1530px: there isn't room for the open menu beside the resume,
    so it collapses behind the "Connect" pill and opens above it,
    sliding up and un-blurring like the popovers.
    The pill follows the same rule as the wide-screen docks: centered in the gap
@@ -722,7 +766,7 @@ h1, h2, h3 {
    resume. The spacer on the edge side is at least 20px, and min-width keeps
    the dock at least as wide as the pill plus that spacer, so when the gap is
    too narrow the pill sits 20px from the window edge. */
-@media (max-width: 1380px) {
+@media (max-width: 1530px) {
   .quick-dock {
     right: 0;
     flex-direction: row;
@@ -783,7 +827,7 @@ h1, h2, h3 {
   }
 }
 
-@media (max-width: 1380px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 1530px) and (prefers-reduced-motion: reduce) {
   .quick-menu,
   .quick-dock.menu-open .quick-menu {
     transform: none;

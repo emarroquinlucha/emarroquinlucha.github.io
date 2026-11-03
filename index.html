@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=229">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=234">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -468,6 +468,30 @@
           </svg>
         </span>
       </a>
+
+      <!-- Email: copies the address. The script swaps "Email" and the icon for the
+           copied or failed state, then swaps them back. -->
+      <button class="quick-item quick-copy" type="button" data-copy="emarroquinlucha@gmail.com" aria-label="Copy email address, emarroquinlucha@gmail.com">
+        <img class="quick-avatar" src="images/email-avatar.svg" width="32" height="32" alt="">
+        <span class="quick-text">
+          <span class="quick-value">Email</span>
+          <span class="quick-label">emarroquinlucha@gmail.com</span>
+        </span>
+        <span class="quick-icon" aria-hidden="true">
+          <svg class="quick-icon-copy" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="quick-icon-done" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="quick-icon-failed" width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 7.5v5.5M12 16.5v.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="quick-status" role="status"></span>
+      </button>
 
       <!-- The resume PDF. To update it, replace Edward-Marroquin-Resume.pdf in the site folder -->
       <a class="quick-item" href="Edward-Marroquin-Resume.pdf?v=2" download="Edward-Marroquin-Resume.pdf">
@@ -917,21 +941,21 @@
 
       // The hidden stamp. Touch screens have no hover to reveal it, so a tap
       // plays the fold's peel first, then opens it. The fold settles on close.
-      var frame = document.querySelector(".resume-frame");
+      var resumeFrame = document.querySelector(".resume-frame");
       var peelTime = 650; // ms, a little past the peel's 0.5s so it finishes
       function openHidden() {
         var noHover = window.matchMedia("(hover: none)").matches;
         var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (!noHover || reduceMotion) { open(); return; }
-        if (frame.classList.contains("is-peeling")) return;
-        frame.classList.add("is-peeling");
+        if (resumeFrame.classList.contains("is-peeling")) return;
+        resumeFrame.classList.add("is-peeling");
         setTimeout(open, peelTime);
       }
 
       function close() {
         if (!box.classList.contains("is-open")) return;
         box.classList.remove("is-open");
-        frame.classList.remove("is-peeling");
+        resumeFrame.classList.remove("is-peeling");
         resetTilt();
         if (lastFocus) lastFocus.focus({ preventScroll: true });
       }
@@ -1240,7 +1264,56 @@
       });
     })();
 
-        // Quick menu toggle (screens up to 1380px wide): opens and closes the menu,
+        // Email row: copies the address, then shows "Copied" or "Couldn't copy" for a
+    // moment. Falls back to the older copy command where the clipboard API is
+    // unavailable or refuses.
+    (function () {
+      var row = document.querySelector(".quick-copy");
+      var value = row.querySelector(".quick-value");
+      var status = row.querySelector(".quick-status");
+      var restWord = value.textContent;
+      var timer = null;
+
+      function legacyCopy(text) {
+        var area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        var copied = false;
+        try { copied = document.execCommand("copy"); } catch (e) {}
+        area.remove();
+        row.focus({ preventScroll: true });
+        return copied;
+      }
+
+      function showResult(copied) {
+        clearTimeout(timer);
+        row.classList.toggle("is-copied", copied);
+        row.classList.toggle("is-failed", !copied);
+        value.textContent = copied ? "Copied" : "Couldn't copy";
+        status.textContent = copied ? "Email address copied" : "Couldn't copy the email address";
+        // The failed state stays longer, so there's time to read the address instead
+        timer = setTimeout(function () {
+          row.classList.remove("is-copied", "is-failed");
+          value.textContent = restWord;
+          status.textContent = "";
+        }, copied ? 2000 : 4000);
+      }
+
+      row.addEventListener("click", function () {
+        var text = row.getAttribute("data-copy");
+        if (!navigator.clipboard) { showResult(legacyCopy(text)); return; }
+        navigator.clipboard.writeText(text).then(
+          function () { showResult(true); },
+          function () { showResult(legacyCopy(text)); }
+        );
+      });
+    })();
+
+    // Quick menu toggle (screens up to 1530px wide): opens and closes the menu,
     // and closes it on Esc or a click anywhere else
     (function () {
       var dock = document.querySelector(".quick-dock");
