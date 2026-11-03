@@ -1909,6 +1909,12 @@ html:has(.lightbox.is-open) body {
   transition: scale 0.4s ease;
 }
 
+/* The one-time hint as the stamps scroll into view: the script leans each one
+   to its own angle; it lifts with the same spring as a hover, then settles */
+.work-stamp.is-hinting .work-stamp-tilt {
+  --lift: 1.08;
+}
+
 /* A thin white edge that follows the perforations (four 0.5px offsets),
    then a soft shadow that deepens as the stamp lifts */
 .work-stamp img {
@@ -1925,7 +1931,8 @@ html:has(.lightbox.is-open) body {
   transition: filter 0.4s ease;
 }
 
-.work-stamp.is-tilting img {
+.work-stamp.is-tilting img,
+.work-stamp.is-hinting img {
   filter:
     drop-shadow(0.5px 0 0 #fff)
     drop-shadow(-0.5px 0 0 #fff)
@@ -1948,7 +1955,8 @@ html:has(.lightbox.is-open) body {
   transition: opacity 0.4s ease;
 }
 
-.work-stamp.is-tilting .work-stamp-glare {
+.work-stamp.is-tilting .work-stamp-glare,
+.work-stamp.is-hinting .work-stamp-glare {
   opacity: 1;
 }
 
@@ -2318,6 +2326,35 @@ html:has(.lightbox.is-open) body {
   display: block;
   width: calc(var(--avatar-size) * 0.74);
   height: auto;
+}
+
+/* Company logos (Neo, Skip): a band of light sweeps across each one as it
+   scrolls into view (the script adds .is-sweeping) */
+.company-header .avatar {
+  position: relative;
+}
+
+.company-header .avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    rgba(255, 255, 255, 0) 18%,
+    rgba(255, 255, 255, 0.16) 40%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.16) 60%,
+    rgba(255, 255, 255, 0) 82%);
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.company-header .avatar.is-sweeping::after {
+  animation: avatar-sweep 1.1s cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+@keyframes avatar-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
 }
 
 /* Orange version (from the "Skip Avatar" Figma component) */

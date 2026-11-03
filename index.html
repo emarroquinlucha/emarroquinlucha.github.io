@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=219">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=222">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -1007,6 +1007,85 @@
           tilt.style.setProperty("--ry", "0deg");
         });
       });
+    })();
+
+    // Company logos: a light sweep across each one whenever it scrolls into view
+    (function () {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!("IntersectionObserver" in window)) return;
+      function sweep(avatar) {
+        // Wait for the loading screen to finish
+        if (document.documentElement.classList.contains("is-loading")) {
+          setTimeout(function () { sweep(avatar); }, 300);
+          return;
+        }
+        avatar.classList.remove("is-sweeping");
+        void avatar.offsetWidth; // restart the animation
+        avatar.classList.add("is-sweeping");
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) sweep(entry.target);
+        });
+      }, { rootMargin: "0px 0px -15% 0px", threshold: 1 });
+      document.querySelectorAll(".company-header .avatar").forEach(function (avatar) {
+        observer.observe(avatar);
+        avatar.addEventListener("animationend", function () { avatar.classList.remove("is-sweeping"); });
+      });
+    })();
+
+    // Work stamps: a one-time hint that they can be opened. As each stamp
+    // scrolls into view it lifts and leans to its own angle, one after another
+    // starting with the first, then springs back.
+    (function () {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!("IntersectionObserver" in window)) return;
+      var stamps = Array.prototype.slice.call(document.querySelectorAll(".work-stamp"));
+      var angles = [[8, -14], [-6, 14], [10, 10]]; // [rotateX, rotateY] in degrees, per stamp
+      var gap = 450;  // ms between one stamp starting and the next
+      var hold = 750; // ms each stamp stays leaned before springing back
+      var seen = stamps.map(function () { return false; });
+      var next = 0, busy = false;
+
+      function play() {
+        if (busy || next >= stamps.length || !seen[next]) return;
+        // Wait for the loading screen to finish
+        if (document.documentElement.classList.contains("is-loading")) {
+          setTimeout(play, 300);
+          return;
+        }
+        var stamp = stamps[next];
+        var tilt = stamp.querySelector(".work-stamp-tilt");
+        var a = angles[next % angles.length];
+        next++;
+        busy = true;
+        // Skip a stamp the cursor is already tilting
+        if (!stamp.classList.contains("is-tilting")) {
+          stamp.classList.add("is-hinting");
+          tilt.style.setProperty("--rx", a[0] + "deg");
+          tilt.style.setProperty("--ry", a[1] + "deg");
+          // Glare on the side that leans toward the viewer
+          tilt.style.setProperty("--gx", (50 + a[1] / 18 * 50) + "%");
+          tilt.style.setProperty("--gy", (50 - a[0] / 18 * 50) + "%");
+          setTimeout(function () {
+            stamp.classList.remove("is-hinting");
+            if (stamp.classList.contains("is-tilting")) return;
+            tilt.style.setProperty("--rx", "0deg"); // springs back with the CSS transition
+            tilt.style.setProperty("--ry", "0deg");
+          }, hold);
+        }
+        setTimeout(function () { busy = false; play(); }, gap);
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          seen[stamps.indexOf(entry.target)] = true;
+          observer.unobserve(entry.target);
+        });
+        play();
+      }, { rootMargin: "0px 0px -15% 0px", threshold: 1 });
+      stamps.forEach(function (stamp) { observer.observe(stamp); });
     })();
 
     // Contents: marks the section being read. A section counts once its top
