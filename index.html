@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=226">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=228">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -438,6 +438,17 @@
     </div>
   </div>
 
+  <!-- ===== Company pins (tablets and phones): the company being read, in the
+       same order as the companies on the page ===== -->
+  <div class="company-pin" aria-hidden="true">
+    <span class="avatar"><img src="images/neo-logo.svg" width="66" height="20" alt=""></span>
+    Neo Financial
+  </div>
+  <div class="company-pin" aria-hidden="true">
+    <span class="avatar avatar-skip"><img src="images/skip-logo.svg" width="95" height="40" alt=""></span>
+    SkipTheDishes
+  </div>
+
   <!-- ===== Quick action dock (bottom-right corner) =====
        The menu from the "Quick Action Menu" Figma component. On laptop-size screens
        it collapses behind the "Connect" pill. -->
@@ -741,11 +752,20 @@
       var topBand = 112; // height of the top blur
       var clearance = 16; // how close it can get to the years before hiding
       var companies = [].slice.call(document.querySelectorAll(".company"));
+      var pins = document.querySelectorAll(".company-pin");
+      var pinBottom = 48; // where the top-left pin ends (16px from the top + 32px tall)
       var ticking = false;
       function update() {
-        companies.forEach(function (company) {
+        companies.forEach(function (company, i) {
           var header = company.querySelector(".company-header");
           company.classList.toggle("is-past-header", header.getBoundingClientRect().bottom < topBand);
+
+          // The pin (tablets and phones) lasts until the company's content has
+          // moved up into the top third of the screen, when the next section has
+          // taken over. (The page's end can't scroll Skip any higher than that.)
+          pins[i].classList.toggle("is-visible",
+            header.getBoundingClientRect().bottom < pinBottom &&
+            company.getBoundingClientRect().bottom > window.innerHeight / 3);
 
           var marker = company.querySelector(".company-marker").getBoundingClientRect();
           var overYears = [].some.call(company.querySelectorAll(".role-years"), function (years) {

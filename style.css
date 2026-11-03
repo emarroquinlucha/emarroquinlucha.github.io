@@ -2205,6 +2205,44 @@ html:has(.lightbox.is-open) body {
   transform: none;
 }
 
+/* Tablets and phones: which company is being read, fixed at the top left of
+   the screen. Shown by the same script as the markers, from when the company's
+   header scrolls away until the company ends. */
+.company-pin {
+  position: fixed;
+  top: 16px;
+  left: 12px;
+  z-index: 6;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px 0 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #fff 85%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(12, 12, 13, 0.08);
+  font: var(--type-ui-small);
+  color: var(--resume-text);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-6px) scale(0.92);
+  transition: opacity 0.25s ease, filter 0.25s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.company-pin.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.company-pin .avatar {
+  --avatar-size: 20px;
+}
+
 .company-header {
   display: flex;
   flex-direction: column;
@@ -2682,9 +2720,14 @@ html:has(.lightbox.is-open) body {
     padding-left: 0;
   }
 
-  /* No pinned company logo on tablets and phones */
+  /* No pinned company logo on tablets and phones: a small pill with the logo
+     and name stays at the top left of the screen instead */
   .company-rail {
     display: none;
+  }
+
+  .company-pin {
+    display: inline-flex;
   }
 
   .role {
