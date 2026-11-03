@@ -532,7 +532,7 @@ h1, h2, h3 {
 .quick-menu {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 32px in the design, minus the items' 8px hover padding above and below */
+  gap: 10px; /* Room between rows, on top of the items' 8px hover padding */
   /* As wide as the longest row: its value, 16px of space, then the icon */
   width: max-content;
   padding: 16px 10px;
@@ -1726,6 +1726,11 @@ html:has(.lightbox.is-open) body {
 .gradient-text.is-split {
   background: none;
   animation: none;
+}
+
+/* Each word stays on one line, so the phrase wraps between words, never mid-word */
+.gradient-text .word {
+  white-space: nowrap;
 }
 
 .gradient-text .letter {
