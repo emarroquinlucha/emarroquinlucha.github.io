@@ -566,6 +566,12 @@ h1, h2, h3 {
   transition: background-color 0.2s ease;
 }
 
+/* The row is the only thing under the cursor, so moving across its text,
+   avatar or icon never re-triggers the hover */
+.quick-item > * {
+  pointer-events: none;
+}
+
 .quick-text {
   display: flex;
   flex-direction: column;
