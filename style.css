@@ -73,13 +73,17 @@ body {
    like the old "multiply" blend did, but without a blend mode, which made the
    browser re-blend the whole screen on every scroll frame.
    Adjust opacity for strength, and baseFrequency (in the SVG) for how fine the grain is. */
+:root {
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: var(--grain);
   background-size: 240px;
   opacity: 0.15;
 }
@@ -156,7 +160,8 @@ h1, h2, h3 {
 /* Gradient background used on resume.html */
 .page-resume {
   min-height: 100%;
-  background: linear-gradient(162deg, var(--resume-gradient-start) 0%, var(--resume-gradient-end) 101%);
+  /* Fixed to the window, so it doesn't change with how long a page is */
+  background: linear-gradient(162deg, var(--resume-gradient-start) 0%, var(--resume-gradient-end) 101%) fixed;
 }
 
 .page-resume body {
@@ -2385,6 +2390,10 @@ html:has(.lightbox.is-open) body {
   aspect-ratio: 16 / 10;
 }
 
+.case-page-section {
+  scroll-margin-top: 16px;
+}
+
 .case-page-section + .case-page-section {
   margin-top: 40px;
 }
@@ -2418,7 +2427,7 @@ html:has(.lightbox.is-open) body {
    each page uses, by adding one of these types:
    slide: the resume slides away, showing the case study underneath
    grow:  the preview card grows into the case study
-   stack: the case study slides up over the resume, which sinks back
+   stack: the resume blurs away and the case study slides in over it
    Each has -forward (to the case study) and -back (home). */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
@@ -2434,7 +2443,9 @@ html:has(.lightbox.is-open) body {
   view-transition-name: case-sheet;
 }
 
-/* The grain stays on top of everything, unmoved */
+/* The grain stays over everything, unmoved, while the sheets pass under it. The
+   layer draws the grain itself rather than showing a captured image of it, so it's
+   there from the first frame and lines up with the real grain. */
 body::after {
   view-transition-name: grain;
 }
@@ -2442,14 +2453,121 @@ body::after {
 ::view-transition-group(grain) {
   z-index: 10;
   animation: none;
+  background-image: var(--grain);
+  background-size: 240px;
+  opacity: 0.15;
 }
 
-::view-transition-old(grain) {
+::view-transition-old(grain),
+::view-transition-new(grain) {
   display: none;
 }
 
-::view-transition-new(grain) {
+/* Coming back to the resume, the pills and Connect menu stay put instead of playing
+   their entrance; the contents list does play its own */
+.is-returning .floating-dock,
+.is-returning .quick-dock {
   animation: none;
+}
+
+/* The progress bar and top blur stay above the moving sheets, already in place.
+   A snapshot can't blur what's behind it, so on the way home each of the blur's
+   four layers gets its own transition layer with the same blur and mask (see
+   "Top blur"). The names only exist on the way home (.is-page-transition), and
+   the blur's only when the resume is scrolled, which is when the blur shows
+   (.is-top-blurred): a named layer keeps blurring even when its parent is hidden,
+   and left on, the names stop the real layers from blurring the page behind them. */
+.is-page-transition .reading-progress {
+  view-transition-name: reading-progress;
+}
+
+.is-top-blurred .top-blur {
+  view-transition-name: top-blur;
+}
+
+.is-top-blurred .top-blur > div:nth-child(1) {
+  view-transition-name: top-blur-1;
+}
+
+.is-top-blurred .top-blur > div:nth-child(2) {
+  view-transition-name: top-blur-2;
+}
+
+.is-top-blurred .top-blur > div:nth-child(3) {
+  view-transition-name: top-blur-3;
+}
+
+.is-top-blurred .top-blur > div:nth-child(4) {
+  view-transition-name: top-blur-4;
+}
+
+.is-returning .top-blur {
+  transition: none;
+}
+
+::view-transition-group(top-blur-1),
+::view-transition-group(top-blur-2),
+::view-transition-group(top-blur-3),
+::view-transition-group(top-blur-4) {
+  z-index: 7;
+}
+
+::view-transition-group(top-blur) {
+  z-index: 8;
+}
+
+::view-transition-group(reading-progress) {
+  z-index: 9;
+}
+
+/* The progress bar and tint fade in slowly, since the top of the background gets
+   lighter with the tint; the blur layers fade in with them */
+::view-transition-new(reading-progress),
+::view-transition-new(top-blur) {
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+}
+
+::view-transition-new(top-blur-1),
+::view-transition-new(top-blur-2),
+::view-transition-new(top-blur-3),
+::view-transition-new(top-blur-4) {
+  animation: none;
+}
+
+html.is-top-blurred::view-transition-group(top-blur-1),
+html.is-top-blurred::view-transition-group(top-blur-2),
+html.is-top-blurred::view-transition-group(top-blur-3),
+html.is-top-blurred::view-transition-group(top-blur-4) {
+  animation: layer-in 0.5s ease both;
+}
+
+html.is-top-blurred::view-transition-group(top-blur-1) {
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+  mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+}
+
+html.is-top-blurred::view-transition-group(top-blur-2) {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to top, transparent 25%, #000 50%);
+  mask-image: linear-gradient(to top, transparent 25%, #000 50%);
+}
+
+html.is-top-blurred::view-transition-group(top-blur-3) {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to top, transparent 50%, #000 75%);
+  mask-image: linear-gradient(to top, transparent 50%, #000 75%);
+}
+
+html.is-top-blurred::view-transition-group(top-blur-4) {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to top, transparent 75%, #000 100%);
+  mask-image: linear-gradient(to top, transparent 75%, #000 100%);
 }
 
 ::view-transition-old(resume-sheet),
@@ -2457,9 +2575,22 @@ body::after {
   transform-origin: 50% var(--sheet-new-center);
 }
 
-::view-transition-old(root),
+/* The background: the new page fades in over the old one, which stays solid until
+   it's covered. (In a normal crossfade the old page fades out too, so the background
+   dims for a moment if the new page takes a few frames to draw.) */
+@keyframes layer-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
 ::view-transition-new(root) {
-  animation-duration: 0.4s;
+  animation: layer-in 0.4s ease both;
+  mix-blend-mode: normal;
 }
 
 /* A sheet's image only exists for the transition, so each keeps its own timing */
@@ -2475,8 +2606,8 @@ html:active-view-transition-type(slide-forward, slide-back, grow-forward, grow-b
 /* The way home plays the same keyframes in reverse, and reversing also flips
    the easing, so this mirrored curve keeps the landing soft */
 html:active-view-transition-type(slide-back)::view-transition-new(resume-sheet),
-html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transition-old(case-sheet),
-html:active-view-transition-type(stack-back, grow-back)::view-transition-new(resume-sheet) {
+html:active-view-transition-type(slide-back, grow-back)::view-transition-old(case-sheet),
+html:active-view-transition-type(grow-back)::view-transition-new(resume-sheet) {
   animation-timing-function: cubic-bezier(0.8, 0, 0.8, 0.2);
 }
 
@@ -2506,14 +2637,37 @@ html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transi
 
 @keyframes sheet-sink {
   to {
-    opacity: 0.55;
     transform: translateY(-4px) scale(0.94);
   }
 }
 
-@keyframes sheet-rise {
+/* Goes out of focus first, then fades into the background */
+@keyframes sheet-blur-out {
+  50% {
+    opacity: 1;
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(12px);
+  }
+}
+
+/* The resume arriving: it pops up from slightly smaller, with a small bounce,
+   from where it sank to */
+@keyframes sheet-pop-in {
   from {
-    transform: translateY(100vh);
+    opacity: 0;
+    transform: translateY(-4px) scale(0.94);
+  }
+}
+
+/* A case study arriving or leaving: a small slide and a fade */
+@keyframes sheet-slide {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
   }
 }
 
@@ -2562,27 +2716,37 @@ html:active-view-transition-type(slide-back)::view-transition-old(case-sheet) {
   animation-direction: reverse;
 }
 
-/* Stack: the case study comes up over the resume, and goes back down */
+/* Stack: the resume blurs away as the case study slides in over it, and the case
+   study slides out as the resume pops back */
 html:active-view-transition-type(stack-forward, stack-back, grow-forward, grow-back)::view-transition-group(case-sheet) {
   z-index: 3;
 }
 
 html:active-view-transition-type(stack-forward)::view-transition-old(resume-sheet) {
-  animation-name: sheet-sink;
+  animation-name: sheet-sink, sheet-blur-out;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), linear;
+}
+
+/* On the way home the case study slides back out, starting right away (played in
+   reverse, this curve speeds up), then the resume pops back in */
+html:active-view-transition-type(stack-back)::view-transition-old(case-sheet) {
+  animation-name: sheet-slide;
+  animation-duration: 0.3s;
+  animation-direction: reverse;
+  animation-timing-function: cubic-bezier(0, 0, 0.6, 1);
+}
+
+html:active-view-transition-type(stack-forward)::view-transition-new(case-sheet),
+html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
+  animation-name: sheet-pop-in;
+  animation-duration: 0.4s;
+  animation-delay: 0.28s;
+  animation-timing-function: cubic-bezier(0.34, 1.35, 0.64, 1);
 }
 
 html:active-view-transition-type(stack-forward)::view-transition-new(case-sheet) {
-  animation-name: sheet-rise;
-}
-
-html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
-  animation-name: sheet-sink;
-  animation-direction: reverse;
-}
-
-html:active-view-transition-type(stack-back)::view-transition-old(case-sheet) {
-  animation-name: sheet-rise;
-  animation-direction: reverse;
+  animation-name: sheet-slide;
 }
 
 /* Grow: the card's cover moves into place as the hero, and the sheet opens out

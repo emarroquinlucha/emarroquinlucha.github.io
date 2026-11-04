@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=247">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=278">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -63,12 +63,12 @@
         returning = sessionStorage.getItem("from-case-study") === "1";
         sessionStorage.removeItem("from-case-study");
       } catch (e) {}
-      if (!returning) document.documentElement.classList.add("is-loading");
+      document.documentElement.classList.add(returning ? "is-returning" : "is-loading");
     })();
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.loadStart = performance.now();
   </script>
-  <script src="page-transitions.js?v=1"></script>
+  <script src="page-transitions.js?v=11"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
@@ -254,7 +254,7 @@
           <div class="case-text">
             <h3 class="case-title">Make the Logo Bigger @ Every Company</h3>
             <p class="case-desc">A decade-long study of one request. Results are still coming in.</p>
-            <p class="case-status"><span aria-hidden="true">🚧</span> Coming soon</p>
+            <a class="glass-button" href="make-the-logo-bigger.html">View project</a>
           </div>
         </article>
       </div>
@@ -640,10 +640,9 @@
       var loaded = document.readyState === "complete";
       var timeUp = false;
 
-      // Back from a case study: no loading screen, and the page opens where it was left
+      // Back from a case study: no loading screen or intro, and the page opens where it was left
       if (!root.classList.contains("is-loading")) {
         loader.remove();
-        setTimeout(function () { document.dispatchEvent(new Event("page:revealed")); });
         return;
       }
 
@@ -1195,35 +1194,6 @@
       stamps.forEach(function (stamp) { observer.observe(stamp); });
     })();
 
-    // Contents: marks the section being read. A section counts once its top
-    // passes 35% of the way down the window; at the very bottom of the page the
-    // last one is marked, since it may never get that far up.
-    (function () {
-      var links = [].slice.call(document.querySelectorAll(".page-toc a"));
-      var targets = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
-      var ticking = false;
-      function update() {
-        ticking = false;
-        var line = window.innerHeight * 0.35;
-        var current = 0;
-        targets.forEach(function (t, i) {
-          if (t.getBoundingClientRect().top <= line) current = i;
-        });
-        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-          current = targets.length - 1;
-        }
-        links.forEach(function (a, i) {
-          a.classList.toggle("is-current", i === current);
-          if (i === current) a.setAttribute("aria-current", "location");
-          else a.removeAttribute("aria-current");
-        });
-      }
-      window.addEventListener("scroll", function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      }, { passive: true });
-      window.addEventListener("resize", update);
-      update();
-    })();
 
     // Reading progress: fills the line at the top as the page is scrolled.
     // The stats pills get the same value so they lighten toward the bottom.
@@ -1382,74 +1352,42 @@
       });
     })();
 
-        // Top blur: fades in once the page is scrolled, so it's not there at the very top
-    (function () {
-      var blur = document.querySelector(".top-blur");
-      function update() { blur.classList.toggle("is-visible", window.scrollY > 8); }
-      window.addEventListener("scroll", update, { passive: true });
-      update();
-    })();
 
-        // Dot grid: darker dots glow around the mouse, and the grid drifts slightly toward it.
-    // Only reacts on the background, not over the resume card or the menu.
-    (function () {
-      var grid = document.querySelector(".dot-grid");
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
-      var drift = 0.02; // how far the grid follows the cursor (fraction of the distance from center)
-
-      document.addEventListener("pointermove", function (e) {
-        if (e.pointerType !== "mouse") return;
-        var overContent = e.target.closest(".resume, .site-header, .site-footer, .floating-dock, .quick-dock");
-        grid.classList.toggle("is-active", !overContent);
-        grid.style.setProperty("--x", e.clientX + "px");
-        grid.style.setProperty("--y", e.clientY + "px");
-        target.x = (e.clientX - window.innerWidth / 2) * drift;
-        target.y = (e.clientY - window.innerHeight / 2) * drift;
-        startFollowing();
-      });
-
-      document.documentElement.addEventListener("mouseleave", function () {
-        grid.classList.remove("is-active");
-      });
-
-      // Ease the grid toward the cursor; the loop stops once it has caught up,
-      // so the grid isn't redrawn on every frame while the mouse is still
-      var following = false;
-      function follow() {
-        current.x += (target.x - current.x) * 0.08;
-        current.y += (target.y - current.y) * 0.08;
-        grid.style.setProperty("--shift-x", current.x.toFixed(2) + "px");
-        grid.style.setProperty("--shift-y", current.y.toFixed(2) + "px");
-        if (Math.abs(target.x - current.x) > 0.05 || Math.abs(target.y - current.y) > 0.05) {
-          requestAnimationFrame(follow);
-        } else {
-          following = false;
-        }
-      }
-      function startFollowing() {
-        if (reduceMotion || following) return;
-        following = true;
-        requestAnimationFrame(follow);
-      }
-    })();
   </script>
   <!-- Case study cover videos and the glass button -->
   <script src="case-video.js?v=1"></script>
 
   <script src="glass-button.js?v=1"></script>
+  <script src="dot-grid.js?v=1"></script>
+  <script src="top-blur.js?v=1"></script>
+  <script src="page-toc.js?v=1"></script>
 
-  <!-- Remember the scroll position for coming back from a case study -->
+  <!-- Remember the scroll position and counts for coming back from a case study -->
   <script>
     (function () {
+      var views = document.getElementById("stat-views-count");
+      var likes = document.getElementById("stat-like-count");
       window.addEventListener("pagehide", function () {
-        try { sessionStorage.setItem("resume-scroll", window.scrollY); } catch (e) {}
+        try {
+          sessionStorage.setItem("resume-scroll", window.scrollY);
+          sessionStorage.setItem("resume-counts", JSON.stringify([views.textContent, likes.textContent]));
+        } catch (e) {}
       });
+      // Coming back: show the last counts right away, until the fresh ones arrive
+      if (document.documentElement.classList.contains("is-returning")) {
+        try {
+          var counts = JSON.parse(sessionStorage.getItem("resume-counts"));
+          if (counts) { views.textContent = counts[0]; likes.textContent = counts[1]; }
+        } catch (e) {}
+      }
       var nav = performance.getEntriesByType("navigation")[0];
       if (!nav || nav.type !== "back_forward") return;
       var y = null;
       try { y = sessionStorage.getItem("resume-scroll"); } catch (e) {}
-      if (y !== null) window.scrollTo({ top: Number(y), behavior: "instant" });
+      if (y !== null) {
+        window.scrollTo({ top: Number(y), behavior: "instant" });
+        document.querySelector(".top-blur").classList.toggle("is-visible", window.scrollY > 8);
+      }
     })();
   </script>
   <div id="page-end"></div>

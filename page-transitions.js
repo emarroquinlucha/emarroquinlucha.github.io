@@ -4,9 +4,10 @@
 // "Page transitions" in style.css. Load this in the <head> of every page.
 (function () {
   var transitions = {
-    "accounts-architecture.html": "slide",
-    "final-final-v7.html": "grow",
-    "quick-question.html": "stack"
+    "accounts-architecture.html": "stack",
+    "final-final-v7.html": "stack",
+    "quick-question.html": "stack",
+    "make-the-logo-bigger.html": "stack"
   };
 
   function pageName(url) {
@@ -95,7 +96,14 @@
     }
 
     e.viewTransition.types.add(type);
-    e.viewTransition.finished.then(clearCovers);
+    if (!transitions[to]) {
+      root.classList.add("is-page-transition");
+      root.classList.toggle("is-top-blurred", window.scrollY > 8);
+    }
+    e.viewTransition.finished.then(function () {
+      clearCovers();
+      root.classList.remove("is-page-transition", "is-top-blurred");
+    });
   });
 
   // Coming home: go back through history when that's where the visitor came
