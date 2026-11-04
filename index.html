@@ -52,14 +52,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=234">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=247">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
-    document.documentElement.classList.add("is-loading");
+    (function () {
+      // Coming back from a case study skips the loading screen
+      var returning = false;
+      try {
+        returning = sessionStorage.getItem("from-case-study") === "1";
+        sessionStorage.removeItem("from-case-study");
+      } catch (e) {}
+      if (!returning) document.documentElement.classList.add("is-loading");
+    })();
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.loadStart = performance.now();
   </script>
+  <script src="page-transitions.js?v=1"></script>
+  <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
+  <link rel="expect" href="#page-end" blocking="render">
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
 </head>
 <body>
@@ -200,11 +211,6 @@
       <!-- Case studies: copy one <article class="case-item">...</article> to add another -->
       <div class="case-list">
         <article class="case-item">
-          <div class="case-text">
-            <h3 class="case-title">Accounts Architecture @ Neo</h3>
-            <p class="case-desc">Designing the foundations of a growing digital bank.</p>
-            <p class="case-status"><span aria-hidden="true">🚧</span> Coming soon</p>
-          </div>
           <!-- Cover video: plays muted on a loop while on screen; the button
                pauses and resumes it (see the case video script) -->
           <div class="case-image case-media">
@@ -213,6 +219,42 @@
               <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
               <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
             </button>
+          </div>
+          <div class="case-text">
+            <h3 class="case-title">Accounts Architecture @ Neo</h3>
+            <p class="case-desc">Designing the foundations of a growing digital bank.</p>
+            <a class="glass-button" href="accounts-architecture.html">View project</a>
+          </div>
+        </article>
+        <!-- Placeholder covers: swap for the case-media block above once there is a video -->
+        <article class="case-item">
+          <div class="case-image case-image-placeholder case-video-placeholder" data-cover="final-final-v7.html" role="img" aria-label="Placeholder for a case study video">
+            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+          </div>
+          <div class="case-text">
+            <h3 class="case-title">Final_Final_v7 @ My Desktop</h3>
+            <p class="case-desc">How 47 rounds of feedback led us back to version 1.</p>
+            <a class="glass-button" href="final-final-v7.html">View project</a>
+          </div>
+        </article>
+        <article class="case-item">
+          <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
+            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+          </div>
+          <div class="case-text">
+            <h3 class="case-title">Quick Question @ 4:59 PM</h3>
+            <p class="case-desc">A one-line Slack message that became a full redesign by Monday.</p>
+            <a class="glass-button" href="quick-question.html">View project</a>
+          </div>
+        </article>
+        <article class="case-item">
+          <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
+            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+          </div>
+          <div class="case-text">
+            <h3 class="case-title">Make the Logo Bigger @ Every Company</h3>
+            <p class="case-desc">A decade-long study of one request. Results are still coming in.</p>
+            <p class="case-status"><span aria-hidden="true">🚧</span> Coming soon</p>
           </div>
         </article>
       </div>
@@ -597,6 +639,13 @@
       var minTime = 2000;
       var loaded = document.readyState === "complete";
       var timeUp = false;
+
+      // Back from a case study: no loading screen, and the page opens where it was left
+      if (!root.classList.contains("is-loading")) {
+        loader.remove();
+        setTimeout(function () { document.dispatchEvent(new Event("page:revealed")); });
+        return;
+      }
 
       function reveal() {
         if (!loaded || !timeUp) return;
@@ -1385,50 +1434,24 @@
       }
     })();
   </script>
-  <!-- Case study cover videos: play while on screen (unless the visitor asked
-       for reduced motion or pressed pause); the button toggles play/pause. -->
+  <!-- Case study cover videos and the glass button -->
+  <script src="case-video.js?v=1"></script>
+
+  <script src="glass-button.js?v=1"></script>
+
+  <!-- Remember the scroll position for coming back from a case study -->
   <script>
     (function () {
-      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      document.querySelectorAll(".case-media").forEach(function (media) {
-        var video = media.querySelector("video");
-        var toggle = media.querySelector(".case-video-toggle");
-        var wantsPlay = !reduce;
-        var visible = false;
-
-        function sync() {
-          if (wantsPlay && visible) {
-            var playing = video.play();
-            if (playing) playing.catch(function () {});
-          } else {
-            video.pause();
-          }
-        }
-
-        function label() {
-          var paused = !wantsPlay;
-          media.classList.toggle("is-paused", paused);
-          toggle.setAttribute("aria-label", paused ? "Play video" : "Pause video");
-        }
-
-        toggle.addEventListener("click", function () {
-          wantsPlay = !wantsPlay;
-          label();
-          sync();
-        });
-
-        if ("IntersectionObserver" in window) {
-          new IntersectionObserver(function (entries) {
-            visible = entries[0].isIntersecting;
-            sync();
-          }, { threshold: 0.25 }).observe(media);
-        } else {
-          visible = true;
-          sync();
-        }
-        label();
+      window.addEventListener("pagehide", function () {
+        try { sessionStorage.setItem("resume-scroll", window.scrollY); } catch (e) {}
       });
+      var nav = performance.getEntriesByType("navigation")[0];
+      if (!nav || nav.type !== "back_forward") return;
+      var y = null;
+      try { y = sessionStorage.getItem("resume-scroll"); } catch (e) {}
+      if (y !== null) window.scrollTo({ top: Number(y), behavior: "instant" });
     })();
   </script>
+  <div id="page-end"></div>
 </body>
 </html>

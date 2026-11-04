@@ -2053,23 +2053,20 @@ html:has(.lightbox.is-open) body {
 /* ===== Selected case studies (v2) =====
    Each case study: its title set like the bullet titles with the line
    about it right under it, then a small status
-   pill ("Coming soon") until it has a page to link to. Indented like the
-   selected work above. */
+   pill ("Coming soon") until it has a page to link to. The two columns fill
+   the page's width, and wrap into as many rows as there are case studies. */
 .case-list {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  padding-left: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px 20px;
 }
 
-/* Each case study: the text on the left, centered against the cover image
-   on the right. On narrow tablets the image shrinks so the text keeps at
-   least 220px; on phones the image goes on top (see the phone rules). */
+/* Each case study: the cover on top with the text under it, side by side in
+   two columns; on phones they stack (see the phone rules). */
 .case-item {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(0, 385px);
-  column-gap: 48px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* The cover image: 385 × 289 (4:3) with rounded corners, the size of the
@@ -2092,21 +2089,18 @@ html:has(.lightbox.is-open) body {
   color: var(--resume-label);
 }
 
-/* Cover video: a tall card in the phone recording's own shape (468 × 904),
-   on the paper colour to match the video's background, so the phone fills it. It
-   sits on the left, in a 240px column. The round button in the corner pauses
-   and resumes it. */
-.case-item:has(.case-media) {
-  grid-template-columns: minmax(0, 240px) minmax(220px, 1fr);
-}
-
+/* Cover video: a 3:4 card on the paper colour, with the phone recording fitted
+   to its height and centered. It fills its column. The round button in the corner pauses and resumes it. */
 .case-media {
-  order: -1;
   position: relative;
-  aspect-ratio: 468 / 904;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--resume-paper);
   border: 0.5px solid var(--resume-paper-border);
+}
+
+.case-video-placeholder {
+  aspect-ratio: 3 / 4;
 }
 
 .case-media video {
@@ -2158,12 +2152,12 @@ html:has(.lightbox.is-open) body {
 }
 
 .resume .case-title {
-  font: var(--type-h2);
+  font: var(--type-body-strong);
   color: var(--resume-text);
 }
 
 .resume .case-desc {
-  font: var(--type-body);
+  font: var(--type-caption);
   color: var(--resume-body);
 }
 
@@ -2175,6 +2169,458 @@ html:has(.lightbox.is-open) body {
   border-radius: 999px;
   font: var(--type-label-s);
   color: var(--resume-label);
+}
+
+.case-text .glass-button {
+  margin-top: 16px;
+}
+
+/* ===== Glass button =====
+   A reusable pill of glass: <a class="glass-button" href="...">Label</a> or a
+   <button>, with glass-button.js on the page to add its glow and arrow. It has
+   a soft shine on its top half, a bright upper edge and a shadow under it.
+   On hover, a highlight follows the cursor (--light-x and --light-y) and the
+   border glows with the headline's colors, cycling the same way, while the
+   arrow travels through. */
+.glass-button {
+  --light-x: 50%;
+  --light-y: 0%;
+  --cycle: linear-gradient(90deg,
+    #f1842a 0%, #f3912d 10%, #f39980 24%, #ee7dc9 40%,
+    #aa8ce3 55%, #ee7dc9 70%, #f39980 84%, #f1842a 100%);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0)) top / 100% 55% no-repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.5));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px rgba(12, 12, 13, 0.05),
+    0 0 0 0.5px rgba(12, 12, 13, 0.16),
+    0 1px 1px rgba(12, 12, 13, 0.06),
+    0 6px 14px -6px rgba(12, 12, 13, 0.22);
+  font: var(--type-ui-small);
+  color: var(--resume-text);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+}
+
+/* The light on the glass, under the label */
+.glass-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(44px circle at var(--light-x) var(--light-y), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+/* The border: a crisp ring (::after), and a blurred copy of it for the glow.
+   The colors only move while the button is hovered. */
+.glass-button::after,
+.glass-button-glow::before {
+  content: "";
+  position: absolute;
+  inset: -0.5px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--cycle) 0 0 / 200% 100% repeat-x;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: gradient-cycle 3.5s linear infinite paused;
+  pointer-events: none;
+}
+
+.glass-button::after,
+.glass-button-glow {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.glass-button-glow {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.glass-button-glow::before {
+  padding: 2px;
+}
+
+.glass-button-arrow {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.glass-button-arrow svg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.2, 1);
+}
+
+.glass-button-arrow svg + svg {
+  transform: translateX(-100%);
+}
+
+@media (hover: hover) {
+  .glass-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 1px rgba(12, 12, 13, 0.05),
+      0 0 0 0.5px rgba(12, 12, 13, 0.16),
+      0 2px 2px rgba(12, 12, 13, 0.06),
+      0 10px 18px -6px rgba(12, 12, 13, 0.28);
+  }
+
+  .glass-button:hover::before,
+  .glass-button:hover::after {
+    opacity: 1;
+  }
+
+  .glass-button:hover .glass-button-glow {
+    opacity: 0.3;
+  }
+
+  .glass-button:hover::after,
+  .glass-button:hover .glass-button-glow::before {
+    animation-play-state: running;
+  }
+
+  .glass-button:hover .glass-button-arrow svg {
+    transform: translateX(100%);
+  }
+
+  .glass-button:hover .glass-button-arrow svg + svg {
+    transform: translateX(0);
+  }
+}
+
+.glass-button:active {
+  transform: translateY(0.5px);
+  box-shadow:
+    inset 0 1px 2px rgba(12, 12, 13, 0.14),
+    0 0 0 0.5px rgba(12, 12, 13, 0.18);
+}
+
+.glass-button:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-button,
+  .glass-button-arrow svg {
+    transition: none;
+  }
+
+  .glass-button:hover,
+  .glass-button:active {
+    transform: none;
+  }
+
+  .glass-button:hover::after,
+  .glass-button:hover .glass-button-glow::before {
+    animation-play-state: paused;
+  }
+}
+
+/* ===== Case study pages =====
+   Another sheet of paper like the resume, without the folded corner: a back
+   button, the title, a hero and the write-up. (See "Page transitions" for how
+   the sheets move between pages.) */
+.page-case .resume-frame {
+  --fold-top: 0px;
+  --fold-side: 0px;
+}
+
+.case-back {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 6;
+}
+
+/* The arrow leads the label and points back */
+.glass-button.case-back {
+  flex-direction: row-reverse;
+  padding: 9px 16px 9px 12px;
+}
+
+.case-back .glass-button-arrow {
+  transform: scaleX(-1);
+}
+
+.case-page-title {
+  font: var(--type-h1);
+  color: var(--resume-heading);
+}
+
+.case-page-desc {
+  margin-top: 8px;
+  font: var(--type-body);
+  color: var(--resume-body);
+}
+
+.case-hero.case-image {
+  margin: 48px 0 64px;
+  aspect-ratio: 16 / 10;
+}
+
+.case-page-section + .case-page-section {
+  margin-top: 40px;
+}
+
+.case-page-section h2 {
+  font: var(--type-h3);
+  color: var(--resume-text);
+}
+
+.case-page-section p {
+  margin-top: 8px;
+  font: var(--type-body);
+  color: var(--resume-body);
+}
+
+@media (max-width: 720px) {
+  .case-back {
+    top: 12px;
+    left: 12px;
+  }
+
+  .case-hero.case-image {
+    margin: 32px 0 48px;
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* ===== Page transitions =====
+   Moving between the resume and a case study animates the sheets of paper, while
+   the desk behind them stays put. page-transitions.js says which transition
+   each page uses, by adding one of these types:
+   slide: the resume slides away, showing the case study underneath
+   grow:  the preview card grows into the case study
+   stack: the case study slides up over the resume, which sinks back
+   Each has -forward (to the case study) and -back (home). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+.resume-frame {
+  view-transition-name: resume-sheet;
+}
+
+.page-case .resume-frame {
+  view-transition-name: case-sheet;
+}
+
+/* The grain stays on top of everything, unmoved */
+body::after {
+  view-transition-name: grain;
+}
+
+::view-transition-group(grain) {
+  z-index: 10;
+  animation: none;
+}
+
+::view-transition-old(grain) {
+  display: none;
+}
+
+::view-transition-new(grain) {
+  animation: none;
+}
+
+::view-transition-old(resume-sheet),
+::view-transition-new(resume-sheet) {
+  transform-origin: 50% var(--sheet-new-center);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+}
+
+/* A sheet's image only exists for the transition, so each keeps its own timing */
+html:active-view-transition-type(slide-forward, slide-back, grow-forward, grow-back, stack-forward, stack-back)::view-transition-old(resume-sheet),
+html:active-view-transition-type(slide-forward, slide-back, grow-forward, grow-back, stack-forward, stack-back)::view-transition-new(resume-sheet),
+html:active-view-transition-type(slide-forward, slide-back, grow-forward, grow-back, stack-forward, stack-back)::view-transition-old(case-sheet),
+html:active-view-transition-type(slide-forward, slide-back, grow-forward, grow-back, stack-forward, stack-back)::view-transition-new(case-sheet) {
+  animation-duration: 0.65s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+/* The way home plays the same keyframes in reverse, and reversing also flips
+   the easing, so this mirrored curve keeps the landing soft */
+html:active-view-transition-type(slide-back)::view-transition-new(resume-sheet),
+html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transition-old(case-sheet),
+html:active-view-transition-type(stack-back, grow-back)::view-transition-new(resume-sheet) {
+  animation-timing-function: cubic-bezier(0.8, 0, 0.8, 0.2);
+}
+
+/* Which sheet's center to turn around, whichever page it came from */
+html:active-view-transition-type(slide-forward, stack-forward, grow-forward)::view-transition-old(resume-sheet),
+html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transition-old(case-sheet) {
+  transform-origin: 50% var(--sheet-old-center);
+}
+
+html:active-view-transition-type(slide-forward, stack-forward, grow-forward)::view-transition-new(case-sheet),
+html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transition-new(resume-sheet) {
+  transform-origin: 50% var(--sheet-new-center);
+}
+
+@keyframes sheet-toss {
+  to {
+    transform: translateX(-125vw) rotate(-9deg);
+  }
+}
+
+@keyframes sheet-settle {
+  from {
+    opacity: 0.6;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+
+@keyframes sheet-sink {
+  to {
+    opacity: 0.55;
+    transform: translateY(-4px) scale(0.94);
+  }
+}
+
+@keyframes sheet-rise {
+  from {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes sheet-grow {
+  from {
+    clip-path: var(--grow-clip);
+  }
+
+  to {
+    clip-path: inset(0 round 6px);
+  }
+}
+
+@keyframes sheet-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Slide: the resume is tossed off to the side, and comes back on top */
+::view-transition-group(resume-sheet) {
+  z-index: 2;
+}
+
+::view-transition-group(case-sheet) {
+  z-index: 1;
+}
+
+html:active-view-transition-type(slide-forward)::view-transition-old(resume-sheet) {
+  animation-name: sheet-toss;
+  animation-duration: 1.1s;
+}
+
+html:active-view-transition-type(slide-forward)::view-transition-new(case-sheet) {
+  animation-name: sheet-settle;
+  animation-duration: 1.1s;
+}
+
+html:active-view-transition-type(slide-back)::view-transition-new(resume-sheet) {
+  animation-name: sheet-toss;
+  animation-direction: reverse;
+}
+
+html:active-view-transition-type(slide-back)::view-transition-old(case-sheet) {
+  animation-name: sheet-settle;
+  animation-direction: reverse;
+}
+
+/* Stack: the case study comes up over the resume, and goes back down */
+html:active-view-transition-type(stack-forward, stack-back, grow-forward, grow-back)::view-transition-group(case-sheet) {
+  z-index: 3;
+}
+
+html:active-view-transition-type(stack-forward)::view-transition-old(resume-sheet) {
+  animation-name: sheet-sink;
+}
+
+html:active-view-transition-type(stack-forward)::view-transition-new(case-sheet) {
+  animation-name: sheet-rise;
+}
+
+html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
+  animation-name: sheet-sink;
+  animation-direction: reverse;
+}
+
+html:active-view-transition-type(stack-back)::view-transition-old(case-sheet) {
+  animation-name: sheet-rise;
+  animation-direction: reverse;
+}
+
+/* Grow: the card's cover moves into place as the hero, and the sheet opens out
+   from around it while the resume fades */
+::view-transition-group(case-cover) {
+  z-index: 4;
+  overflow: clip;
+  border-radius: 20px;
+  animation-duration: 0.65s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The card and the hero have different shapes: fill the moving box with both,
+   so their play icons stay together in the middle */
+::view-transition-old(case-cover),
+::view-transition-new(case-cover) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation-duration: 0.65s;
+}
+
+html:active-view-transition-type(grow-forward)::view-transition-old(resume-sheet) {
+  animation-name: sheet-fade;
+}
+
+html:active-view-transition-type(grow-forward)::view-transition-new(case-sheet) {
+  animation-name: sheet-grow;
+}
+
+html:active-view-transition-type(grow-back)::view-transition-new(resume-sheet) {
+  animation-name: sheet-fade;
+  animation-direction: reverse;
+}
+
+html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
+  animation-name: sheet-grow;
+  animation-direction: reverse;
 }
 
 .resume-divider {
@@ -2868,22 +3314,9 @@ html:has(.lightbox.is-open) body {
     margin-bottom: 32px;
   }
 
-  .case-item {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 20px;
-  }
-
-  .case-image {
-    order: -1;
-    max-width: 385px;
-  }
-
-  .case-item:has(.case-media) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .case-media {
-    max-width: 240px;
+  .case-list {
+    grid-template-columns: minmax(0, 340px);
+    gap: 48px;
   }
 
   .company {

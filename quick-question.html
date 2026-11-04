@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume page-case">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Question @ 4:59 PM | Edward A. Marroquin</title>
+  <meta name="description" content="A one-line Slack message that became a full redesign by Monday.">
+  <!-- Placeholder content: keep out of search results until the write-up is real -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f9f9fa">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=247">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <script src="page-transitions.js?v=1"></script>
+  <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
+  <link rel="expect" href="#page-end" blocking="render">
+</head>
+<body>
+
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <a class="glass-button case-back" href="index.html#case-studies">Back</a>
+
+  <main class="resume-wrap">
+    <div class="resume-frame">
+      <div class="resume-shadow" aria-hidden="true"></div>
+      <article class="resume">
+        <h1 class="case-page-title">Quick Question @ 4:59 PM</h1>
+        <p class="case-page-desc">A one-line Slack message that became a full redesign by Monday.</p>
+
+        <div class="case-image case-image-placeholder case-hero" role="img" aria-label="Placeholder for a case study video">
+          <svg width="32" height="32" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+        </div>
+
+        <section class="case-page-section">
+          <h2>The question</h2>
+          <p>"Hey, quick question." It was not quick, and it was not one question.</p>
+        </section>
+        <section class="case-page-section">
+          <h2>The scope</h2>
+          <p>One button became a flow, the flow became a roadmap, and the roadmap became a reorg.</p>
+        </section>
+        <section class="case-page-section">
+          <h2>The outcome</h2>
+          <p>The button moved four pixels to the left. Everyone agreed it felt better.</p>
+        </section>
+      </article>
+    </div>
+    <footer class="site-footer resume-footer">
+      <p>© <span id="year">2026</span> Edward A. Marroquin</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Tells the resume to skip its loading screen on the way back
+    window.addEventListener("pagehide", function () {
+      try { sessionStorage.setItem("from-case-study", "1"); } catch (e) {}
+    });
+  </script>
+  <script src="glass-button.js?v=1"></script>
+  <div id="page-end"></div>
+</body>
+</html>

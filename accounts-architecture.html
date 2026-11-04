@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume page-case">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accounts Architecture @ Neo | Edward A. Marroquin</title>
+  <meta name="description" content="Designing the foundations of a growing digital bank.">
+  <!-- Placeholder content: keep out of search results until the write-up is real -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f9f9fa">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=247">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <script src="page-transitions.js?v=1"></script>
+  <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
+  <link rel="expect" href="#page-end" blocking="render">
+</head>
+<body>
+
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <a class="glass-button case-back" href="index.html#case-studies">Back</a>
+
+  <main class="resume-wrap">
+    <div class="resume-frame">
+      <div class="resume-shadow" aria-hidden="true"></div>
+      <article class="resume">
+        <h1 class="case-page-title">Accounts Architecture @ Neo</h1>
+        <p class="case-page-desc">Designing the foundations of a growing digital bank.</p>
+
+        <div class="case-image case-media case-hero">
+          <video src="images/neo-accounts-showcase.mp4?v=2" poster="images/neo-accounts-showcase-poster.jpg?v=2" width="468" height="904" muted loop playsinline preload="metadata" aria-label="Neo accounts redesign: credit card, chequing and savings account screens"></video>
+          <button class="case-video-toggle" type="button" aria-label="Pause video">
+            <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
+            <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+          </button>
+        </div>
+
+        <section class="case-page-section">
+          <h2>Overview</h2>
+          <p>Placeholder: what this project was and why it mattered.</p>
+        </section>
+        <section class="case-page-section">
+          <h2>The problem</h2>
+          <p>Placeholder: what wasn't working for customers and the business.</p>
+        </section>
+        <section class="case-page-section">
+          <h2>The approach</h2>
+          <p>Placeholder: how the account structure was rethought.</p>
+        </section>
+        <section class="case-page-section">
+          <h2>The outcome</h2>
+          <p>Placeholder: what shipped and what changed.</p>
+        </section>
+      </article>
+    </div>
+    <footer class="site-footer resume-footer">
+      <p>© <span id="year">2026</span> Edward A. Marroquin</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Tells the resume to skip its loading screen on the way back
+    window.addEventListener("pagehide", function () {
+      try { sessionStorage.setItem("from-case-study", "1"); } catch (e) {}
+    });
+  </script>
+  <script src="case-video.js?v=1"></script>
+  <script src="glass-button.js?v=1"></script>
+  <div id="page-end"></div>
+</body>
+</html>
