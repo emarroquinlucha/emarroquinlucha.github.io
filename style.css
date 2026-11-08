@@ -598,22 +598,9 @@ h1, h2, h3 {
   min-width: 0;
 }
 
-.quick-label {
-  font: var(--type-label-xs);
-  color: var(--resume-label);
-}
-
 .quick-value {
   font: var(--type-ui-small);
   color: var(--resume-text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* The email address under "Email" keeps the menu inside small screens */
-.quick-text .quick-label {
-  font-size: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1783,6 +1770,20 @@ html:has(.lightbox.is-open) body {
     #aa8ce3 55%, #ee7dc9 70%, #f39980 84%, #f1842a 100%);
 }
 
+/* A green band for case studies (gradient-word.js splits it into letters) */
+.gradient-text-green {
+  --cycle: linear-gradient(90deg,
+    #157f4a 0%, #1c9152 10%, #32a857 24%, #5cbb5a 40%,
+    #86c75a 55%, #5cbb5a 70%, #32a857 84%, #157f4a 100%);
+}
+
+/* A red band for case studies */
+.gradient-text-red {
+  --cycle: linear-gradient(90deg,
+    #b42318 0%, #c92a1e 10%, #de3b2e 24%, #ea5a45 40%,
+    #f0785c 55%, #ea5a45 70%, #de3b2e 84%, #b42318 100%);
+}
+
 @keyframes gradient-cycle {
   from {
     background-position: 200% 0;
@@ -2086,6 +2087,18 @@ html:has(.lightbox.is-open) body {
   object-fit: cover;
 }
 
+/* The whole cover links to the case study and counts as hovering its button
+   (see "Glass button"). It sits under the pause button, so that still works. */
+.case-item .case-image {
+  position: relative;
+}
+
+.case-image-link {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
 .case-image-placeholder {
   display: grid;
   place-items: center;
@@ -2187,12 +2200,15 @@ html:has(.lightbox.is-open) body {
    On hover, a highlight follows the cursor (--light-x and --light-y) and the
    border glows with the headline's colors, cycling the same way, while the
    arrow travels through. */
-.glass-button {
-  --light-x: 50%;
-  --light-y: 0%;
+:root {
   --cycle: linear-gradient(90deg,
     #f1842a 0%, #f3912d 10%, #f39980 24%, #ee7dc9 40%,
     #aa8ce3 55%, #ee7dc9 70%, #f39980 84%, #f1842a 100%);
+}
+
+.glass-button {
+  --light-x: 50%;
+  --light-y: 0%;
   position: relative;
   isolation: isolate;
   display: inline-flex;
@@ -2234,7 +2250,8 @@ html:has(.lightbox.is-open) body {
 /* The border: a crisp ring (::after), and a blurred copy of it for the glow.
    The colors only move while the button is hovered. */
 .glass-button::after,
-.glass-button-glow::before {
+.glass-button-glow::before,
+.case-cursor::after {
   content: "";
   position: absolute;
   inset: -0.5px;
@@ -2286,7 +2303,8 @@ html:has(.lightbox.is-open) body {
 }
 
 @media (hover: hover) {
-  .glass-button:hover {
+  .glass-button:hover,
+  .case-item:has(.case-image-link:hover) .glass-button {
     transform: translateY(-1px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.95),
@@ -2297,33 +2315,74 @@ html:has(.lightbox.is-open) body {
   }
 
   .glass-button:hover::before,
-  .glass-button:hover::after {
+  .glass-button:hover::after,
+  .case-item:has(.case-image-link:hover) .glass-button::before,
+  .case-item:has(.case-image-link:hover) .glass-button::after {
     opacity: 1;
   }
 
-  .glass-button:hover .glass-button-glow {
+  .glass-button:hover .glass-button-glow,
+  .case-item:has(.case-image-link:hover) .glass-button-glow {
     opacity: 0.3;
   }
 
   .glass-button:hover::after,
-  .glass-button:hover .glass-button-glow::before {
+  .glass-button:hover .glass-button-glow::before,
+  .case-item:has(.case-image-link:hover) .glass-button::after,
+  .case-item:has(.case-image-link:hover) .glass-button-glow::before {
     animation-play-state: running;
   }
 
-  .glass-button:hover .glass-button-arrow svg {
+  .glass-button:hover .glass-button-arrow svg,
+  .case-item:has(.case-image-link:hover) .glass-button-arrow svg {
     transform: translateX(100%);
   }
 
-  .glass-button:hover .glass-button-arrow svg + svg {
+  .glass-button:hover .glass-button-arrow svg + svg,
+  .case-item:has(.case-image-link:hover) .glass-button-arrow svg + svg {
     transform: translateX(0);
   }
 }
 
-.glass-button:active {
+.glass-button:active,
+.case-item:has(.case-image-link:active) .glass-button {
   transform: translateY(0.5px);
   box-shadow:
     inset 0 1px 2px rgba(12, 12, 13, 0.14),
     0 0 0 0.5px rgba(12, 12, 13, 0.18);
+}
+
+/* The circle that replaces the mouse pointer over a case study cover
+   (case-cursor.js): the button's glass, border and glow in a round shape. */
+.case-cursor {
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  z-index: 20;
+  isolation: isolate;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 6px 16px -6px rgba(12, 12, 13, 0.12);
+  opacity: 0;
+  scale: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease, scale 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.case-cursor.is-visible {
+  opacity: 1;
+  scale: 1;
+}
+
+.case-cursor .glass-button-glow {
+  opacity: 0.3;
+}
+
+.case-cursor::after,
+.case-cursor .glass-button-glow::before {
+  animation-play-state: running;
 }
 
 .glass-button:focus-visible {
@@ -2333,28 +2392,43 @@ html:has(.lightbox.is-open) body {
 
 @media (prefers-reduced-motion: reduce) {
   .glass-button,
-  .glass-button-arrow svg {
+  .glass-button-arrow svg,
+  .case-cursor {
     transition: none;
   }
 
+  .case-cursor::after,
+  .case-cursor .glass-button-glow::before {
+    animation-play-state: paused;
+  }
+
   .glass-button:hover,
-  .glass-button:active {
+  .glass-button:active,
+  .case-item:has(.case-image-link:hover) .glass-button,
+  .case-item:has(.case-image-link:active) .glass-button {
     transform: none;
   }
 
   .glass-button:hover::after,
-  .glass-button:hover .glass-button-glow::before {
+  .glass-button:hover .glass-button-glow::before,
+  .case-item:has(.case-image-link:hover) .glass-button::after,
+  .case-item:has(.case-image-link:hover) .glass-button-glow::before {
     animation-play-state: paused;
   }
 }
 
 /* ===== Case study pages =====
-   Another sheet of paper like the resume, without the folded corner: a back
+   Another sheet of paper like the resume, with or without its folded corner: a back
    button, the title, a hero and the write-up. (See "Page transitions" for how
    the sheets move between pages.) */
-.page-case .resume-frame {
+.page-case .resume-frame:not(:has(.fold)) {
   --fold-top: 0px;
   --fold-side: 0px;
+}
+
+/* On a case study the fold just lifts: there's no stamp under it to open */
+.page-case .fold-hotspot {
+  cursor: default;
 }
 
 .case-back {
@@ -2390,22 +2464,1528 @@ html:has(.lightbox.is-open) body {
   aspect-ratio: 16 / 10;
 }
 
+.case-hero.case-image:has(+ .case-details) {
+  margin-bottom: 40px;
+}
+
+/* The project's facts, between the hero and the write-up */
+.case-details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.case-details dt {
+  margin-bottom: 2px;
+  font: var(--type-caption);
+  color: var(--resume-label);
+}
+
+.case-details dd {
+  margin: 0;
+  font: var(--type-caption);
+  color: var(--resume-text);
+}
+
+.case-details-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+/* A small glass bead: a bright spot up top, a darker rim and a soft green glow */
+.case-details-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 7.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #d6fbd0 0%, #6edc76 32%, #2fa84a 68%, #1d7a35 100%);
+  box-shadow:
+    inset 0 -0.5px 1px rgba(0, 60, 20, 0.35),
+    0 0 0 0.5px rgba(20, 90, 40, 0.45),
+    0 1px 1px rgba(12, 12, 13, 0.14),
+    0 0 6px rgba(60, 190, 90, 0.45);
+}
+
+.case-divider {
+  margin: 38px 0 63px;
+  border: 0;
+  border-top: 2px dotted var(--resume-paper-border);
+}
+
 .case-page-section {
   scroll-margin-top: 16px;
 }
 
 .case-page-section + .case-page-section {
-  margin-top: 40px;
+  margin-top: 72px;
 }
 
+/* Titles span two of the page's three columns (see .case-details) */
 .case-page-section h2 {
-  font: var(--type-h3);
+  max-width: calc((100% - 48px) * 2 / 3 + 24px);
+  font: var(--type-h2);
+  font-size: 28px;
   color: var(--resume-text);
 }
 
 .case-page-section p {
-  margin-top: 8px;
+  margin-top: 20px;
   font: var(--type-body);
+  color: var(--resume-body);
+}
+
+.case-page-section h2 + p {
+  margin-top: 24px;
+}
+
+/* Numbered parts within a section, e.g. The Redesign */
+.case-page-section .case-step {
+  max-width: calc((100% - 48px) * 2 / 3 + 24px);
+  margin: 0;
+  font: var(--type-h3);
+  font-size: 22px;
+  color: var(--resume-heading);
+}
+
+.case-step-number {
+  color: var(--resume-label);
+}
+
+.case-page-section .case-step + p {
+  margin-top: 16px;
+}
+
+/* A placeholder that says what the image will show */
+.case-image-placeholder.has-text {
+  align-content: center;
+  gap: 12px;
+}
+
+.case-image-placeholder-text {
+  max-width: 60%;
+  margin: 0;
+  font: var(--type-label-xs);
+  line-height: 1.6;
+  color: var(--resume-label);
+  text-align: center;
+}
+
+/* An image across the full width of the write-up, between sections */
+.case-image.case-section-image {
+  margin: 40px 0 72px;
+  aspect-ratio: 16 / 9;
+}
+
+.case-list-bullets {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  font: var(--type-body);
+  color: var(--resume-body);
+  list-style: disc;
+}
+
+.case-list-bullets li + li {
+  margin-top: 8px;
+}
+
+.case-list-bullets strong {
+  color: var(--resume-heading);
+}
+
+.case-page-section strong {
+  font-weight: 500;
+}
+
+/* Before/after slider, between sections: an outlined card that slides through
+   pairs of phones (see phone-mock.js). */
+.compare-slider {
+  --phone-width: 270px;
+  margin: 40px 0 72px;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.compare-slider-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compare-slide {
+  flex: 0 0 100%;
+  padding: 32px 24px 0;
+  box-sizing: border-box;
+}
+
+.compare-slide-title {
+  margin: 0 0 24px;
+  font: var(--type-ui);
+  color: var(--resume-heading);
+  text-align: center;
+}
+
+.compare-pair {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+}
+
+/* Points from Before to After, centered on the phones (not their labels) */
+.compare-arrow {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 14px);
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(12, 12, 13, 0.14);
+  color: var(--resume-text);
+  transform: translate(-50%, -50%);
+}
+
+.compare-mock {
+  width: var(--phone-width);
+  margin: 0;
+}
+
+.compare-label {
+  margin-top: 12px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  text-align: center;
+}
+
+/* After gets a green pill with the same "live" dot as the Status row */
+.compare-label-after {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 10px auto 0;
+  padding: 2px 9px 2px 7px;
+  border: 0.5px solid rgba(47, 168, 74, 0.35);
+  border-radius: 999px;
+  background: rgba(47, 168, 74, 0.1);
+  color: #1d7a35;
+}
+
+.compare-label-after::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #d6fbd0 0%, #6edc76 32%, #2fa84a 68%, #1d7a35 100%);
+  box-shadow: 0 0 0 0.5px rgba(20, 90, 40, 0.45), 0 0 5px rgba(60, 190, 90, 0.45);
+}
+
+/* Reveal: each time a slide comes in, Before settles in quietly, the arrow
+   follows, then After lands a beat later with a small lift. phone-mock.js
+   adds .is-revealed; the hidden starting state only applies once it's running. */
+@media (prefers-reduced-motion: no-preference) {
+  .compare-slider.is-ready .compare-slide:not(.is-revealed) :is(.compare-mock, .compare-arrow) {
+    opacity: 0;
+  }
+
+  .compare-slide.is-revealed .compare-mock:first-of-type {
+    animation: compare-before 0.5s ease 0.1s both;
+  }
+
+  .compare-slide.is-revealed .compare-arrow {
+    animation: compare-arrow 0.4s ease 0.3s both;
+  }
+
+  .compare-slide.is-revealed .compare-mock:last-of-type {
+    animation: compare-after 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.4s both;
+  }
+}
+
+@keyframes compare-before {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes compare-arrow {
+  from { opacity: 0; transform: translate(-80%, -50%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+@keyframes compare-after {
+  0% { opacity: 0; transform: translateY(28px) scale(0.96); }
+  45% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+
+.compare-slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 0 28px;
+}
+
+.compare-slider-count {
+  min-width: 40px;
+  margin: 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  text-align: center;
+}
+
+.phone-mock-button.compare-slider-button {
+  width: 40px;
+  height: 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-slider-track {
+    transition: none;
+  }
+}
+
+/* Approach board: competitor screens in phones, each part of the layout tinted
+   by type. "Wireframes" hides the screenshots and leaves the colored blocks;
+   the legend highlights one type across every phone (see approach-board.js). */
+.approach-board,
+.combo {
+  --zone-card: 142, 78, 198;
+  --zone-balance: 59, 130, 246;
+  --zone-actions: 47, 168, 74;
+  --zone-tabs: 229, 72, 77;
+  --zone-details: 245, 165, 36;
+  --zone-activity: 20, 184, 166;
+  --zone-other: 140, 140, 150;
+  --zone-settings: 219, 39, 119;
+  margin: 40px 0 72px;
+  padding: 24px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.approach-toggle {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 28px;
+  padding: 3px;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 999px;
+  background: rgba(12, 12, 13, 0.04);
+}
+
+.approach-toggle-button {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.approach-toggle-button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--resume-heading);
+  box-shadow: 0 1px 3px rgba(12, 12, 13, 0.12);
+}
+
+.approach-toggle-button:focus-visible,
+.approach-key:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 2px;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+.approach-phone {
+  margin: 0;
+  container-type: inline-size;
+}
+
+.approach-phone figcaption {
+  margin-top: 10px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  text-align: center;
+}
+
+/* The screenshots bring their own status bar and home indicator */
+.approach-phone .phone-mock-screen::before,
+.approach-phone .phone-mock-screen::after {
+  display: none;
+}
+
+.approach-shot {
+  position: relative;
+}
+
+.approach-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.35s ease;
+}
+
+.approach-zones {
+  position: absolute;
+  inset: 0;
+}
+
+.approach-zone {
+  position: absolute;
+  border: 1.5px solid rgb(var(--zone));
+  border-radius: 4px;
+  background: rgba(var(--zone), 0.18);
+  transition: background-color 0.35s ease, opacity 0.25s ease;
+}
+
+.approach-board [data-zone="card"],
+.combo [data-zone="card"] { --zone: var(--zone-card); }
+.approach-board [data-zone="balance"],
+.combo [data-zone="balance"] { --zone: var(--zone-balance); }
+.approach-board [data-zone="actions"],
+.combo [data-zone="actions"] { --zone: var(--zone-actions); }
+.approach-board [data-zone="tabs"],
+.combo [data-zone="tabs"] { --zone: var(--zone-tabs); }
+.approach-board [data-zone="details"],
+.combo [data-zone="details"] { --zone: var(--zone-details); }
+.approach-board [data-zone="activity"],
+.combo [data-zone="activity"] { --zone: var(--zone-activity); }
+.approach-board [data-zone="other"],
+.combo [data-zone="other"] { --zone: var(--zone-other); }
+.combo [data-zone="settings"] { --zone: var(--zone-settings); }
+
+/* Wireframes: just the blocks on a blank screen */
+.approach-board.is-wireframe .approach-shot img,
+.combo.is-wireframe .approach-shot img {
+  opacity: 0;
+}
+
+.approach-board.is-wireframe .approach-zone,
+.combo.is-wireframe .approach-zone {
+  background: rgba(var(--zone), 0.45);
+}
+
+/* Highlighting one type fades the rest */
+.approach-board[data-focus] .approach-zone {
+  opacity: 0.12;
+}
+
+.approach-board[data-focus="card"] .approach-zone[data-zone="card"],
+.approach-board[data-focus="balance"] .approach-zone[data-zone="balance"],
+.approach-board[data-focus="actions"] .approach-zone[data-zone="actions"],
+.approach-board[data-focus="tabs"] .approach-zone[data-zone="tabs"],
+.approach-board[data-focus="details"] .approach-zone[data-zone="details"],
+.approach-board[data-focus="activity"] .approach-zone[data-zone="activity"],
+.approach-board[data-focus="other"] .approach-zone[data-zone="other"] {
+  opacity: 1;
+}
+
+.approach-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 8px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.approach-key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 8px;
+  border: 0.5px solid transparent;
+  border-radius: 999px;
+  background: none;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.approach-key:hover,
+.approach-key[aria-pressed="true"] {
+  background: rgba(var(--zone), 0.12);
+  border-color: rgba(var(--zone), 0.35);
+  color: var(--resume-heading);
+}
+
+.approach-swatch {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid rgb(var(--zone));
+  border-radius: 3px;
+  background: rgba(var(--zone), 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approach-shot img,
+  .approach-zone {
+    transition: none;
+  }
+}
+
+/* Pattern scorecard, under the Approach board. The Neo column is tinted green
+   to show the redesign brings the patterns together. */
+.approach-board:has(+ .approach-scorecard) {
+  margin-bottom: 16px;
+}
+
+.approach-scorecard {
+  margin: 0 0 72px;
+  padding: 24px 24px 20px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.approach-scorecard-title {
+  margin: 0 0 16px;
+  font: var(--type-ui);
+  color: var(--resume-heading);
+  text-align: center;
+}
+
+.approach-scorecard-scroll {
+  overflow-x: auto;
+}
+
+.approach-scorecard table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Pattern names get a wide first column; the nine app columns share the rest */
+.approach-scorecard thead td {
+  width: 190px;
+}
+
+.approach-scorecard th,
+.approach-scorecard td {
+  padding: 10px 4px;
+  text-align: center;
+}
+
+.approach-scorecard thead th {
+  vertical-align: bottom;
+  font: var(--type-label-xs);
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--resume-label);
+  hyphens: manual;
+}
+
+.approach-scorecard tbody tr + tr > * {
+  border-top: 0.5px dashed var(--resume-paper-border);
+}
+
+.approach-scorecard tbody th {
+  padding-right: 12px;
+  font: var(--type-caption);
+  line-height: 1.35;
+  color: var(--resume-text);
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* The pattern names stay put while the table scrolls on small screens */
+.approach-scorecard tbody th,
+.approach-scorecard thead td {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--resume-paper);
+}
+
+.approach-scorecard .is-neo {
+  background: rgba(47, 168, 74, 0.08);
+}
+
+.approach-scorecard thead .is-neo {
+  border-radius: 10px 10px 0 0;
+  color: #1d7a35;
+  font-weight: 500;
+}
+
+.approach-scorecard tbody tr:last-child .is-neo {
+  border-radius: 0 0 10px 10px;
+}
+
+.score {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.score.is-yes {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M4 7.2 6.1 9.3 10 5' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat,
+    #2fa84a;
+}
+
+.score.is-partly {
+  border: 1.5px solid #2fa84a;
+  background: linear-gradient(90deg, #2fa84a 50%, transparent 50%);
+}
+
+.score.is-no {
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--resume-paper-border);
+}
+
+.approach-scorecard-key {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.approach-scorecard-key li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.approach-scorecard-key .score {
+  width: 10px;
+  height: 10px;
+}
+
+.approach-scorecard-key .score.is-yes {
+  background-size: 100%;
+}
+
+.approach-scorecard-key .score.is-no {
+  width: 8px;
+  height: 2px;
+}
+
+/* Prototype: one phone that opens Manage card and Manage account when its
+   pulsing hotspots are tapped, like the real app (see account-prototype.js).
+   Hotspots sit at --x (share of the screen's width) and --y (points down the
+   375pt-wide screen). */
+.proto {
+  --phone: 280px;
+  margin: 40px 0 72px;
+  padding: 24px 24px 20px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.proto-switch {
+  margin-bottom: 24px;
+}
+
+.proto-phone {
+  width: var(--phone);
+  margin: 0 auto;
+  container-type: inline-size;
+}
+
+.proto-set[hidden] {
+  display: none;
+}
+
+.proto-view {
+  position: absolute;
+  inset: 0;
+  background: #f1f3f3;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), filter 0.45s ease;
+}
+
+.proto-view img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The account screen stays put; the screen it opens slides in over it */
+.proto-view[data-view="home"] {
+  transform: none;
+}
+
+.proto-set:not([data-view="home"]) .proto-view[data-view="home"] {
+  transform: translateX(-30%);
+  filter: brightness(0.92);
+}
+
+.proto-set[data-view="card"] .proto-view[data-view="card"],
+.proto-set[data-view="manage"] .proto-view[data-view="manage"] {
+  transform: none;
+  box-shadow: -8px 0 24px rgba(12, 12, 13, 0.12);
+}
+
+/* A green outline on the new quick actions. Its box is in the screenshot's
+   pixels (1125 wide): --l, --t, --w and --h. */
+.proto-highlight {
+  position: absolute;
+  top: calc(var(--t) / 1125 * 93.2cqw - 4px);
+  left: calc(var(--l) / 1125 * 100% - 4px);
+  width: calc(var(--w) / 1125 * 100% + 8px);
+  height: calc(var(--h) / 1125 * 93.2cqw + 8px);
+  border: 2px solid #2fa84a;
+  border-radius: calc(36 / 1125 * 93.2cqw + 4px);
+  box-shadow: 0 0 0 3px rgba(47, 168, 74, 0.15);
+  pointer-events: none;
+}
+
+.proto-hotspot {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--y) / 375 * 93.2cqw);
+  left: calc(var(--x) * 100%);
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid #2fa84a;
+  border-radius: 50%;
+  background: rgba(47, 168, 74, 0.18);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.proto-hotspot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid #2fa84a;
+  border-radius: 50%;
+  animation: proto-pulse 1.6s ease-out infinite;
+}
+
+/* The account screen's dots hide while something is open over it */
+.proto-set:not([data-view="home"]) .proto-view[data-view="home"] .proto-hotspot {
+  visibility: hidden;
+}
+
+.proto-hotspot:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 3px;
+}
+
+@keyframes proto-pulse {
+  from { opacity: 0.7; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.9); }
+}
+
+.proto-hint {
+  margin: 16px 0 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-view {
+    transition: none;
+  }
+
+  .proto-hotspot::after {
+    animation: none;
+  }
+}
+
+/* Close-up: before and after crops of the credit details, side by side, with
+   numbered notes on the new version. Markers are placed in % of each crop. */
+.closeup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  margin: 0 0 72px;
+  padding: 28px 24px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.closeup-col > .compare-label {
+  margin: 0 auto 14px;
+}
+
+.closeup-shot {
+  position: relative;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 14px;
+}
+
+.closeup-shot + .closeup-shot {
+  margin-top: 12px;
+}
+
+.closeup-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.closeup-marker,
+.closeup-number {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--resume-heading);
+  font: var(--type-label-xs);
+  font-size: 11px;
+  color: #fff;
+}
+
+.closeup-marker {
+  position: absolute;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(12, 12, 13, 0.2);
+  transform: translate(-50%, -50%);
+}
+
+.closeup-notes {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font: var(--type-caption);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--resume-label);
+}
+
+.closeup-notes li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.closeup-number {
+  flex: none;
+}
+
+/* The close-up sits right under the tap-for-details phone */
+.proto:has(+ .closeup) {
+  margin-bottom: 16px;
+}
+
+/* Bottom sheets for the tap-for-details prototype: a scrim dims the screen
+   and the sheet slides up from the bottom */
+.proto-sheets .proto-set .proto-view[data-view="home"] {
+  transform: none;
+  filter: none;
+}
+
+.proto-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(12, 12, 13, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.proto-set:not([data-view="home"]) .proto-scrim {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.proto-sheet {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  border-radius: calc(16 / 375 * 93.2cqw) calc(16 / 375 * 93.2cqw) 0 0;
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.proto-sheet img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.proto-set[data-view="balance"] .proto-sheet[data-view="balance"],
+.proto-set[data-view="utilization"] .proto-sheet[data-view="utilization"],
+.proto-set[data-view="statement"] .proto-sheet[data-view="statement"] {
+  transform: none;
+}
+
+/* The statement opens full screen, from the top down */
+.proto-sheet.is-full {
+  top: 0;
+  bottom: auto;
+  border-radius: 0;
+}
+
+/* Its Pay button floats at the bottom of the screen with a soft shadow.
+   198.37cqw is the screen's height; the button is 52pt tall, 46pt up. */
+.proto-sheet .proto-float {
+  position: absolute;
+  top: calc(198.37cqw - (46 + 52) / 375 * 93.2cqw);
+  left: calc(60 / 1125 * 100%);
+  width: calc(1005 / 1125 * 100%);
+  height: auto;
+  border-radius: calc(34 / 1125 * 93.2cqw);
+  box-shadow: 0 10px 24px rgba(12, 12, 13, 0.18), 0 2px 6px rgba(12, 12, 13, 0.12);
+}
+
+/* Watch mode: the phone plays itself. A stage clips the zoom, the content
+   scrolls, a live progress bar fills, and a soft circle shows each tap. */
+.proto-mode {
+  margin-bottom: 20px;
+}
+
+.proto-stage {
+  overflow: hidden;
+  margin: 0 -24px;
+  padding: 4px 0;
+}
+
+.proto-sheets .phone-mock-body {
+  transform-origin: 0 0;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.proto-scroll {
+  position: relative;
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.proto-target {
+  position: absolute;
+  top: calc(var(--y) / 375 * 93.2cqw);
+  left: calc(var(--x) * 100%);
+  width: 1px;
+  height: 1px;
+}
+
+/* Drawn over the statement's progress bar so it can fill. Its spot is in the
+   screenshot's pixels (1125 wide); --bt is how far down it starts. */
+.proto-bar {
+  position: absolute;
+  top: calc(var(--bt) / 1125 * 93.2cqw);
+  left: calc(120 / 1125 * 100%);
+  width: calc(885 / 1125 * 100%);
+  height: calc(15 / 1125 * 93.2cqw);
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7e8e9;
+  opacity: 0;
+}
+
+.proto[data-mode="watch"] .proto-bar {
+  opacity: 1;
+}
+
+.proto-bar-fill {
+  display: block;
+  width: var(--fill, 50.1%);
+  height: 100%;
+  background: #000;
+  transition: width 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.proto-tap {
+  position: absolute;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(12, 12, 13, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.proto-tap.is-tapping {
+  animation: proto-tap 0.6s ease-out;
+}
+
+@keyframes proto-tap {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* While it plays, the dots hide and the screen ignores clicks */
+.proto[data-mode="watch"] .proto-hotspot {
+  visibility: hidden;
+}
+
+.proto[data-mode="watch"] .phone-mock-screen {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-scrim,
+  .proto-sheet {
+    transition: none;
+  }
+}
+
+/* Combo: one big phone that steps through the accounts with their zones,
+   fades to wireframes, then zooms out to all three side by side. "one" shows
+   the active phone at full size; "all" shrinks each phone to --small and
+   spreads them by --spread (each phone's --i is -1, 0 or 1). */
+.combo {
+  --phone: 280px;
+  --small: 0.6;
+  --spread: 196px;
+  margin-bottom: 16px;
+  padding: 24px 24px 20px;
+}
+
+.combo-mode {
+  margin-bottom: 16px;
+}
+
+.combo-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.combo-controls .approach-toggle {
+  margin: 0;
+}
+
+.combo[data-mode="watch"] .combo-controls {
+  display: none;
+}
+
+.combo-stage {
+  position: relative;
+  height: calc(var(--phone) * 2.0517 + 8px);
+}
+
+.combo-phone {
+  position: absolute;
+  top: 4px;
+  left: calc(50% - var(--phone) / 2);
+  width: var(--phone);
+  container-type: inline-size;
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease;
+}
+
+.combo[data-layout="one"] .combo-phone.is-active,
+.combo[data-layout="all"] .combo-phone {
+  opacity: 1;
+}
+
+.combo[data-layout="all"] .combo-phone {
+  transform: translateX(calc(var(--i) * var(--spread))) scale(var(--small));
+}
+
+/* Zones here are placed in the screenshot's pixels (1125 wide) so they can
+   animate. "is-uniform" moves every account's zones to the same spots (--ut,
+   --uh) to show the structure lining up. */
+.combo .approach-zone {
+  top: calc(var(--ut, var(--t)) / 1125 * 93.2cqw);
+  left: calc(var(--l) / 1125 * 100%);
+  width: calc(var(--w) / 1125 * 100%);
+  height: calc(var(--uh, var(--h)) / 1125 * 93.2cqw);
+  transition: top 0.7s cubic-bezier(0.65, 0, 0.35, 1), height 0.7s cubic-bezier(0.65, 0, 0.35, 1),
+    background-color 0.35s ease, opacity 0.35s ease;
+}
+
+.combo.is-uniform [data-zone="card"] { --ut: 372; --uh: 120; }
+.combo.is-uniform [data-zone="balance"] { --ut: 576; --uh: 453; }
+.combo.is-uniform [data-zone="actions"] { --ut: 1113; --uh: 282; }
+.combo.is-uniform [data-zone="details"] { --ut: 1479; --uh: 750; }
+.combo.is-uniform [data-zone="activity"] { --ut: 2313; --uh: 390; }
+
+/* Savings has no card: in wireframes it shows as a dotted gap */
+.combo .approach-zone.is-missing {
+  border: 2px dotted rgba(122, 122, 127, 0.85);
+  opacity: 0;
+}
+
+.combo.is-wireframe .approach-zone.is-missing {
+  background: none;
+  opacity: 1;
+}
+
+/* Names under the three phones when they're side by side */
+.combo-labels span {
+  position: absolute;
+  top: calc(50% + var(--phone) * 2.0517 * var(--small) / 2 + 10px);
+  left: calc(50% + var(--i) * var(--spread));
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.4s ease;
+}
+
+.combo[data-layout="all"] .combo-labels span {
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+
+.combo-legend {
+  gap: 4px 2px;
+  margin-top: 14px;
+}
+
+.combo-legend .approach-key {
+  padding: 4px 7px;
+  cursor: default;
+}
+
+.combo-legend .approach-key:hover {
+  border-color: transparent;
+  background: none;
+  color: var(--resume-label);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combo-phone,
+  .combo-labels span {
+    transition: none;
+  }
+}
+
+/* IA tree: the shared parts in a column, with the account-specific part
+   branching out per account */
+.combo + .ia-tree {
+  margin-top: 0;
+}
+
+.ia-tree {
+  margin: 40px 0 16px;
+  padding: 24px 28px 28px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.ia-title {
+  margin-bottom: 18px;
+  font: var(--type-ui);
+  color: var(--resume-heading);
+}
+
+.ia-node {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 14px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ia-node strong {
+  font: var(--type-ui-small);
+  color: var(--resume-heading);
+}
+
+.ia-node span {
+  font: var(--type-caption);
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--resume-label);
+}
+
+.ia-node.is-root {
+  background: var(--resume-heading);
+  border-color: var(--resume-heading);
+}
+
+.ia-node.is-root strong {
+  color: #fff;
+}
+
+.ia-node.is-root span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ia-node.is-specific,
+.ia-node.is-module {
+  border-color: rgba(47, 168, 74, 0.45);
+  background: rgba(47, 168, 74, 0.08);
+}
+
+.ia-node.is-specific strong {
+  color: #1d7a35;
+}
+
+/* Connectors: each item draws its piece of the trunk and a branch to its node */
+.ia {
+  margin: 0 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.ia li {
+  position: relative;
+  padding: 10px 0 0 26px;
+}
+
+.ia li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-left: 1px solid var(--resume-paper-border);
+}
+
+.ia li:last-child::before {
+  bottom: auto;
+  height: 32px;
+}
+
+.ia li::after {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 24px;
+  border-top: 1px solid var(--resume-paper-border);
+}
+
+.ia li.is-specific .ia li::before,
+.ia li.is-specific .ia li::after,
+.ia li.is-specific::after {
+  border-color: rgba(47, 168, 74, 0.5);
+}
+
+/* Settings: a screen of its own, reached from the header */
+.ia-node.is-settings {
+  border-style: dashed;
+}
+
+/* Slots: the shared skeleton with a dashed slot, and the modules each account
+   puts in it */
+.slots {
+  display: grid;
+  grid-template-columns: 180px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 72px;
+  padding: 28px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.slots-skeleton {
+  display: grid;
+  gap: 8px;
+  padding: 14px 12px;
+  border: 2px solid var(--resume-heading);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.slots-block {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(12, 12, 13, 0.06);
+  font: var(--type-label-xs);
+  font-size: 10.5px;
+  color: var(--resume-label);
+}
+
+.slots-block.is-tall {
+  height: 46px;
+}
+
+.slots-block.is-slot {
+  height: 60px;
+  border: 1.5px dashed #2fa84a;
+  background: rgba(47, 168, 74, 0.08);
+  color: #1d7a35;
+}
+
+.slots-arrow {
+  color: #2fa84a;
+}
+
+.slots-title {
+  margin: 0 0 10px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.slots-modules {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slots-module {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(47, 168, 74, 0.4);
+  border-radius: 12px;
+  background: rgba(47, 168, 74, 0.06);
+}
+
+.slots-module strong {
+  font: var(--type-ui-small);
+  color: var(--resume-heading);
+}
+
+.slots-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.slots-chips span {
+  padding: 3px 9px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  font: var(--type-caption);
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--resume-text);
+}
+
+/* iPhone mock: a screenshot taller than the screen, moved with the two round
+   buttons (see phone-mock.js). Sizes are in cqw, % of the phone's width, so it
+   scales as one piece. */
+.phone-mock {
+  container-type: inline-size;
+}
+
+.phone-mock-body {
+  position: relative;
+  aspect-ratio: 71.5 / 146.7;
+  padding: 3.4cqw;
+  border-radius: 15cqw;
+  background: #232325;
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 10px 24px rgba(12, 12, 13, 0.16);
+}
+
+/* Volume buttons on the left, side button on the right */
+.phone-mock-body::before,
+.phone-mock-body::after {
+  content: "";
+  position: absolute;
+  width: 1.1cqw;
+  background: #3a3a3e;
+}
+
+.phone-mock-body::before {
+  left: -0.9cqw;
+  top: 34cqw;
+  height: 13cqw;
+  border-radius: 0.6cqw 0 0 0.6cqw;
+  box-shadow: 0 16cqw 0 #3a3a3e;
+}
+
+.phone-mock-body::after {
+  right: -0.9cqw;
+  top: 40cqw;
+  height: 21cqw;
+  border-radius: 0 0.6cqw 0.6cqw 0;
+}
+
+.phone-mock-screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 11.6cqw;
+  background: #f1f3f3;
+}
+
+/* Dynamic Island */
+.phone-mock-screen::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 2.8cqw;
+  left: 50%;
+  width: 28cqw;
+  height: 8cqw;
+  border-radius: 999px;
+  background: #0c0c0d;
+  transform: translateX(-50%);
+}
+
+/* Home indicator */
+.phone-mock-screen::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  bottom: 2cqw;
+  left: 50%;
+  width: 34cqw;
+  height: 1.4cqw;
+  border-radius: 999px;
+  background: #0c0c0d;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Only the buttons scroll it, so swiping or wheeling over the phone still moves the page */
+.phone-mock-scroll {
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: 13cqw; /* lets the last row scroll clear of the buttons */
+  box-sizing: border-box;
+}
+
+.phone-mock-scroll img,
+.phone-mock-status img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The top of the same screenshot (status bar and header), pinned over the scrolling one */
+.phone-mock-status {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 28.8cqw;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.phone-mock-buttons {
+  position: absolute;
+  z-index: 4;
+  bottom: 7cqw;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.phone-mock-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(12, 12, 13, 0.14);
+  color: var(--resume-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.phone-mock-button:hover {
+  background: #fff;
+}
+
+.phone-mock-button:active {
+  transform: scale(0.94);
+}
+
+.phone-mock-button:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 2px;
+}
+
+/* Already at that end of the screen */
+.phone-mock-button[aria-disabled="true"] {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--resume-paper-border);
+  cursor: default;
+  transform: none;
+}
+
+/* Two images side by side, between sections */
+.case-image-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 40px 0 72px;
+}
+
+/* A small mono subtitle above a section's title */
+.case-page-section .case-eyebrow {
+  margin: 0 0 16px;
+  font: var(--type-label-s);
+  color: var(--resume-label);
+}
+
+/* Outcomes sits closer to the dotted lines either side of it */
+.case-divider:has(+ #outcomes) {
+  margin-bottom: 32px;
+}
+
+#outcomes + .case-divider {
+  margin-top: 32px;
+  margin-bottom: 72px;
+}
+
+.case-outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-outcomes .case-outcome-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font: var(--type-h2);
+  color: var(--resume-heading);
+}
+
+.case-outcome-stat svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: #2fa84a;
+}
+
+.case-outcomes .case-outcome-label {
+  margin-top: 4px;
+  font: var(--type-caption);
   color: var(--resume-body);
 }
 
@@ -2415,9 +3995,190 @@ html:has(.lightbox.is-open) body {
     left: 12px;
   }
 
+  /* Starts the title below the folded corner */
+  .resume:has(.fold) .case-page-title {
+    margin-top: 76px;
+  }
+
   .case-hero.case-image {
     margin: 32px 0 48px;
     aspect-ratio: 3 / 4;
+  }
+
+  .case-hero.case-image:has(+ .case-details) {
+    margin-bottom: 32px;
+  }
+
+  .case-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+  }
+
+  .case-divider {
+    margin: 32px 0 48px;
+  }
+
+  .case-divider:has(+ #outcomes) {
+    margin-bottom: 28px;
+  }
+
+  #outcomes + .case-divider {
+    margin-top: 28px;
+    margin-bottom: 56px;
+  }
+
+  .case-outcomes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .case-page-section h2 {
+    max-width: none;
+    font-size: 26px;
+  }
+
+  .case-page-section .case-step {
+    max-width: none;
+    font-size: 21px;
+  }
+
+  .compare-slide {
+    padding: 24px 8px 0;
+  }
+
+  .approach-board {
+    padding: 20px 12px;
+  }
+
+  .approach-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 14px;
+  }
+
+  .proto {
+    --phone: 240px;
+    margin-bottom: 56px;
+    padding: 20px 12px 16px;
+  }
+
+  .proto-stage {
+    margin: 0 -12px;
+  }
+
+  .combo {
+    --phone: 240px;
+    --small: 0.36;
+    --spread: 96px;
+    padding: 20px 12px 16px;
+  }
+
+  .combo-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ia-tree {
+    padding: 20px 16px 22px;
+  }
+
+  /* The skeleton sits above the modules, with the arrow pointing up */
+  .slots {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    margin-bottom: 56px;
+    padding: 20px 16px;
+  }
+
+  .slots-skeleton {
+    width: 180px;
+  }
+
+  .slots-arrow {
+    transform: rotate(90deg);
+  }
+
+  .slots-side {
+    width: 100%;
+  }
+
+  .ia {
+    margin-left: 12px;
+  }
+
+  .ia li {
+    padding-left: 18px;
+  }
+
+  .ia li::after {
+    width: 16px;
+  }
+
+  /* The two columns stack: Before above After */
+  .closeup {
+    margin-bottom: 56px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 20px 14px;
+  }
+
+  .approach-scorecard {
+    margin-bottom: 56px;
+    padding: 20px 12px 16px;
+  }
+
+  .approach-scorecard thead td {
+    width: 140px;
+  }
+
+  .approach-scorecard tbody th {
+    white-space: normal;
+  }
+
+  .compare-pair {
+    gap: 10px;
+  }
+
+  .compare-arrow {
+    width: 26px;
+    height: 26px;
+  }
+
+  .compare-arrow svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .compare-mock {
+    flex: 1;
+    width: auto;
+    max-width: var(--phone-width);
+  }
+
+  /* The phones are small here, so their scroll buttons shrink too */
+  .compare-mock .phone-mock-button {
+    width: 26px;
+    height: 26px;
+  }
+
+  .compare-mock .phone-mock-buttons {
+    gap: 6px;
+  }
+
+  .case-image-pair {
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 56px;
+  }
+
+  .case-page-section + .case-page-section {
+    margin-top: 56px;
+  }
+
+  .case-image.case-section-image {
+    margin-bottom: 56px;
+  }
+
+  .case-outcomes .case-outcome-stat {
+    font-size: 20px;
   }
 }
 

@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=279">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=369">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -68,7 +68,7 @@
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.loadStart = performance.now();
   </script>
-  <script src="page-transitions.js?v=11"></script>
+  <script src="page-transitions.js?v=18"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
@@ -215,6 +215,7 @@
                pauses and resumes it (see the case video script) -->
           <div class="case-image case-media">
             <video src="images/neo-accounts-showcase.mp4?v=2" poster="images/neo-accounts-showcase-poster.jpg?v=2" width="468" height="904" muted loop playsinline preload="metadata" aria-label="Neo accounts redesign: credit card, chequing and savings account screens"></video>
+            <a class="case-image-link" href="accounts-architecture.html" tabindex="-1" aria-hidden="true"></a>
             <button class="case-video-toggle" type="button" aria-label="Pause video">
               <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
               <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
@@ -230,6 +231,7 @@
         <article class="case-item">
           <div class="case-image case-image-placeholder case-video-placeholder" data-cover="final-final-v7.html" role="img" aria-label="Placeholder for a case study video">
             <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+            <a class="case-image-link" href="final-final-v7.html" tabindex="-1" aria-hidden="true"></a>
           </div>
           <div class="case-text">
             <h3 class="case-title">Final_Final_v7 @ My Desktop</h3>
@@ -240,6 +242,7 @@
         <article class="case-item">
           <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
             <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+            <a class="case-image-link" href="quick-question.html" tabindex="-1" aria-hidden="true"></a>
           </div>
           <div class="case-text">
             <h3 class="case-title">Quick Question @ 4:59 PM</h3>
@@ -250,6 +253,7 @@
         <article class="case-item">
           <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
             <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
+            <a class="case-image-link" href="make-the-logo-bigger.html" tabindex="-1" aria-hidden="true"></a>
           </div>
           <div class="case-text">
             <h3 class="case-title">Make the Logo Bigger @ Every Company</h3>
@@ -513,11 +517,10 @@
 
       <!-- Email: copies the address. The script swaps "Email" and the icon for the
            copied or failed state, then swaps them back. -->
-      <button class="quick-item quick-copy" type="button" data-copy="emarroquinlucha@gmail.com" aria-label="Copy email address, emarroquinlucha@gmail.com">
+      <button class="quick-item quick-copy" type="button" data-copy="emarroquinlucha@gmail.com" aria-label="Copy email address">
         <img class="quick-avatar" src="images/email-avatar.svg" width="32" height="32" alt="">
         <span class="quick-text">
           <span class="quick-value">Email</span>
-          <span class="quick-label">emarroquinlucha@gmail.com</span>
         </span>
         <span class="quick-icon" aria-hidden="true">
           <svg class="quick-icon-copy" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -1355,7 +1358,8 @@
 
   </script>
   <!-- Case study cover videos and the glass button -->
-  <script src="case-video.js?v=1"></script>
+  <script src="case-video.js?v=2"></script>
+  <script src="case-cursor.js?v=1"></script>
 
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>

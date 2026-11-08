@@ -1,0 +1,309 @@
+// Tappable account prototypes (case studies). Anything with data-go inside a
+// .proto-set switches that set to the named screen: a screen that slides in
+// (.proto-view) or a bottom sheet (.proto-sheet). A switcher, if there is one,
+// picks which set is showing. The hint under the phone comes from the set's
+// data-hint, or the prototype's data-hint-open once something is open.
+//
+// A prototype with data-mode also has a "Watch" mode that plays a loop on its
+// own: open the balance, open utilization, scroll to the statement and open
+// it, then zoom the whole phone in on its progress bar as it fills, and back out.
+(function () {
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll(".proto").forEach(function (proto) {
+    var buttons = proto.querySelectorAll(".proto-switch button");
+    var sets = proto.querySelectorAll(".proto-set");
+    var hint = proto.querySelector(".proto-hint");
+
+    function go(set, view) {
+      set.dataset.view = view;
+      // Only the screen on show can be tapped or tabbed into
+      set.querySelectorAll(".proto-view, .proto-sheet").forEach(function (v) {
+        v.inert = v.dataset.view !== view;
+      });
+      if (hint && proto.dataset.mode !== "watch") {
+        hint.textContent = view === "home" ? set.dataset.hint : proto.dataset.hintOpen;
+      }
+    }
+
+    sets.forEach(function (set) {
+      set.addEventListener("click", function (e) {
+        var target = e.target.closest("[data-go]");
+        if (target) go(set, target.dataset.go);
+      });
+    });
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        buttons.forEach(function (b) { b.setAttribute("aria-pressed", b === button); });
+        sets.forEach(function (set) {
+          var on = set.dataset.account === button.dataset.account;
+          set.hidden = !on;
+          if (on) go(set, "home");
+        });
+      });
+    });
+
+    if (proto.dataset.mode) autoplay(proto, sets[0], go);
+  });
+
+  function autoplay(proto, set, go) {
+    var modes = proto.querySelectorAll(".proto-mode button");
+    var hint = proto.querySelector(".proto-hint");
+    var stage = proto.querySelector(".proto-stage");
+    var body = proto.querySelector(".phone-mock-body");
+    var screen = proto.querySelector(".phone-mock-screen");
+    var scroller = proto.querySelector(".proto-scroll");
+    var bar = proto.querySelector(".proto-bar");
+    var fill = proto.querySelector(".proto-bar-fill");
+    var tapMark = proto.querySelector(".proto-tap");
+    var full = "50.1%"; // $500.50 of $1,000.50 paid, as drawn in the screenshot
+    var run = 0;
+    var inView = false;
+
+    function el(selector) { return proto.querySelector(selector); }
+
+    // Resolves after ms, or rejects if the loop was stopped in the meantime
+    function wait(ms, id) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
+      });
+    }
+
+    function say(text) { hint.textContent = text; }
+
+    function tap(target, id) {
+      var r = target.getBoundingClientRect();
+      var s = screen.getBoundingClientRect();
+      tapMark.style.left = (r.left + r.width / 2 - s.left) + "px";
+      tapMark.style.top = (r.top + r.height / 2 - s.top) + "px";
+      tapMark.classList.remove("is-tapping");
+      void tapMark.offsetWidth;
+      tapMark.classList.add("is-tapping");
+      return wait(350, id);
+    }
+
+    function scrollTo(points) {
+      var shift = points / 375 * screen.clientWidth;
+      scroller.style.transform = shift ? "translateY(" + (-shift) + "px)" : "";
+    }
+
+    // Moves and scales the phone so the bar sits in the middle of the stage.
+    // The zoom is capped so the statement tile (a bit wider than its bar)
+    // still fits across the stage on narrow screens.
+    function zoomTo(target, scale) {
+      var t = target.getBoundingClientRect();
+      var b = body.getBoundingClientRect();
+      var st = stage.getBoundingClientRect();
+      scale = Math.min(scale, st.width * 0.92 / (t.width * 1004 / 885));
+      var px = t.left + t.width / 2 - b.left;
+      var py = t.top + t.height / 2 - b.top;
+      var tx = st.width / 2 - (b.left - st.left) - scale * px;
+      var ty = st.height / 2 - (b.top - st.top) - scale * py;
+      body.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + scale + ")";
+    }
+
+    function setFill(value, animate) {
+      if (!animate) fill.style.transition = "none";
+      fill.style.setProperty("--fill", value);
+      if (!animate) { void fill.offsetWidth; fill.style.transition = ""; }
+    }
+
+    function reset() {
+      go(set, "home");
+      [body, scroller].forEach(function (e) { e.style.transition = "none"; });
+      body.style.transform = "";
+      scroller.style.transform = "";
+      void body.offsetWidth;
+      [body, scroller].forEach(function (e) { e.style.transition = ""; });
+      setFill(full, false);
+    }
+
+    async function loop(id) {
+      reset();
+      while (true) {
+        say("Tapping the current balance");
+        await wait(1000, id);
+        await tap(el('[data-go="balance"]'), id);
+        go(set, "balance");
+        await wait(2400, id);
+        await tap(el('.proto-sheet[data-view="balance"] [data-go="home"]'), id);
+        go(set, "home");
+        await wait(900, id);
+
+        say("Tapping the utilization arrow");
+        await tap(el('[data-go="utilization"]'), id);
+        go(set, "utilization");
+        await wait(2400, id);
+        await tap(el('.proto-sheet[data-view="utilization"] [data-go="home"]'), id);
+        go(set, "home");
+        await wait(900, id);
+
+        say("Opening the statement");
+        scrollTo(220);
+        await wait(1100, id);
+        await tap(el('[data-go="statement"]'), id);
+        setFill("0%", false);
+        go(set, "statement");
+        await wait(1100, id);
+
+        say("$500 still to pay on this statement");
+        zoomTo(bar, 2.4);
+        await wait(1000, id);
+        setFill(full, true);
+        await wait(2600, id);
+        body.style.transform = "";
+        await wait(1100, id);
+        await tap(el('.proto-sheet[data-view="statement"] [data-go="home"]'), id);
+        go(set, "home");
+        await wait(700, id);
+        scrollTo(0);
+        await wait(1300, id);
+      }
+    }
+
+    function start() {
+      run++;
+      if (proto.dataset.mode === "watch" && inView) loop(run).catch(function () {});
+    }
+
+    function stop() {
+      run++;
+      reset();
+    }
+
+    function setMode(mode) {
+      proto.dataset.mode = mode;
+      modes.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
+      stop();
+      if (mode === "watch") start();
+      else hint.textContent = set.dataset.hint;
+    }
+
+    modes.forEach(function (b) {
+      b.addEventListener("click", function () { setMode(b.dataset.mode); });
+    });
+
+    // Plays only while on screen
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) start(); else stop();
+      }, { threshold: 0.3 }).observe(stage);
+    } else {
+      inView = true;
+    }
+
+    // Visitors who prefer less motion start on the tappable version
+    setMode(reduced ? "try" : "watch");
+  }
+
+  // Combo: one big phone with its color-coded zones. "Watch" plays a loop:
+  // the three accounts one by one, then wireframes only, then all three side by
+  // side, then their zones line up into one shared layout, and back. "Explore" lets visitors pick an account (or All) and
+  // switch between screens and wireframes.
+  document.querySelectorAll(".combo").forEach(function (combo) {
+    var phones = Array.prototype.slice.call(combo.querySelectorAll(".combo-phone"));
+    var modeButtons = combo.querySelectorAll(".combo-mode button");
+    var accountButtons = combo.querySelectorAll("[data-account]:not(.combo-phone)");
+    var viewButtons = combo.querySelectorAll("[data-view]");
+    var hint = combo.querySelector(".proto-hint");
+    var state = { account: phones[0].dataset.account, wire: false };
+    var run = 0;
+    var inView = false;
+
+    function name(key) {
+      return key === "all" ? "All" : key.charAt(0).toUpperCase() + key.slice(1);
+    }
+
+    function apply() {
+      var all = state.account === "all";
+      combo.dataset.layout = all ? "all" : "one";
+      phones.forEach(function (p) { p.classList.toggle("is-active", p.dataset.account === state.account); });
+      combo.classList.toggle("is-wireframe", state.wire);
+      accountButtons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.account === state.account); });
+      viewButtons.forEach(function (b) { b.setAttribute("aria-pressed", (b.dataset.view === "wireframes") === state.wire); });
+      if (combo.dataset.mode === "explore") {
+        hint.textContent = all ? "The same structure on every account" : name(state.account);
+      }
+    }
+
+    function wait(ms, id) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
+      });
+    }
+
+    async function loop(id) {
+      while (true) {
+        state.wire = false;
+        for (var i = 0; i < phones.length; i++) {
+          state.account = phones[i].dataset.account;
+          apply();
+          hint.textContent = name(state.account);
+          await wait(2200, id);
+        }
+        hint.textContent = "Stripping away the visuals";
+        state.wire = true;
+        apply();
+        await wait(1600, id);
+        hint.textContent = "The same structure on every account";
+        state.account = "all";
+        apply();
+        await wait(2400, id);
+        hint.textContent = "Lining up into one shared layout";
+        combo.classList.add("is-uniform");
+        await wait(3200, id);
+        state.account = phones[0].dataset.account;
+        apply();
+        await wait(900, id);
+        combo.classList.remove("is-uniform");
+        hint.textContent = name(state.account);
+        await wait(700, id);
+      }
+    }
+
+    function start() {
+      run++;
+      if (combo.dataset.mode === "watch" && inView) loop(run).catch(function () {});
+    }
+
+    function setMode(mode) {
+      combo.dataset.mode = mode;
+      modeButtons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
+      run++;
+      combo.classList.remove("is-uniform");
+      if (mode === "watch") {
+        state = { account: phones[0].dataset.account, wire: false };
+        apply();
+        hint.textContent = name(state.account);
+        start();
+      } else {
+        apply();
+      }
+    }
+
+    modeButtons.forEach(function (b) {
+      b.addEventListener("click", function () { setMode(b.dataset.mode); });
+    });
+    accountButtons.forEach(function (b) {
+      b.addEventListener("click", function () { state.account = b.dataset.account; apply(); });
+    });
+    viewButtons.forEach(function (b) {
+      b.addEventListener("click", function () { state.wire = b.dataset.view === "wireframes"; apply(); });
+    });
+
+    // Plays only while on screen
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) start(); else run++;
+      }, { threshold: 0.3 }).observe(combo.querySelector(".combo-stage"));
+    } else {
+      inView = true;
+    }
+
+    // Visitors who prefer less motion start on Explore
+    setMode(reduced ? "explore" : "watch");
+  });
+})();

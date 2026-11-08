@@ -1,6 +1,20 @@
 // Case study cover videos: play while on screen (unless the visitor asked
-// for reduced motion or pressed pause); the button toggles play/pause.
+// for reduced motion or pressed pause); the button toggles play/pause. They
+// hold on their poster until the page has finished transitioning in.
 (function () {
+  var pageIn = !("onpagereveal" in window);
+  var waiting = [];
+  function pageIsIn() {
+    pageIn = true;
+    waiting.forEach(function (sync) { sync(); });
+  }
+  if (!pageIn) {
+    window.addEventListener("pagereveal", function (e) {
+      if (e.viewTransition) e.viewTransition.finished.then(pageIsIn, pageIsIn);
+      else pageIsIn();
+    }, { once: true });
+  }
+
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll(".case-media").forEach(function (media) {
     var video = media.querySelector("video");
@@ -9,7 +23,7 @@
     var visible = false;
 
     function sync() {
-      if (wantsPlay && visible) {
+      if (wantsPlay && visible && pageIn) {
         var playing = video.play();
         if (playing) playing.catch(function () {});
       } else {
@@ -39,5 +53,6 @@
       sync();
     }
     label();
+    waiting.push(sync);
   });
 })();
