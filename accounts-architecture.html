@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=369">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=458">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=18"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
@@ -34,10 +34,10 @@
       <li><a href="#intro">Intro</a></li>
       <li><a href="#outcomes">Outcomes</a></li>
       <li><a href="#overview">Overview</a></li>
-      <li><a href="#the-problem">The problem</a></li>
-      <li><a href="#the-approach">The approach</a></li>
-      <li><a href="#the-redesign">The redesign</a></li>
-      <li><a href="#the-outcome">The outcome</a></li>
+      <li><a href="#the-problem">Problem</a></li>
+      <li><a href="#the-approach">Approach</a></li>
+      <li><a href="#the-redesign">Redesign</a></li>
+      <li><a href="#the-outcome">Outcome</a></li>
     </ul>
   </nav>
 
@@ -69,16 +69,11 @@
           </div>
           <div>
             <dt>Collaborators</dt>
-            <dd>1 PM</dd>
-            <dd>3-5 engineers</dd>
+            <dd>1 PM, 3-5 Engineers</dd>
           </div>
           <div>
             <dt>Time Period</dt>
             <dd>June - September 2025</dd>
-          </div>
-          <div>
-            <dt>Platform</dt>
-            <dd>Mobile &amp; Web</dd>
           </div>
           <div>
             <dt>Status</dt>
@@ -110,12 +105,31 @@
 
         <section class="case-page-section" id="overview">
           <p class="case-eyebrow">Overview</p>
-          <h2>As Neo Financial continued to grow, its account experiences needed a <span class="gradient-text gradient-text-green">refresh</span>.</h2>
+          <h2>As Neo Financial continued to grow, its account experiences needed a <mark class="case-mark case-mark-green">refresh</mark>.</h2>
           <p>I led the redesign of <strong>chequing</strong>, <strong>credit</strong>, and <strong>high-interest savings</strong> accounts, bringing them together with the existing GIC experience under a clearer, more consistent design.</p>
         </section>
 
-        <!-- Placeholders: swap for the three phone mocks -->
-        <div class="compare-slider">
+        <!-- Before/after: "Watch" wipes each account's old screen away to reveal the
+             new one (compare-wipe.js); "Explore" is the slider with both phones -->
+        <div class="compare-slider" data-mode="watch">
+          <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+            <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+          </div>
+          <hr class="mode-divider">
+          <div class="compare-watch" aria-hidden="true">
+            <p class="compare-slide-title compare-watch-title">Credit account</p>
+            <div class="compare-wipe">
+              <div class="phone-mock-body">
+                <div class="phone-mock-screen">
+                  <img class="compare-wipe-after" src="images/neo-credit-after.png" width="1125" height="4968" alt="" loading="lazy">
+                  <div class="compare-wipe-before"><img src="images/neo-credit-before.png" width="1125" height="5739" alt="" loading="lazy"></div>
+                  <span class="compare-wipe-line"><span class="compare-wipe-handle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5 1.5 7 5 10.5M9 3.5 12.5 7 9 10.5"/></svg></span></span>
+                </div>
+              </div>
+            </div>
+            <p class="proto-hint compare-watch-hint"></p>
+          </div>
           <div class="compare-slider-track">
             <section class="compare-slide" aria-label="Credit account, 1 of 3">
               <h3 class="compare-slide-title">Credit account</h3>
@@ -247,15 +261,14 @@
 
         <section class="case-page-section" id="the-problem">
           <p class="case-eyebrow">The Problem</p>
-          <h2>The old tab-based layout made key information and features <span class="gradient-text gradient-text-red" data-motion="dodge">harder to find</span>.</h2>
-          <p>Through customer support calls and in-app feedback, we started seeing a few recurring issues:</p>
+          <h2>The old tab-based layout made key information and features <mark class="case-mark case-mark-red">harder to find</mark>.</h2>
+          <p>Through <mark class="case-mark case-mark-red">customer support calls</mark> and <mark class="case-mark case-mark-red">in-app feedback</mark>, we started seeing a few recurring issues:</p>
           <ul class="case-list-bullets">
             <li><strong>Card management</strong> was hard to find across chequing and credit accounts.</li>
             <li><strong>Credit statements</strong> were difficult to locate, leading to customer support calls.</li>
             <li><strong>Outstanding balances</strong> weren't always clear, leaving credit customers unsure of how much they owed.</li>
             <li><strong>Upcoming features needed a home.</strong> Features like joint chequing didn't have a clear place within the existing structure.</li>
           </ul>
-          <p>It became clear that we needed to rethink how these experiences were organized, not just how they looked. But oh baby, I was going to update the look too, you better believe it 😎</p>
         </section>
 
         <!-- Placeholder: swap for the real image -->
@@ -265,17 +278,27 @@
 
         <section class="case-page-section" id="the-approach">
           <p class="case-eyebrow">The Approach</p>
-          <h2>I started by looking at how other financial apps approached similar challenges.</h2>
-          <p>I didn't want to reinvent the wheel. I started by looking at how other financial apps, including Wealthsimple, Revolut, and traditional banks, organized their accounts.</p>
-          <p>I broke down common navigation patterns, how information was prioritized, and how customers accessed everyday actions. From there, I explored how we could bring those ideas together into something that worked for Neo.</p>
+          <h2>I started by studying how other financial apps solved the <mark class="case-mark case-mark-yellow">same problem</mark>.</h2>
+          <p><mark class="case-mark case-mark-yellow">Rather than reinvent the wheel</mark>, I looked at how major fintechs, big banks and other popular apps organized their accounts: their navigation, what they prioritized, and how people reached everyday actions.</p>
+          <p>Then I pulled <strong>the best ideas together</strong> into something that fit Neo.</p>
         </section>
 
         <!-- Competitive analysis: each screen's layout is color-coded by zone (see "Approach board" in style.css) -->
-        <div class="approach-board">
-          <div class="approach-toggle" role="group" aria-label="View">
-            <button type="button" class="approach-toggle-button" data-view="screens" aria-pressed="true">Screens</button>
-            <button type="button" class="approach-toggle-button" data-view="wireframes" aria-pressed="false">Wireframes</button>
+        <div class="approach-board" data-mode="watch" data-stage="spot">
+          <div class="mode-bar">
+            <div class="approach-toggle approach-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+            </div>
+            <div class="approach-controls">
+              <div class="approach-toggle approach-view" role="group" aria-label="View">
+                <button type="button" class="approach-toggle-button" data-view="screens" aria-pressed="true">Screens</button>
+                <button type="button" class="approach-toggle-button" data-view="wireframes" aria-pressed="false">Wireframes</button>
+              </div>
+            </div>
           </div>
+          <hr class="mode-divider">
+          <div class="approach-stage">
           <div class="approach-grid">
             <figure class="approach-phone">
               <div class="phone-mock-body">
@@ -366,6 +389,8 @@
               <figcaption>Chase UK</figcaption>
             </figure>
           </div>
+          </div>
+          <p class="proto-hint approach-hint" aria-live="polite"></p>
           <ul class="approach-legend" aria-label="Highlight a zone">
             <li><button type="button" class="approach-key" data-zone="card"><span class="approach-swatch" aria-hidden="true"></span>Card</button></li>
             <li><button type="button" class="approach-key" data-zone="balance"><span class="approach-swatch" aria-hidden="true"></span>Balance</button></li>
@@ -377,63 +402,44 @@
           </ul>
         </div>
 
-        <!-- Pattern scorecard: which apps use each layout pattern, from the screens above -->
-        <div class="approach-scorecard">
-          <p class="approach-scorecard-title">Patterns across the apps</p>
-          <div class="approach-scorecard-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <td></td>
-                  <th scope="col"><span>TD</span></th><th scope="col"><span>RBC</span></th><th scope="col"><span>BMO</span></th><th scope="col"><span>CIBC</span></th><th scope="col"><span>Wealth&shy;simple</span></th><th scope="col"><span>Apple Card</span></th><th scope="col"><span>Amex</span></th><th scope="col"><span>Chase UK</span></th><th scope="col" class="is-neo"><span>Neo (new)</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Card shown on the screen</th>
-                  <td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td class="is-neo"><span class="score is-yes" role="img" aria-label="Yes"></span></td>
-                </tr>
-                <tr>
-                  <th scope="row">Quick actions near the top</th>
-                  <td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-partly" role="img" aria-label="Partly"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-partly" role="img" aria-label="Partly"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td class="is-neo"><span class="score is-yes" role="img" aria-label="Yes"></span></td>
-                </tr>
-                <tr>
-                  <th scope="row">Statements one tap away</th>
-                  <td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-partly" role="img" aria-label="Partly"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td class="is-neo"><span class="score is-yes" role="img" aria-label="Yes"></span></td>
-                </tr>
-                <tr>
-                  <th scope="row">One scrolling page, no tabs</th>
-                  <td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td class="is-neo"><span class="score is-yes" role="img" aria-label="Yes"></span></td>
-                </tr>
-                <tr>
-                  <th scope="row">Settings in the header</th>
-                  <td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-yes" role="img" aria-label="Yes"></span></td><td><span class="score is-no" role="img" aria-label="No"></span></td><td><span class="score is-partly" role="img" aria-label="Partly"></span></td><td class="is-neo"><span class="score is-yes" role="img" aria-label="Yes"></span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <ul class="approach-scorecard-key" aria-hidden="true">
-            <li><span class="score is-yes"></span>Has it</li>
-            <li><span class="score is-partly"></span>Partly</li>
-            <li><span class="score is-no"></span>Doesn't</li>
-          </ul>
-        </div>
 
         <section class="case-page-section" id="the-redesign">
-          <p class="case-eyebrow">The Redesign</p>
-          <h3 class="case-step"><span class="case-step-number">01.</span> Making everyday actions easier to find</h3>
-          <p>We moved away from the old tab-based navigation and introduced quick actions directly on the account screen.</p>
-          <p>Common tasks like paying a credit card, viewing statements, and managing cards became more prominent, while account settings moved to a more familiar location in the header.</p>
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 01</span></p>
+          <h3 class="case-step">Making everyday actions <mark class="case-mark case-mark-blue">easier to find</mark></h3>
+          <p>Everyday tasks were buried in tabs. <mark class="case-mark case-mark-blue">Now they're one tap away.</mark></p>
+          <ul class="case-list-bullets case-list-titled">
+            <li><strong>Quick Actions Replace Tabs</strong> Pay, View Statements and Manage Card sit right under the balance.</li>
+            <li><strong>Fewer Steps</strong> Card and account tools no longer hide behind the Cards and Details tabs.</li>
+            <li><strong>Settings Where You Expect Them</strong> A gear in the header, like most modern fintechs and popular apps.</li>
+            <li><strong>Same Pattern on Every Account</strong> Chequing, Credit and Savings all work the same way.</li>
+          </ul>
         </section>
 
-        <!-- Tappable prototype: pick an account, then tap the card or settings to open those screens (see "Prototype" in style.css and account-prototype.js) -->
-        <div class="proto" data-hint-open="Tap the back arrow to return">
-          <div class="approach-toggle proto-switch" role="group" aria-label="Account">
-            <button type="button" class="approach-toggle-button" data-account="chequing" aria-pressed="false">Chequing</button>
-            <button type="button" class="approach-toggle-button" data-account="credit" aria-pressed="true">Credit</button>
-            <button type="button" class="approach-toggle-button" data-account="savings" aria-pressed="false">Savings</button>
+        <!-- Everyday actions: "Watch" plays the old screen's tabs, then the new quick actions and settings gear, then taps Manage card and settings. "Try it" lets visitors pick an account and tap the card or settings. See "Prototype" and "Everyday actions" in style.css and account-prototype.js. -->
+        <div class="proto proto-actions" data-mode="watch" data-hint-open="Tap the back arrow to return">
+          <div class="mode-bar">
+            <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="try" aria-pressed="false">Try it</button>
+            </div>
+            <div class="approach-controls">
+              <div class="approach-toggle proto-switch" role="group" aria-label="Account">
+                <button type="button" class="approach-toggle-button" data-account="chequing" aria-pressed="false">Chequing</button>
+                <button type="button" class="approach-toggle-button" data-account="credit" aria-pressed="true">Credit</button>
+                <button type="button" class="approach-toggle-button" data-account="savings" aria-pressed="false">Savings</button>
+              </div>
+            </div>
           </div>
-          <div class="proto-phone">
+          <hr class="mode-divider">
+          <div class="proto-stage">
+          <div class="proto-phone proto-phone-before" aria-hidden="true">
+            <div class="phone-mock-body">
+              <div class="phone-mock-screen">
+                <div class="proto-scroll"><img src="images/neo-credit-before.png" width="1125" height="5739" alt="" loading="lazy"><span class="proto-highlight is-old" data-step="tabs" style="--l: 36; --t: 2604; --w: 798; --h: 128"></span></div><span class="proto-header" style="background-image: url(images/neo-credit-before.png)" aria-hidden="true"><span class="proto-header-title">Neo World Mastercard</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="proto-phone proto-phone-main">
             <div class="phone-mock-body">
               <div class="phone-mock-screen">
                 <div class="proto-set" data-account="chequing" data-view="home" data-hint="Tap the card or settings to explore" hidden>
@@ -442,43 +448,48 @@
                   <div class="proto-view" data-view="manage" inert><img src="images/neo-chequing-manage.png" width="1125" height="3378" alt="Manage account screen for My Chequing" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
                 <div class="proto-set" data-account="credit" data-view="home" data-hint="Tap the card or settings to explore">
-                  <div class="proto-view" data-view="home"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><span class="proto-highlight" style="--l: 60; --t: 1386; --w: 1005; --h: 192" aria-hidden="true"></span><button class="proto-hotspot" type="button" data-go="card" style="--x: 0.5; --y: 142" aria-label="Tap the card to open Manage card"></button><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
+                  <div class="proto-view" data-view="home"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><span class="proto-highlight" data-step="actions" style="--l: 60; --t: 1386; --w: 1005; --h: 192" aria-hidden="true"></span><span class="proto-highlight" data-step="card" style="--l: 754; --t: 1386; --w: 311; --h: 192" aria-hidden="true"></span><span class="proto-highlight" data-step="gear" style="--l: 945; --t: 180; --w: 120; --h: 120" aria-hidden="true"></span><span class="proto-target" data-target="manage-card" style="--x: 0.808; --y: 494"></span><span class="proto-pulse" data-step="card" style="--x: 0.808; --y: 494" aria-hidden="true"></span><span class="proto-pulse" data-step="gear" style="--x: 0.8924; --y: 79.67" aria-hidden="true"></span><button class="proto-hotspot" type="button" data-go="card" style="--x: 0.5; --y: 142" aria-label="Tap the card to open Manage card"></button><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
                   <div class="proto-view" data-view="card" inert><img src="images/neo-credit-card.jpg" width="750" height="1734" alt="Manage card screen for the Neo World Mastercard" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
-                  <div class="proto-view" data-view="manage" inert><img src="images/neo-credit-manage.png" width="1125" height="4233" alt="Manage account screen for the Neo World Mastercard" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
+                  <div class="proto-view" data-view="manage" inert><img src="images/neo-credit-manage.png" width="1125" height="4233" alt="Manage account screen for the Neo World Mastercard" loading="lazy"><span class="proto-header" style="background-image: url(images/neo-credit-manage.png)" aria-hidden="true"><span class="proto-header-title">Manage account</span></span><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
                 <div class="proto-set" data-account="savings" data-view="home" data-hint="Tap settings to explore. Savings accounts don't have a card" hidden>
                   <div class="proto-view" data-view="home"><img src="images/neo-savings-after.png" width="1125" height="5298" alt="The redesigned Hawaii Trip savings account screen" loading="lazy"><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
                   <div class="proto-view" data-view="manage" inert><img src="images/neo-savings-manage.png" width="1125" height="3018" alt="Manage account screen for the Hawaii Trip savings account" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
+                <span class="proto-tap" aria-hidden="true"></span>
               </div>
             </div>
+          </div>
           </div>
           <p class="proto-hint" aria-live="polite">Tap the card or settings to explore</p>
         </div>
 
         <section class="case-page-section">
-          <h3 class="case-step"><span class="case-step-number">02.</span> Making account information easier to understand</h3>
-          <p>Rather than relying on rows of numbers, I explored more visual ways to show important account information.</p>
-          <p>For credit accounts, this meant introducing indicators for available credit and utilization, helping customers understand their account at a glance.</p>
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 02</span></p>
+          <h3 class="case-step">Making account information <mark class="case-mark case-mark-pink">easier to understand</mark></h3>
+          <p>Rather than relying on rows of numbers, I explored <strong>more visual ways</strong> to show important account information.</p>
+          <p>For credit accounts, this meant introducing indicators for <strong>available credit</strong> and <strong>utilization</strong>, plus a <strong>statement progress bar</strong> that shows how much of the statement has been paid, so customers can understand their account <strong>at a glance</strong>.</p>
         </section>
 
         <!-- Tap for details: plays a looping tap-through ("Watch") or lets visitors tap ("Try it"); the balance and utilization open bottom sheets (see "Prototype" in style.css and account-prototype.js) -->
         <div class="proto proto-sheets" data-mode="watch" data-hint-open="Tap ✕ to close">
           <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
-            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true">Watch</button>
+            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
             <button type="button" class="approach-toggle-button" data-mode="try" aria-pressed="false">Try it</button>
           </div>
+          <hr class="mode-divider">
           <div class="proto-stage">
             <div class="proto-phone">
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
                   <div class="proto-set" data-view="home" data-hint="Tap Current balance, the utilization arrow, or the statement">
-                    <div class="proto-view" data-view="home"><div class="proto-scroll"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><button class="proto-hotspot" type="button" data-go="balance" style="--x: 0.382; --y: 297.3" aria-label="Open current balance details"></button><button class="proto-hotspot" type="button" data-go="utilization" style="--x: 0.935; --y: 368" aria-label="Open card utilization details"></button><button class="proto-hotspot" type="button" data-go="statement" style="--x: 0.5; --y: 672" aria-label="Open the current statement"></button></div></div>
+                    <div class="proto-view" data-view="home"><div class="proto-scroll"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><button class="proto-hotspot" type="button" data-go="balance" style="--x: 0.382; --y: 297.3" aria-label="Open current balance details"></button><button class="proto-hotspot" type="button" data-go="utilization" style="--x: 0.935; --y: 368" aria-label="Open card utilization details"></button><button class="proto-hotspot" type="button" data-go="statement" style="--x: 0.5; --y: 672" aria-label="Open the current statement"></button></div><span class="proto-header" style="background-image: url(images/neo-credit-after.png)" aria-hidden="true"><span class="proto-header-title">Neo World Mastercard</span></span></div>
                     <div class="proto-scrim" data-go="home"></div>
+                    <span class="proto-statusbar" aria-hidden="true"></span>
                     <span class="proto-tap" aria-hidden="true"></span>
                     <div class="proto-sheet" data-view="balance" inert><img src="images/neo-credit-sheet-balance.png" width="1125" height="1209" alt="Current balance sheet: $1,234.56, with pending, posted purchases, and cash advances" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.086; --y: 41" aria-label="Close"></button></div>
                     <div class="proto-sheet" data-view="utilization" inert><img src="images/neo-credit-sheet-utilization.png" width="1125" height="1566" alt="Card utilization sheet: 29%, available credit $7,100 of a $10,000 limit, a tip to stay below 30%, and Manage credit limit" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.086; --y: 41" aria-label="Close"></button></div>
-                    <div class="proto-sheet is-full" data-view="statement" inert><img src="images/neo-credit-statement.png" width="1125" height="2922" alt="Current statement screen: $500.00 remaining of $1,000.50, the statement balance, payment due March 12, the minimum payment checked off, and the statement dates" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.1065; --y: 102" aria-label="Close"></button><span class="proto-bar" style="--bt: 1212" aria-hidden="true"><span class="proto-bar-fill"></span></span><img class="proto-float" src="images/neo-credit-statement-pay.png" width="1005" height="156" alt="Pay button" loading="lazy"></div>
+                    <div class="proto-sheet is-full" data-view="statement" inert><img src="images/neo-credit-statement.png" width="1125" height="2922" alt="Current statement screen: $500.00 remaining of $1,000.50, the statement balance, payment due March 12, the minimum payment checked off, and the statement dates" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.1065; --y: 49" aria-label="Close"></button><span class="proto-bar" style="--bt: 1053" aria-hidden="true"><span class="proto-bar-fill"></span></span><img class="proto-float" src="images/neo-credit-statement-pay.png" width="1005" height="156" alt="Pay button" loading="lazy"></div>
                   </div>
                 </div>
               </div>
@@ -487,53 +498,36 @@
           <p class="proto-hint" aria-live="polite">Tap Current balance, the utilization arrow, or the statement</p>
         </div>
 
-        <!-- Close-up: the old credit details and payment card next to the new utilization row and statement tile (see "Close-up" in style.css) -->
-        <figure class="closeup">
-          <div class="closeup-col">
-            <p class="compare-label">Before</p>
-            <div class="closeup-shot"><img src="images/neo-credit-before-rows.png" width="1125" height="515" alt="Old credit details: rows for available credit, credit limit, and utilization at 24.69%" loading="lazy"></div>
-            <div class="closeup-shot"><img src="images/neo-credit-before-payment.png" width="1125" height="470" alt="Old payment card that only says No payment due, with a Pay now button" loading="lazy"></div>
-          </div>
-          <div class="closeup-col">
-            <p class="compare-label compare-label-after">After</p>
-            <div class="closeup-shot"><img src="images/neo-credit-after-utilization.png" width="1125" height="260" alt="New utilization row: a green dot with 29%, and available credit of $7,100 of $10,000" loading="lazy"><span class="closeup-marker" style="left: 71.5%; top: 36.15%" aria-hidden="true">1</span></div>
-            <div class="closeup-shot"><img src="images/neo-credit-after-statement.png" width="1125" height="805" alt="New statement tile: $500.00 remaining of $1,000.50, a progress bar, payment due March 12 in 13 days, and the minimum payment of $45 checked off" loading="lazy"><span class="closeup-marker" style="left: 34.67%; top: 27.2%" aria-hidden="true">2</span><span class="closeup-marker" style="left: 49.96%; top: 46.34%" aria-hidden="true">3</span><span class="closeup-marker" style="left: 38.22%; top: 64.72%" aria-hidden="true">4</span><span class="closeup-marker" style="left: 62.67%; top: 86.46%" aria-hidden="true">5</span></div>
-            <ol class="closeup-notes">
-              <li><span class="closeup-number" aria-hidden="true">1</span>Utilization as one color-coded number</li>
-              <li><span class="closeup-number" aria-hidden="true">2</span>What's left to pay on this statement</li>
-              <li><span class="closeup-number" aria-hidden="true">3</span>How much of it has been paid off</li>
-              <li><span class="closeup-number" aria-hidden="true">4</span>When it's due, and how many days away</li>
-              <li><span class="closeup-number" aria-hidden="true">5</span>Whether the minimum payment is covered</li>
-            </ol>
-          </div>
-        </figure>
-
         <section class="case-page-section">
-          <h3 class="case-step"><span class="case-step-number">03.</span> One structure, different accounts</h3>
-          <p>I developed a shared information hierarchy that could work across Neo's financial products, while still giving each account room for its own features.</p>
-          <p>For example, savings accounts could prioritize interest earnings and savings goals, while credit accounts could focus on payments, statements, and available credit.</p>
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 03</span></p>
+          <h3 class="case-step"><mark class="case-mark case-mark-purple">One structure</mark>, different accounts</h3>
+          <p>I developed a <strong>shared information hierarchy</strong> that could work across Neo's financial products, while still giving each account room for its own features.</p>
+          <p>For example, savings accounts could prioritize <strong>interest earnings</strong> and <strong>savings goals</strong>, while credit accounts could focus on <strong>payments, statements</strong>, and <strong>available credit</strong>.</p>
         </section>
 
         <!-- One structure: plays a short story ("Watch") — the accounts one by one, then wireframes, then all three side by side — or lets visitors explore. See "Combo" in style.css and account-prototype.js. -->
         <div class="combo" data-mode="watch" data-layout="one">
-          <div class="approach-toggle combo-mode" role="group" aria-label="Mode">
-            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true">Watch</button>
-            <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
-          </div>
-          <div class="combo-controls">
-            <div class="approach-toggle" role="group" aria-label="Account">
-              <button type="button" class="approach-toggle-button" data-account="chequing" aria-pressed="true">Chequing</button>
-              <button type="button" class="approach-toggle-button" data-account="credit" aria-pressed="false">Credit</button>
-              <button type="button" class="approach-toggle-button" data-account="savings" aria-pressed="false">Savings</button>
-              <button type="button" class="approach-toggle-button" data-account="all" aria-pressed="false">All</button>
+          <div class="mode-bar">
+            <div class="approach-toggle combo-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
             </div>
-            <div class="approach-toggle" role="group" aria-label="View">
-              <button type="button" class="approach-toggle-button" data-view="screens" aria-pressed="true">Screens</button>
-              <button type="button" class="approach-toggle-button" data-view="wireframes" aria-pressed="false">Wireframes</button>
+            <div class="combo-controls">
+              <div class="approach-toggle" role="group" aria-label="Account">
+                <button type="button" class="approach-toggle-button" data-account="chequing" aria-pressed="false">Chequing</button>
+                <button type="button" class="approach-toggle-button" data-account="credit" aria-pressed="true">Credit</button>
+                <button type="button" class="approach-toggle-button" data-account="savings" aria-pressed="false">Savings</button>
+                <button type="button" class="approach-toggle-button" data-account="all" aria-pressed="false">All</button>
+              </div>
+              <div class="approach-toggle" role="group" aria-label="View">
+                <button type="button" class="approach-toggle-button" data-view="screens" aria-pressed="true">Screens</button>
+                <button type="button" class="approach-toggle-button" data-view="wireframes" aria-pressed="false">Wireframes</button>
+              </div>
             </div>
           </div>
+          <hr class="mode-divider">
           <div class="combo-stage">
-            <div class="combo-phone is-active" data-account="chequing" style="--i: -1">
+            <div class="combo-phone" data-account="chequing" style="--i: -1">
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
                   <div class="approach-shot">
@@ -543,7 +537,7 @@
                 </div>
               </div>
             </div>
-            <div class="combo-phone" data-account="credit" style="--i: 0">
+            <div class="combo-phone is-active" data-account="credit" style="--i: 0">
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
                   <div class="approach-shot">
@@ -565,7 +559,7 @@
             </div>
             <div class="combo-labels" aria-hidden="true"><span style="--i: -1">Chequing</span><span style="--i: 0">Credit</span><span style="--i: 1">Savings</span></div>
           </div>
-          <p class="proto-hint" aria-live="polite">Chequing</p>
+          <p class="proto-hint" aria-live="polite">Credit</p>
           <ul class="approach-legend combo-legend" aria-label="Zones">
             <li class="approach-key" data-zone="card"><span class="approach-swatch" aria-hidden="true"></span>Card</li>
             <li class="approach-key" data-zone="settings"><span class="approach-swatch" aria-hidden="true"></span>Settings</li>
@@ -576,66 +570,57 @@
           </ul>
         </div>
 
-        <!-- The shared structure as a tree: every account has the same parts, and only one branches per account -->
-        <figure class="ia-tree">
-          <figcaption class="ia-title">Shared structure</figcaption>
-          <span class="ia-node is-root"><strong>Account screen</strong><span>Chequing, Credit, Savings</span></span>
-          <ul class="ia">
-            <li><span class="ia-node"><strong>Header</strong><span>Back, settings, and the card when there is one</span></span>
-              <ul class="ia">
-                <li><span class="ia-node is-settings"><strong>Settings → Manage account</strong><span>Account details, statements, card, documents, and room for new features</span></span></li>
-              </ul>
-            </li>
-            <li><span class="ia-node"><strong>Name & balance</strong><span>The account name, balance, and key details</span></span></li>
-            <li><span class="ia-node"><strong>Quick actions</strong><span>The account's most common actions</span></span></li>
-            <li class="is-specific"><span class="ia-node is-specific"><strong>Account-specific</strong><span>The one part that changes by account</span></span>
-              <ul class="ia">
-                <li><span class="ia-node is-module"><strong>Chequing</strong><span>Interest</span></span></li>
-                <li><span class="ia-node is-module"><strong>Credit</strong><span>Statement · Auto-Pay · Rewards</span></span></li>
-                <li><span class="ia-node is-module"><strong>Savings</strong><span>Goal progress · Interest</span></span></li>
-              </ul>
-            </li>
-            <li><span class="ia-node"><strong>Transactions</strong><span>Activity for the account</span></span></li>
-          </ul>
-        </figure>
-
-        <!-- One template, swappable modules: the shared skeleton with an open slot, and what each account puts in it -->
-        <figure class="slots">
-          <div class="slots-skeleton" aria-label="The shared account screen">
-            <span class="slots-block">Header &amp; settings</span>
-            <span class="slots-block is-tall">Name &amp; balance</span>
-            <span class="slots-block">Quick actions</span>
-            <span class="slots-block is-slot">Account-specific</span>
-            <span class="slots-block is-tall">Transactions</span>
-          </div>
-          <div class="slots-arrow" aria-hidden="true"><svg width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M27 7H2M7.5 1.5 2 7l5.5 5.5"/></svg></div>
-          <div class="slots-side">
-            <p class="slots-title">Modules for the slot</p>
-            <ul class="slots-modules">
-              <li class="slots-module"><strong>Chequing</strong><span class="slots-chips"><span>Interest</span></span></li>
-              <li class="slots-module"><strong>Credit</strong><span class="slots-chips"><span>Statement</span><span>Auto-Pay</span><span>Rewards</span></span></li>
-              <li class="slots-module"><strong>Savings</strong><span class="slots-chips"><span>Goal progress</span><span>Interest</span></span></li>
-            </ul>
-          </div>
-        </figure>
 
         <section class="case-page-section">
-          <h3 class="case-step"><span class="case-step-number">04.</span> Making room for what's next</h3>
-          <p>With joint accounts on the horizon, the new structure also needed to accommodate shared ownership.</p>
-          <p>I explored using member avatars in the account header, borrowing a familiar pattern from collaborative apps to make joint accounts recognizable and provide an entry point for managing members.</p>
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 04</span></p>
+          <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark></h3>
+          <p>With joint accounts on the horizon, the new structure also needed to accommodate <strong>shared ownership</strong>.</p>
+          <p>I explored using <strong>member avatars</strong> in the <strong>account header</strong>, borrowing a familiar pattern from collaborative apps to make joint accounts recognizable and provide an entry point for managing members.</p>
         </section>
 
-        <!-- Placeholder: swap for the real image -->
-        <div class="case-image case-image-placeholder case-section-image has-text" role="img" aria-label="Placeholder: Close-up of the proposed joint account header and member avatars.">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="9.5" r="1.5" fill="currentColor"/><path d="m4 17 5-4.5 3.5 3 3-2.5L20 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <p class="case-image-placeholder-text">Close-up of the proposed joint account header and member avatars.</p>
+        <!-- Joint chip (see "Joint chip" in style.css and joint-demo.js). Watch: the
+             group-chat inspiration, the chip on its own, then the chip landing in the
+             credit account's header. Try it: chip → Cardholders → Winnie's card. -->
+        <div class="joint" data-mode="watch" data-scene="inspo">
+          <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+            <button type="button" class="approach-toggle-button" data-mode="try" aria-pressed="false">Try it</button>
+          </div>
+          <hr class="mode-divider">
+          <div class="joint-stage">
+            <div class="joint-scene" data-scene="inspo">
+              <figure class="joint-phone joint-inspo" data-zoom="2.6" data-span="0.9">
+                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-instagram.jpg" width="1170" height="2532" alt="Instagram group chat with two stacked member avatars beside the group name" loading="lazy"><span class="joint-target" style="--x: 0.5; --y: 72"></span></div></div>
+              </figure>
+              <figure class="joint-phone joint-inspo" data-zoom="2.6" data-span="0.9">
+                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-messages.jpg" width="1170" height="2532" alt="Messages group chat with three member avatars clustered above 3 People" loading="lazy"><span class="joint-target" style="--x: 0.5; --y: 80"></span></div></div>
+              </figure>
+            </div>
+            <div class="joint-scene" data-scene="chip">
+              <span class="joint-chip-big"><img src="images/neo-joint-chip.png?v=2" width="280" height="160" alt="The joint chip: a person icon followed by the two co-owners' overlapping avatars" loading="lazy"></span>
+            </div>
+            <div class="joint-scene" data-scene="credit">
+              <figure class="joint-phone joint-credit proto-phone" data-zoom="3" data-span="0.42">
+                <div class="phone-mock-body">
+                  <div class="phone-mock-screen">
+                    <div class="joint-views" data-view="home">
+                      <div class="joint-view is-current" data-view="home"><img src="images/neo-credit-joint.png" width="1125" height="3579" alt="Neo World Elite Mastercard account with the joint chip in the header, beside settings" loading="lazy"><span class="joint-chip-slot" aria-hidden="true"><img src="images/neo-joint-chip.png?v=2" width="280" height="160" alt=""></span><span class="joint-target" style="--x: 0.789; --y: 80"></span><button class="proto-hotspot" type="button" data-go="cardholders" style="--x: 0.7253; --y: 80" aria-label="Open Cardholders"></button></div>
+                      <div class="joint-view" data-view="cardholders" inert><img src="images/neo-credit-cardholders.png" width="1125" height="2436" alt="Cardholders screen listing Jon (You) and Winnie" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.1067; --y: 80" aria-label="Back to the account"></button><button class="proto-hotspot" type="button" data-go="cardholder" style="--x: 0.8667; --y: 271" aria-label="Open Winnie's additional card"></button></div>
+                      <div class="joint-view" data-view="cardholder" inert><img src="images/neo-credit-cardholder.png" width="1125" height="2436" alt="Additional card screen for Winnie: her Neo World Mastercard ending 1235, the date it was added, and Remove card" loading="lazy"><button class="proto-hotspot" type="button" data-go="cardholders" style="--x: 0.1067; --y: 80" aria-label="Back to Cardholders"></button></div>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+            </div>
+          </div>
+          <p class="proto-hint" aria-live="polite"></p>
         </div>
 
         <section class="case-page-section" id="the-outcome">
           <p class="case-eyebrow">The Outcome</p>
           <h2>Placeholder title</h2>
-          <p>The redesign brought together a clearer information architecture, more accessible everyday actions, and a refreshed visual direction.</p>
-          <p>More importantly, it established a proposed foundation that could remain consistent across Neo's accounts while adapting to the needs of individual products and future features.</p>
+          <p>The redesign brought together a <strong>clearer information architecture</strong>, <strong>more accessible everyday actions</strong>, and a <strong>refreshed visual direction</strong>.</p>
+          <p>More importantly, it established a <strong>proposed foundation</strong> that could remain consistent across Neo's accounts while adapting to the needs of individual products and future features.</p>
         </section>
 
         <!-- Placeholder: swap for the real image -->
@@ -664,10 +649,28 @@
   <script src="dot-grid.js?v=1"></script>
   <script src="top-blur.js?v=1"></script>
   <script src="page-toc.js?v=1"></script>
-  <script src="gradient-word.js?v=3"></script>
+  <script src="grid-overlay.js?v=1"></script>
+  <script src="title-wrap.js?v=4"></script>
+  <script src="gradient-word.js?v=8"></script>
   <script src="phone-mock.js?v=5"></script>
-  <script src="approach-board.js?v=1"></script>
-  <script src="account-prototype.js?v=8"></script>
+  <script src="mode-ring.js?v=1"></script>
+  <script src="compare-wipe.js?v=1"></script>
+  <script src="approach-board.js?v=5"></script>
+  <script src="account-prototype.js?v=19"></script>
+  <script src="joint-demo.js?v=2"></script>
+  <!-- Page stats (bottom-left corner), like the resume: the read time, worked
+       out from the case study's word count at ~200 words a minute -->
+  <div class="floating-dock">
+    <div class="page-stats">
+      <span class="stat-pill" id="stat-read">– min read</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var words = document.querySelector("article#intro").innerText.trim().split(/\s+/).length;
+      document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
+    })();
+  </script>
   <div id="page-end"></div>
 </body>
 </html>

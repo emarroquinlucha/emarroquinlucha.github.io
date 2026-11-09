@@ -3,6 +3,20 @@
 //   Default: letters near the cursor lift, grow and tilt, then spring back.
 //   data-motion="dodge": letters scatter away as the cursor gets close. Touch
 //   screens get one brief scatter when the words first scroll into view.
+//   data-motion="echo": as the cursor gets close, faint copies of each word
+//   fan out behind it (the same thing, again and again), then slide back in.
+//   Touch screens get one echo when the words first scroll into view.
+//   data-motion="mirror": as the cursor gets close, a soft reflection of each
+//   word grows in beneath it, then fades away. Touch screens get it once.
+//   data-motion="highlight": as the cursor gets close, a soft marker stroke
+//   draws itself under the words, left to right, and wipes away when it
+//   leaves. Touch screens draw it once when the words scroll into view.
+//   data-motion="focus": the words sit slightly out of focus and sharpen as
+//   the cursor gets close, then soften again as it leaves. Touch screens
+//   sharpen them once when the words scroll into view.
+//   data-motion="unscramble": when the cursor comes close, the letters flicker
+//   through random characters and resolve back into the words, left to
+//   right, like a message being decoded. Touch screens play it once.
 (function () {
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -56,6 +70,11 @@
     }
 
     if (phrase.dataset.motion === "dodge") dodge(phrase, letters, function () { return rest; }, release);
+    else if (phrase.dataset.motion === "echo") echo(phrase, "echo", 3);
+    else if (phrase.dataset.motion === "mirror") echo(phrase, "mirror", 1);
+    else if (phrase.dataset.motion === "highlight") highlight(phrase);
+    else if (phrase.dataset.motion === "focus") focus(phrase);
+    else if (phrase.dataset.motion === "unscramble") unscramble(phrase, letters);
     else wave(phrase, letters, release);
   });
 
@@ -121,6 +140,179 @@
             "translate(" + (side * 5) + "px, " + (side * -7) + "px) rotate(" + (side * 10) + "deg)";
         });
         setTimeout(release, 450);
+      }, { threshold: 1 });
+      seen.observe(phrase);
+    }
+  }
+
+  function unscramble(phrase, letters) {
+    var near = 70;   // plays once the cursor is this close (px)
+    var far = 130;   // and can play again once it has gone this far away
+    var chars = "abcdefghijklmnopqrstuvwxyz";
+    var real = letters.map(function (l) { return l.textContent; });
+    var armed = true;
+    var playing = false;
+
+    function play() {
+      if (playing) return;
+      playing = true;
+      // Each letter keeps its width while it flickers, so nothing reflows
+      letters.forEach(function (l) {
+        l.style.width = l.getBoundingClientRect().width + "px";
+        l.classList.add("is-scrambling");
+      });
+      var start = performance.now();
+      var duration = 750;
+      var stagger = duration / letters.length;
+      function frame(now) {
+        var t = now - start;
+        letters.forEach(function (l, i) {
+          if (t >= 200 + i * stagger) l.textContent = real[i];
+          else l.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+        });
+        if (t < 200 + duration) requestAnimationFrame(frame);
+        else {
+          letters.forEach(function (l, i) {
+            l.textContent = real[i];
+            l.style.width = "";
+            l.classList.remove("is-scrambling");
+          });
+          playing = false;
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var box = phrase.getBoundingClientRect();
+      var dx = Math.max(box.left - e.clientX, 0, e.clientX - box.right);
+      var dy = Math.max(box.top - e.clientY, 0, e.clientY - box.bottom);
+      var distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < near && armed) { armed = false; play(); }
+      else if (distance > far) armed = true;
+    }, { passive: true });
+
+    // No cursor on a touch screen: decode once when the words come into view
+    if (window.matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        seen.disconnect();
+        play();
+      }, { threshold: 1 });
+      seen.observe(phrase);
+    }
+  }
+
+  function focus(phrase) {
+    var reach = 140; // how far (px) from the words the focus starts to sharpen
+    phrase.classList.add("is-focusable");
+    phrase.style.setProperty("--focus", 0);
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var box = phrase.getBoundingClientRect();
+      var dx = Math.max(box.left - e.clientX, 0, e.clientX - box.right);
+      var dy = Math.max(box.top - e.clientY, 0, e.clientY - box.bottom);
+      var pull = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / reach);
+      phrase.style.setProperty("--focus", pull.toFixed(3));
+    }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", function () {
+      phrase.style.setProperty("--focus", 0);
+    });
+
+    // No cursor on a touch screen: bring it into focus once and leave it
+    if (window.matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        seen.disconnect();
+        setTimeout(function () { phrase.style.setProperty("--focus", 1); }, 300);
+      }, { threshold: 1 });
+      seen.observe(phrase);
+    }
+  }
+
+  function highlight(phrase) {
+    var near = 70;  // the stroke draws once the cursor is this close (px)
+    var far = 130;  // and wipes away once it's this far, so it doesn't flicker
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var box = phrase.getBoundingClientRect();
+      var dx = Math.max(box.left - e.clientX, 0, e.clientX - box.right);
+      var dy = Math.max(box.top - e.clientY, 0, e.clientY - box.bottom);
+      var distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < near) phrase.classList.add("is-highlighted");
+      else if (distance > far) phrase.classList.remove("is-highlighted");
+    }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", function () {
+      phrase.classList.remove("is-highlighted");
+    });
+
+    // No cursor on a touch screen: draw it once and leave it
+    if (window.matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        seen.disconnect();
+        phrase.classList.add("is-highlighted");
+      }, { threshold: 1 });
+      seen.observe(phrase);
+    }
+  }
+
+  // Echo and mirror both stack copies of each word behind it and move them by
+  // how close the cursor is (--echo, 0 to 1); the CSS for each kind places them
+  function echo(phrase, kind, copies) {
+    var reach = 110;  // how close (px) the cursor gets before the copies move
+    var words = phrase.querySelectorAll(".word");
+    var built = false;
+    var amount = 0;
+
+    // Fresh copies of each word (with the letters' current color positions),
+    // stacked behind the word. Rebuilt each time the echo starts, so they
+    // match after the title rewraps.
+    function build() {
+      words.forEach(function (word) {
+        word.querySelectorAll(".echo, .mirror").forEach(function (e) { e.remove(); });
+        var source = word.cloneNode(true);
+        for (var n = 1; n <= copies; n++) {
+          var copy = document.createElement("span");
+          copy.className = kind;
+          copy.setAttribute("aria-hidden", "true");
+          copy.style.setProperty("--n", n);
+          copy.innerHTML = source.innerHTML;
+          word.appendChild(copy);
+        }
+      });
+      built = true;
+    }
+
+    // 0 = all copies tucked behind the word, 1 = fully fanned out
+    function set(value) {
+      if (value > 0 && amount === 0 && !built) build();
+      amount = value;
+      phrase.style.setProperty("--echo", value.toFixed(3));
+      phrase.classList.toggle("is-echoing", value > 0);
+      if (value === 0) built = false;
+    }
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      var box = phrase.getBoundingClientRect();
+      var dx = Math.max(box.left - e.clientX, 0, e.clientX - box.right);
+      var dy = Math.max(box.top - e.clientY, 0, e.clientY - box.bottom);
+      var pull = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / reach);
+      if (pull > 0 || amount > 0) set(pull);
+    }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", function () { set(0); });
+
+    // No cursor on a touch screen: echo once when the words come into view
+    if (window.matchMedia("(hover: none)").matches && "IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        seen.disconnect();
+        set(1);
+        setTimeout(function () { set(0); }, 900);
       }, { threshold: 1 });
       seen.observe(phrase);
     }

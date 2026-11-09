@@ -10,6 +10,36 @@
 (function () {
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // A scrolled screen's sticky header shows its title (see "Sticky headers"
+  // in style.css). The header sits next to whatever scrolls.
+  function scrolled(target, on) {
+    var header = target.parentNode.querySelector(":scope > .proto-header");
+    if (header) header.classList.toggle("is-scrolled", on);
+  }
+
+  // Phone stages only crop while a phone zooms in or slides out, so zoomed
+  // screens never spill over the caption. Uncropping waits for the phone to
+  // finish moving back; "now" skips the wait.
+  function crop(stage, on, now) {
+    clearTimeout(stage.uncropTimer);
+    if (on) stage.classList.add("is-cropped");
+    else if (now) stage.classList.remove("is-cropped");
+    else stage.uncropTimer = setTimeout(function () { stage.classList.remove("is-cropped"); }, 950);
+  }
+
+  // Switching mode on any Watch / Explore (or Try it) switch replays a short
+  // fade-in on what's below it. This runs before the switch's own handler, so
+  // a click on the mode that's already on does nothing.
+  document.addEventListener("click", function (e) {
+    var button = e.target.closest && e.target.closest(".approach-toggle-button[data-mode]");
+    if (!button || button.getAttribute("aria-pressed") === "true") return;
+    var box = button.closest(".approach-board, .proto, .combo, .joint, .compare-slider");
+    if (!box) return;
+    box.classList.remove("is-mode-switch");
+    void box.offsetWidth;
+    box.classList.add("is-mode-switch");
+  }, true);
+
   document.querySelectorAll(".proto").forEach(function (proto) {
     var buttons = proto.querySelectorAll(".proto-switch button");
     var sets = proto.querySelectorAll(".proto-set");
@@ -44,8 +74,172 @@
       });
     });
 
-    if (proto.dataset.mode) autoplay(proto, sets[0], go);
+    if (proto.classList.contains("proto-actions")) actions(proto, go, buttons);
+    else if (proto.dataset.mode) autoplay(proto, sets[0], go);
   });
+
+  // Everyday actions (section 01). "Watch" plays a loop on the credit account:
+  // the old screen with its tabs outlined in red, which slides out left as the
+  // new screen slides in from the right. Then the quick actions are outlined,
+  // Manage card is outlined and tapped, and the settings gear is outlined and
+  // tapped, with its screen scrolled down and back. "Try it" is the account
+  // picker as before.
+  function actions(proto, go, accountButtons) {
+    var modes = proto.querySelectorAll(".proto-mode button");
+    var hint = proto.querySelector(".proto-hint");
+    var screen = proto.querySelector(".phone-mock-screen");
+    var before = proto.querySelector(".proto-phone-before .proto-scroll");
+    var tapMark = proto.querySelector(".proto-tap");
+    var stage = proto.querySelector(".proto-stage");
+    var credit = proto.querySelector('.proto-set[data-account="credit"]');
+    var manageImg = credit.querySelector('.proto-view[data-view="manage"] img');
+    var creditButton = proto.querySelector('.proto-switch [data-account="credit"]');
+    var run = 0;
+    var inView = false;
+    // One loop is 20s: the sum of the waits and taps in loop() below
+    var LOOP_MS = 20000;
+    var ring = window.modeRing ? window.modeRing(proto.querySelector(".proto-mode")) : null;
+    var steps = ["is-before", "is-tabs", "is-actions", "is-card", "is-gear"];
+
+    function el(selector) { return credit.querySelector(selector); }
+    function step(name, on) { proto.classList.toggle(name, on); }
+
+    // Captions in Watch start with a Before or After tag
+    function say(tag, text) {
+      hint.innerHTML = '<span class="hint-tag' + (tag === "After" ? " is-after" : "") + '">' + tag + "</span>";
+      hint.appendChild(document.createTextNode(text));
+    }
+
+    function wait(ms, id) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
+      });
+    }
+
+    function tap(target, id) {
+      var r = target.getBoundingClientRect();
+      var s = screen.getBoundingClientRect();
+      tapMark.style.left = (r.left + r.width / 2 - s.left) + "px";
+      tapMark.style.top = (r.top + r.height / 2 - s.top) + "px";
+      tapMark.classList.remove("is-tapping");
+      void tapMark.offsetWidth;
+      tapMark.classList.add("is-tapping");
+      return wait(350, id);
+    }
+
+    // Moves an element up by a number of points (the screens are 375 wide)
+    function scroll(target, points, animate) {
+      if (!animate) target.style.transition = "none";
+      target.style.transform = points ? "translateY(" + (-points / 375 * screen.clientWidth) + "px)" : "";
+      if (!animate) { void target.offsetWidth; target.style.transition = ""; }
+      scrolled(target, points > 0);
+    }
+
+    // Back to the start: the old screen showing, nothing outlined
+    function reset(mode) {
+      var movers = [proto.querySelector(".proto-phone-main"), proto.querySelector(".proto-phone-before")];
+      movers.forEach(function (m) { m.style.transition = "none"; });
+      steps.forEach(function (name) { step(name, false); });
+      step("is-before", mode === "watch");
+      crop(stage, false, true);
+      scroll(before, 0, false);
+      scroll(manageImg, 0, false);
+      if (creditButton.getAttribute("aria-pressed") !== "true") creditButton.click();
+      go(credit, "home");
+      void proto.offsetWidth;
+      movers.forEach(function (m) { m.style.transition = ""; });
+    }
+
+    async function loop(id) {
+      reset("watch");
+      while (true) {
+        if (ring) ring.start(LOOP_MS);
+        say("Before", "Everyday tasks were split across tabs");
+        if (!proto.classList.contains("is-before")) { crop(stage, true); crop(stage, false); }
+        step("is-before", true);
+        await wait(1200, id);
+        scroll(before, 300, true);
+        await wait(1000, id);
+        step("is-tabs", true);
+        await wait(2200, id);
+
+        // The old phone slides out left as the new one comes in from the right
+        step("is-tabs", false);
+        crop(stage, true);
+        crop(stage, false);
+        step("is-before", false);
+        say("After", "Quick actions sit right under the balance");
+        await wait(900, id);
+        scroll(before, 0, false);
+        step("is-actions", true);
+        await wait(2200, id);
+        step("is-actions", false);
+
+        say("After", "Manage card is one tap away");
+        step("is-card", true);
+        await wait(1800, id);
+        await tap(el('[data-target="manage-card"]'), id);
+        step("is-card", false);
+        go(credit, "card");
+        await wait(1800, id);
+        await tap(el('.proto-view[data-view="card"] [data-go="home"]'), id);
+        go(credit, "home");
+        await wait(800, id);
+
+        say("After", "Settings live in a gear in the header");
+        step("is-gear", true);
+        await wait(1800, id);
+        await tap(el('.proto-view[data-view="home"] [data-go="manage"]'), id);
+        step("is-gear", false);
+        go(credit, "manage");
+        await wait(1100, id);
+        scroll(manageImg, 520, true);
+        await wait(1600, id);
+        scroll(manageImg, 0, true);
+        await wait(1300, id);
+        await tap(el('.proto-view[data-view="manage"] [data-go="home"]'), id);
+        go(credit, "home");
+        await wait(900, id);
+      }
+    }
+
+    function start() {
+      run++;
+      if (proto.dataset.mode === "watch" && inView) loop(run).catch(function () {});
+    }
+
+    function setMode(mode) {
+      proto.dataset.mode = mode;
+      modes.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
+      run++;
+      if (ring) ring.stop();
+      reset(mode);
+      if (mode === "watch") {
+        say("Before", "Everyday tasks were split across tabs");
+        start();
+      } else {
+        hint.textContent = credit.dataset.hint;
+      }
+    }
+
+    modes.forEach(function (b) {
+      b.addEventListener("click", function () { setMode(b.dataset.mode); });
+    });
+
+    // Plays only while on screen
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) start();
+        else { run++; if (ring) ring.stop(); }
+      }, { threshold: 0.3 }).observe(proto.querySelector(".proto-stage"));
+    } else {
+      inView = true;
+    }
+
+    // Visitors who prefer less motion start on the tappable version
+    setMode(reduced ? "try" : "watch");
+  }
 
   function autoplay(proto, set, go) {
     var modes = proto.querySelectorAll(".proto-mode button");
@@ -60,6 +254,9 @@
     var full = "50.1%"; // $500.50 of $1,000.50 paid, as drawn in the screenshot
     var run = 0;
     var inView = false;
+    // One loop is 18.6s: the sum of the waits and taps in loop() below
+    var LOOP_MS = 18600;
+    var ring = window.modeRing ? window.modeRing(proto.querySelector(".proto-mode")) : null;
 
     function el(selector) { return proto.querySelector(selector); }
 
@@ -86,6 +283,7 @@
     function scrollTo(points) {
       var shift = points / 375 * screen.clientWidth;
       scroller.style.transform = shift ? "translateY(" + (-shift) + "px)" : "";
+      scrolled(scroller, shift > 0);
     }
 
     // Moves and scales the phone so the bar sits in the middle of the stage.
@@ -100,6 +298,7 @@
       var py = t.top + t.height / 2 - b.top;
       var tx = st.width / 2 - (b.left - st.left) - scale * px;
       var ty = st.height / 2 - (b.top - st.top) - scale * py;
+      crop(stage, true);
       body.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + scale + ")";
     }
 
@@ -114,6 +313,8 @@
       [body, scroller].forEach(function (e) { e.style.transition = "none"; });
       body.style.transform = "";
       scroller.style.transform = "";
+      scrolled(scroller, false);
+      crop(stage, false, true);
       void body.offsetWidth;
       [body, scroller].forEach(function (e) { e.style.transition = ""; });
       setFill(full, false);
@@ -122,6 +323,7 @@
     async function loop(id) {
       reset();
       while (true) {
+        if (ring) ring.start(LOOP_MS);
         say("Tapping the current balance");
         await wait(1000, id);
         await tap(el('[data-go="balance"]'), id);
@@ -153,6 +355,7 @@
         setFill(full, true);
         await wait(2600, id);
         body.style.transform = "";
+        crop(stage, false);
         await wait(1100, id);
         await tap(el('.proto-sheet[data-view="statement"] [data-go="home"]'), id);
         go(set, "home");
@@ -169,6 +372,7 @@
 
     function stop() {
       run++;
+      if (ring) ring.stop();
       reset();
     }
 
@@ -208,9 +412,14 @@
     var accountButtons = combo.querySelectorAll("[data-account]:not(.combo-phone)");
     var viewButtons = combo.querySelectorAll("[data-view]");
     var hint = combo.querySelector(".proto-hint");
-    var state = { account: phones[0].dataset.account, wire: false };
+    // The order Watch plays the accounts in
+    var order = ["credit", "chequing", "savings"];
+    var state = { account: order[0], wire: false };
     var run = 0;
     var inView = false;
+    // One loop is 15.4s: the sum of the waits in loop() below
+    var LOOP_MS = 15400;
+    var ring = window.modeRing ? window.modeRing(combo.querySelector(".combo-mode")) : null;
 
     function name(key) {
       return key === "all" ? "All" : key.charAt(0).toUpperCase() + key.slice(1);
@@ -236,9 +445,10 @@
 
     async function loop(id) {
       while (true) {
+        if (ring) ring.start(LOOP_MS);
         state.wire = false;
-        for (var i = 0; i < phones.length; i++) {
-          state.account = phones[i].dataset.account;
+        for (var i = 0; i < order.length; i++) {
+          state.account = order[i];
           apply();
           hint.textContent = name(state.account);
           await wait(2200, id);
@@ -251,14 +461,13 @@
         state.account = "all";
         apply();
         await wait(2400, id);
-        hint.textContent = "Lining up into one shared layout";
+        // The caption stays on the line above until the loop starts over
         combo.classList.add("is-uniform");
         await wait(3200, id);
-        state.account = phones[0].dataset.account;
+        state.account = order[0];
         apply();
         await wait(900, id);
         combo.classList.remove("is-uniform");
-        hint.textContent = name(state.account);
         await wait(700, id);
       }
     }
@@ -272,9 +481,10 @@
       combo.dataset.mode = mode;
       modeButtons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
       run++;
+      if (ring) ring.stop();
       combo.classList.remove("is-uniform");
       if (mode === "watch") {
-        state = { account: phones[0].dataset.account, wire: false };
+        state = { account: order[0], wire: false };
         apply();
         hint.textContent = name(state.account);
         start();
@@ -297,7 +507,8 @@
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         inView = entries[0].isIntersecting;
-        if (inView) start(); else run++;
+        if (inView) start();
+        else { run++; if (ring) ring.stop(); }
       }, { threshold: 0.3 }).observe(combo.querySelector(".combo-stage"));
     } else {
       inView = true;
