@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=458">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=551">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=18"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
@@ -32,12 +32,12 @@
   <nav class="page-toc" aria-label="On this page">
     <ul>
       <li><a href="#intro">Intro</a></li>
-      <li><a href="#outcomes">Outcomes</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#the-problem">Problem</a></li>
       <li><a href="#the-approach">Approach</a></li>
       <li><a href="#the-redesign">Redesign</a></li>
       <li><a href="#the-outcome">Outcome</a></li>
+      <li><a href="#reflections">Reflections</a></li>
     </ul>
   </nav>
 
@@ -50,12 +50,17 @@
         <h1 class="case-page-title">Accounts Architecture @ Neo</h1>
         <p class="case-page-desc">Designing the foundations of a growing digital bank.</p>
 
-        <div class="case-image case-media case-hero">
-          <video src="images/neo-accounts-showcase.mp4?v=2" poster="images/neo-accounts-showcase-poster.jpg?v=2" width="468" height="904" muted loop playsinline preload="metadata" aria-label="Neo accounts redesign: credit card, chequing and savings account screens"></video>
-          <button class="case-video-toggle" type="button" aria-label="Pause video">
-            <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
-            <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
-          </button>
+        <!-- Hero (finale.js, "pair"): the Credit account and its skeleton fade
+             in side by side once, and stay. finale.js copies the
+             showcase's live credit screen into both phones. -->
+        <div class="finale case-hero is-pair" data-scene="trio" role="img" aria-label="The redesigned Credit account beside its skeleton: the building blocks underneath it">
+          <div class="finale-stage" aria-hidden="true">
+            <div class="finale-rig">
+              <div class="finale-phone" data-account="credit" style="--i: -0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+              <div class="finale-phone is-bones" data-account="credit" style="--i: 0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+            </div>
+          </div>
+          <button class="finale-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="finale-icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/><rect x="7.1" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/></svg><svg class="finale-icon-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.2 2.1v7.8a.6.6 0 0 0 .9.5l6-3.9a.6.6 0 0 0 0-1l-6-3.9a.6.6 0 0 0-.9.5Z" fill="currentColor"/></svg></button>
         </div>
 
         <dl class="case-details">
@@ -106,19 +111,27 @@
         <section class="case-page-section" id="overview">
           <p class="case-eyebrow">Overview</p>
           <h2>As Neo Financial continued to grow, its account experiences needed a <mark class="case-mark case-mark-green">refresh</mark>.</h2>
-          <p>I led the redesign of <strong>chequing</strong>, <strong>credit</strong>, and <strong>high-interest savings</strong> accounts, bringing them together with the existing GIC experience under a clearer, more consistent design.</p>
+          <p>I led the redesign of <strong>Credit</strong>, <strong>Chequing</strong>, and <strong>Savings</strong> accounts, bringing them together with the existing GIC experience under a clearer, more consistent design.</p>
         </section>
 
         <!-- Before/after: "Watch" wipes each account's old screen away to reveal the
              new one (compare-wipe.js); "Explore" is the slider with both phones -->
         <div class="compare-slider" data-mode="watch">
-          <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
-            <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
-            <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+          <div class="compare-topbar">
+            <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+            </div>
+            <span class="compare-topbar-divider" aria-hidden="true"></span>
+            <div class="approach-toggle compare-accounts" role="group" aria-label="Account">
+              <button type="button" class="approach-toggle-button" data-slide="0" aria-pressed="true">Credit</button>
+              <button type="button" class="approach-toggle-button" data-slide="1" aria-pressed="false">Chequing</button>
+              <button type="button" class="approach-toggle-button" data-slide="2" aria-pressed="false">Savings</button>
+            </div>
           </div>
           <hr class="mode-divider">
           <div class="compare-watch" aria-hidden="true">
-            <p class="compare-slide-title compare-watch-title">Credit account</p>
+            <p class="compare-slide-title compare-watch-title">Credit Account</p>
             <div class="compare-wipe">
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
@@ -131,8 +144,7 @@
             <p class="proto-hint compare-watch-hint"></p>
           </div>
           <div class="compare-slider-track">
-            <section class="compare-slide" aria-label="Credit account, 1 of 3">
-              <h3 class="compare-slide-title">Credit account</h3>
+            <section class="compare-slide" aria-label="Credit Account, 1 of 3">
               <div class="compare-pair">
               <figure class="compare-mock">
                 <div class="phone-mock">
@@ -151,7 +163,6 @@
                 </div>
                 <figcaption class="compare-label">Before</figcaption>
               </figure>
-              <span class="compare-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M7.75 3.25 11.5 7l-3.75 3.75"/></svg></span>
               <figure class="compare-mock">
                 <div class="phone-mock">
                   <div class="phone-mock-body">
@@ -171,8 +182,7 @@
               </figure>
               </div>
             </section>
-            <section class="compare-slide" aria-label="Chequing account, 2 of 3" inert>
-              <h3 class="compare-slide-title">Chequing account</h3>
+            <section class="compare-slide" aria-label="Chequing Account, 2 of 3" inert>
               <div class="compare-pair">
               <figure class="compare-mock">
                 <div class="phone-mock">
@@ -191,7 +201,6 @@
                 </div>
                 <figcaption class="compare-label">Before</figcaption>
               </figure>
-              <span class="compare-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M7.75 3.25 11.5 7l-3.75 3.75"/></svg></span>
               <figure class="compare-mock">
                 <div class="phone-mock">
                   <div class="phone-mock-body">
@@ -211,8 +220,7 @@
               </figure>
               </div>
             </section>
-            <section class="compare-slide" aria-label="High-Interest Savings account, 3 of 3" inert>
-              <h3 class="compare-slide-title">High-Interest Savings account</h3>
+            <section class="compare-slide" aria-label="Savings Account, 3 of 3" inert>
               <div class="compare-pair">
               <figure class="compare-mock">
                 <div class="phone-mock">
@@ -231,7 +239,6 @@
                 </div>
                 <figcaption class="compare-label">Before</figcaption>
               </figure>
-              <span class="compare-arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7h9M7.75 3.25 11.5 7l-3.75 3.75"/></svg></span>
               <figure class="compare-mock">
                 <div class="phone-mock">
                   <div class="phone-mock-body">
@@ -252,11 +259,7 @@
               </div>
             </section>
           </div>
-          <div class="compare-slider-controls">
-            <button class="phone-mock-button compare-slider-button" type="button" data-slide="prev" aria-label="Previous account" aria-disabled="true"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 7h-9M6.25 3.25 2.5 7l3.75 3.75"/></svg></button>
-            <p class="compare-slider-count" aria-hidden="true">1 / 3</p>
-            <button class="phone-mock-button compare-slider-button" type="button" data-slide="next" aria-label="Next account"><svg width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 7h9M7.75 3.25 11.5 7l-3.75 3.75"/></svg></button>
-          </div>
+          <p class="proto-hint compare-watch-hint compare-explore-hint" aria-hidden="true">Credit Account</p>
         </div>
 
         <section class="case-page-section" id="the-problem">
@@ -271,9 +274,18 @@
           </ul>
         </section>
 
-        <!-- Placeholder: swap for the real image -->
-        <div class="case-image case-image-placeholder case-section-image" role="img" aria-label="Placeholder for an image">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="9.5" r="1.5" fill="currentColor"/><path d="m4 17 5-4.5 3.5 3 3-2.5L20 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <!-- The Problem: the old Credit account three times, once per tab.
+             Everything past the balance (transactions, the card, statements
+             and settings) sat behind the same row of tabs, outlined in red.
+             Built in HTML from the old screens. -->
+        <div class="problem-tabs" role="img" aria-label="The old Credit account on each of its three tabs: Transactions, Cards and Details. The card, statements and account settings all sat behind the same row of tabs.">
+          <div class="pt-row" aria-hidden="true">
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt=""><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt=""></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt=""></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt=""></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></span></div></div><div class="ob-tabs"><span class="ob-tab is-on">Transactions</span><span class="ob-tab">Cards</span><span class="ob-tab">Details</span></div><div class="ob-panel oc-list"><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-park.png" width="40" height="40" alt=""><span class="oc-tx-text"><b>Park Coffee Roasters</b><small>Jul 10 • Pending</small></span><span class="oc-tx-amount">-$12.45<small class="oc-chip">$5.00</small></span></div><div class="oc-tx"><span class="oc-avatar is-dark"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt=""></span><span class="oc-tx-text"><b>Rewards Cash Out</b><small>Jul 8</small></span><span class="oc-tx-amount">$30.00</span></div><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-perks.png" width="40" height="40" alt=""><span class="oc-tx-text"><b>Neo Perks Payment</b><small>Jul 5</small></span><span class="oc-tx-amount">-$9.99</span></div><div class="oc-tx"><span class="oc-avatar is-grey"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt=""></span><span class="oc-tx-text"><b>Rush Replacement Fee</b><small>Jul 3</small></span><span class="oc-tx-amount">-$29.99</span></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt=""><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt=""></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt=""></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt=""></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></span></div></div><div class="ob-tabs"><span class="ob-tab">Transactions</span><span class="ob-tab is-on">Cards</span><span class="ob-tab">Details</span></div><div class="ob-panel"><div class="ob-row ob-card-row"><span class="ob-card"><img src="images/neo-ui/card-chequing.png" width="74" height="48" alt=""><img class="ob-card-layer" src="images/neo-ui/card-chequing-logo.png" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%"><img class="ob-card-layer" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%"></span><span class="ob-card-text"><b>Neo Mastercard</b><small>•••• 1234</small></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt=""><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt=""></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt=""></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt=""></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></span></div></div><div class="ob-tabs"><span class="ob-tab">Transactions</span><span class="ob-tab">Cards</span><span class="ob-tab is-on">Details</span></div><div class="ob-panel"><div class="ob-row"><span>Account details</span></div><div class="ob-row"><span>View statements</span></div><div class="ob-row"><span>Get balance protection</span></div><div class="ob-row"><span>View agreements</span></div><div class="ob-row is-red"><span>Close account</span></div></div></div></div></div></div>
+            <span class="pt-outline"></span>
+          </div>
+          <p class="proto-hint">Everything Hid Behind the Same Three Tabs</p>
         </div>
 
         <section class="case-page-section" id="the-approach">
@@ -284,7 +296,7 @@
         </section>
 
         <!-- Competitive analysis: each screen's layout is color-coded by zone (see "Approach board" in style.css) -->
-        <div class="approach-board" data-mode="watch" data-stage="spot">
+        <div class="approach-board" data-mode="watch" data-stage="grid">
           <div class="mode-bar">
             <div class="approach-toggle approach-mode" role="group" aria-label="Mode">
               <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
@@ -326,7 +338,7 @@
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
                   <div class="approach-shot">
-                    <img src="images/approach-bmo.jpg" width="720" height="1565" alt="BMO credit card account screen" loading="lazy">
+                    <img src="images/approach-bmo.jpg?v=2" width="720" height="1565" alt="BMO credit card account screen" loading="lazy">
                     <div class="approach-zones" aria-hidden="true"><span class="approach-zone" data-zone="balance" style="top:12.3%;height:13.6%;left:6%;width:88%"></span><span class="approach-zone" data-zone="actions" style="top:27.7%;height:3.7%;left:35%;width:30%"></span><span class="approach-zone" data-zone="tabs" style="top:32.7%;height:5.5%;left:4%;width:92%"></span><span class="approach-zone" data-zone="activity" style="top:41.4%;height:23.6%;left:4%;width:92%"></span></div>
                   </div>
                 </div>
@@ -337,7 +349,7 @@
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
                   <div class="approach-shot">
-                    <img src="images/approach-cibc.jpg" width="720" height="1565" alt="CIBC credit card account screen" loading="lazy">
+                    <img src="images/approach-cibc.jpg?v=2" width="720" height="1565" alt="CIBC credit card account screen" loading="lazy">
                     <div class="approach-zones" aria-hidden="true"><span class="approach-zone" data-zone="balance" style="top:5.5%;height:5.9%;left:20%;width:60%"></span><span class="approach-zone" data-zone="tabs" style="top:13.2%;height:5.2%;left:4%;width:92%"></span><span class="approach-zone" data-zone="details" style="top:19.1%;height:56.4%;left:4%;width:92%"></span><span class="approach-zone" data-zone="other" style="top:78.2%;height:20.8%;left:4%;width:92%"></span></div>
                   </div>
                 </div>
@@ -405,7 +417,7 @@
 
         <section class="case-page-section" id="the-redesign">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 01</span></p>
-          <h3 class="case-step">Making everyday actions <mark class="case-mark case-mark-blue">easier to find</mark></h3>
+          <h3 class="case-step">Making everyday actions <mark class="case-mark case-mark-blue">easier to find</mark>.</h3>
           <p>Everyday tasks were buried in tabs. <mark class="case-mark case-mark-blue">Now they're one tap away.</mark></p>
           <ul class="case-list-bullets case-list-titled">
             <li><strong>Quick Actions Replace Tabs</strong> Pay, View Statements and Manage Card sit right under the balance.</li>
@@ -415,8 +427,8 @@
           </ul>
         </section>
 
-        <!-- Everyday actions: "Watch" plays the old screen's tabs, then the new quick actions and settings gear, then taps Manage card and settings. "Try it" lets visitors pick an account and tap the card or settings. See "Prototype" and "Everyday actions" in style.css and account-prototype.js. -->
-        <div class="proto proto-actions" data-mode="watch" data-hint-open="Tap the back arrow to return">
+        <!-- Everyday actions: "Watch" outlines the quick actions, then taps Manage card and the settings gear. "Try it" lets visitors pick an account and tap the card or settings. See "Prototype" and "Everyday actions" in style.css and account-prototype.js. -->
+        <div class="proto proto-actions" data-mode="watch" data-hint-open="Tap the Back Arrow to Return">
           <div class="mode-bar">
             <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
               <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
@@ -432,27 +444,20 @@
           </div>
           <hr class="mode-divider">
           <div class="proto-stage">
-          <div class="proto-phone proto-phone-before" aria-hidden="true">
-            <div class="phone-mock-body">
-              <div class="phone-mock-screen">
-                <div class="proto-scroll"><img src="images/neo-credit-before.png" width="1125" height="5739" alt="" loading="lazy"><span class="proto-highlight is-old" data-step="tabs" style="--l: 36; --t: 2604; --w: 798; --h: 128"></span></div><span class="proto-header" style="background-image: url(images/neo-credit-before.png)" aria-hidden="true"><span class="proto-header-title">Neo World Mastercard</span></span>
-              </div>
-            </div>
-          </div>
           <div class="proto-phone proto-phone-main">
             <div class="phone-mock-body">
               <div class="phone-mock-screen">
-                <div class="proto-set" data-account="chequing" data-view="home" data-hint="Tap the card or settings to explore" hidden>
+                <div class="proto-set" data-account="chequing" data-view="home" data-hint="Tap the Card or Settings to Explore" hidden>
                   <div class="proto-view" data-view="home"><img src="images/neo-chequing-after.png" width="1125" height="4785" alt="The redesigned My Chequing account screen" loading="lazy"><span class="proto-highlight" style="--l: 580; --t: 1188; --w: 225; --h: 186" aria-hidden="true"></span><button class="proto-hotspot" type="button" data-go="card" style="--x: 0.5; --y: 142" aria-label="Tap the card to open Manage card"></button><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
                   <div class="proto-view" data-view="card" inert><img src="images/neo-chequing-card.jpg" width="750" height="1736" alt="Manage card screen for My Chequing" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                   <div class="proto-view" data-view="manage" inert><img src="images/neo-chequing-manage.png" width="1125" height="3378" alt="Manage account screen for My Chequing" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
-                <div class="proto-set" data-account="credit" data-view="home" data-hint="Tap the card or settings to explore">
+                <div class="proto-set" data-account="credit" data-view="home" data-hint="Tap the Card or Settings to Explore">
                   <div class="proto-view" data-view="home"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><span class="proto-highlight" data-step="actions" style="--l: 60; --t: 1386; --w: 1005; --h: 192" aria-hidden="true"></span><span class="proto-highlight" data-step="card" style="--l: 754; --t: 1386; --w: 311; --h: 192" aria-hidden="true"></span><span class="proto-highlight" data-step="gear" style="--l: 945; --t: 180; --w: 120; --h: 120" aria-hidden="true"></span><span class="proto-target" data-target="manage-card" style="--x: 0.808; --y: 494"></span><span class="proto-pulse" data-step="card" style="--x: 0.808; --y: 494" aria-hidden="true"></span><span class="proto-pulse" data-step="gear" style="--x: 0.8924; --y: 79.67" aria-hidden="true"></span><button class="proto-hotspot" type="button" data-go="card" style="--x: 0.5; --y: 142" aria-label="Tap the card to open Manage card"></button><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
                   <div class="proto-view" data-view="card" inert><img src="images/neo-credit-card.jpg" width="750" height="1734" alt="Manage card screen for the Neo World Mastercard" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                   <div class="proto-view" data-view="manage" inert><img src="images/neo-credit-manage.png" width="1125" height="4233" alt="Manage account screen for the Neo World Mastercard" loading="lazy"><span class="proto-header" style="background-image: url(images/neo-credit-manage.png)" aria-hidden="true"><span class="proto-header-title">Manage account</span></span><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
-                <div class="proto-set" data-account="savings" data-view="home" data-hint="Tap settings to explore. Savings accounts don't have a card" hidden>
+                <div class="proto-set" data-account="savings" data-view="home" data-hint="Tap Settings to Explore. Savings Accounts Don't Have a Card" hidden>
                   <div class="proto-view" data-view="home"><img src="images/neo-savings-after.png" width="1125" height="5298" alt="The redesigned Hawaii Trip savings account screen" loading="lazy"><button class="proto-hotspot" type="button" data-go="manage" style="--x: 0.8924; --y: 79.67" aria-label="Tap settings to open Manage account"></button></div>
                   <div class="proto-view" data-view="manage" inert><img src="images/neo-savings-manage.png" width="1125" height="3018" alt="Manage account screen for the Hawaii Trip savings account" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.107; --y: 80" aria-label="Back to the account"></button></div>
                 </div>
@@ -461,18 +466,18 @@
             </div>
           </div>
           </div>
-          <p class="proto-hint" aria-live="polite">Tap the card or settings to explore</p>
+          <p class="proto-hint" aria-live="polite">Tap the Card or Settings to Explore</p>
         </div>
 
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 02</span></p>
-          <h3 class="case-step">Making account information <mark class="case-mark case-mark-pink">easier to understand</mark></h3>
+          <h3 class="case-step">Making account information <mark class="case-mark case-mark-pink">easier to understand</mark>.</h3>
           <p>Rather than relying on rows of numbers, I explored <strong>more visual ways</strong> to show important account information.</p>
           <p>For credit accounts, this meant introducing indicators for <strong>available credit</strong> and <strong>utilization</strong>, plus a <strong>statement progress bar</strong> that shows how much of the statement has been paid, so customers can understand their account <strong>at a glance</strong>.</p>
         </section>
 
         <!-- Tap for details: plays a looping tap-through ("Watch") or lets visitors tap ("Try it"); the balance and utilization open bottom sheets (see "Prototype" in style.css and account-prototype.js) -->
-        <div class="proto proto-sheets" data-mode="watch" data-hint-open="Tap ✕ to close">
+        <div class="proto proto-sheets" data-mode="watch" data-hint-open="Tap ✕ to Close">
           <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
             <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
             <button type="button" class="approach-toggle-button" data-mode="try" aria-pressed="false">Try it</button>
@@ -482,7 +487,7 @@
             <div class="proto-phone">
               <div class="phone-mock-body">
                 <div class="phone-mock-screen">
-                  <div class="proto-set" data-view="home" data-hint="Tap Current balance, the utilization arrow, or the statement">
+                  <div class="proto-set" data-view="home" data-hint="Tap Current Balance, the Utilization Arrow, or the Statement">
                     <div class="proto-view" data-view="home"><div class="proto-scroll"><img src="images/neo-credit-after.png" width="1125" height="4968" alt="The redesigned Neo World Mastercard account screen" loading="lazy"><button class="proto-hotspot" type="button" data-go="balance" style="--x: 0.382; --y: 297.3" aria-label="Open current balance details"></button><button class="proto-hotspot" type="button" data-go="utilization" style="--x: 0.935; --y: 368" aria-label="Open card utilization details"></button><button class="proto-hotspot" type="button" data-go="statement" style="--x: 0.5; --y: 672" aria-label="Open the current statement"></button></div><span class="proto-header" style="background-image: url(images/neo-credit-after.png)" aria-hidden="true"><span class="proto-header-title">Neo World Mastercard</span></span></div>
                     <div class="proto-scrim" data-go="home"></div>
                     <span class="proto-statusbar" aria-hidden="true"></span>
@@ -495,12 +500,12 @@
               </div>
             </div>
           </div>
-          <p class="proto-hint" aria-live="polite">Tap Current balance, the utilization arrow, or the statement</p>
+          <p class="proto-hint" aria-live="polite">Tap Current Balance, the Utilization Arrow, or the Statement</p>
         </div>
 
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 03</span></p>
-          <h3 class="case-step"><mark class="case-mark case-mark-purple">One structure</mark>, different accounts</h3>
+          <h3 class="case-step"><mark class="case-mark case-mark-purple">One structure</mark>, different accounts.</h3>
           <p>I developed a <strong>shared information hierarchy</strong> that could work across Neo's financial products, while still giving each account room for its own features.</p>
           <p>For example, savings accounts could prioritize <strong>interest earnings</strong> and <strong>savings goals</strong>, while credit accounts could focus on <strong>payments, statements</strong>, and <strong>available credit</strong>.</p>
         </section>
@@ -526,6 +531,20 @@
             </div>
           </div>
           <hr class="mode-divider">
+          <!-- Watch (finale.js, "flip"): the three accounts go back and forth
+               between their screens and tilted skeletons (finale.js copies the
+               showcase's live screens in); Explore below is unchanged -->
+          <div class="finale combo-finale is-flip" data-scene="trio" aria-hidden="true">
+            <div class="finale-stage">
+              <div class="finale-rig">
+                <div class="finale-phone" data-account="chequing" style="--i: -1"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+                <div class="finale-phone" data-account="credit" style="--i: 0"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+                <div class="finale-phone" data-account="savings" style="--i: 1"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+              </div>
+            </div>
+            <p class="finale-caption">Chequing, Credit and Savings</p>
+            <button class="finale-pause" type="button" aria-label="Pause the animation" aria-pressed="false" hidden></button>
+          </div>
           <div class="combo-stage">
             <div class="combo-phone" data-account="chequing" style="--i: -1">
               <div class="phone-mock-body">
@@ -573,7 +592,7 @@
 
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 04</span></p>
-          <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark></h3>
+          <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark>.</h3>
           <p>With joint accounts on the horizon, the new structure also needed to accommodate <strong>shared ownership</strong>.</p>
           <p>I explored using <strong>member avatars</strong> in the <strong>account header</strong>, borrowing a familiar pattern from collaborative apps to make joint accounts recognizable and provide an entry point for managing members.</p>
         </section>
@@ -618,16 +637,366 @@
 
         <section class="case-page-section" id="the-outcome">
           <p class="case-eyebrow">The Outcome</p>
-          <h2>Placeholder title</h2>
-          <p>The redesign brought together a <strong>clearer information architecture</strong>, <strong>more accessible everyday actions</strong>, and a <strong>refreshed visual direction</strong>.</p>
-          <p>More importantly, it established a <strong>proposed foundation</strong> that could remain consistent across Neo's accounts while adapting to the needs of individual products and future features.</p>
+          <h2>One foundation, built to <mark class="case-mark case-mark-green">grow with Neo</mark>.</h2>
+          <p>After launch, customers found their way around more easily. NPS rose by <strong>+XX points</strong>, feature discoverability improved by <strong>XX%</strong>, and payment questions to support dropped by <strong>XX%</strong>.</p>
+          <p>A <strong>refreshed visual direction</strong> made the accounts feel lighter and more modern: cards up top, clear balances, and everyday actions within reach.</p>
+          <p>Underneath it all is a <strong>shared foundation</strong> that stays consistent across every account, with room for each product's needs and for features like joint accounts.</p>
         </section>
 
-        <!-- Placeholder: swap for the real image -->
-        <div class="case-image case-image-placeholder case-section-image has-text" role="img" aria-label="Placeholder: Final gallery of redesigned account experiences.">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="8.5" cy="9.5" r="1.5" fill="currentColor"/><path d="m4 17 5-4.5 3.5 3 3-2.5L20 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <p class="case-image-placeholder-text">Final gallery of redesigned account experiences.</p>
+        <!-- Showcase (showcase.js): the redesigned accounts, live, with a slow
+             camera: credit's statement getting paid, chequing's Manage card,
+             savings reaching its goal. -->
+        <div class="showcase is-closer" data-shot="wide">
+          <div class="showcase-stage">
+            <div class="showcase-rig">
+              <div class="showcase-phone is-credit">
+                <div class="showcase-enter">
+                  <div class="phone-mock-body"><div class="phone-mock-screen">
+                    <!-- The Neo World Mastercard account, built in HTML from the Figma
+                         frame (Portfolio Screens, 11:7315) so its statement can be paid live -->
+                    <div class="showcase-scroll na-app has-card" role="img" aria-label="The redesigned Neo World Mastercard account, with the joint chip in the header, quick actions and the statement tile">
+                      <div class="na-card" aria-hidden="true">
+                        <img class="na-card-art" src="images/neo-ui/card-credit.png" width="1005" height="634" alt="">
+                        <img class="na-card-logo" src="images/neo-ui/card-credit-logo.png" width="390" height="120" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 16.03%">
+                        <img class="na-card-mark" src="images/neo-ui/card-world.svg" alt="" style="top: 10.44%; left: 82.33%; width: 9.96%; height: 4.41%">
+                        <img class="na-card-mark" src="images/neo-ui/card-mc.svg" alt="" style="top: 66.17%; left: 70.13%; width: 23.79%; height: 24.32%">
+                      </div>
+                      <div class="na-sheet" style="--sheet-top: 160; --sheet-shadow: 0.15" aria-hidden="true">
+                        <div class="na-content">
+                          <div class="na-account is-credit">
+                            <p class="na-heading">Neo World Mastercard ®</p>
+                            <div class="na-balance-metrics">
+                              <div class="na-balance">
+                              <div class="na-balance-row"><p class="na-display">$2,900.00</p><span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt=""></span></div>
+                              <p class="na-details">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt=""></p>
+                            </div>
+                            <span class="na-divider"></span>
+                            <div class="na-metrics-list">
+                              <div class="na-metric"><span>Utilization</span><span class="na-metric-value"><img class="na-dot" src="images/neo-ui/indicator.svg" width="8" height="8" alt="">29%<img class="na-flush" src="images/neo-ui/chevron-flush.svg" width="12" height="20" alt=""></span></div>
+                              <div class="na-metric"><span>Available credit</span><span class="na-metric-value"><b>$7,100.00</b>&nbsp;of $10,000</span></div>
+                            </div>
+                            </div>
+                          </div>
+                          <div class="na-actions">
+                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/pay.svg" width="24" height="24" alt=""></span><p>Pay</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/statements.svg" width="24" height="24" alt=""></span><p>View statements</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/card.svg" width="24" height="24" alt=""></span><p>Manage card</p></div>
+                        </div>
+                          <div class="na-section">
+                            <p class="na-heading">Statement</p>
+                            <div class="na-stmt-stack">
+                              <div class="na-tile na-stmt">
+                                <span class="na-target" data-target="statement"></span>
+                                <div class="na-stmt-top">
+                                  <div class="na-stmt-head">
+                                    <div class="na-stmt-text"><p class="na-big"><span data-count="statement" data-from="500" data-to="0" data-format="cents">$500.00</span></p><p class="na-sub">Remaining due of $1,000.50</p></div>
+                                    <span class="na-paid-tag"><img src="images/neo-ui/paid-check.svg" width="16" height="16" alt="">Paid</span>
+                                    <img class="na-stmt-chevron" src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="">
+                                  </div>
+                                  <div class="na-collapse is-bar"><div><span class="na-bar" data-bar="statement" style="--fill: 50.15%; --c: #000"><span class="showcase-bar-fill"></span></span></div></div>
+                                </div>
+                                <div class="na-collapse"><div>
+                                  <div class="na-stmt-row"><span>Payment due</span><span class="na-stmt-value">March 12 <em>(in 13 days)</em></span></div>
+                                  <div class="na-stmt-row"><span>Minimum payment</span><span class="na-stmt-value"><span class="na-status-dot"><img src="images/neo-ui/check-circle.svg" width="24" height="24" alt=""></span>$45.00</span></div>
+                                </div></div>
+                              </div>
+                              <div class="na-tile na-autopay">
+                                <img src="images/neo-ui/autopay.svg" width="20" height="20" alt="">
+                                <div class="na-autopay-text"><p>Auto-Pay</p><p class="na-sub">Never miss a payment.</p></div>
+                                <span class="na-pill">Off</span><img src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="na-transactions">
+                          <p class="na-heading">Transactions</p>
+                          <div class="na-list is-plain">
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-park.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Park Coffee Roasters</p><p class="na-row-date">Jul 10 • Pending</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$12.45</p><span class="na-tag">$5.00</span></div>
+                          </div>
+                          <div class="na-row is-legacy">
+                            <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Rewards Cash Out</p><p class="na-row-date">Jul 8</p></div>
+                            <p class="na-row-amount">$30.00</p>
+                          </div>
+                          <div class="na-row">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-perks.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Neo Perks Payment</p><p class="na-row-date">Jul 5</p></div>
+                            <p class="na-row-amount">-$9.99</p>
+                          </div>
+                          <div class="na-row is-legacy">
+                            <span class="na-avatar-cat" style="background: #828d95"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Rush Replacement Fee</p><p class="na-row-date">Jul 3</p></div>
+                            <p class="na-row-amount">-$29.99</p>
+                          </div>
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-organic.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Organic Grocery</p><p class="na-row-date">Jul 1</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$120.54</p><span class="na-punch"><img src="images/neo-ui/checkmark.svg" width="16" height="16" alt=""></span></div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="proto-header na-header" aria-hidden="true">
+                      <div class="na-status">
+                        <span class="na-time">9:41</span>
+                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="">
+                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="">
+                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span>
+                      </div>
+                      <div class="na-nav">
+                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt=""></span>
+                        <span class="na-joint"><img src="images/neo-ui/profile.svg" width="20" height="20" alt=""><span class="na-joint-faces"><img src="images/neo-ui/joint-photo-1.jpg" width="20" height="20" alt=""><img src="images/neo-ui/joint-photo-2.jpg" width="20" height="20" alt=""></span></span>
+                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt=""></span>
+                      </div>
+                    </div>
+                  </div></div>
+                </div>
+              </div>
+              <div class="showcase-phone is-savings">
+                <div class="showcase-enter">
+                  <div class="phone-mock-body"><div class="phone-mock-screen">
+                    <!-- The Hawaii Trip savings account, built in HTML from the Figma
+                         frame (Portfolio Screens, 1:21344) so its numbers can change live -->
+                    <div class="showcase-scroll na-app" role="img" aria-label="A savings account named Hawaii Trip, with its goal progress and interest earned">
+                      <div class="na-content" aria-hidden="true">
+                        <div class="na-account">
+                          <div class="na-name">
+                            <span class="na-avatar"><img src="images/neo-ui/sun.svg" width="24" height="24" alt=""></span>
+                            <div><p class="na-heading">Hawaii Trip</p><p class="na-sub">Neo Savings</p></div>
+                          </div>
+                          <div class="na-balance">
+                            <div class="na-balance-row">
+                              <p class="na-display"><span data-count="balance" data-from="1234.56" data-to="10000" data-format="cents">$1,234.56</span></p>
+                              <span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt=""></span>
+                            </div>
+                            <p class="na-details">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt=""></p>
+                          </div>
+                        </div>
+                        <div class="na-actions">
+                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/add.svg" width="24" height="24" alt=""></span><p>Add funds</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/move-funds.svg" width="24" height="24" alt=""></span><p>Move funds</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/automations.svg" width="24" height="24" alt=""></span><p>Auto-Save</p></div>
+                        </div>
+                        <div class="na-tile na-goal">
+                          <span class="na-target" data-target="goal"></span>
+                          <div class="na-goal-head">
+                            <div><p class="na-sub">Goal progress</p><p class="na-big"><span data-count="goal" data-from="50" data-to="100" data-format="pct">50%</span></p></div>
+                            <img src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="">
+                          </div>
+                          <span class="na-bar" style="--fill: 50.15%"><span class="showcase-bar-fill"></span></span>
+                          <div class="na-metrics"><p>Saved: <b data-count="goal" data-from="5000" data-to="10000" data-format="dollars" data-step="100">$5,000</b></p><p>Goal: <b>$10,000</b></p></div>
+                        </div>
+                        <div class="na-section">
+                          <p class="na-heading">Interest</p>
+                          <div class="na-tile na-interest">
+                            <span class="na-target" data-target="interest"></span>
+                            <div class="na-interest-top"><p class="na-big"><span data-count="interest" data-from="345.67" data-to="412.38" data-format="cents">$345.67</span></p><p class="na-sub">Lifetime earned</p></div>
+                            <div class="na-interest-row">
+                              <span class="na-label">Interest rate<img src="images/neo-ui/info.svg" width="16" height="16" alt=""></span>
+                              <span class="na-value"><img src="images/neo-ui/boost.svg" width="16" height="16" alt="">2.5%<img class="na-chevron" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="na-transactions" aria-hidden="true">
+                        <p class="na-heading">Transactions</p>
+                        <div class="na-list">
+                        <div class="na-row">
+                          <span class="na-avatar-img"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Deposit from Chequing</p><p class="na-row-date">Jun 30</p></div>
+                          <p class="na-row-amount">$2,000.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-cat" style="background: #4bb797"><img src="images/neo-ui/category-interest.svg" width="24" height="24" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Interest Earned</p><p class="na-row-date">Jun 30</p></div>
+                          <p class="na-row-amount">$10.52</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Deposit from Security Fund</p><p class="na-row-date">Jun 29</p></div>
+                          <p class="na-row-amount">$500.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-person" style="background-image: url(images/neo-ui/avatar-purple.svg)">JS</span>
+                          <div class="na-row-text"><p class="na-row-title">e-Transfer to John Shrimp</p><p class="na-row-date">Jun 28</p></div>
+                          <p class="na-row-amount">-$250.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-person" style="background-image: url(images/neo-ui/avatar-green.svg)">JS</span>
+                          <div class="na-row-text"><p class="na-row-title">e-Transfer from Jane Squid</p><p class="na-row-date">Jun 28</p></div>
+                          <p class="na-row-amount">$50.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-img"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Transfer to Chequing</p><p class="na-row-date">Jun 25</p></div>
+                          <p class="na-row-amount">-$200.00</p>
+                        </div>
+                        <div class="na-row is-failed">
+                          <span class="na-avatar-img is-square"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Deposit from Chequing</p><p class="na-row-date">Jun 25 • <span class="na-failed">Failed</span></p></div>
+                          <p class="na-row-amount">$2,000.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Transfer to Security Fund</p><p class="na-row-date">Jun 23</p></div>
+                          <p class="na-row-amount">-$500.00</p>
+                        </div>
+                        <div class="na-row">
+                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt=""></span>
+                          <div class="na-row-text"><p class="na-row-title">Transfer to ABC Financial Services 12345678</p><p class="na-row-date">Jun 23</p></div>
+                          <p class="na-row-amount">-$500.00</p>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="proto-header na-header" aria-hidden="true">
+                      <div class="na-status">
+                        <span class="na-time">9:41</span>
+                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="">
+                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="">
+                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span>
+                      </div>
+                      <div class="na-nav">
+                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt=""></span>
+                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt=""></span>
+                      </div>
+                      <span class="proto-header-title">Hawaii Trip</span>
+                    </div>
+                  </div></div>
+                </div>
+              </div>
+              <div class="showcase-phone is-chequing">
+                <div class="showcase-enter">
+                  <div class="phone-mock-body"><div class="phone-mock-screen">
+                    <!-- The My Chequing account, built in HTML from the Figma frame
+                         (Portfolio Screens, 1:11237) -->
+                    <div class="showcase-scroll na-app has-card" role="img" aria-label="The redesigned My Chequing account, with quick actions under the balance">
+                      <div class="na-card" aria-hidden="true">
+                        <div class="na-card-base">
+                          <img class="na-card-art" src="images/neo-ui/card-chequing.png" width="1005" height="634" alt="">
+                          <img class="na-card-logo" src="images/neo-ui/card-chequing-logo.png" width="390" height="121" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%">
+                          <img class="na-card-mark" src="images/neo-ui/card-money.svg" alt="" style="top: 9.72%; left: 81.87%; width: 12.16%; height: 4.38%">
+                          <img class="na-card-mark" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%">
+                        </div>
+                      </div>
+                      <div class="na-sheet" style="--sheet-top: 164; --sheet-shadow: 0.06" aria-hidden="true">
+                        <div class="na-content">
+                          <div class="na-account">
+                            <div class="na-name">
+                              <span class="na-avatar"><img src="images/neo-ui/account-money.svg" width="24" height="24" alt=""></span>
+                              <div><p class="na-heading">My Chequing</p><p class="na-sub is-medium">Neo Everyday</p></div>
+                            </div>
+                            <div class="na-balance">
+                              <div class="na-balance-row"><p class="na-display">$1,234.56</p><span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt=""></span></div>
+                              <p class="na-details is-medium">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt=""></p>
+                            </div>
+                          </div>
+                          <div class="na-actions">
+                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/add.svg" width="24" height="24" alt=""></span><p>Add funds</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/move-funds.svg" width="24" height="24" alt=""></span><p>Move funds</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/card.svg" width="24" height="24" alt=""><span class="showcase-press" aria-hidden="true"></span><span class="showcase-cursor" aria-hidden="true"></span></span><p>Manage card</p></div>
+                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/automations.svg" width="24" height="24" alt=""></span><p>Automate</p></div>
+                        </div>
+                          <div class="na-section">
+                            <p class="na-heading">Interest</p>
+                            <div class="na-tile na-interest">
+                              <div class="na-interest-top"><p class="na-big">$345.67</p><p class="na-sub">Lifetime earned</p></div>
+                              <div class="na-interest-row">
+                                <span class="na-label">Interest rate<img src="images/neo-ui/info.svg" width="16" height="16" alt=""></span>
+                                <span class="na-value">0.2%</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="na-transactions">
+                          <p class="na-heading">Transactions</p>
+                          <div class="na-list is-plain has-end">
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-park.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Park Coffee Roasters</p><p class="na-row-date">Jul 10 • Pending</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$12.45</p><span class="na-tag">$5.00</span></div>
+                          </div>
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-organic.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Organic Grocery</p><p class="na-row-date">Jul 5</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$120.54</p><span class="na-punch"><img src="images/neo-ui/checkmark.svg" width="16" height="16" alt=""></span></div>
+                          </div>
+                          <div class="na-row">
+                            <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Payment to Credit Account</p><p class="na-row-date">Jul 4</p></div>
+                            <p class="na-row-amount">-$1,234.56</p>
+                          </div>
+                          <div class="na-row">
+                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-perks.png" width="40" height="40" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Neo Perks Payment</p><p class="na-row-date">Jul 5</p></div>
+                            <p class="na-row-amount">-$9.99</p>
+                          </div>
+                          <div class="na-row">
+                            <span class="na-avatar-cat" style="background: #ff9b33"><img src="images/neo-ui/category-food.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Non-Neo Merchant</p><p class="na-row-date">Jul 2</p></div>
+                            <p class="na-row-amount">-$12.45</p>
+                          </div>
+                          <div class="na-row is-failed">
+                            <span class="na-avatar-cat" style="background: #ff9b33"><img src="images/neo-ui/category-food.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Non-Neo Merchant</p><p class="na-row-date">Jul 2 • <span class="na-failed">Declined</span></p></div>
+                            <p class="na-row-amount">$12.45</p>
+                          </div>
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-cat" style="background: #8b9bff"><img src="images/neo-ui/category-services.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Neo Merchant without Logo</p><p class="na-row-date">Jul 1</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$1,204.66</p><span class="na-tag">$5.00</span></div>
+                          </div>
+                          <div class="na-row is-tagged">
+                            <span class="na-avatar-cat" style="background: #a4d65e"><img src="images/neo-ui/category-grocery.svg" width="24" height="24" alt=""></span>
+                            <div class="na-row-text"><p class="na-row-title">Merchant with a really long name that is truncat...</p><p class="na-row-date">Jul 1</p></div>
+                            <div class="na-row-number"><p class="na-row-amount">-$1,204.66</p><span class="na-tag">$5.00</span></div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="proto-header na-header" aria-hidden="true">
+                      <div class="na-status">
+                        <span class="na-time">9:41</span>
+                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="">
+                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="">
+                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span>
+                      </div>
+                      <div class="na-nav">
+                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt=""></span>
+                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt=""></span>
+                      </div>
+                      <span class="proto-header-title">My Chequing</span>
+                    </div>
+                    <div class="showcase-push"><img src="images/neo-chequing-card.jpg" width="750" height="1736" alt="The Manage card screen for My Chequing"></div>
+                  </div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="showcase-caption" aria-live="polite">Chequing, Credit and Savings</p>
+          <button class="showcase-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="showcase-icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg><svg class="showcase-icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg></button>
         </div>
+
+        <section class="case-page-section" id="reflections">
+          <p class="case-eyebrow">Reflections</p>
+          <h2>What I <mark class="case-mark case-mark-teal">learned</mark>.</h2>
+          <div class="case-reflections">
+            <h3>Using established patterns.</h3>
+            <p>Building on navigation patterns people already knew from other fintechs, big banks and popular apps made the whole process <strong>much faster</strong>, and helped me <strong>win stakeholder buy-in</strong> sooner.</p>
+            <h3>A shared architecture is harder than it sounds.</h3>
+            <p>Most of my exploration came down to balancing <strong>each account's own needs</strong> against <strong>one structure that works for all of them</strong>. The result is a family of products that belong together: once customers learn one account, they already know their way around the rest.</p>
+          </div>
+          <div class="case-signoff">
+            <p>I hope this wasn't too boring,</p>
+            <img class="case-signoff-signature" src="images/signature-v2.svg" width="1394" height="762" alt="Edward Marroquin's signature" loading="lazy">
+            <p class="case-signoff-name">Eddie</p>
+          </div>
+        </section>
       </article>
       <!-- Hover area for the folded corner (see "Folded corner" in style.css) -->
       <span class="fold-hotspot" aria-hidden="true"></span>
@@ -652,12 +1021,15 @@
   <script src="grid-overlay.js?v=1"></script>
   <script src="title-wrap.js?v=4"></script>
   <script src="gradient-word.js?v=8"></script>
-  <script src="phone-mock.js?v=5"></script>
-  <script src="mode-ring.js?v=1"></script>
-  <script src="compare-wipe.js?v=1"></script>
-  <script src="approach-board.js?v=5"></script>
-  <script src="account-prototype.js?v=19"></script>
-  <script src="joint-demo.js?v=2"></script>
+  <script src="phone-mock.js?v=9"></script>
+  <script src="mode-ring.js?v=2"></script>
+  <script src="compare-wipe.js?v=12"></script>
+  <script src="approach-board.js?v=11"></script>
+  <script src="account-prototype.js?v=23"></script>
+  <script src="joint-demo.js?v=3"></script>
+  <script src="finale.js?v=12"></script>
+  <script src="caption-fade.js?v=2"></script>
+  <script src="showcase.js?v=25"></script>
   <!-- Page stats (bottom-left corner), like the resume: the read time, worked
        out from the case study's word count at ~200 words a minute -->
   <div class="floating-dock">
@@ -667,7 +1039,14 @@
   </div>
   <script>
     (function () {
-      var words = document.querySelector("article#intro").innerText.trim().split(/\s+/).length;
+      // Words in the case study, leaving out the text inside the phone mocks
+      // and other decorative UI (anything aria-hidden), which isn't reading
+      function count(text) { return (text || "").split(/\s+/).filter(Boolean).length; }
+      var article = document.querySelector("article#intro");
+      var words = count(article.innerText);
+      article.querySelectorAll('[aria-hidden="true"]').forEach(function (el) {
+        if (!el.parentElement.closest('[aria-hidden="true"]')) words -= count(el.innerText);
+      });
       document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
     })();
   </script>

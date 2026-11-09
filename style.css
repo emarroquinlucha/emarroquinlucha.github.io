@@ -72,8 +72,9 @@ body {
    black specks of varying transparency (feColorMatrix), which darkens the page
    like the old "multiply" blend did, but without a blend mode, which made the
    browser re-blend the whole screen on every scroll frame.
-   Adjust opacity for strength, and baseFrequency (in the SVG) for how fine the grain is. */
+   Adjust --grain-opacity for strength, and baseFrequency (in the SVG) for how fine the grain is. */
 :root {
+  --grain-opacity: 0.1;
   --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -85,7 +86,7 @@ body::after {
   pointer-events: none;
   background-image: var(--grain);
   background-size: 240px;
-  opacity: 0.15;
+  opacity: var(--grain-opacity);
 }
 
 img {
@@ -2162,23 +2163,15 @@ html:has(.lightbox.is-open) body {
 }
 
 /* The kicker ("Product Architecture") is the heading, at H3 like the
-   role titles below, and the title under it is set like the bullet titles */
+   role titles below */
 .resume .work-kicker {
   font: var(--type-h3);
   color: var(--resume-text);
 }
 
-/* 18px down to the bullet title (a little tighter than a role title and its
-   first bullet in Experience), then the description right under it */
-.resume .work-title {
-  margin-top: 14px;
-  font: var(--type-body-strong);
-  color: var(--resume-text);
-}
-
-
+/* The description sits right under the kicker */
 .resume .work-desc {
-  margin-top: 8px;
+  margin-top: 10px;
   font: var(--type-body);
   color: var(--resume-body);
 }
@@ -2253,6 +2246,90 @@ html:has(.lightbox.is-open) body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* Cover animation (case-anim.js): a live HTML phone on the case study's
+   light grid that tips into an isometric view as its skeleton and back */
+.case-anim {
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+}
+
+.case-anim-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 45%;
+}
+
+.case-anim-rig {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  animation: finale-drift 9s ease-in-out infinite alternate;
+}
+
+.case-anim.is-skeleton .case-anim-rig {
+  transform: translateY(3%) rotateX(54deg) rotateZ(-30deg) scale(0.86);
+}
+
+.case-anim.is-paused .case-anim-rig {
+  animation-play-state: paused;
+}
+
+.case-anim-phone {
+  width: 54%;
+  container-type: inline-size;
+}
+
+.case-anim .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 40px rgba(12, 12, 13, 0.18),
+    0 5px 12px rgba(12, 12, 13, 0.1);
+  transition: background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.case-anim .phone-mock-screen,
+.case-anim .phone-mock-screen > :not(.finale-zones) {
+  transition: opacity 0.7s ease, background-color 0.7s ease;
+}
+
+.case-anim .phone-mock-screen::before {
+  transition: opacity 0.6s ease;
+}
+
+.case-anim.is-skeleton .phone-mock-screen > :not(.finale-zones) {
+  opacity: 0;
+}
+
+.case-anim.is-skeleton .finale-zones {
+  opacity: 1;
+}
+
+.case-anim.is-skeleton .phone-mock-body {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgba(12, 12, 13, 0.28), 0 18px 40px rgba(12, 12, 13, 0.06);
+}
+
+.case-anim.is-skeleton .phone-mock-screen {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.case-anim.is-skeleton .phone-mock-screen::before {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-anim-rig {
+    animation: none;
+  }
 }
 
 .case-video-toggle {
@@ -2577,11 +2654,14 @@ html:has(.lightbox.is-open) body {
 
 .case-page-title {
   font: var(--type-h1);
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   color: var(--resume-heading);
 }
 
 .case-page-desc {
-  margin-top: 8px;
+  margin-top: 12px;
   font: var(--type-body);
   color: var(--resume-body);
 }
@@ -2627,12 +2707,7 @@ html:has(.lightbox.is-open) body {
   height: 8px;
   margin-top: 7.5px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, #d6fbd0 0%, #6edc76 32%, #2fa84a 68%, #1d7a35 100%);
-  box-shadow:
-    inset 0 -0.5px 1px rgba(0, 60, 20, 0.35),
-    0 0 0 0.5px rgba(20, 90, 40, 0.45),
-    0 1px 1px rgba(12, 12, 13, 0.14),
-    0 0 6px rgba(60, 190, 90, 0.45);
+  background: #2fa84a;
 }
 
 .case-divider {
@@ -2655,6 +2730,72 @@ html:has(.lightbox.is-open) body {
   font: var(--type-h2);
   font-size: 28px;
   color: var(--resume-text);
+}
+
+/* Reflections: each lesson's title on the left (one third), its text on
+   the right (two thirds), like the details grid */
+.case-reflections {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  column-gap: 24px;
+  row-gap: 32px;
+  margin-top: 32px;
+}
+
+.case-reflections h3 {
+  margin: 0;
+  font: var(--type-h3);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--resume-text);
+}
+
+.case-page-section .case-reflections p {
+  margin-top: 0;
+}
+
+/* The sign-off at the end of the case study, with the signature */
+.case-signoff {
+  margin-top: 56px;
+  padding-top: 40px;
+  /* The same dotted line as the page's other dividers */
+  border-top: 2px dotted var(--resume-paper-border);
+}
+
+.resume:has(.case-signoff) {
+  padding-bottom: 56px;
+}
+
+.case-page-section .case-signoff p {
+  margin-top: 0;
+  font: var(--type-label-s);
+  line-height: 1.6;
+}
+
+.case-page-section .case-signoff .case-signoff-name {
+  margin-top: -4px;
+  font-weight: 600;
+  color: var(--resume-text);
+}
+
+.case-signoff-signature {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin-top: 26px;
+  /* Hangs 16px past the text's left edge */
+  margin-left: -16px;
+}
+
+@media (max-width: 720px) {
+  .case-reflections {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  .case-reflections p + h3 {
+    margin-top: 24px;
+  }
 }
 
 .case-page-section p {
@@ -2728,7 +2869,7 @@ html:has(.lightbox.is-open) body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #9a9aa0 0%, #4a4a4f 55%, #1a1a1c 100%);
+  background: #4a4a4f;
 }
 
 .case-list-bullets li + li {
@@ -2746,16 +2887,18 @@ html:has(.lightbox.is-open) body {
 /* Before/after slider, between sections: an outlined card that slides through
    pairs of phones (see phone-mock.js). */
 .compare-slider {
-  --phone-width: 270px;
+  --phone-width: 236px;
+  position: relative;
   margin: 40px 0 72px;
   overflow: hidden;
   border: 0.5px solid var(--resume-paper-border);
   border-radius: 20px;
 }
 
+/* No sliding between accounts: the phones fade out, the track jumps, and
+   the next pair fades in upward from a blur (phone-mock.js) */
 .compare-slider-track {
   display: flex;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .compare-slide {
@@ -2778,36 +2921,32 @@ html:has(.lightbox.is-open) body {
   gap: 48px;
 }
 
-/* Points from Before to After, centered on the phones (not their labels) */
-.compare-arrow {
-  position: absolute;
-  z-index: 1;
-  top: calc(50% - 14px);
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 0.5px solid rgba(12, 12, 13, 0.1);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px rgba(12, 12, 13, 0.14);
-  color: var(--resume-text);
-  transform: translate(-50%, -50%);
-}
-
 .compare-mock {
   width: var(--phone-width);
   margin: 0;
 }
 
+/* Before gets a red pill, After a green one */
 .compare-label {
-  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 10px auto 0;
+  padding: 2px 9px 2px 7px;
+  border: 0.5px solid rgba(229, 72, 77, 0.35);
+  border-radius: 999px;
+  background: rgba(229, 72, 77, 0.08);
   font: var(--type-label-xs);
-  color: var(--resume-label);
-  text-align: center;
+  color: #b4262b;
+}
+
+.compare-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e5484d;
 }
 
 /* After gets a green pill with the same "live" dot as the Status row */
@@ -2829,45 +2968,35 @@ html:has(.lightbox.is-open) body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, #d6fbd0 0%, #6edc76 32%, #2fa84a 68%, #1d7a35 100%);
-  box-shadow: 0 0 0 0.5px rgba(20, 90, 40, 0.45), 0 0 5px rgba(60, 190, 90, 0.45);
+  background: #2fa84a;
 }
 
-/* Reveal: each time a slide comes in, Before settles in quietly, the arrow
-   follows, then After lands a beat later with a small lift. phone-mock.js
-   adds .is-revealed; the hidden starting state only applies once it's running. */
+/* Reveal: each time a pair comes in, both phones fade in upward from a light
+   blur, together. Leaving, they fade out softly first.
+   phone-mock.js adds .is-revealed and .is-leaving; the hidden starting state
+   only applies once it's running. */
 @media (prefers-reduced-motion: no-preference) {
-  .compare-slider.is-ready .compare-slide:not(.is-revealed) :is(.compare-mock, .compare-arrow) {
+  .compare-slider.is-ready .compare-slide:not(.is-revealed) .compare-mock {
     opacity: 0;
   }
 
-  .compare-slide.is-revealed .compare-mock:first-of-type {
-    animation: compare-before 0.5s ease 0.1s both;
+  .compare-slide.is-revealed .compare-mock {
+    animation: compare-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
   }
 
-  .compare-slide.is-revealed .compare-arrow {
-    animation: compare-arrow 0.4s ease 0.3s both;
-  }
-
-  .compare-slide.is-revealed .compare-mock:last-of-type {
-    animation: compare-after 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.4s both;
+  .compare-slide.is-leaving .compare-mock {
+    animation: compare-leave 0.25s ease both;
   }
 }
 
-@keyframes compare-before {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+@keyframes compare-rise {
+  from { opacity: 0; filter: blur(5px); transform: translateY(20px); }
+  to { opacity: 1; filter: none; transform: none; }
 }
 
-@keyframes compare-arrow {
-  from { opacity: 0; transform: translate(-80%, -50%); }
-  to { opacity: 1; transform: translate(-50%, -50%); }
-}
-
-@keyframes compare-after {
-  0% { opacity: 0; transform: translateY(28px) scale(0.96); }
-  45% { opacity: 1; }
-  100% { opacity: 1; transform: none; }
+@keyframes compare-leave {
+  from { opacity: 1; filter: none; }
+  to { opacity: 0; filter: blur(4px); }
 }
 
 .compare-slider-controls {
@@ -2891,12 +3020,6 @@ html:has(.lightbox.is-open) body {
   height: 40px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .compare-slider-track {
-    transition: none;
-  }
-}
-
 /* Approach board: competitor screens in phones, each part of the layout tinted
    by type. "Wireframes" hides the screenshots and leaves the colored blocks;
    the legend highlights one type across every phone (see approach-board.js). */
@@ -2914,6 +3037,14 @@ html:has(.lightbox.is-open) body {
   padding: 24px;
   border: 0.5px solid var(--resume-paper-border);
   border-radius: 20px;
+}
+
+.approach-board > .mode-divider {
+  display: none;
+}
+
+.approach-board > .mode-bar {
+  margin-bottom: 32px;
 }
 
 .approach-toggle {
@@ -3000,12 +3131,37 @@ html:has(.lightbox.is-open) body {
   }
 }
 
-/* A dotted divider under each Watch / Explore (or Try it) switch */
+/* Under each Watch / Explore (or Try it) switch: just space now, no line */
 .mode-divider {
   height: 0;
-  margin: 22px 0 24px;
+  margin: 0 0 36px;
   border: 0;
-  border-top: 2px dotted var(--resume-paper-border);
+}
+
+/* Every case study animation sits on the showcases' light grid, which fades
+   out toward the edges */
+.compare-slider,
+.approach-board,
+.proto,
+.combo,
+.joint,
+.problem-tabs {
+  position: relative;
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  isolation: isolate;
+}
+
+:is(.compare-slider, .approach-board, .proto, .combo, .joint, .problem-tabs)::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 40%, rgba(246, 246, 248, 0.9) 100%);
+  pointer-events: none;
 }
 
 /* Mode ring: a gradient outline around the Watch / Explore switch that fills
@@ -3040,6 +3196,19 @@ html:has(.lightbox.is-open) body {
 @keyframes mode-ring {
   from { stroke-dashoffset: 100; }
   to { stroke-dashoffset: 0; }
+}
+
+/* A new lap: the finished one fades away as the new one fades in */
+.mode-ring-path.is-fading {
+  animation: mode-ring-out 0.9s ease forwards !important;
+}
+
+@keyframes mode-ring-out {
+  to { opacity: 0; }
+}
+
+@keyframes mode-ring-in {
+  from { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3206,6 +3375,7 @@ html:has(.lightbox.is-open) body {
   opacity: 0;
 }
 
+
 .approach-phone figcaption {
   transition: opacity 0.4s ease;
 }
@@ -3234,11 +3404,29 @@ html:has(.lightbox.is-open) body {
   }
 }
 
-/* A dotted divider sets the legend apart from the phones */
+/* The legend sits under the phones as a row of glass pills, like the
+   captions in the hero (no divider, no caption above it) */
 .approach-board .approach-legend {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 2px dotted var(--resume-paper-border);
+  margin-top: 32px;
+}
+
+.approach-board .approach-key {
+  padding: 5px 11px 5px 9px;
+  border-color: rgba(12, 12, 13, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.approach-board .approach-key:hover,
+.approach-board .approach-key[aria-pressed="true"] {
+  border-color: rgba(var(--zone), 0.35);
+  background: rgba(var(--zone), 0.12);
+}
+
+.approach-board .approach-hint,
+.approach-board[data-mode="watch"] .approach-hint {
+  display: none;
 }
 
 .approach-key {
@@ -3598,13 +3786,18 @@ html:has(.lightbox.is-open) body {
   margin-bottom: 0;
 }
 
-/* The stage only crops while a phone zooms in or slides out (JS adds
-   .is-cropped). The crop stops 32px short of the stage's bottom edge, which
-   is where the caption starts (the stage's negative bottom margin pulls the
-   caption up into that space), so a zoomed screen never covers it. */
+/* While a phone zooms in (JS adds .is-cropped) the stage clips its top, so
+   the zoom never covers the controls, but lets it run on past the bottom:
+   the frame itself (overflow: clip) trims it at its rounded edge, and the
+   caption pill floats on top, so there's no hard cut above the caption. */
 .proto-stage.is-cropped,
 .joint-stage.is-cropped {
-  clip-path: inset(0 0 32px 0);
+  clip-path: inset(0 0 -200px 0);
+}
+
+.proto,
+.joint {
+  overflow: clip;
 }
 
 .proto-stage {
@@ -4171,15 +4364,6 @@ html:has(.lightbox.is-open) body {
     gap: 10px;
   }
 
-  .compare-arrow {
-    width: 26px;
-    height: 26px;
-  }
-
-  .compare-arrow svg {
-    width: 13px;
-    height: 13px;
-  }
 
   .compare-mock {
     flex: 1;
@@ -4249,7 +4433,7 @@ body::after {
   animation: none;
   background-image: var(--grain);
   background-size: 240px;
-  opacity: 0.15;
+  opacity: var(--grain-opacity);
 }
 
 ::view-transition-old(grain),
@@ -5867,46 +6051,88 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   }
 }
 
-/* Everyday actions (section 01, account-prototype.js). Watch shows the old
-   screen with its tabs outlined in red, slides it out left as the new one
-   slides in from the right, then outlines and taps through the new screen. */
+/* Everyday actions (section 01, account-prototype.js). Watch outlines and
+   taps through the redesigned credit account. */
 .proto-actions .proto-switch {
   margin-bottom: 0;
 }
 
-/* The old and new phones sit in the same spot and slide like a carousel:
-   the old phone exits left as the new one arrives from the right (and the
-   reverse when the loop starts over). Each travels a little over its own
-   width, so they never overlap on the way. */
-.proto-actions .proto-stage {
-  display: grid;
+/* Section 02's phone matches section 01's size */
+.proto.proto-sheets {
+  --phone: 248px;
 }
 
-.proto-actions .proto-stage > .proto-phone {
-  grid-area: 1 / 1;
-  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease 0.15s;
+/* Smaller phones */
+.proto.proto-actions {
+  --phone: 248px;
 }
 
-.proto-phone-before {
+/* Captions are glass pills in the bottom-left corner, like the hero's. The
+   frames leave room under their contents for them. */
+.proto,
+.combo,
+.joint {
+  padding-bottom: 76px;
+}
+
+:is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint {
+  position: absolute;
+  z-index: 5;
+  left: 20px;
+  bottom: 18px;
+  max-width: calc(100% - 40px);
+  margin: 0;
+  padding: 5px 11px;
+  box-sizing: border-box;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-align: left;
+}
+
+:is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint:empty {
+  display: none;
+}
+
+/* A pill that starts with a Before / After tag gets the same padding on
+   the left as top and bottom, so the tag sits evenly inside it */
+p.proto-hint:has(> .hint-tag:first-child) {
+  padding-left: 5px;
+}
+
+/* Caption fade (caption-fade.js): when a caption changes, the old words fade
+   out, then the new ones fade in, calmly, like the hero's */
+p.proto-hint {
+  transition: opacity 0.45s ease;
+}
+
+p.proto-hint.is-out {
   opacity: 0;
-  pointer-events: none;
-  transform: translateX(-115%);
+  transition-duration: 0.3s;
 }
 
-.proto-actions.is-before .proto-phone-before {
-  opacity: 1;
-  transform: none;
+@media (prefers-reduced-motion: reduce) {
+  p.proto-hint {
+    transition: none;
+  }
 }
 
-.proto-actions.is-before .proto-phone-main {
-  opacity: 0;
-  transform: translateX(115%);
+@media (max-width: 720px) {
+  :is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint {
+    left: 12px;
+    bottom: 12px;
+    max-width: calc(100% - 24px);
+  }
 }
 
-.proto-phone-before .proto-scroll img {
-  display: block;
-  width: 100%;
-  height: auto;
+.proto-actions > .mode-divider {
+  display: none;
+}
+
+.proto-actions > .mode-bar {
+  margin-bottom: 36px;
 }
 
 /* The settings screen scrolls in Watch */
@@ -5998,8 +6224,7 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 }
 
 .hint-tag.is-after::before {
-  background: radial-gradient(circle at 35% 28%, #d6fbd0 0%, #6edc76 32%, #2fa84a 68%, #1d7a35 100%);
-  box-shadow: 0 0 0 0.5px rgba(20, 90, 40, 0.45), 0 0 5px rgba(60, 190, 90, 0.45);
+  background: #2fa84a;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6127,16 +6352,46 @@ article#intro {
 /* Before/after Watch (compare-wipe.js): one phone with the old screen laid
    over the new one. A line sweeps from right to left, uncovering the new
    design (--p is how much of the old screen still shows, 100 to 0). */
-.compare-slider[data-mode] > .proto-mode {
+/* The top bar: Watch/Explore, a divider, then (in Explore) the accounts */
+.compare-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
   margin: 24px auto 0;
 }
 
+.compare-topbar > .approach-toggle {
+  margin: 0;
+}
+
+.compare-topbar-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(12, 12, 13, 0.14);
+}
+
+.compare-slider[data-mode="watch"] :is(.compare-accounts, .compare-topbar-divider, .compare-explore-hint) {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .compare-topbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .compare-topbar-divider {
+    display: none;
+  }
+}
+
 .compare-slider[data-mode] > .mode-divider {
-  margin: 22px 24px 0;
+  display: none;
 }
 
 .compare-slider[data-mode] .compare-slide {
-  padding-top: 24px;
+  padding: 44px 24px 76px;
 }
 
 .compare-slider[data-mode="watch"] .compare-slider-track,
@@ -6146,7 +6401,12 @@ article#intro {
 }
 
 .compare-watch {
-  padding: 24px 24px 28px;
+  padding: 44px 24px 28px;
+}
+
+/* The account's name is in the caption, so Watch has no title above */
+.compare-watch-title {
+  display: none;
 }
 
 .compare-wipe {
@@ -6156,12 +6416,35 @@ article#intro {
   container-type: inline-size;
 }
 
-.compare-wipe .phone-mock-screen {
-  transition: opacity 0.35s ease;
+/* Between accounts the phone fades out, then the next one fades in upward
+   from a light blur (compare-wipe.js adds .is-entering) */
+.compare-wipe .phone-mock-body {
+  transition: opacity 0.35s ease, filter 0.35s ease;
 }
 
-.compare-wipe.is-swapping .phone-mock-screen {
+.compare-wipe.is-swapping .phone-mock-body {
   opacity: 0;
+  filter: blur(4px);
+}
+
+.compare-wipe.is-entering .phone-mock-body {
+  animation: compare-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Off while swapping, so the fade-out shows; it starts again as the swap ends */
+.compare-wipe.is-swapping.is-entering .phone-mock-body {
+  animation: none;
+}
+
+@keyframes compare-enter {
+  from { opacity: 0; filter: blur(5px); transform: translateY(24px); }
+  to { opacity: 1; filter: none; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compare-wipe.is-entering .phone-mock-body {
+    animation: none;
+  }
 }
 
 .compare-wipe-after,
@@ -6220,8 +6503,46 @@ article#intro {
     left var(--sweep, 1s) cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s ease;
 }
 
-.compare-watch-hint {
-  min-height: 2.6em;
+/* Watch's caption: a pill in the bottom-left corner like the showcases',
+   with its Before or After tag at the start */
+.compare-watch {
+  padding-bottom: 76px;
+}
+
+.compare-watch-hint.proto-hint {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 40px);
+  margin: 0;
+  padding: 5px 11px;
+  box-sizing: border-box;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-align: left;
+}
+
+.compare-watch-hint:empty {
+  display: none;
+}
+
+.compare-watch-hint .hint-tag {
+  flex: none;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .compare-watch-hint.proto-hint {
+    left: 12px;
+    bottom: 12px;
+    max-width: calc(100% - 24px);
+  }
 }
 
 /* A static marker highlight in body copy, like the one that draws under
@@ -6357,4 +6678,2253 @@ article#intro {
 .case-page-section .case-step .case-mark {
   padding-bottom: 0.08em;
   background-position: left 0 bottom 0;
+}
+
+/* ===== Finale (finale.js) =====
+   The three redesigned accounts side by side on the hero's light grid (the
+   phones are copies of the hero's live HTML screens), drifting slowly.
+     .is-shown:    the phones fade in
+     blueprint:    (data-scene) the rig tips into an isometric view
+     .is-skeleton: each screen gives way to coloured blocks sitting on its
+                   own parts, and the phones to outlines
+     .is-shared:   the blocks resize to one shared layout (finale.js places
+                   them either way) */
+.finale {
+  --pw: 196px;      /* phone width */
+  --gap: 236px;     /* space between the phones */
+  position: relative;
+  margin: 40px 0 72px;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  isolation: isolate;
+}
+
+/* The grid fades out toward the edges, like the hero */
+.finale::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 40%, rgba(246, 246, 248, 0.9) 100%);
+  pointer-events: none;
+}
+
+/* Inside section 03 it's Watch: no frame of its own (the section has the
+   grid), and the section's own stage, caption and legend wait for Explore */
+.finale.combo-finale {
+  /* Static, so its caption pins to section 03's own bottom-left corner,
+     like every other caption */
+  position: static;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  overflow: visible;
+}
+
+.combo-finale .finale-caption {
+  z-index: 5;
+}
+
+.finale.combo-finale::after,
+.combo-finale .finale-pause {
+  display: none;
+}
+
+.combo[data-mode="watch"] :is(.combo-stage, .combo > .proto-hint, .combo-legend),
+.combo[data-mode="explore"] .combo-finale {
+  display: none;
+}
+
+/* At the top of the page it's the hero */
+.finale.case-hero {
+  margin: 48px 0 40px;
+}
+
+/* The showcase closes the page (it was the hero; it keeps the hero's shape) */
+.showcase.is-closer {
+  margin: 40px 0 72px;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+}
+
+.finale-stage {
+  position: relative;
+  height: 560px;
+  perspective: 1500px;
+  perspective-origin: 50% 42%;
+}
+
+.finale-rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+  animation: finale-drift 9s ease-in-out infinite alternate;
+}
+
+/* The skeletons are shown in an isometric view, the phones layered */
+.finale[data-scene="blueprint"] .finale-rig {
+  transform: translateY(20px) rotateX(54deg) rotateZ(-30deg) scale(0.88);
+}
+
+.finale[data-scene="blueprint"] .finale-phone {
+  transform: translateX(calc(var(--i) * 232px)) translateZ(calc((var(--i) + 1) * 40px));
+}
+
+@keyframes finale-drift {
+  from { translate: 0 5px; }
+  to { translate: 0 -5px; }
+}
+
+.finale-phone {
+  position: absolute;
+  top: calc(50% - var(--pw) * 2.0517 / 2 - 16px);
+  left: calc(50% - var(--pw) / 2);
+  width: var(--pw);
+  container-type: inline-size;
+  opacity: 0;
+  transform: translateX(calc(var(--i) * var(--gap))) translateY(14px);
+  transition:
+    transform 1.5s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.8s ease calc((var(--i) + 1) * 0.15s);
+}
+
+.finale.is-shown .finale-phone {
+  opacity: 1;
+}
+
+.finale.is-shown:not([data-scene="blueprint"]) .finale-phone {
+  transform: translateX(calc(var(--i) * var(--gap)));
+}
+
+/* State changes finale.js makes instantly, between loops */
+.finale.no-motion *,
+.finale.no-motion *::before {
+  transition: none !important;
+}
+
+.finale-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 28px 50px rgba(12, 12, 13, 0.18),
+    0 6px 14px rgba(12, 12, 13, 0.1);
+  transition: background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.finale .phone-mock-screen > :not(.finale-zones) {
+  transition: opacity 0.7s ease;
+}
+
+/* The skeleton: one set of blocks, placed in points on a 375-wide screen */
+.finale-zones {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.finale-zone {
+  position: absolute;
+  top: calc(var(--t) / 375 * 93.2cqw);
+  left: calc(var(--l) / 375 * 100%);
+  width: calc(var(--w) / 375 * 100%);
+  height: calc(var(--h) / 375 * 93.2cqw);
+  box-sizing: border-box;
+  border: 1px solid rgb(var(--zone));
+  border-radius: 3cqw;
+  background: rgba(var(--zone), 0.22);
+  transition:
+    top 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    left 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    width 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    height 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Savings has no card: a grey, dashed block stands in for it, seen only
+   while the skeletons match (it fades in as it grows, out as it shrinks) */
+.finale-zone.is-missing[data-zone] {
+  --zone: 140, 145, 155;
+  border-style: dashed;
+  opacity: 0;
+  transition:
+    top 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    left 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    width 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    height 1.1s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.9s ease;
+}
+
+.finale.is-shared .finale-zone.is-missing[data-zone] {
+  opacity: 1;
+  transition-duration: 1.1s, 1.1s, 1.1s, 1.1s, 0.4s;
+}
+
+.finale-zone[data-zone="settings"] { --zone: 219, 39, 119; border-radius: 2.5cqw; }
+.finale-zone[data-zone="card"] { --zone: 142, 78, 198; }
+.finale-zone[data-zone="balance"] { --zone: 59, 130, 246; }
+.finale-zone[data-zone="actions"] { --zone: 47, 168, 74; }
+.finale-zone[data-zone="details"] { --zone: 245, 165, 36; }
+
+.finale.is-skeleton .phone-mock-screen > :not(.finale-zones) {
+  opacity: 0;
+}
+
+.finale.is-skeleton .finale-zones {
+  opacity: 1;
+}
+
+.finale.is-skeleton .phone-mock-body {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgba(12, 12, 13, 0.28), 0 18px 40px rgba(12, 12, 13, 0.06);
+}
+
+.finale .phone-mock-screen {
+  transition: background-color 0.7s ease;
+}
+
+.finale.is-skeleton .phone-mock-screen {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.finale .phone-mock-screen::before {
+  transition: opacity 0.6s ease;
+}
+
+.finale.is-skeleton .phone-mock-screen::before {
+  opacity: 0;
+}
+
+/* The hero's pair: the credit screen, and beside it the same screen as its
+   skeleton (always on, flat) */
+.finale.is-pair {
+  --gap: 264px;
+}
+
+/* It plays once, so there's nothing to pause */
+.finale.is-pair .finale-pause {
+  display: none;
+}
+
+.finale-phone.is-bones .phone-mock-screen > :not(.finale-zones) {
+  opacity: 0;
+}
+
+.finale-phone.is-bones .finale-zones {
+  opacity: 1;
+}
+
+.finale-phone.is-bones .phone-mock-body {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgba(12, 12, 13, 0.28), 0 18px 40px rgba(12, 12, 13, 0.06);
+}
+
+.finale-phone.is-bones .phone-mock-screen {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.finale-phone.is-bones .phone-mock-screen::before {
+  opacity: 0;
+}
+
+/* Caption and pause button, styled like the hero's */
+.finale-caption {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  margin: 0;
+  padding: 5px 11px;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  transition: opacity 0.4s ease;
+}
+
+.finale-caption.is-changing {
+  opacity: 0;
+}
+
+.finale-pause {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--resume-text);
+  cursor: pointer;
+}
+
+.finale-pause svg {
+  grid-area: 1 / 1;
+}
+
+.finale-icon-play,
+.finale.is-paused .finale-icon-pause {
+  display: none;
+}
+
+.finale.is-paused .finale-icon-play {
+  display: block;
+}
+
+.finale.is-paused .finale-rig {
+  animation-play-state: paused;
+}
+
+@media (max-width: 720px) {
+  .finale {
+    --pw: 112px;
+    --gap: 124px;
+  }
+
+  .finale.is-pair {
+    --pw: 124px;
+    --gap: 148px;
+  }
+
+  .finale-stage {
+    height: 340px;
+  }
+
+  .finale.case-hero {
+    margin: 32px 0 32px;
+  }
+
+  .showcase.is-closer {
+    margin: 32px 0 48px;
+    aspect-ratio: 3 / 4;
+  }
+
+  .finale[data-scene="blueprint"] .finale-phone {
+    transform: translateX(calc(var(--i) * 128px)) translateZ(calc((var(--i) + 1) * 24px));
+  }
+
+  .finale-caption {
+    left: 12px;
+    bottom: 12px;
+  }
+
+  .finale-pause {
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finale-rig {
+    animation: none;
+  }
+}
+
+/* Section 01's stage always clips sideways: the phone that's waiting off to
+   one side between slides must not widen the page. Up and down stay open so
+   shadows and the caption aren't cut. */
+.proto-actions .proto-stage {
+  overflow-x: clip;
+}
+
+/* ===== The Problem: the old Credit account, once per tab =====
+   Three iPhone mocks side by side, each on a different tab; a red dashed
+   outline runs across all three rows of tabs. The old screens are sized in
+   points (--pt) like the other live screens. */
+.problem-tabs {
+  --pw: 190px;      /* phone width */
+  margin: 40px 0 72px;
+  padding: 72px 24px 112px;
+  overflow: clip;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.pt-row {
+  --pt-gap: 36px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: var(--pt-gap);
+}
+
+.ob-phone {
+  width: var(--pw);
+  flex: none;
+  container-type: inline-size;
+}
+
+.ob-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 44px rgba(12, 12, 13, 0.16),
+    0 5px 12px rgba(12, 12, 13, 0.08);
+}
+
+/* Each screen is scrolled up a little (--scroll, in points) under its
+   header, so the whole Details list shows */
+.problem-tabs {
+  --scroll: 130;
+}
+
+.problem-tabs .ob-app > :not(.ob-header) {
+  transform: translateY(calc(var(--pw) * 0.932 / 375 * var(--scroll) * -1));
+}
+
+.problem-tabs .ob-app > .ob-header {
+  position: relative;
+  z-index: 3;
+  background: #f1f3f3;
+}
+
+/* Across the three rows of tabs (--tabs: their top unscrolled, in phone
+   widths): a red version of the quick actions' green outline */
+.pt-outline {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--pw) * var(--tabs, 1.3685) - var(--pw) * 0.932 / 375 * var(--scroll) - 6px);
+  /* just past the outer phones' edges */
+  right: calc(50% - (var(--pw) * 3 + var(--pt-gap) * 2) / 2 - 10px);
+  left: calc(50% - (var(--pw) * 3 + var(--pt-gap) * 2) / 2 - 10px);
+  height: calc(var(--pw) * 0.932 / 375 * 44 + 12px);
+  border: 2px solid #e5484d;
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.15);
+  pointer-events: none;
+}
+
+.ob-app {
+  --pt: calc(93.2cqw / 375);
+  background: #f1f3f3;
+  color: #000;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 500;
+}
+
+.ob-app p {
+  margin: 0;
+}
+
+.ob-app img {
+  display: block;
+  flex: none;
+}
+
+/* The old header: no button backgrounds, a centred title */
+.ob-header {
+  height: calc(116 * var(--pt));
+}
+
+.ob-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: calc(72 * var(--pt));
+  padding: 0 calc(28 * var(--pt));
+}
+
+.ob-header .ob-nav > img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.ob-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--pt));
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.ob-title > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ob-title b {
+  font-size: calc(20 * var(--pt));
+  font-weight: 700;
+  line-height: calc(26 * var(--pt));
+  letter-spacing: calc(-0.2 * var(--pt));
+}
+
+.ob-title small {
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  line-height: calc(16 * var(--pt));
+}
+
+.ob-avatar {
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  border-radius: calc(8 * var(--pt));
+  background: #e1e4e5;
+}
+
+.ob-main {
+  display: flex;
+  flex-direction: column;
+  gap: calc(32 * var(--pt));
+  padding: calc(20 * var(--pt)) calc(20 * var(--pt)) calc(40 * var(--pt));
+}
+
+.ob-balance {
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-label {
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-amount {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  margin-top: calc(12 * var(--pt));
+}
+
+.ob-amount b {
+  font-size: calc(38 * var(--pt));
+  font-weight: 700;
+  line-height: calc(48 * var(--pt));
+  letter-spacing: calc(-0.76 * var(--pt));
+}
+
+.ob-eye {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  border-radius: 999px;
+  background: #e7e8e9;
+}
+
+.ob-app .ob-eye img,
+.ob-app .ob-details img,
+.ob-app .ob-metric img,
+.ob-app .ob-action img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.ob-details {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--pt));
+  height: calc(48 * var(--pt));
+  color: #006eff;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-divider {
+  display: block;
+  height: 0.5px;
+  margin: calc(8 * var(--pt)) 0 calc(20 * var(--pt));
+  background: #e1e4e5;
+}
+
+.ob-metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-metric + .ob-metric {
+  margin-top: calc(20 * var(--pt));
+}
+
+.ob-metric > span {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+}
+
+.ob-metric > span:last-child {
+  color: #000;
+}
+
+.ob-metric > span.is-green {
+  color: #12634b;
+}
+
+.ob-app .ob-flush {
+  width: calc(12 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.ob-actions {
+  display: flex;
+  gap: calc(16 * var(--pt));
+}
+
+.ob-action {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  font-size: calc(14 * var(--pt));
+  line-height: calc(18 * var(--pt));
+}
+
+.ob-action > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(48 * var(--pt));
+  border-radius: calc(4 * var(--pt));
+  background: #e7e8e9;
+}
+
+.ob-action > span.is-primary {
+  background: #000;
+}
+
+/* Savings' old goal tile */
+.ob-goal {
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--pt));
+  padding: calc(20 * var(--pt));
+  border-radius: calc(8 * var(--pt));
+  background: #fff;
+}
+
+.ob-goal-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: calc(14 * var(--pt));
+}
+
+.ob-goal-row b {
+  font-size: calc(20 * var(--pt));
+  font-weight: 700;
+}
+
+.ob-goal-bar {
+  height: calc(6 * var(--pt));
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7e8e9;
+}
+
+.ob-goal-bar > span {
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: #2f9c78;
+}
+
+/* The old Credit screen: a big title, then white tiles */
+/* The header: back button, centred title, a thin stroke underneath */
+.ob-header.oc-header {
+  border-bottom: 0.5px solid #d5d9db;
+  box-sizing: border-box;
+}
+
+.ob-header.oc-header .ob-nav {
+  padding: 0 calc(20 * var(--pt));
+}
+
+.oc-title {
+  font-size: calc(18 * var(--pt));
+  font-weight: 700;
+  line-height: calc(24 * var(--pt));
+  letter-spacing: calc(-0.2 * var(--pt));
+}
+
+.oc-title sup {
+  font-size: 0.6em;
+  font-weight: 500;
+  line-height: 0;
+}
+
+.oc-balance {
+  margin: 0 calc(4 * var(--pt)) calc(4 * var(--pt));
+  padding-top: calc(20 * var(--pt));
+}
+
+.oc-main {
+  display: flex;
+  flex-direction: column;
+  gap: calc(12 * var(--pt));
+  padding: 0 calc(16 * var(--pt)) calc(28 * var(--pt));
+}
+
+.oc-link {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  margin: 0 calc(4 * var(--pt)) calc(16 * var(--pt)) !important;
+  color: #006eff;
+  font-size: calc(15 * var(--pt));
+}
+
+.oc-link svg {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.oc-tile {
+  padding: calc(14 * var(--pt)) calc(16 * var(--pt));
+  border-radius: calc(10 * var(--pt));
+  background: #fff;
+  font-size: calc(15 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.oc-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(44 * var(--pt));
+  box-sizing: border-box;
+}
+
+.oc-dots,
+.oc-off,
+.oc-icon-label {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--pt));
+}
+
+.oc-off {
+  color: #697780;
+}
+
+.oc-dots i {
+  width: calc(10 * var(--pt));
+  height: calc(10 * var(--pt));
+  border-radius: 50%;
+  background: #c6cbce;
+}
+
+.oc-app .ob-chev,
+.oc-tile .ob-chev {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.oc-icon-label {
+  gap: calc(12 * var(--pt));
+}
+
+.ob-app .oc-icon-label img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  opacity: 0.6;
+}
+
+.oc-pay {
+  display: flex;
+  flex-direction: column;
+  gap: calc(14 * var(--pt));
+}
+
+.oc-status {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--pt));
+  color: #697780;
+}
+
+.oc-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  border-radius: 50%;
+  background: #eef0f1;
+}
+
+.ob-app .oc-check img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.oc-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(44 * var(--pt));
+  border-radius: calc(6 * var(--pt));
+  background: #000;
+  color: #fff;
+  font-size: calc(15 * var(--pt));
+}
+
+/* Transactions */
+.oc-list {
+  background: #fff;
+}
+
+.oc-tx {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--pt));
+  min-height: calc(68 * var(--pt));
+  padding: 0 calc(16 * var(--pt));
+  font-size: calc(15 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-app .oc-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border-radius: calc(8 * var(--pt));
+  object-fit: cover;
+}
+
+.oc-avatar.is-dark { background: #000; }
+.oc-avatar.is-grey { background: #8e979d; }
+
+.ob-app .oc-avatar img {
+  width: calc(22 * var(--pt));
+  height: calc(22 * var(--pt));
+  filter: brightness(0) invert(1);
+}
+
+.oc-tx-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(2 * var(--pt));
+}
+
+.oc-tx-text b {
+  font-weight: 500;
+}
+
+.oc-tx-text small {
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  line-height: calc(16 * var(--pt));
+}
+
+.oc-tx-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(4 * var(--pt));
+}
+
+.oc-chip {
+  padding: 0 calc(4 * var(--pt));
+  border-radius: calc(4 * var(--pt));
+  background: #e7e8e9;
+  color: #697780;
+  font-size: calc(11 * var(--pt));
+  line-height: calc(16 * var(--pt));
+}
+
+/* Tabs, the active one underlined */
+.ob-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: calc(32 * var(--pt));
+  height: calc(44 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+  border-bottom: 0.5px solid #e1e4e5;
+  font-size: calc(16 * var(--pt));
+  font-weight: 700;
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #697780;
+}
+
+.ob-tab.is-on {
+  color: #000;
+}
+
+.ob-tab.is-on::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(4 * var(--pt));
+  border-radius: calc(3 * var(--pt)) calc(3 * var(--pt)) 0 0;
+  background: #000;
+}
+
+.ob-panel {
+  position: relative;
+}
+
+.ob-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(16 * var(--pt));
+  min-height: calc(60 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+  border-bottom: 0.5px solid #e1e4e5;
+  background: #fff;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ob-row.is-red {
+  color: #b3261e;
+}
+
+.ob-app .ob-chev {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.ob-card-row {
+  justify-content: flex-start;
+  padding-top: calc(12 * var(--pt));
+  padding-bottom: calc(12 * var(--pt));
+}
+
+.ob-card {
+  position: relative;
+  flex: none;
+  width: calc(74 * var(--pt));
+  height: calc(48 * var(--pt));
+  overflow: hidden;
+  border: 0.5px solid #e1e4e5;
+  border-radius: calc(4 * var(--pt));
+  box-shadow: 0 calc(4 * var(--pt)) calc(5 * var(--pt)) rgba(5, 28, 44, 0.03), 0 calc(2 * var(--pt)) calc(4 * var(--pt)) rgba(5, 28, 44, 0.06);
+}
+
+.ob-app .ob-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ob-app .ob-card .ob-card-layer {
+  position: absolute;
+  object-fit: contain;
+}
+
+.ob-card-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+}
+
+.ob-card-text b {
+  font-weight: 500;
+}
+
+.ob-card-text small {
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  line-height: calc(16 * var(--pt));
+}
+
+/* What was tucked away, outlined in red */
+.ob-row.is-mark {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(8 * var(--pt));
+  background: #fff6f6;
+  box-shadow: inset 0 0 0 2px #e5484d, 0 0 0 4px rgba(229, 72, 77, 0.14);
+}
+
+.ob-panel.is-mark::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: calc(8 * var(--pt));
+  box-shadow: inset 0 0 0 2px #e5484d, inset 0 0 0 6px rgba(229, 72, 77, 0.12);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .problem-tabs {
+    --pw: 118px;
+    padding: 28px 8px 64px;
+  }
+
+  .pt-row {
+    --pt-gap: 8px;
+  }
+}
+
+/* ===== Hero showcase (showcase.js) =====
+   The redesigned accounts on a light grid. A camera (each phone's outer
+   transform, set by showcase.js) moves between wide shots and close-ups; the
+   inner .showcase-enter fades each phone in upward from a blur and out again,
+   and the rig drifts slowly the whole time. Phones are drawn --k times bigger than
+   they appear and scaled down, so close-ups stay sharp (a scaled-up 3D layer
+   is stretched like a bitmap). */
+.showcase {
+  --pw: 200px;
+  --k: 2.4;
+  position: relative;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  isolation: isolate;
+}
+
+/* The grid fades out toward the edges */
+.showcase::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 40%, rgba(246, 246, 248, 0.9) 100%);
+  pointer-events: none;
+}
+
+.showcase-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.showcase-rig {
+  position: absolute;
+  inset: 0;
+  animation: showcase-drift 9s ease-in-out infinite alternate;
+}
+
+@keyframes showcase-drift {
+  from { translate: 0 5px; }
+  to { translate: 0 -5px; }
+}
+
+.showcase-phone {
+  position: absolute;
+  top: calc(50% - var(--pw) * 2.0517 / 2);
+  left: calc(50% - var(--pw) / 2);
+  width: calc(var(--pw) * var(--k));
+  container-type: inline-size;
+  transform-origin: 0 0;
+  transform: scale(calc(1 / var(--k)));
+  /* A little overshoot at the end of each camera move */
+  transition: transform 1.7s cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+/* Phones fade in upward from a blur, and leave the way showcase.js says
+   (data-exit: up, left or right). Lengths are times --k, since the phone
+   is drawn that much bigger than it appears. */
+.showcase-enter {
+  opacity: 0;
+  filter: blur(calc(3px * var(--k)));
+  transform: translateY(calc(48px * var(--k)));
+  transition:
+    opacity 0.7s ease,
+    filter 0.8s ease,
+    transform 1s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.showcase-phone.is-in > .showcase-enter {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.showcase-phone[data-exit="up"] > .showcase-enter { transform: translateY(calc(-56px * var(--k))); }
+.showcase-phone[data-exit="left"] > .showcase-enter { transform: translateX(calc(-90px * var(--k))); }
+.showcase-phone[data-exit="right"] > .showcase-enter { transform: translateX(calc(90px * var(--k))); }
+
+.showcase-phone[data-exit] > .showcase-enter {
+  transition: opacity 0.6s ease, filter 0.7s ease, transform 0.9s cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+.showcase-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 calc(28px * var(--k)) calc(50px * var(--k)) rgba(12, 12, 13, 0.22),
+    0 calc(6px * var(--k)) calc(14px * var(--k)) rgba(12, 12, 13, 0.12);
+}
+
+.showcase-scroll > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The screen's content scrolls (showcase.js moves it) under a sticky header */
+.showcase-scroll {
+  position: relative;
+  transition: transform 1.7s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* The live progress bars' fill, filled to --fill in --c (showcase.js
+   fills them) */
+.showcase-bar-fill {
+  display: block;
+  width: var(--fill);
+  height: 100%;
+  border-radius: 999px;
+  background: var(--c);
+  transition: width 2.1s cubic-bezier(0.34, 1.15, 0.64, 1), background-color 0.6s ease;
+}
+
+/* State changes showcase.js makes instantly, out of sight */
+.showcase-phone.no-motion,
+.showcase-phone.no-motion * {
+  transition: none !important;
+}
+
+/* Neo's typeface, TT Commons Pro, where it's installed (Normal 450,
+   Medium 500, DemiBold 600). The live screens below use it. */
+@font-face {
+  font-family: "Neo Commons";
+  src: local("TT Commons Pro Normal"), local("TTCommonsPro-Normal");
+  font-weight: 450;
+}
+
+@font-face {
+  font-family: "Neo Commons";
+  src: local("TT Commons Pro Medium"), local("TTCommonsPro-Medium");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Neo Commons";
+  src: local("TT Commons Pro DemiBold"), local("TTCommonsPro-DemiBold");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Neo Commons";
+  src: local("TT Commons Pro Bold"), local("TTCommonsPro-Bold");
+  font-weight: 700;
+}
+
+/* The savings account (Hawaii Trip), built in HTML from the Figma frame.
+   Every size is in points (--pt), so it scales with the phone like a
+   screenshot would. The header reuses .proto-header (stays put, shows the
+   title once scrolled). */
+.na-app,
+.na-header {
+  --pt: calc(93.2cqw / 375);
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+  color: #111;
+}
+
+.na-app p,
+.na-header p {
+  margin: 0;
+}
+
+.na-app img,
+.na-header img {
+  display: block;
+  flex: none;
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.na-app {
+  padding: calc(132 * var(--pt)) 0 calc(40 * var(--pt));
+  background: #f1f3f3;
+}
+
+.na-content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(48 * var(--pt));
+  padding: 0 calc(20 * var(--pt)) calc(64 * var(--pt));
+}
+
+.na-heading {
+  font-size: calc(16 * var(--pt));
+  font-weight: 600;
+  line-height: calc(20 * var(--pt));
+  letter-spacing: calc(-0.32 * var(--pt));
+}
+
+.na-sub {
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.na-big {
+  font-size: calc(20 * var(--pt));
+  font-weight: 600;
+  line-height: calc(25 * var(--pt));
+  letter-spacing: calc(-0.4 * var(--pt));
+}
+
+.na-account {
+  display: flex;
+  flex-direction: column;
+  gap: calc(32 * var(--pt));
+}
+
+.na-name {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  height: calc(42 * var(--pt));
+}
+
+.na-name > div {
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+}
+
+.na-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border: calc(0.5 * var(--pt)) solid #fff;
+  border-radius: calc(8 * var(--pt));
+  background: #e7e8e9;
+}
+
+.na-balance {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--pt));
+}
+
+.na-balance-row {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+}
+
+.na-display {
+  font-size: calc(36 * var(--pt));
+  font-weight: 600;
+  line-height: calc(45 * var(--pt));
+  letter-spacing: calc(-0.72 * var(--pt));
+  white-space: nowrap;
+}
+
+.na-iconbtn {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+}
+
+.na-iconbtn.is-round {
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  border-radius: 999px;
+}
+
+.na-app .na-iconbtn.is-round img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.na-details {
+  display: flex;
+  align-items: center;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.na-actions {
+  display: flex;
+  gap: calc(12 * var(--pt));
+}
+
+.na-action {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  min-width: 0;
+}
+
+.na-action p {
+  width: 100%;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+  text-align: center;
+}
+
+.na-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(64 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+}
+
+.na-action-btn.is-primary {
+  background: #111;
+}
+
+/* Tiles: white, 12pt corners, 20pt padding. A .na-target in the middle is
+   what the camera centres on (showcase.js) */
+.na-tile {
+  position: relative;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.na-target {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+}
+
+.na-goal {
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--pt));
+  padding: calc(20 * var(--pt));
+}
+
+.na-goal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(8 * var(--pt));
+}
+
+.na-goal-head > div {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--pt));
+}
+
+/* The goal bar: Figma's orange gradient, filled to --fill (showcase.js
+   fills it to 100%) */
+.na-bar {
+  display: block;
+  height: calc(5 * var(--pt));
+  overflow: hidden;
+  border-radius: calc(24 * var(--pt));
+  background: #e7e8e9;
+  --c: linear-gradient(178deg, #ff9b33 5%, #f05032 95%);
+}
+
+.na-bar .showcase-bar-fill {
+  border-radius: calc(8 * var(--pt));
+}
+
+.na-metrics {
+  display: flex;
+  justify-content: space-between;
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+  white-space: nowrap;
+}
+
+.na-metrics b {
+  color: #000;
+  font-weight: 450;
+}
+
+.na-section {
+  display: flex;
+  flex-direction: column;
+  gap: calc(12 * var(--pt));
+}
+
+.na-interest {
+  overflow: hidden;
+}
+
+.na-interest-top {
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+  padding: calc(20 * var(--pt));
+  border-bottom: calc(0.5 * var(--pt)) solid #e1e4e5;
+}
+
+.na-interest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(60 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.na-label,
+.na-value {
+  display: flex;
+  align-items: center;
+}
+
+.na-label {
+  gap: calc(4 * var(--pt));
+  color: #697780;
+}
+
+.na-app .na-label img,
+.na-app .na-value img {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.na-app .na-value .na-chevron {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+  margin-left: calc(4 * var(--pt));
+}
+
+/* Transactions: a heading, then white rows between hairlines */
+.na-transactions {
+  display: flex;
+  flex-direction: column;
+  gap: calc(12 * var(--pt));
+}
+
+.na-transactions > .na-heading {
+  padding: 0 calc(20 * var(--pt));
+}
+
+.na-list {
+  border-top: calc(0.5 * var(--pt)) solid #e1e4e5;
+  border-bottom: calc(0.5 * var(--pt)) solid #e1e4e5;
+  background: #fff;
+}
+
+.na-row {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(16 * var(--pt));
+  padding: calc(20 * var(--pt));
+  font-weight: 500;
+}
+
+.na-row-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+  min-width: 0;
+}
+
+.na-row-title,
+.na-row-amount {
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.na-row-date {
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(18 * var(--pt));
+}
+
+.na-row-amount {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.na-row.is-failed .na-row-title {
+  color: #697780;
+}
+
+.na-failed {
+  color: #90301e;
+}
+
+.na-row.is-failed .na-row-amount {
+  color: #697780;
+  font-size: calc(18 * var(--pt));
+  font-weight: 450;
+  text-decoration: line-through;
+}
+
+.na-avatar-img,
+.na-avatar-cat,
+.na-avatar-person {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  overflow: hidden;
+  border-radius: calc(8 * var(--pt));
+}
+
+.na-avatar-img {
+  border: calc(0.5 * var(--pt)) solid #e1e4e5;
+}
+
+.na-avatar-img.is-square {
+  border-radius: calc(4 * var(--pt));
+}
+
+.na-app .na-avatar-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.na-avatar-person {
+  border-radius: 50%;
+  background-size: 100% 100%;
+  color: #fff;
+  font-size: calc(18 * var(--pt));
+  font-weight: 600;
+  line-height: calc(20 * var(--pt));
+}
+
+/* Credit and chequing: the card sits behind a sheet that holds the rest of
+   the screen (both scroll together) */
+.na-app.has-card {
+  position: relative;
+  display: flow-root;
+  padding: 0;
+}
+
+.na-card {
+  position: absolute;
+  top: calc(124 * var(--pt));
+  left: calc(20 * var(--pt));
+  box-sizing: border-box;
+  width: calc(335 * var(--pt));
+  height: calc(216 * var(--pt));
+  overflow: hidden;
+  border: calc(0.5 * var(--pt)) solid #fff;
+  border-radius: calc(12 * var(--pt));
+  filter: drop-shadow(0 calc(4 * var(--pt)) calc(2.5 * var(--pt)) rgba(5, 28, 44, 0.03)) drop-shadow(0 calc(5 * var(--pt)) calc(5 * var(--pt)) rgba(5, 28, 44, 0.04)) drop-shadow(0 calc(2 * var(--pt)) calc(2 * var(--pt)) rgba(5, 28, 44, 0.06));
+}
+
+.na-card-base {
+  position: absolute;
+  inset: 0 -1.49% -1.85% 0;
+}
+
+.na-app .na-card-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.na-app .na-card-logo,
+.na-app .na-card-mark {
+  position: absolute;
+  width: auto;
+  height: auto;
+}
+
+.na-app .na-card-logo {
+  object-fit: cover;
+}
+
+.na-sheet {
+  position: relative;
+  margin-top: calc(var(--sheet-top) * var(--pt));
+  padding-bottom: calc(40 * var(--pt));
+  border: calc(0.5 * var(--pt)) solid #e1e4e5;
+  border-bottom: 0;
+  border-radius: calc(16 * var(--pt)) calc(16 * var(--pt)) 0 0;
+  background: #f1f3f3;
+  box-shadow: 0 calc(-12 * var(--pt)) calc(20 * var(--pt)) rgba(5, 28, 44, var(--sheet-shadow));
+}
+
+.na-sheet > .na-content {
+  padding-top: calc(32 * var(--pt));
+}
+
+.na-account.is-credit {
+  gap: calc(20 * var(--pt));
+}
+
+.na-sub.is-medium {
+  font-weight: 500;
+  line-height: calc(18 * var(--pt));
+}
+
+.na-details.is-medium {
+  font-weight: 500;
+}
+
+/* Credit's balance block: a divider, then utilization and available credit
+   (24pt apart, as in Figma) */
+.na-balance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: calc(24 * var(--pt));
+}
+
+.na-divider {
+  display: block;
+  height: calc(0.5 * var(--pt));
+  background: #e1e4e5;
+}
+
+.na-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--pt));
+}
+
+.na-metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+  white-space: nowrap;
+}
+
+.na-metric-value {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  color: #111;
+}
+
+.na-metric-value b {
+  color: #000;
+  font-weight: 450;
+}
+
+.na-metric-value:has(b) {
+  gap: 0;
+  color: #697780;
+}
+
+.na-app .na-dot {
+  width: calc(8 * var(--pt));
+  height: calc(8 * var(--pt));
+}
+
+.na-app .na-flush {
+  width: calc(12 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+/* The joint chip in credit's header: a profile icon and two faces */
+.na-joint {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  box-sizing: border-box;
+  height: calc(40 * var(--pt));
+  padding: calc(8 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: rgba(231, 232, 233, 0.9);
+}
+
+.na-header .na-joint > img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.na-joint-faces {
+  display: flex;
+  isolation: isolate;
+}
+
+.na-header .na-joint-faces img {
+  box-sizing: border-box;
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  border: calc(1.15 * var(--pt)) solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 calc(2.7 * var(--pt)) calc(1.5 * var(--pt)) rgba(5, 28, 44, 0.06), 0 calc(1.15 * var(--pt)) calc(4.4 * var(--pt)) rgba(5, 28, 44, 0.04);
+}
+
+.na-header .na-joint-faces img:first-child {
+  position: relative;
+  z-index: 2;
+  margin-right: calc(-10 * var(--pt));
+}
+
+.na-nav .na-joint {
+  margin: 0 calc(8 * var(--pt)) 0 auto;
+}
+
+/* The statement tile. Paid (on the phone): the bar and the payment rows
+   fold away, the chevron centres and a Paid tag fades in, so the tile turns
+   into Figma's paid state and Auto-Pay rises with it */
+.na-stmt-stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--pt));
+}
+
+.na-stmt {
+  overflow: hidden;
+}
+
+.na-stmt-top {
+  padding: calc(20 * var(--pt));
+  border-bottom: calc(0.5 * var(--pt)) solid #e1e4e5;
+  transition: border-color 0.4s ease;
+}
+
+.na-stmt-head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: calc(8 * var(--pt));
+}
+
+.na-stmt-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+}
+
+.na-app .na-stmt-chevron {
+  transition: margin-top 0.7s cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.na-paid-tag {
+  position: absolute;
+  top: 50%;
+  right: calc(24 * var(--pt));
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  padding: calc(4 * var(--pt)) calc(12 * var(--pt)) calc(4 * var(--pt)) calc(8 * var(--pt));
+  border-radius: 999px;
+  background: #f1f3f3;
+  color: #000;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+  opacity: 0;
+  transform: translateY(-50%) scale(0.9);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.na-app .na-paid-tag img {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.na-collapse {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.8s cubic-bezier(0.45, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.na-collapse > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.na-collapse.is-bar > div {
+  padding-top: calc(16 * var(--pt));
+}
+
+.na-bar .showcase-bar-fill {
+  transition: width 2.1s cubic-bezier(0.34, 1.15, 0.64, 1), background-color 0.6s ease;
+}
+
+.na-bar.is-green .showcase-bar-fill {
+  background: #2fa84a;
+}
+
+.na-stmt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: calc(20 * var(--pt));
+  padding: calc(16 * var(--pt)) calc(20 * var(--pt)) calc(16 * var(--pt)) 0;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  font-weight: 500;
+  line-height: calc(20 * var(--pt));
+}
+
+.na-stmt-row + .na-stmt-row {
+  border-top: calc(0.5 * var(--pt)) solid #e1e4e5;
+}
+
+.na-stmt-value {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--pt));
+  color: #000;
+  white-space: nowrap;
+}
+
+.na-stmt-value em {
+  margin-left: -0.25em;
+  color: #697780;
+  font-style: normal;
+}
+
+.na-status-dot {
+  display: flex;
+  padding: calc(4 * var(--pt));
+  border-radius: 999px;
+  background: #f1f3f3;
+}
+
+.showcase-phone.is-paid .na-stmt-top {
+  border-color: transparent;
+}
+
+.showcase-phone.is-paid .na-collapse {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.showcase-phone.is-paid .na-collapse.is-bar > div {
+  padding-top: 0;
+  transition: padding-top 0.8s cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+.showcase-phone.is-paid .na-stmt-chevron {
+  margin-top: calc(11.25 * var(--pt));
+}
+
+.showcase-phone.is-paid .na-paid-tag {
+  opacity: 1;
+  transform: translateY(-50%);
+  transition-delay: 0.25s;
+}
+
+.na-autopay {
+  display: flex;
+  align-items: center;
+  gap: calc(16 * var(--pt));
+  padding: calc(20 * var(--pt));
+}
+
+.na-app .na-autopay > img:first-child {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.na-autopay-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+  color: #000;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.na-pill {
+  padding: calc(4 * var(--pt)) calc(8 * var(--pt));
+  border-radius: 999px;
+  background: #f1f3f3;
+  color: #000;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+/* Transaction extras: a tag or a check under the amount, and the older
+   rows set a size up (as in Figma) */
+.na-list.is-plain {
+  border: 0;
+}
+
+.na-list.has-end {
+  border-bottom: calc(0.5 * var(--pt)) solid #e1e4e5;
+}
+
+.na-row.is-tagged {
+  padding-top: calc(20 * var(--pt));
+}
+
+.na-row-number {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(4 * var(--pt));
+}
+
+.na-tag {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: calc(20 * var(--pt));
+  padding: 0 calc(4 * var(--pt));
+  border-radius: calc(4 * var(--pt));
+  background: #e7e8e9;
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  line-height: calc(15 * var(--pt));
+}
+
+.na-punch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  border-radius: 999px;
+  background: #e7e8e9;
+}
+
+.na-app .na-punch img {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.na-row.is-legacy {
+  font-weight: 450;
+}
+
+.na-row.is-legacy .na-row-title,
+.na-row.is-legacy .na-row-amount {
+  font-size: calc(18 * var(--pt));
+}
+
+.na-row.is-legacy .na-row-date {
+  font-size: calc(16 * var(--pt));
+}
+
+/* Chequing's Manage card tap: the press and cursor sit on the button */
+.na-action-btn {
+  position: relative;
+}
+
+.na-action-btn .showcase-press {
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.na-action-btn .showcase-cursor {
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+}
+
+.showcase-push {
+  z-index: 2;
+}
+
+/* The header: a status bar and the back and settings buttons */
+.na-header {
+  height: calc(116 * var(--pt));
+  background: #f1f3f3;
+}
+
+.na-status {
+  position: relative;
+  height: calc(44 * var(--pt));
+}
+
+.na-time {
+  position: absolute;
+  top: calc(14.33 * var(--pt));
+  left: calc(21 * var(--pt));
+  width: calc(54 * var(--pt));
+  font: 600 calc(15 * var(--pt)) / normal -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  letter-spacing: calc(-0.3 * var(--pt));
+  text-align: center;
+}
+
+.na-header .na-cellular,
+.na-header .na-wifi {
+  position: absolute;
+  top: calc(17.67 * var(--pt));
+  height: auto;
+}
+
+.na-header .na-cellular {
+  right: calc(64 * var(--pt));
+  width: calc(17 * var(--pt));
+}
+
+.na-header .na-wifi {
+  right: calc(43.67 * var(--pt));
+  width: calc(15.33 * var(--pt));
+}
+
+.na-battery {
+  position: absolute;
+  top: calc(17.33 * var(--pt));
+  right: calc(14.34 * var(--pt));
+  width: calc(24.33 * var(--pt));
+  height: calc(11.33 * var(--pt));
+}
+
+.na-battery::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  width: calc(22 * var(--pt));
+  height: 100%;
+  border: calc(1 * var(--pt)) solid #111;
+  border-radius: calc(4 * var(--pt));
+  opacity: 0.35;
+}
+
+.na-battery > span {
+  position: absolute;
+  top: calc(2 * var(--pt));
+  left: calc(2 * var(--pt));
+  width: calc(18 * var(--pt));
+  height: calc(7.33 * var(--pt));
+  border-radius: calc(2 * var(--pt));
+  background: #111;
+}
+
+.na-header .na-battery img {
+  position: absolute;
+  top: calc(3.67 * var(--pt));
+  right: 0;
+  width: calc(1.33 * var(--pt));
+  height: calc(4 * var(--pt));
+}
+
+.na-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: calc(72 * var(--pt));
+  padding: calc(16 * var(--pt)) calc(20 * var(--pt));
+}
+
+/* A tap on a quick action: the tile darkens and dips, with a ripple */
+.showcase-press {
+  position: absolute;
+  top: calc(var(--t) / 1125 * 93.2cqw);
+  left: calc(var(--l) / 1125 * 100%);
+  width: calc(var(--w) / 1125 * 100%);
+  height: calc(var(--h) / 1125 * 93.2cqw);
+  border-radius: 3.6cqw;
+  background: rgba(12, 12, 13, 0.1);
+  opacity: 0;
+  transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.34, 1.6, 0.64, 1);
+}
+
+.showcase-press::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14cqw;
+  height: 14cqw;
+  margin: -7cqw 0 0 -7cqw;
+  border-radius: 50%;
+  background: rgba(12, 12, 13, 0.18);
+  opacity: 0;
+  transform: scale(0.3);
+}
+
+.showcase-press.is-pressed {
+  opacity: 1;
+  transform: scale(0.94);
+}
+
+.showcase-press.is-pressed::after {
+  animation: showcase-ripple 0.6s ease-out;
+}
+
+@keyframes showcase-ripple {
+  from { opacity: 1; transform: scale(0.3); }
+  to { opacity: 0; transform: scale(1.6); }
+}
+
+/* A touch "cursor": a soft circle that rises from lower on the screen to
+   its target (--x across, --y in points from the top), presses, and goes */
+.showcase-cursor {
+  position: absolute;
+  top: calc(var(--y) / 375 * 93.2cqw);
+  left: calc(var(--x) * 100%);
+  width: 12cqw;
+  height: 12cqw;
+  margin: -6cqw 0 0 -6cqw;
+  border: 0.6cqw solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: rgba(12, 12, 13, 0.22);
+  box-shadow: 0 1cqw 3cqw rgba(12, 12, 13, 0.18);
+  opacity: 0;
+  transform: translateY(48cqw);
+  transition:
+    opacity 0.3s ease,
+    transform 0.85s cubic-bezier(0.45, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.showcase-cursor.is-showing {
+  opacity: 1;
+}
+
+.showcase-cursor.is-there {
+  transform: none;
+}
+
+.showcase-cursor.is-pressing {
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.15s ease;
+}
+
+/* The screen a tap opens slides in from the right, like an iOS push */
+.showcase-push {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #f1f3f3;
+  transform: translateX(100%);
+  box-shadow: 0 0 6cqw rgba(12, 12, 13, 0.18);
+  transition: transform 0.85s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.showcase-push img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.showcase-phone.is-pushed .showcase-push {
+  transform: none;
+}
+
+.showcase-caption {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 11px;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  transition: opacity 0.4s ease;
+}
+
+.showcase-caption.is-changing {
+  opacity: 0;
+}
+
+.showcase-pause {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid rgba(12, 12, 13, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--resume-text);
+  cursor: pointer;
+}
+
+.showcase-pause svg {
+  grid-area: 1 / 1;
+}
+
+.showcase-icon-play,
+.showcase.is-paused .showcase-icon-pause {
+  display: none;
+}
+
+.showcase.is-paused .showcase-icon-play {
+  display: block;
+}
+
+.showcase.is-paused .showcase-rig {
+  animation-play-state: paused;
+}
+
+@media (max-width: 720px) {
+  .showcase {
+    --pw: 124px;
+  }
+
+  .showcase-caption {
+    left: 12px;
+    bottom: 12px;
+  }
+
+  .showcase-pause {
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-rig {
+    animation: none;
+  }
+}
+
+/* The before screens in the before/after slider are shown in black and white */
+.compare-slider img[src*="-before.png"] {
+  filter: grayscale(1);
 }

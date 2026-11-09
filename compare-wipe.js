@@ -1,26 +1,23 @@
 // Before/after Watch (case studies): for each account, the old screen covers
 // the new one, then a line sweeps from right to left uncovering the new
 // design, pausing halfway (old on the left, new on the right). Then the next
-// account. "Explore" is the before/after slider (phone-mock.js). Styles are
+// account. "explore" is the before/after slider (phone-mock.js). Styles are
 // under "Before/after Watch" in style.css. Load after mode-ring.js.
 (function () {
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var accounts = [
     {
-      title: "Credit account",
-      before: "images/neo-credit-before.png", after: "images/neo-credit-after.png",
-      change: "Quick actions and a statement tile replace rows of numbers"
+      title: "Credit Account",
+      before: "images/neo-credit-before.png", after: "images/neo-credit-after.png"
     },
     {
-      title: "Chequing account",
-      before: "images/neo-chequing-before.png", after: "images/neo-chequing-after.png",
-      change: "The card moves up top, with quick actions right under the balance"
+      title: "Chequing Account",
+      before: "images/neo-chequing-before.png", after: "images/neo-chequing-after.png"
     },
     {
-      title: "High-Interest Savings account",
-      before: "images/neo-savings-before.png", after: "images/neo-savings-after.png",
-      change: "Quick actions and goal progress come first; interest gets its own section"
+      title: "Savings Account",
+      before: "images/neo-savings-before.png", after: "images/neo-savings-after.png"
     }
   ];
 
@@ -70,10 +67,22 @@
       before.src = account.before;
       wipe.classList.remove("is-wiping");
       sweep(100, 0);
+      // The phone fades in upward from a light blur
+      wipe.classList.remove("is-entering");
+      void wipe.offsetWidth;
+      wipe.classList.add("is-entering");
     }
 
     async function loop(id) {
+      // The first phone comes in softly too: hide whatever is showing (it
+      // may be left mid-loop from an earlier visit), then fade it in
+      if (!wipe.classList.contains("is-swapping")) {
+        wipe.classList.add("is-swapping");
+        await wait(400, id);
+      }
       load(accounts[0]);
+      say("Before", accounts[0].title);
+      wipe.classList.remove("is-swapping");
       while (true) {
         if (ring) ring.start(LOOP_MS);
         for (var i = 0; i < accounts.length; i++) {
@@ -85,15 +94,14 @@
             load(account);
             wipe.classList.remove("is-swapping");
           }
-          say("Before", "The old " + account.title.replace(" account", "") + " screen");
+          say("Before", account.title);
           await wait(1400, id);
 
           wipe.classList.add("is-wiping");
-          say("", "Old on the left, new on the right");
           sweep(50, 1000);
           await wait(2600, id);
 
-          say("After", account.change);
+          say("After", account.title);
           sweep(0, 800);
           await wait(800, id);
           wipe.classList.remove("is-wiping");
@@ -120,7 +128,9 @@
       wipe.classList.remove("is-swapping");
       if (mode === "watch") {
         load(accounts[0]);
-        say("Before", "The old Credit screen");
+        say("Before", accounts[0].title);
+        // Hidden until the loop starts and fades it in
+        if (!reduced) wipe.classList.add("is-swapping");
         start();
       }
     }

@@ -78,17 +78,14 @@
     else if (proto.dataset.mode) autoplay(proto, sets[0], go);
   });
 
-  // Everyday actions (section 01). "Watch" plays a loop on the credit account:
-  // the old screen with its tabs outlined in red, which slides out left as the
-  // new screen slides in from the right. Then the quick actions are outlined,
-  // Manage card is outlined and tapped, and the settings gear is outlined and
-  // tapped, with its screen scrolled down and back. "Try it" is the account
-  // picker as before.
+  // Everyday actions (section 01). "Watch" plays a loop on the redesigned
+  // credit account: the quick actions are outlined, Manage card is outlined
+  // and tapped, and the settings gear is outlined and tapped, with its screen
+  // scrolled down and back. "Try it" is the account picker as before.
   function actions(proto, go, accountButtons) {
     var modes = proto.querySelectorAll(".proto-mode button");
     var hint = proto.querySelector(".proto-hint");
     var screen = proto.querySelector(".phone-mock-screen");
-    var before = proto.querySelector(".proto-phone-before .proto-scroll");
     var tapMark = proto.querySelector(".proto-tap");
     var stage = proto.querySelector(".proto-stage");
     var credit = proto.querySelector('.proto-set[data-account="credit"]');
@@ -96,19 +93,15 @@
     var creditButton = proto.querySelector('.proto-switch [data-account="credit"]');
     var run = 0;
     var inView = false;
-    // One loop is 20s: the sum of the waits and taps in loop() below
-    var LOOP_MS = 20000;
+    // One loop is 15.3s: the sum of the waits and taps in loop() below
+    var LOOP_MS = 15300;
     var ring = window.modeRing ? window.modeRing(proto.querySelector(".proto-mode")) : null;
-    var steps = ["is-before", "is-tabs", "is-actions", "is-card", "is-gear"];
+    var steps = ["is-actions", "is-card", "is-gear"];
 
     function el(selector) { return credit.querySelector(selector); }
     function step(name, on) { proto.classList.toggle(name, on); }
 
-    // Captions in Watch start with a Before or After tag
-    function say(tag, text) {
-      hint.innerHTML = '<span class="hint-tag' + (tag === "After" ? " is-after" : "") + '">' + tag + "</span>";
-      hint.appendChild(document.createTextNode(text));
-    }
+    function say(text) { hint.textContent = text; }
 
     function wait(ms, id) {
       return new Promise(function (resolve, reject) {
@@ -135,47 +128,26 @@
       scrolled(target, points > 0);
     }
 
-    // Back to the start: the old screen showing, nothing outlined
-    function reset(mode) {
-      var movers = [proto.querySelector(".proto-phone-main"), proto.querySelector(".proto-phone-before")];
-      movers.forEach(function (m) { m.style.transition = "none"; });
+    // Back to the start: the credit account's home screen, nothing outlined
+    function reset() {
       steps.forEach(function (name) { step(name, false); });
-      step("is-before", mode === "watch");
       crop(stage, false, true);
-      scroll(before, 0, false);
       scroll(manageImg, 0, false);
       if (creditButton.getAttribute("aria-pressed") !== "true") creditButton.click();
       go(credit, "home");
-      void proto.offsetWidth;
-      movers.forEach(function (m) { m.style.transition = ""; });
     }
 
     async function loop(id) {
-      reset("watch");
+      reset();
       while (true) {
         if (ring) ring.start(LOOP_MS);
-        say("Before", "Everyday tasks were split across tabs");
-        if (!proto.classList.contains("is-before")) { crop(stage, true); crop(stage, false); }
-        step("is-before", true);
-        await wait(1200, id);
-        scroll(before, 300, true);
-        await wait(1000, id);
-        step("is-tabs", true);
-        await wait(2200, id);
-
-        // The old phone slides out left as the new one comes in from the right
-        step("is-tabs", false);
-        crop(stage, true);
-        crop(stage, false);
-        step("is-before", false);
-        say("After", "Quick actions sit right under the balance");
-        await wait(900, id);
-        scroll(before, 0, false);
+        say("Quick Actions Sit Right Under the Balance");
+        await wait(600, id);
         step("is-actions", true);
         await wait(2200, id);
         step("is-actions", false);
 
-        say("After", "Manage card is one tap away");
+        say("Manage Card Is One Tap Away");
         step("is-card", true);
         await wait(1800, id);
         await tap(el('[data-target="manage-card"]'), id);
@@ -186,7 +158,7 @@
         go(credit, "home");
         await wait(800, id);
 
-        say("After", "Settings live in a gear in the header");
+        say("Settings Live in a Gear in the Header");
         step("is-gear", true);
         await wait(1800, id);
         await tap(el('.proto-view[data-view="home"] [data-go="manage"]'), id);
@@ -213,9 +185,9 @@
       modes.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
       run++;
       if (ring) ring.stop();
-      reset(mode);
+      reset();
       if (mode === "watch") {
-        say("Before", "Everyday tasks were split across tabs");
+        say("Quick Actions Sit Right Under the Balance");
         start();
       } else {
         hint.textContent = credit.dataset.hint;
@@ -324,7 +296,7 @@
       reset();
       while (true) {
         if (ring) ring.start(LOOP_MS);
-        say("Tapping the current balance");
+        say("Tapping the Current Balance");
         await wait(1000, id);
         await tap(el('[data-go="balance"]'), id);
         go(set, "balance");
@@ -333,7 +305,7 @@
         go(set, "home");
         await wait(900, id);
 
-        say("Tapping the utilization arrow");
+        say("Tapping the Utilization Arrow");
         await tap(el('[data-go="utilization"]'), id);
         go(set, "utilization");
         await wait(2400, id);
@@ -341,7 +313,7 @@
         go(set, "home");
         await wait(900, id);
 
-        say("Opening the statement");
+        say("Opening the Statement");
         scrollTo(220);
         await wait(1100, id);
         await tap(el('[data-go="statement"]'), id);
@@ -349,7 +321,7 @@
         go(set, "statement");
         await wait(1100, id);
 
-        say("$500 still to pay on this statement");
+        say("$500 Still to Pay on This Statement");
         zoomTo(bar, 2.4);
         await wait(1000, id);
         setFill(full, true);
@@ -404,7 +376,7 @@
 
   // Combo: one big phone with its color-coded zones. "Watch" plays a loop:
   // the three accounts one by one, then wireframes only, then all three side by
-  // side, then their zones line up into one shared layout, and back. "Explore" lets visitors pick an account (or All) and
+  // side, then their zones line up into one shared layout, and back. "explore" lets visitors pick an account (or All) and
   // switch between screens and wireframes.
   document.querySelectorAll(".combo").forEach(function (combo) {
     var phones = Array.prototype.slice.call(combo.querySelectorAll(".combo-phone"));
@@ -422,7 +394,7 @@
     var ring = window.modeRing ? window.modeRing(combo.querySelector(".combo-mode")) : null;
 
     function name(key) {
-      return key === "all" ? "All" : key.charAt(0).toUpperCase() + key.slice(1);
+      return key === "all" ? "all" : key.charAt(0).toUpperCase() + key.slice(1);
     }
 
     function apply() {
@@ -433,7 +405,7 @@
       accountButtons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.account === state.account); });
       viewButtons.forEach(function (b) { b.setAttribute("aria-pressed", (b.dataset.view === "wireframes") === state.wire); });
       if (combo.dataset.mode === "explore") {
-        hint.textContent = all ? "The same structure on every account" : name(state.account);
+        hint.textContent = all ? "The Same Structure on Every Account" : name(state.account);
       }
     }
 
@@ -453,11 +425,11 @@
           hint.textContent = name(state.account);
           await wait(2200, id);
         }
-        hint.textContent = "Stripping away the visuals";
+        hint.textContent = "Stripping Away the Visuals";
         state.wire = true;
         apply();
         await wait(1600, id);
-        hint.textContent = "The same structure on every account";
+        hint.textContent = "The Same Structure on Every Account";
         state.account = "all";
         apply();
         await wait(2400, id);
@@ -472,8 +444,18 @@
       }
     }
 
+    // Watch plays the hero's animation (a .combo-finale, run by finale.js)
+    // instead of this loop; the ring follows its loops
+    var finale = combo.querySelector(".combo-finale");
+    if (finale) {
+      finale.addEventListener("finaleloop", function (e) {
+        if (combo.dataset.mode === "watch" && ring) ring.start(e.detail);
+      });
+    }
+
     function start() {
       run++;
+      if (finale) return;
       if (combo.dataset.mode === "watch" && inView) loop(run).catch(function () {});
     }
 
@@ -483,6 +465,7 @@
       run++;
       if (ring) ring.stop();
       combo.classList.remove("is-uniform");
+      if (finale) finale.dispatchEvent(new Event(mode === "watch" ? "finalerestart" : "finalestop"));
       if (mode === "watch") {
         state = { account: order[0], wire: false };
         apply();

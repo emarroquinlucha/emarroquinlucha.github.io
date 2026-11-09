@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=458">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=551">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -170,7 +170,6 @@
           </button>
           <div class="work-text">
             <p class="work-kicker">Product Architecture</p>
-            <h3 class="work-title">Building the foundations of a digital bank</h3>
             <p class="work-desc">Redesigned core account and product experiences, established scalable screen templates across the app, and partnered with company leads to define its <mark class="case-mark case-mark-orange">current</mark> and <mark class="case-mark case-mark-orange">future architecture</mark>.</p>
           </div>
         </article>
@@ -184,7 +183,6 @@
           </button>
           <div class="work-text">
             <p class="work-kicker">Design Systems</p>
-            <h3 class="work-title">Creating consistency across teams</h3>
             <p class="work-desc">Contributed to, evolved, maintained and documented the components and patterns of our design system, helping designers across teams <mark class="case-mark case-mark-mustard">work faster</mark> and <mark class="case-mark case-mark-mustard">more efficiently</mark>.</p>
           </div>
         </article>
@@ -198,7 +196,6 @@
           </button>
           <div class="work-text">
             <p class="work-kicker">Visual Direction</p>
-            <h3 class="work-title">Shaping a cohesive product experience</h3>
             <p class="work-desc">Evolved Neo's visual direction, bringing <mark class="case-mark case-mark-plum">greater consistency</mark> to the app's interface, iconography, and brand expression.</p>
           </div>
         </article>
@@ -211,12 +208,119 @@
       <!-- Case studies: copy one <article class="case-item">...</article> to add another -->
       <div class="case-list">
         <article class="case-item">
-          <!-- Cover video: plays muted on a loop while on screen; the button
-               pauses and resumes it (see the case video script) -->
-          <div class="case-image case-media">
-            <video src="images/neo-accounts-showcase.mp4?v=2" poster="images/neo-accounts-showcase-poster.jpg?v=2" width="468" height="904" muted loop playsinline preload="metadata" aria-label="Neo accounts redesign: credit card, chequing and savings account screens"></video>
+          <!-- Cover animation (case-anim.js): the redesigned credit account,
+               built in HTML (copied from the case study's showcase), tips into
+               an isometric view as its skeleton and back, on a loop while on
+               screen; the button pauses and resumes it -->
+          <div class="case-image case-media case-anim" role="img" aria-label="Neo accounts redesign: the credit account, and the layout blocks underneath it">
+            <div class="case-anim-stage" aria-hidden="true">
+              <div class="case-anim-rig">
+                <div class="case-anim-phone"><div class="phone-mock-body"><div class="phone-mock-screen">
+        <!-- The Neo World Mastercard account, built in HTML from the Figma
+             frame (Portfolio Screens, 11:7315) so its statement can be paid live -->
+        <div class="showcase-scroll na-app has-card">
+          <div class="na-card" aria-hidden="true">
+            <img class="na-card-art" src="images/neo-ui/card-credit.png" width="1005" height="634" alt="">
+            <img class="na-card-logo" src="images/neo-ui/card-credit-logo.png" width="390" height="120" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 16.03%">
+            <img class="na-card-mark" src="images/neo-ui/card-world.svg" alt="" style="top: 10.44%; left: 82.33%; width: 9.96%; height: 4.41%">
+            <img class="na-card-mark" src="images/neo-ui/card-mc.svg" alt="" style="top: 66.17%; left: 70.13%; width: 23.79%; height: 24.32%">
+          </div>
+          <div class="na-sheet" style="--sheet-top: 160; --sheet-shadow: 0.15" aria-hidden="true">
+            <div class="na-content">
+              <div class="na-account is-credit">
+                <p class="na-heading">Neo World Mastercard ®</p>
+                <div class="na-balance-metrics">
+                  <div class="na-balance">
+                  <div class="na-balance-row"><p class="na-display">$2,900.00</p><span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt=""></span></div>
+                  <p class="na-details">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt=""></p>
+                </div>
+                <span class="na-divider"></span>
+                <div class="na-metrics-list">
+                  <div class="na-metric"><span>Utilization</span><span class="na-metric-value"><img class="na-dot" src="images/neo-ui/indicator.svg" width="8" height="8" alt="">29%<img class="na-flush" src="images/neo-ui/chevron-flush.svg" width="12" height="20" alt=""></span></div>
+                  <div class="na-metric"><span>Available credit</span><span class="na-metric-value"><b>$7,100.00</b>&nbsp;of $10,000</span></div>
+                </div>
+                </div>
+              </div>
+              <div class="na-actions">
+              <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/pay.svg" width="24" height="24" alt=""></span><p>Pay</p></div>
+              <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/statements.svg" width="24" height="24" alt=""></span><p>View statements</p></div>
+              <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/card.svg" width="24" height="24" alt=""></span><p>Manage card</p></div>
+            </div>
+              <div class="na-section">
+                <p class="na-heading">Statement</p>
+                <div class="na-stmt-stack">
+                  <div class="na-tile na-stmt">
+                    <div class="na-stmt-top">
+                      <div class="na-stmt-head">
+                        <div class="na-stmt-text"><p class="na-big"><span data-count="statement" data-from="500" data-to="0" data-format="cents">$500.00</span></p><p class="na-sub">Remaining due of $1,000.50</p></div>
+                        <span class="na-paid-tag"><img src="images/neo-ui/paid-check.svg" width="16" height="16" alt="">Paid</span>
+                        <img class="na-stmt-chevron" src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="">
+                      </div>
+                      <div class="na-collapse is-bar"><div><span class="na-bar" data-bar="statement" style="--fill: 50.15%; --c: #000"><span class="showcase-bar-fill"></span></span></div></div>
+                    </div>
+                    <div class="na-collapse"><div>
+                      <div class="na-stmt-row"><span>Payment due</span><span class="na-stmt-value">March 12 <em>(in 13 days)</em></span></div>
+                      <div class="na-stmt-row"><span>Minimum payment</span><span class="na-stmt-value"><span class="na-status-dot"><img src="images/neo-ui/check-circle.svg" width="24" height="24" alt=""></span>$45.00</span></div>
+                    </div></div>
+                  </div>
+                  <div class="na-tile na-autopay">
+                    <img src="images/neo-ui/autopay.svg" width="20" height="20" alt="">
+                    <div class="na-autopay-text"><p>Auto-Pay</p><p class="na-sub">Never miss a payment.</p></div>
+                    <span class="na-pill">Off</span><img src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="na-transactions">
+              <p class="na-heading">Transactions</p>
+              <div class="na-list is-plain">
+              <div class="na-row is-tagged">
+                <span class="na-avatar-img"><img src="images/neo-ui/merchant-park.png" width="40" height="40" alt=""></span>
+                <div class="na-row-text"><p class="na-row-title">Park Coffee Roasters</p><p class="na-row-date">Jul 10 • Pending</p></div>
+                <div class="na-row-number"><p class="na-row-amount">-$12.45</p><span class="na-tag">$5.00</span></div>
+              </div>
+              <div class="na-row is-legacy">
+                <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt=""></span>
+                <div class="na-row-text"><p class="na-row-title">Rewards Cash Out</p><p class="na-row-date">Jul 8</p></div>
+                <p class="na-row-amount">$30.00</p>
+              </div>
+              <div class="na-row">
+                <span class="na-avatar-img"><img src="images/neo-ui/merchant-perks.png" width="40" height="40" alt=""></span>
+                <div class="na-row-text"><p class="na-row-title">Neo Perks Payment</p><p class="na-row-date">Jul 5</p></div>
+                <p class="na-row-amount">-$9.99</p>
+              </div>
+              <div class="na-row is-legacy">
+                <span class="na-avatar-cat" style="background: #828d95"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt=""></span>
+                <div class="na-row-text"><p class="na-row-title">Rush Replacement Fee</p><p class="na-row-date">Jul 3</p></div>
+                <p class="na-row-amount">-$29.99</p>
+              </div>
+              <div class="na-row is-tagged">
+                <span class="na-avatar-img"><img src="images/neo-ui/merchant-organic.png" width="40" height="40" alt=""></span>
+                <div class="na-row-text"><p class="na-row-title">Organic Grocery</p><p class="na-row-date">Jul 1</p></div>
+                <div class="na-row-number"><p class="na-row-amount">-$120.54</p><span class="na-punch"><img src="images/neo-ui/checkmark.svg" width="16" height="16" alt=""></span></div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proto-header na-header" aria-hidden="true">
+          <div class="na-status">
+            <span class="na-time">9:41</span>
+            <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="">
+            <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="">
+            <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span>
+          </div>
+          <div class="na-nav">
+            <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt=""></span>
+            <span class="na-joint"><img src="images/neo-ui/profile.svg" width="20" height="20" alt=""><span class="na-joint-faces"><img src="images/neo-ui/joint-photo-1.jpg" width="20" height="20" alt=""><img src="images/neo-ui/joint-photo-2.jpg" width="20" height="20" alt=""></span></span>
+            <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt=""></span>
+          </div>
+        </div>
+                </div></div></div>
+              </div>
+            </div>
             <a class="case-image-link" href="accounts-architecture.html" tabindex="-1" aria-hidden="true"></a>
-            <button class="case-video-toggle" type="button" aria-label="Pause video">
+            <button class="case-video-toggle" type="button" aria-label="Pause the animation">
               <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
               <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
             </button>
@@ -1358,7 +1462,8 @@
 
   </script>
   <!-- Case study cover videos and the glass button -->
-  <script src="case-video.js?v=2"></script>
+  <script src="case-video.js?v=3"></script>
+  <script src="case-anim.js?v=1"></script>
 
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>

@@ -18,6 +18,7 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelectorAll(".case-media").forEach(function (media) {
     var video = media.querySelector("video");
+    if (!video) return; // animated covers run themselves (case-anim.js)
     var toggle = media.querySelector(".case-video-toggle");
     var wantsPlay = !reduce;
     var visible = false;

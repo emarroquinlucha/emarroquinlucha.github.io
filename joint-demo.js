@@ -21,9 +21,9 @@
     var LOOP_MS = 17800;
     var ring = window.modeRing ? window.modeRing(joint.querySelector(".proto-mode")) : null;
     var tryHints = {
-      home: "Tap the joint chip",
-      cardholders: "Tap Winnie to see her card, or the back arrow",
-      cardholder: "Tap the back arrow to return"
+      home: "Tap the Joint Chip",
+      cardholders: "Tap Winnie to See Her Card, or the Back Arrow",
+      cardholder: "Tap the Back Arrow to Return"
     };
 
     function wait(ms, id) {
@@ -104,15 +104,15 @@
       while (true) {
         if (ring) ring.start(LOOP_MS);
         scene("inspo");
-        say("Group chats show who's in them, right in the header");
+        say("Group Chats Show Who's in Them, Right in the Header");
         await wait(2600, id);
 
-        say("Instagram stacks the members' avatars by the name");
+        say("Instagram Stacks the Members' Avatars by the Name");
         inspo[1].classList.add("is-off");
         zoom(inspo[0]);
         await wait(2800, id);
 
-        say("Messages clusters everyone's faces up top");
+        say("Messages Clusters Everyone's Faces Up Top");
         inspo[0].classList.add("is-off");
         inspo[1].classList.remove("is-off");
         unzoom(inspo[0]);
@@ -124,12 +124,12 @@
         await wait(1000, id);
 
         scene("chip");
-        say("The joint chip: who shares the account, at a glance");
+        say("The Joint Chip: Who Shares the Account, at a Glance");
         await wait(2800, id);
 
         scene("credit");
         joint.classList.remove("is-chip-added");
-        say("On the account, it sits beside settings");
+        say("On the Account, It Sits Beside Settings");
         await wait(1200, id);
         zoom(credit);
         await wait(1000, id);
@@ -153,7 +153,7 @@
       reset();
       if (mode === "watch") {
         scene("inspo");
-        say("Group chats show who's in them, right in the header");
+        say("Group Chats Show Who's in Them, Right in the Header");
         start();
       } else {
         scene("credit");

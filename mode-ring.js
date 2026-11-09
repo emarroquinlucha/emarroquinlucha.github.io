@@ -41,11 +41,22 @@
     if (document.fonts) document.fonts.ready.then(size);
 
     return {
+      // Restarting fades the old lap out softly while the new one draws
+      // in from empty (also fading in), so there's no hard reset
       start: function (ms) {
+        var drawn = parseFloat(getComputedStyle(rect).strokeDashoffset);
+        if (rect.style.animation && rect.style.animation !== "none" && drawn < 99) {
+          var ghost = rect.cloneNode();
+          ghost.style.animation = "none";
+          ghost.style.strokeDashoffset = drawn;
+          ghost.classList.add("is-fading");
+          svg.appendChild(ghost);
+          setTimeout(function () { ghost.remove(); }, 900);
+        }
         size();
         rect.style.animation = "none";
         void svg.getBoundingClientRect();
-        rect.style.animation = "mode-ring " + ms + "ms linear forwards";
+        rect.style.animation = "mode-ring " + ms + "ms linear forwards, mode-ring-in 0.9s ease";
       },
       stop: function () {
         rect.style.animation = "none";
