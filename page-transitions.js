@@ -7,7 +7,9 @@
     "accounts-architecture.html": "stack",
     "final-final-v7.html": "stack",
     "quick-question.html": "stack",
-    "make-the-logo-bigger.html": "stack"
+    "make-the-logo-bigger.html": "stack",
+    "home-tab-refresh.html": "stack",
+    "posters.html": "stack"
   };
 
   function pageName(url) {
@@ -27,8 +29,10 @@
     return { top: r.top, right: r.right, bottom: r.bottom, left: r.left };
   }
 
+  // The page's sheet of paper; the posters page has none, so its gallery
+  // stands in for it
   function sheet() {
-    return document.querySelector(".resume-frame");
+    return document.querySelector(".resume-frame, .pg");
   }
 
   // The "grow" cover: the card on the resume, the hero on the case study
