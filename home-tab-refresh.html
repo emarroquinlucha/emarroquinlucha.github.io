@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=582">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=644">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=19"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
@@ -33,9 +33,9 @@
     <ul>
       <li><a href="#intro">Intro</a></li>
       <li><a href="#overview">Overview</a></li>
-      <li><a href="#the-problem">Problem</a></li>
+      <li><a href="#the-problem">Challenge</a></li>
       <li><a href="#the-approach">Approach</a></li>
-      <li><a href="#the-redesign">Redesign</a></li>
+      <li><a href="#the-redesign">Design</a></li>
       <li><a href="#the-outcome">Outcome</a></li>
       <li><a href="#reflections">Reflections</a></li>
     </ul>
@@ -49,8 +49,8 @@
         <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
         <!-- Template: copied from the Accounts Architecture case study. Swap
              each placeholder (text, .case-placeholder) for the real thing. -->
-        <h1 class="case-page-title">Home Tab Refresh @ Neo</h1>
-        <p class="case-page-desc">A one-line summary of the project goes here.</p>
+        <h1 class="case-page-title">Making Room for More</h1>
+        <p class="case-page-desc">Refreshing Neo's Home and exploring what's next for the app.</p>
 
         <hr class="case-divider">
         <dl class="case-details">
@@ -64,7 +64,7 @@
           </div>
           <div>
             <dt>Collaborators</dt>
-            <dd>X PM, X Engineers</dd>
+            <dd>1 PM, VP of Product, VP of Design, 1 Engineering Team</dd>
           </div>
           <div>
             <dt>Time Period</dt>
@@ -82,130 +82,285 @@
           <p class="proto-hint">The New Accounts Tab</p>
         </div>
 
-        <section class="case-page-section" id="outcomes">
-          <h2 class="case-eyebrow">Outcomes</h2>
-          <!-- Placeholder results: replace each XX with the real number -->
-          <ul class="case-outcomes">
-            <li>
-              <p class="case-outcome-stat">+XX pts <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-              <p class="case-outcome-label">First result after launch</p>
-            </li>
-            <li>
-              <p class="case-outcome-stat">XX% <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-              <p class="case-outcome-label">Second result after launch</p>
-            </li>
-            <li>
-              <p class="case-outcome-stat">XX% <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-              <p class="case-outcome-label">Third result after launch</p>
-            </li>
-          </ul>
-        </section>
-
-        <hr class="case-divider">
-
         <section class="case-page-section" id="overview">
           <p class="case-eyebrow">Overview</p>
-          <h2>A short line that frames the project and why it needed a <mark class="case-mark case-mark-green">change</mark>.</h2>
-          <p>Describe the product, the team and your role in a sentence or two, and call out the <strong>main areas</strong> you worked on.</p>
+          <h2>Giving Neo's Home room to <mark class="case-mark case-mark-green">grow</mark>.</h2>
+          <p>As Neo Financial continued to expand its products, we started rethinking how the app was organized.</p>
+          <p>What began as a larger information architecture refresh led to improvements to the Home experience, including new <strong>Quick Actions</strong>, <strong>product discovery</strong> opportunities, and an <strong>updated UI</strong>. I also explored how the rest of the app could evolve as Neo continued to grow.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Before and After</p>
+        <!-- Before and after: the old Home tab (rebuilt from screenshots, with the
+             new tab's accounts) laid over the new one in one phone. A line
+             sweeps across, uncovering the new design. See "Home before and
+             after" in style.css and home-compare.js. -->
+        <div class="case-placeholder ht-compare" role="img" aria-label="Before and after: the old Home tab, with a welcome and accounts in long lists, gives way to the new one with quick actions and accounts grouped by type">
+          <div class="ht-phone hc-wipe" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span>Afternoon,</span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div><div class="hc-before"><div class="hto-app"><div class="na-header hto-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="hto-header-row"><span class="hto-wallet"><span class="hto-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="hto-iconbtns"><span class="hto-iconbtn"><img src="images/neo-ui/home/bell.svg" width="24" height="24" alt=""></span><span class="hto-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></span></div></div><div class="hto-main"><div class="hto-welcome"><p>Welcome, Eddie</p><span class="hto-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt=""></span></div><p class="hto-group-head"><span>Credit cards</span><span>$1,234.56</span></p><div class="hto-group"><div class="hto-row is-last"><span class="hto-icon is-dark"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo World Elite® Mastercard</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div><p class="hto-group-head"><span>Cash</span><span>$16,937.68</span></p><div class="hto-group"><div class="hto-row"><span class="hto-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo Everyday</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Emergency</span></span><span class="hto-amount">$11,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Car repairs</span></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row is-last"><span class="hto-icon"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Home renovations</span></span><span class="hto-amount">$3,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div><span class="hto-add"><img src="images/neo-ui/old-add.svg" width="20" height="20" alt="">Add products</span></div><div class="ht-tabbar hto-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div><span class="compare-wipe-line hc-line"><span class="compare-wipe-handle"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5 1.5 7 5 10.5M9 3.5 12.5 7 9 10.5"/></svg></span></span></div></div></div>
+          <p class="proto-hint hc-hint"><span class="hint-tag">Before</span>Home Tab</p>
         </div>
 
         <section class="case-page-section" id="the-problem">
-          <p class="case-eyebrow">The Problem</p>
-          <h2>What wasn't working, and why it <mark class="case-mark case-mark-red">mattered</mark>.</h2>
-          <p>Explain where the signals came from, like <mark class="case-mark case-mark-red">research</mark> or <mark class="case-mark case-mark-red">customer feedback</mark>, and what kept coming up:</p>
+          <p class="case-eyebrow">The Challenge</p>
+          <h2>More products. More <mark class="case-mark case-mark-red">complexity</mark>.</h2>
+          <p>As Neo introduced more products and features, the app needed a clearer way to balance everyday banking with everything else it had to offer.</p>
+          <p>A few challenges stood out:</p>
           <ul class="case-list-bullets">
-            <li><strong>First issue</strong> in a short sentence.</li>
-            <li><strong>Second issue</strong> in a short sentence.</li>
-            <li><strong>Third issue</strong> and the effect it had on customers.</li>
+            <li><strong>Everyday actions needed to be easier to access.</strong> Common tasks like paying, sending, and moving money deserved a more prominent place.</li>
+            <li><strong>More products meant more complexity.</strong> The Home experience needed to accommodate a growing number of accounts without becoming overwhelming.</li>
+            <li><strong>New features needed a place to live.</strong> Upcoming investment products, financial tools, and support experiences called for a more flexible app structure.</li>
           </ul>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
+        <!-- The problem, shown: the old Home tab (the same rebuild as the before
+             and after above) with three numbered callouts, one per challenge:
+             buried everyday actions, a list that grows with every product, and
+             no room for new features. A still. See "The problem, shown" in
+             style.css; each note sits at --y points down the 375pt screen. -->
+        <div class="case-placeholder pa-board" role="img" aria-label="The old Home tab, annotated: Pay sits inside the credit account, adding and moving funds inside chequing or savings, and Send in the Payments tab, the account list grows with every new product, and there's no place for Investing, Help or Security">
+          <div class="pa-wrap">
+            <div class="ht-phone pa-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="hto-app"><div class="na-header hto-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="hto-header-row"><span class="hto-wallet"><span class="hto-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="hto-iconbtns"><span class="hto-iconbtn"><img src="images/neo-ui/home/bell.svg" width="24" height="24" alt=""></span><span class="hto-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></span></div></div><div class="hto-main"><div class="hto-welcome"><p>Welcome, Eddie</p><span class="hto-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt=""></span></div><p class="hto-group-head"><span>Credit cards</span><span>$1,234.56</span></p><div class="hto-group"><div class="hto-row is-last"><span class="hto-icon is-dark"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo World Elite® Mastercard</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div><p class="hto-group-head"><span>Cash</span><span>$16,937.68</span></p><div class="hto-group"><div class="hto-row"><span class="hto-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo Everyday</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Emergency</span></span><span class="hto-amount">$11,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Car repairs</span></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row is-last"><span class="hto-icon"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Home renovations</span></span><span class="hto-amount">$3,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div><span class="hto-add"><img src="images/neo-ui/old-add.svg" width="20" height="20" alt="">Add products</span></div><div class="ht-tabbar hto-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
+            <div class="pa-note is-right" style="--y: 80; --x: 250" aria-hidden="true"><span class="pa-line"></span><span class="pa-num">3</span><p>No place for Investing, Help or Security</p></div>
+            <div class="pa-bracket" style="--y1: 182; --y2: 672" aria-hidden="true"><span class="pa-num">2</span><p>Every new account makes this list longer</p></div>
+            <div class="pa-note is-right" style="--y: 262; --x: 318" aria-hidden="true"><span class="pa-line"></span><span class="pa-num">1</span><p>Pay sits inside the credit account</p></div>
+            <div class="pa-note is-right" style="--y: 424; --x: 318" aria-hidden="true"><span class="pa-line"></span><span class="pa-num">1</span><p>Add and move funds sit inside chequing or savings</p></div>
+            <div class="pa-note is-right" style="--y: 766; --x: 328" aria-hidden="true"><span class="pa-line"></span><span class="pa-num">1</span><p>Send lives in the Payments tab</p></div>
+          </div>
           <p class="proto-hint">The Problem, Shown</p>
         </div>
 
         <section class="case-page-section" id="the-approach">
           <p class="case-eyebrow">The Approach</p>
-          <h2>How I started working through the <mark class="case-mark case-mark-yellow">problem</mark>.</h2>
-          <p><mark class="case-mark case-mark-yellow">A short hook goes here</mark>, followed by what you looked at, who you worked with and what you were trying to learn.</p>
-          <p>Then sum up how that shaped <strong>the direction</strong> you took.</p>
+          <h2>Start with what people do <mark class="case-mark case-mark-yellow">most</mark>.</h2>
+          <p>I looked at how other financial apps organized their <strong>home screens</strong>, <strong>navigation</strong>, and <strong>everyday banking actions</strong>.</p>
+          <p>Rather than designing around individual features, I wanted to establish <strong>patterns</strong> that could continue to work as Neo introduced new products.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Research and Exploration</p>
+        <!-- Research: the home screens of four other banking apps, each with its
+             quick action / money movement buttons outlined. See "Research" in
+             style.css; screenshots in images/research/. -->
+        <div class="case-placeholder rs-board" role="img" aria-label="Home screens from RBC, Revolut, Nubank and Dave, with each app's quick action and money movement buttons outlined">
+          <div class="rs-row">
+            <figure class="rs-item">
+              <div class="rs-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/research/rbc.jpg" width="600" height="1300" alt="" loading="lazy"><span class="rs-mark" style="--top: 32.4%; --h: 12.9%; --l: 4%; --r: 2%"></span></div></div></div>
+              <figcaption class="rs-label">RBC (Canada)</figcaption>
+            </figure>
+            <figure class="rs-item">
+              <div class="rs-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/research/revolut.jpg" width="600" height="1300" alt="" loading="lazy"><span class="rs-mark" style="--top: 46.4%; --h: 11.2%; --l: 3.5%; --r: 4%"></span></div></div></div>
+              <figcaption class="rs-label">Revolut (Europe)</figcaption>
+            </figure>
+            <figure class="rs-item">
+              <div class="rs-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/research/nubank.jpg" width="600" height="1300" alt="" loading="lazy"><span class="rs-mark" style="--top: 34.6%; --h: 15.3%; --l: 4%; --r: 2%"></span></div></div></div>
+              <figcaption class="rs-label">Nubank (Brazil)</figcaption>
+            </figure>
+            <figure class="rs-item">
+              <div class="rs-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/research/dave.jpg" width="600" height="1300" alt="" loading="lazy"><span class="rs-mark" style="--top: 29.5%; --h: 25.0%; --l: 6.5%; --r: 7%"></span></div></div></div>
+              <figcaption class="rs-label">Dave (USA)</figcaption>
+            </figure>
+          </div>
+          <p class="rs-legend"><span class="rs-legend-swatch" aria-hidden="true"></span>Quick Actions / Money Movement</p>
         </div>
         <section class="case-page-section" id="the-redesign">
-          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 01</span></p>
-          <h3 class="case-step">The first change, made <mark class="case-mark case-mark-blue">easier to see</mark>.</h3>
-          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-blue">Then the result in a few words.</mark></p>
+          <p class="case-eyebrow">The Design <span class="case-eyebrow-step">/ 01</span></p>
+          <h3 class="case-step">Bringing everyday actions <mark class="case-mark case-mark-blue">forward</mark>.</h3>
+          <p>We introduced <strong>Quick Actions</strong> directly on Home, making common tasks like paying, adding funds, and moving money easier to access.</p>
+          <p>These actions also created natural opportunities to introduce customers to <strong>other Neo products</strong> when relevant.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">First Change</p>
+        <!-- Quick actions: the new Home tab in a phone, each quick action opening
+             its money movement sheet (built from the Figma frames, Portfolio
+             Screens 25:8241, 25:8491, 25:9328, 25:9398). "Watch" taps through
+             them and zooms in on the key rows; "Explore" lets visitors tap them.
+             See "Quick actions prototype" in style.css and quick-actions.js. -->
+        <div class="proto qa-proto" data-mode="watch">
+          <div class="mode-bar">
+            <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+            </div>
+          </div>
+          <hr class="mode-divider">
+          <div class="proto-stage qa-stage">
+            <div class="qa-phone" role="img" aria-label="The new Home tab: tapping Pay, Add funds, Move funds or Send opens a sheet with the ways to move money">
+              <div class="phone-mock-body"><div class="phone-mock-screen"><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span>Afternoon,</span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><button class="ht-action qa-action" type="button" data-sheet="pay" tabindex="-1"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</button><button class="ht-action qa-action" type="button" data-sheet="add" tabindex="-1"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</button><button class="ht-action qa-action" type="button" data-sheet="move" tabindex="-1"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</button><button class="ht-action qa-action" type="button" data-sheet="send" tabindex="-1"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</button></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div><div class="qa-layer"><span class="qa-scrim"></span><div class="qa-sheet" data-sheet="pay"><div class="qa-sheet-head"><button class="qa-close" type="button" aria-label="Close" tabindex="-1"><img src="images/neo-ui/sheets/close.svg" width="24" height="24" alt=""></button><p>Pay</p></div><div class="qa-sheet-body"><div class="qa-list"><div class="qa-row"><span class="ht-card qa-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="qa-amount">$1,234.56</span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div><div class="qa-row"><span class="ht-card qa-card"><img src="images/neo-ui/sheets/mini-card-world.png" width="32" height="51" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Neo World</span><small>••••1234</small></span><span class="qa-amount">$1,234.56</span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div></div><div class="qa-list"><div class="qa-row is-single"><span class="qa-avatar"><img src="images/neo-ui/sheets/bill.svg" width="24" height="24" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Pay bill</span></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div><div class="qa-sheet" data-sheet="add"><div class="qa-sheet-head"><button class="qa-close" type="button" aria-label="Close" tabindex="-1"><img src="images/neo-ui/sheets/close.svg" width="24" height="24" alt=""></button><p>Add funds</p></div><div class="qa-sheet-body"><div class="qa-list"><div class="qa-row"><span class="qa-avatar"><img src="images/neo-ui/sheets/link.svg" width="24" height="24" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Linked bank account</span><small>Up to $100,000 within 5 business days.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div><div class="qa-row"><span class="qa-avatar is-image"><img class="qa-avatar-img" src="images/neo-ui/sheets/interac.png" width="40" height="40" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Request <i>Interac</i> e-Transfer®</span><small>Up to $3,000 within 30 minutes.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div><div class="qa-sheet" data-sheet="move"><div class="qa-sheet-head"><button class="qa-close" type="button" aria-label="Close" tabindex="-1"><img src="images/neo-ui/sheets/close.svg" width="24" height="24" alt=""></button><p>Move funds</p></div><div class="qa-sheet-body"><div class="qa-list"><div class="qa-row"><span class="qa-avatar"><img src="images/neo-ui/sheets/withdraw.svg" width="24" height="24" alt=""></span><div class="qa-row-body"><span class="qa-row-text"><span>Withdraw</span><small>Transfer funds to an external account.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div><div class="qa-row qa-focus"><span class="qa-avatar"><img src="images/neo-ui/sheets/internal-transfer.svg" width="24" height="24" alt=""><span class="qa-badge"><img src="images/neo-ui/sheets/badge-add.svg" width="12" height="12" alt=""></span></span><div class="qa-row-body"><span class="qa-row-text"><span>Move within Neo</span><small>Add Neo accounts to transfer funds.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div><div class="qa-sheet" data-sheet="send"><div class="qa-sheet-head"><button class="qa-close" type="button" aria-label="Close" tabindex="-1"><img src="images/neo-ui/sheets/close.svg" width="24" height="24" alt=""></button><p>Send</p></div><div class="qa-sheet-body"><div class="qa-list"><div class="qa-row qa-focus"><span class="qa-avatar is-image"><img class="qa-avatar-img" src="images/neo-ui/sheets/interac.png" width="40" height="40" alt=""><span class="qa-badge"><img src="images/neo-ui/sheets/badge-add.svg" width="12" height="12" alt=""></span></span><div class="qa-row-body"><span class="qa-row-text"><span>Send <i>Interac</i> e-Transfer®</span><small>Add a Neo Everyday account to send up to $3,000.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div><div class="qa-row qa-focus"><span class="qa-avatar is-image"><img class="qa-avatar-img" src="images/neo-ui/sheets/interac.png" width="40" height="40" alt=""><span class="qa-badge"><img src="images/neo-ui/sheets/badge-add.svg" width="12" height="12" alt=""></span></span><div class="qa-row-body"><span class="qa-row-text"><span>Request <i>Interac</i> e-Transfer®</span><small>Add a Neo Everyday account to request up to $3,000.</small></span><img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div></div><span class="proto-tap qa-tap" aria-hidden="true"></span></div></div>
+            </div>
+          </div>
+          <p class="proto-hint qa-hint">Quick Actions on Home</p>
         </div>
 
         <section class="case-page-section">
-          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 02</span></p>
-          <h3 class="case-step">The second change, made <mark class="case-mark case-mark-pink">easier to understand</mark>.</h3>
-          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-pink">Then the result in a few words.</mark></p>
+          <p class="case-eyebrow">The Design <span class="case-eyebrow-step">/ 02</span></p>
+          <h3 class="case-step">Building a framework for <mark class="case-mark case-mark-pink">what comes next</mark>.</h3>
+          <p>I created a <strong>Quick Actions framework</strong> to help designers and PMs organize future money movement features.</p>
+          <p>The framework considered different customer <strong>account combinations</strong>, <strong>available actions</strong>, and opportunities to introduce products customers didn't yet have.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Second Change</p>
+        <!-- Research to framework: two tables shown as white cards on the case
+             study grid. The pattern tally (which money movement actions sit on
+             seven Canadian banking apps' Move money screens, from the Figma
+             benchmarking) and the Quick Actions framework (each quick action's
+             actions today, its future payment rails, and what each account mix
+             gets or is asked to add, from the "Stress test" frame). Watch cycles
+             through them; Explore lets visitors pick a table and open the
+             future rails. See "Research to framework" in style.css
+             and framework-show.js (with pattern-tally.js and framework-table.js). -->
+        <div class="proto fw-show" data-mode="watch">
+          <div class="mode-bar">
+            <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+            </div>
+            <div class="approach-controls">
+              <div class="approach-toggle fw-switch" role="group" aria-label="Table">
+                <button type="button" class="approach-toggle-button" data-card="tally" aria-pressed="true">Benchmark</button>
+                <button type="button" class="approach-toggle-button" data-card="framework" aria-pressed="false">Framework</button>
+              </div>
+            </div>
+          </div>
+          <hr class="mode-divider">
+          <div class="fw-stage">
+            <div class="pt-board fw-card is-active" data-card="tally" role="group" aria-label="Pattern tally: Transfer, Pay bills and Interac e-Transfer appear on nearly every app's Move money screen, while Add money appears only in the fintechs">
+              <div class="pt-scroll">
+                <div class="pt-grid" role="table">
+                  <div class="pt-corner" role="columnheader">Apps</div><div class="pt-head" role="columnheader"><span>Transfer</span></div><div class="pt-head" role="columnheader"><span>Pay Bills</span></div><div class="pt-head" role="columnheader"><span><i>Interac</i> e-Transfer</span></div><div class="pt-head" role="columnheader"><span>Deposit Cheque</span></div><div class="pt-head" role="columnheader"><span>Add Money</span></div>
+                  <div class="pt-app" role="rowheader"><span class="pt-logo is-contain"><img src="images/research/logos/rbc.svg" width="32" height="32" alt=""></span><span class="pt-name">RBC<small>Bank</small></span></div><div class="pt-mark" role="cell" style="--r: 0; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 0; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 0; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 0; --c: 3"><span class="pt-dot is-on" aria-label="Has Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 0; --c: 4"><span class="pt-dot" aria-label="No Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo is-cibc"><img src="images/research/logos/cibc.svg" width="32" height="32" alt=""></span><span class="pt-name">CIBC<small>Bank</small></span></div><div class="pt-mark" role="cell" style="--r: 1; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 1; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 1; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 1; --c: 3"><span class="pt-dot is-on" aria-label="Has Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 1; --c: 4"><span class="pt-dot" aria-label="No Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo is-contain"><img src="images/research/logos/scotiabank.svg" width="32" height="32" alt=""></span><span class="pt-name">Scotiabank<small>Bank</small></span></div><div class="pt-mark" role="cell" style="--r: 2; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 2; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 2; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 2; --c: 3"><span class="pt-dot is-on" aria-label="Has Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 2; --c: 4"><span class="pt-dot" aria-label="No Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo "><img src="images/research/logos/td.svg" width="32" height="32" alt=""></span><span class="pt-name">TD<small>Bank</small></span></div><div class="pt-mark" role="cell" style="--r: 3; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 3; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 3; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 3; --c: 3"><span class="pt-dot is-on" aria-label="Has Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 3; --c: 4"><span class="pt-dot" aria-label="No Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo "><img src="images/research/logos/tangerine.png" width="32" height="32" alt=""></span><span class="pt-name">Tangerine<small>Online Bank</small></span></div><div class="pt-mark" role="cell" style="--r: 4; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 4; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 4; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 4; --c: 3"><span class="pt-dot is-on" aria-label="Has Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 4; --c: 4"><span class="pt-dot" aria-label="No Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo "><img src="images/research/logos/wealthsimple.png" width="32" height="32" alt=""></span><span class="pt-name">Wealthsimple<small>Fintech</small></span></div><div class="pt-mark" role="cell" style="--r: 5; --c: 0"><span class="pt-dot is-on" aria-label="Has Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 5; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 5; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 5; --c: 3"><span class="pt-dot" aria-label="No Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 5; --c: 4"><span class="pt-dot is-on" aria-label="Has Add money"></span></div><div class="pt-app" role="rowheader"><span class="pt-logo is-koho"><img src="images/research/logos/koho.svg" width="32" height="32" alt=""></span><span class="pt-name">KOHO<small>Fintech</small></span></div><div class="pt-mark" role="cell" style="--r: 6; --c: 0"><span class="pt-dot" aria-label="No Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 6; --c: 1"><span class="pt-dot is-on" aria-label="Has Pay bills"></span></div><div class="pt-mark" role="cell" style="--r: 6; --c: 2"><span class="pt-dot is-on" aria-label="Has Interac e-Transfer"></span></div><div class="pt-mark" role="cell" style="--r: 6; --c: 3"><span class="pt-dot" aria-label="No Deposit cheque"></span></div><div class="pt-mark" role="cell" style="--r: 6; --c: 4"><span class="pt-dot is-on" aria-label="Has Add money"></span></div>
+                  <div class="pt-total-label"></div><div class="pt-total" style="--c: 0"><b data-count="6">6</b>/7</div><div class="pt-total" style="--c: 1"><b data-count="7">7</b>/7</div><div class="pt-total" style="--c: 2"><b data-count="7">7</b>/7</div><div class="pt-total" style="--c: 3"><b data-count="5">5</b>/7</div><div class="pt-total is-low" style="--c: 4"><b data-count="2">2</b>/7</div>
+                </div>
+              </div>
+              <p class="fw-legend pt-legend"><span><i class="pt-dot is-on" aria-hidden="true"></i>Has Action</span><span><i class="pt-dot" aria-hidden="true"></i>No Action</span></p>
+            </div>
+
+            <div class="fw-board fw-card" data-card="framework" role="group" aria-label="Quick Actions framework: what Pay, Add Funds, Move Funds and Send offer today, their future payment rails, and which account mixes get each one, or which account each suggests adding">
+              <div class="fw-scroll">
+                <div class="fw-grid" role="table">
+                  <div class="fw-corner" aria-hidden="true"></div><div class="fw-head" role="columnheader"><span class="fw-head-icon is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="fw-head" role="columnheader"><span class="fw-head-icon"><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add Funds</div><div class="fw-head" role="columnheader"><span class="fw-head-icon"><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move Funds</div><div class="fw-head" role="columnheader"><span class="fw-head-icon"><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div><div class="fw-label" role="rowheader">Today</div><ul class="fw-cell" role="cell" style="--r: 0; --c: 0"><li class="fw-pill is-live"><span>Pay Card Statement</span></li><li class="fw-pill is-live"><span>Pay a Bill</span></li><li class="fw-more"><button class="fw-pill is-future fw-toggle" type="button" aria-expanded="false"><span>+3 Future Rails</span><svg class="fw-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li class="fw-pill is-future fw-rail"><span>Line of Credit</span></li><li class="fw-pill is-future fw-rail"><span>Mortgage</span></li><li class="fw-pill is-future fw-rail"><span>Bank Draft</span></li></ul><ul class="fw-cell" role="cell" style="--r: 0; --c: 1"><li class="fw-pill is-live"><span>Add From External Account</span></li><li class="fw-pill is-live"><span>Add via <i>Interac</i> e-Transfer</span></li><li class="fw-more"><button class="fw-pill is-future fw-toggle" type="button" aria-expanded="false"><span>+5 Future Rails</span><svg class="fw-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li class="fw-pill is-future fw-rail"><span>Direct Deposit</span></li><li class="fw-pill is-future fw-rail"><span>Mobile Cheque</span></li><li class="fw-pill is-future fw-rail"><span>Cash</span></li><li class="fw-pill is-future fw-rail"><span>Wire</span></li><li class="fw-pill is-future fw-rail"><span>Void Cheque</span></li></ul><ul class="fw-cell" role="cell" style="--r: 0; --c: 2"><li class="fw-pill is-live"><span>Transfer Within Neo</span></li><li class="fw-pill is-live"><span>Withdraw to External Account</span></li><li class="fw-more"><button class="fw-pill is-future fw-toggle" type="button" aria-expanded="false"><span>+2 Future Rails</span><svg class="fw-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li class="fw-pill is-future fw-rail"><span>FX Exchange</span></li><li class="fw-pill is-future fw-rail"><span>Automations</span></li></ul><ul class="fw-cell" role="cell" style="--r: 0; --c: 3"><li class="fw-pill is-live"><span>Send <i>Interac</i> e-Transfer</span></li><li class="fw-pill is-live"><span>Request <i>Interac</i> e-Transfer</span></li><li class="fw-more"><button class="fw-pill is-future fw-toggle" type="button" aria-expanded="false"><span>+6 Future Rails</span><svg class="fw-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.75 5 6.25l2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li class="fw-pill is-future fw-rail"><span>Neo P2P</span></li><li class="fw-pill is-future fw-rail"><span>Wire</span></li><li class="fw-pill is-future fw-rail"><span>Bill Split</span></li><li class="fw-pill is-future fw-rail"><span>International</span></li><li class="fw-pill is-future fw-rail"><span>Send Cheque</span></li><li class="fw-pill is-future fw-rail"><span>Order Cheques</span></li></ul><div class="fw-sub" role="rowheader">Account Mix</div><div class="fw-label fw-mix" role="rowheader">Card + Chequing</div><div class="fw-mark" role="cell" style="--r: 1; --c: 0"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-mark" role="cell" style="--r: 1; --c: 1"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-mark" role="cell" style="--r: 1; --c: 2"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-cash" role="img" aria-label="Suggests adding a Savings account"></span></div><div class="fw-mark" role="cell" style="--r: 1; --c: 3"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-label fw-mix" role="rowheader">Card + Savings</div><div class="fw-mark" role="cell" style="--r: 2; --c: 0"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 2; --c: 1"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 2; --c: 2"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-mark" role="cell" style="--r: 2; --c: 3"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-label fw-mix" role="rowheader">Chequing Only</div><div class="fw-mark" role="cell" style="--r: 3; --c: 0"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-card" role="img" aria-label="Suggests adding a credit card"></span></div><div class="fw-mark" role="cell" style="--r: 3; --c: 1"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-mark" role="cell" style="--r: 3; --c: 2"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-cash" role="img" aria-label="Suggests adding a Savings account"></span></div><div class="fw-mark" role="cell" style="--r: 3; --c: 3"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-label fw-mix" role="rowheader">Savings Only</div><div class="fw-mark" role="cell" style="--r: 4; --c: 0"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span><span class="fw-dot is-card" role="img" aria-label="Suggests adding a credit card"></span></div><div class="fw-mark" role="cell" style="--r: 4; --c: 1"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 4; --c: 2"><span class="fw-dot is-check" role="img" aria-label="Available"></span></div><div class="fw-mark" role="cell" style="--r: 4; --c: 3"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-label fw-mix" role="rowheader">Card Only</div><div class="fw-mark" role="cell" style="--r: 5; --c: 0"><span class="fw-dot is-check" role="img" aria-label="Available"></span><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 5; --c: 1"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 5; --c: 2"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div><div class="fw-mark" role="cell" style="--r: 5; --c: 3"><span class="fw-dot is-everyday" role="img" aria-label="Suggests adding a Chequing account"></span></div></div>
+              </div>
+              <p class="fw-legend"><span><i class="fw-key is-live" aria-hidden="true"></i>Available Today</span><span><i class="fw-key is-future" aria-hidden="true"></i>Future Payment Rails</span><b class="fw-legend-break" aria-hidden="true"></b><span><i class="fw-dot is-check" aria-hidden="true"></i>Available</span><span><i class="fw-dot is-card" aria-hidden="true"></i>Add Credit Card</span><span><i class="fw-dot is-cash" aria-hidden="true"></i>Add Savings</span><span><i class="fw-dot is-everyday" aria-hidden="true"></i>Add Chequing</span></p>
+            </div>
+          </div>
+          <p class="proto-hint fw-hint">Benchmarking Seven Apps' Move Money Screens</p>
         </div>
 
         <section class="case-page-section">
-          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 03</span></p>
-          <h3 class="case-step"><mark class="case-mark case-mark-purple">One idea</mark>, applied everywhere.</h3>
-          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-purple">Then the result in a few words.</mark></p>
+          <p class="case-eyebrow">The Design <span class="case-eyebrow-step">/ 03</span></p>
+          <h3 class="case-step">Giving Home a <mark class="case-mark case-mark-purple">refresh</mark>.</h3>
+          <p>Alongside Quick Actions, I worked on a <strong>refreshed Home UI</strong> and explored more flexible ways to organize accounts and information.</p>
+          <p>I also designed supporting components for <strong>alerts</strong> and <strong>account communications</strong>, working from a communications framework developed by another designer.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Third Change</p>
+        <!-- Home refresh: the new Home tab in a phone, filmed like a camera.
+             It opens close on the old accounts list (category and total above
+             plain rows), the new one pops in with the card art, the camera
+             pulls back to the whole screen, zooms into the greeting as it rolls
+             Morning / Afternoon / Evening, pans up as an inline message slides
+             in and out (Figma: Portfolio Screens 26:10594), then settles on the
+             rewards chip and starts over. See "Home refresh" in style.css and
+             home-refresh.js. -->
+        <div class="case-placeholder ac-show" role="img" aria-label="The refreshed Home tab: accounts grouped with their card art, a time-of-day greeting, inline messages and the rewards chip">
+          <div class="ht-phone ac-phone" data-list="old" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ac-notice"><div class="ac-notice-inner"><div class="ac-notice-box"><img src="images/neo-ui/home/alert.svg" width="20" height="20" alt=""><p>Canada Post strikes will delay card delivery times. <b>Learn more.</b></p><img src="images/neo-ui/home/close-small.svg" width="20" height="20" alt=""></div></div></div><div class="ht-greeting"><p><span class="ac-roll"><span class="ac-roll-track"><span>Morning,</span><span>Afternoon,</span><span>Evening,</span></span></span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="hto-app ac-old"><p class="hto-group-head"><span>Credit cards</span><span>$1,234.56</span></p><div class="hto-group"><div class="hto-row is-last"><span class="hto-icon is-dark"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo World Elite® Mastercard</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div><p class="hto-group-head"><span>Cash</span><span>$16,937.68</span></p><div class="hto-group"><div class="hto-row"><span class="hto-icon"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3" fill="currentColor"/><rect x="5" y="14" width="4" height="1.6" rx="0.8" fill="#fff" opacity="0.8"/></svg></span><div class="hto-row-body"><span class="hto-row-text"><span>Neo Everyday</span><small>•••• 1234</small></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Emergency</span></span><span class="hto-amount">$11,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row"><span class="hto-icon"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Car repairs</span></span><span class="hto-amount">$1,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div><div class="hto-row is-last"><span class="hto-icon"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="hto-row-body"><span class="hto-row-text"><span>Home renovations</span></span><span class="hto-amount">$3,234.56</span><img class="hto-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt=""></div></div></div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
+          <p class="proto-hint ac-hint">New Accounts List</p>
         </div>
 
         <section class="case-page-section">
-          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 04</span></p>
-          <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark>.</h3>
-          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-teal">Then the result in a few words.</mark></p>
+          <p class="case-eyebrow">The Design <span class="case-eyebrow-step">/ 04</span></p>
+          <h3 class="case-step">Exploring the future of <mark class="case-mark case-mark-teal">the app</mark>.</h3>
+          <p>To keep making room as Neo grew, I explored how Home could hold more accounts without getting longer, and a broader <strong>navigation structure</strong> to support Neo's expanding product lineup.</p>
+          <p>This included concepts for:</p>
+          <ul class="case-list-bullets case-list-titled">
+            <li><strong>Collapsible Account Categories</strong> Each account type folds into a single row with its total, so Home can take on new products without growing longer.</li>
+            <li><strong>Universal Navigation</strong> A consistent top bar with access to Help and Security.</li>
+            <li><strong>Help &amp; Security Centres</strong> Dedicated spaces for customer support, account safety, and privacy controls.</li>
+            <li><strong>Grow Tab</strong> A new home for savings, investments, and future wealth-building products.</li>
+          </ul>
+          <p>These concepts didn't ship, but they showed how the app could evolve, and gave the team a direction for fitting more products onto Home.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Fourth Change</p>
+        <!-- Future concepts, in a row: a Home tab with collapsed accounts
+             (Portfolio Screens 27:14369, its top screen), the Help Center and
+             the Grow tab (Edward's Wunderland 40000039:193541 and :193871), as
+             rendered from Figma, each in a phone. The Grow tab is taller than the
+             screen, so it scrolls slowly under its pinned header. See "Future
+             concepts" in style.css; screens in images/neo-ui/future/. -->
+        <div class="case-placeholder fc-board" role="group" aria-label="Future concepts: a Home tab with collapsed accounts, a Help Center and a Grow tab for savings and investments">
+          <div class="fc-row">
+            <figure class="fc-item">
+              <div class="fc-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-ui/future/home-collapsed.jpg" width="750" height="1624" alt="Home tab with collapsed accounts: credit cards, Everyday, Savings and Invest each folded into one row with its total" loading="lazy"></div></div></div>
+              <figcaption class="fc-label">Collapsed Accounts</figcaption>
+            </figure>
+            <figure class="fc-item">
+              <div class="fc-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-ui/future/help.jpg" width="750" height="1624" alt="Help Center: a help articles tile, Priority Support, Community, and a Chat with us button" loading="lazy"></div></div></div>
+              <figcaption class="fc-label">Help Center</figcaption>
+            </figure>
+            <figure class="fc-item">
+              <div class="fc-phone fc-scroll"><div class="phone-mock-body"><div class="phone-mock-screen"><img class="fc-long" src="images/neo-ui/future/grow.jpg" width="750" height="3700" alt="Grow tab: total balance with a growth chart, quick actions, savings, TFSA, RRSP, non-registered and crypto accounts, a watchlist and investing offers" loading="lazy"><span class="fc-pin" aria-hidden="true"></span><span class="fc-pin-tabs" aria-hidden="true"></span></div></div></div>
+              <figcaption class="fc-label">Grow Tab</figcaption>
+            </figure>
+          </div>
+          <p class="proto-hint">Future Concepts</p>
         </div>
 
         <section class="case-page-section" id="the-outcome">
           <p class="case-eyebrow">The Outcome</p>
-          <h2>A headline that sums up the <mark class="case-mark case-mark-green">result</mark>.</h2>
-          <p>Lead with the numbers: the first result rose by <strong>+XX points</strong>, the second improved by <strong>XX%</strong>, and the third dropped by <strong>XX%</strong>.</p>
-          <p>Then describe what changed in the <strong>experience</strong> customers see.</p>
-          <p>Finish with what it set up for the <strong>team and the product</strong> going forward.</p>
+          <h2>Shipped today, with a path for <mark class="case-mark case-mark-green">tomorrow</mark>.</h2>
+          <p>The <strong>refreshed Home UI</strong>, <strong>Quick Actions</strong>, and supporting <strong>product discovery</strong> entry points launched in the Neo app.</p>
+          <p>Alongside the shipped work, I developed a reusable Quick Actions framework and explored a broader architectural direction, from collapsible account categories to a Grow tab, for future products and features.</p>
         </section>
 
-        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
-          <span class="case-placeholder-label">Animation Placeholder</span>
-          <p class="proto-hint">Final Showcase</p>
+        <!-- Now / Next / Future: a timeline closer. A track along the bottom
+             fills stop by stop while the phone above changes: Now is the new
+             Home that shipped (cloned from the hero), Next is the Send sheet with
+             the future payment rails gathering around it (cloned from the quick
+             actions prototype), Future is the Collapsed Accounts Home with the
+             Help Center and Grow tab fanned behind. Watch steps through it; Explore lets visitors pick a stage. See
+             "Now / Next / Future" in style.css and timeline.js. -->
+        <div class="proto tl-show" data-mode="watch">
+          <div class="mode-bar">
+            <div class="approach-toggle proto-mode" role="group" aria-label="Mode">
+              <button type="button" class="approach-toggle-button" data-mode="watch" aria-pressed="true"><svg class="toggle-icon" width="8" height="9" viewBox="0 0 8 9" aria-hidden="true"><path d="M1 1.1v6.8a.6.6 0 0 0 .9.5l5.6-3.4a.6.6 0 0 0 0-1L1.9.6A.6.6 0 0 0 1 1.1Z" fill="currentColor"/></svg>Watch</button>
+              <button type="button" class="approach-toggle-button" data-mode="explore" aria-pressed="false">Explore</button>
+            </div>
+            <div class="approach-controls">
+              <div class="approach-toggle tl-switch" role="group" aria-label="Stage">
+                <button type="button" class="approach-toggle-button" data-stage="now" aria-pressed="true">Now</button>
+                <button type="button" class="approach-toggle-button" data-stage="next" aria-pressed="false">Next</button>
+                <button type="button" class="approach-toggle-button" data-stage="future" aria-pressed="false">Future</button>
+              </div>
+            </div>
+          </div>
+          <hr class="mode-divider">
+          <div class="tl-stage">
+            <div class="tl-scene is-active" data-stage="now" role="img" aria-label="Now: the refreshed Home tab with Quick Actions, shipped">
+              <div class="tl-slot" data-clone=".ht-hero .ht-phone"></div>
+            </div>
+            <div class="tl-scene" data-stage="next" role="img" aria-label="Next: the Send sheet, with future payment rails like Neo P2P, wire and international transfers lining up">
+              <div class="tl-slot" data-clone=".qa-phone" data-sheet="send"></div>
+              <ul class="tl-rails" aria-hidden="true"><li style="--i: 0"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Neo P2P</li><li style="--i: 1"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Wire Transfers</li><li style="--i: 2"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>International</li><li style="--i: 3"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Direct Deposit</li><li style="--i: 4"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Mobile Cheque</li><li style="--i: 5"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1.5v7M1.5 5h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Bill Split</li></ul>
+            </div>
+            <div class="tl-scene" data-stage="future" role="img" aria-label="Future: a Home tab with collapsed accounts, with the Help Center and Grow tab concepts behind it">
+              <div class="tl-fan">
+                <div class="tl-phone is-left"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-ui/future/help.jpg" width="750" height="1624" alt="" loading="lazy"></div></div></div>
+                <div class="tl-phone is-right"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-ui/future/grow.jpg" width="750" height="1624" alt="" loading="lazy"></div></div></div>
+                <div class="tl-phone is-front"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-ui/future/home-collapsed.jpg" width="750" height="1624" alt="" loading="lazy"></div></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-track" aria-hidden="true">
+            <span class="tl-line"><span class="tl-fill"></span><span class="tl-dot"></span></span>
+            <ol class="tl-stops">
+              <li data-stage="now"><b>Now</b>Shipped</li>
+              <li data-stage="next"><b>Next</b>Future rails</li>
+              <li data-stage="future"><b>Future</b>Broader app structure</li>
+            </ol>
+          </div>
+          <p class="proto-hint tl-hint">Now: The Refreshed Home, Shipped</p>
         </div>
 
         <section class="case-page-section" id="reflections">
           <p class="case-eyebrow">Reflections</p>
           <h2>What I <mark class="case-mark case-mark-teal">learned</mark>.</h2>
           <div class="case-reflections">
-            <h3>The first lesson.</h3>
-            <p>A few sentences on what you learned, with the <strong>key takeaway</strong> in bold.</p>
-            <h3>The second lesson.</h3>
-            <p>A few sentences on what you learned, with the <strong>key takeaway</strong> in bold.</p>
+            <h3>Think ahead while you can.</h3>
+            <p>Working closely with our Product and Design VPs helped me realize how important it is to <strong>define, plan and document future iterations</strong>, so we're prepared for future product expansions.</p>
+            <h3>Look beyond your borders.</h3>
+            <p>Studying global fintechs and apps that had already solved these problems <strong>gave us a compass</strong> for what to build, and kept us on top of global patterns we could learn from.</p>
           </div>
           <div class="case-signoff">
             <p>I hope this wasn't too boring,</p>
@@ -236,6 +391,14 @@
   <script src="grid-overlay.js?v=1"></script>
   <script src="title-wrap.js?v=4"></script>
   <script src="gradient-word.js?v=8"></script>
+  <script src="home-compare.js?v=1"></script>
+  <script src="mode-ring.js?v=2"></script>
+  <script src="quick-actions.js?v=3"></script>
+  <script src="framework-table.js?v=4"></script>
+  <script src="pattern-tally.js?v=2"></script>
+  <script src="framework-show.js?v=3"></script>
+  <script src="home-refresh.js?v=6"></script>
+  <script src="timeline.js?v=2"></script>
   <!-- Page stats (bottom-left corner): the read time, from the word count at
        ~200 words a minute -->
   <div class="floating-dock">

@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=582">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=644">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -101,7 +101,7 @@
       <li><a href="#intro">Intro</a></li>
       <li><a href="#selected-work">Selected Impact</a></li>
       <li><a href="#case-studies">Work</a></li>
-      <li><a href="#fun">Fun!</a></li>
+      <li><a href="#fun">Play</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#expertise">Expertise</a></li>
     </ul>
@@ -344,14 +344,14 @@
           </div>
           <div class="case-text">
             <p class="case-tag">Neo Financial</p>
-            <h3 class="case-title">Home Tab Refresh</h3>
-            <p class="case-desc">A one-line summary of the project goes here.</p>
+            <h3 class="case-title">Making Room for More</h3>
+            <p class="case-desc">Refreshing Neo's Home and exploring what's next for the app.</p>
             <a class="glass-button" href="home-tab-refresh.html">View project</a>
           </div>
         </article>
       </div>
 
-      <h2 class="resume-label" id="fun">Fun!</h2>
+      <h2 class="resume-label" id="fun">Play</h2>
 
       <hr class="resume-divider">
 
@@ -396,7 +396,12 @@
             </div>
           </div>
           <p class="proto-hint">Psychedelic Posters</p>
-          <a class="glass-button fun-tile-button" href="posters.html">View posters</a>
+          <a class="glass-button fun-tile-button" href="posters.html" aria-label="View posters" title="View posters"></a>
+        </div>
+        <!-- Full width, a third the height of the tiles above; a placeholder
+             for now -->
+        <div class="fun-tile fun-wide">
+          <span class="case-placeholder-label">🚧 3D Experiments Coming soon</span>
         </div>
       </div>
 

@@ -1308,6 +1308,13 @@ html.is-loading body {
   border-radius: 20px;
 }
 
+/* Spans both columns at two thirds of the tiles' height (each tile is 3:4,
+   so two side by side and two thirds as tall comes to about 9:4) */
+.fun-tile.fun-wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 9 / 4;
+}
+
 /* ===== Savings concept (savings-anim.js) =====
    Fun UI & Ideas: a savings screen built in HTML from the Figma frame
    (Edward's Wunderland, 3520:49372), in an iPhone mock. Laid out like the
@@ -1735,8 +1742,7 @@ html.is-loading body {
    of the caption in the corner */
 .fun-tile.fun-posters {
   align-content: center;
-  gap: 24px;
-  padding-bottom: 40px;
+  padding-bottom: 24px;
   box-sizing: border-box;
 }
 
@@ -1744,9 +1750,18 @@ html.is-loading body {
   margin-bottom: 0;
 }
 
-.fun-tile-button {
-  position: relative;
+/* A round glass button with just the arrow, in the tile's bottom-right
+   corner (level with the caption pill on the left) */
+.glass-button.fun-tile-button {
+  position: absolute;
   z-index: 5;
+  right: 16px;
+  bottom: 13px;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  gap: 0;
 }
 
 /* ===== Posters (poster-tilt.js) =====
@@ -1817,6 +1832,10 @@ html.is-loading body {
 
   .fun-tile {
     aspect-ratio: 4 / 3;
+  }
+
+  .fun-tile.fun-wide {
+    aspect-ratio: 2 / 1;
   }
 }
 
@@ -3467,6 +3486,12 @@ html:has(.lightbox.is-open) body {
   overflow: hidden;
 }
 
+/* With nothing between it and Overview, the hero gets the same room below
+   as the other containers */
+.case-placeholder.case-hero.ht-hero {
+  margin-bottom: 72px;
+}
+
 .ht-phone {
   width: 232px;
   container-type: inline-size;
@@ -3858,6 +3883,2167 @@ html:has(.lightbox.is-open) body {
 
 .ht-tab:not(.is-on) {
   color: rgba(17, 17, 17, 0.4);
+}
+
+/* ===== Home before and after (home-tab-refresh.html, home-compare.js) =====
+   One phone: the new Accounts tab underneath, the old Home tab on top, cut
+   back from the right as --p goes from 100 (all old) to 0 (all new). The old
+   tab is rebuilt from screenshots of the app, with the new tab's accounts. */
+.case-placeholder.ht-compare {
+  height: 600px;
+  overflow: hidden;
+}
+
+.hc-wipe {
+  --p: 100;
+}
+
+.hc-before {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  clip-path: inset(0 calc((100 - var(--p)) * 1%) 0 0);
+}
+
+.hc-wipe.is-moving .hc-before,
+.hc-wipe.is-moving .hc-line {
+  transition: clip-path var(--sweep, 1s) cubic-bezier(0.65, 0, 0.35, 1),
+    left var(--sweep, 1s) cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s ease;
+}
+
+.hc-line {
+  transition: opacity 0.3s ease;
+}
+
+.hc-wipe:not(.is-wiping) .hc-line {
+  opacity: 0;
+}
+
+.hc-wipe .compare-wipe-handle {
+  width: 26px;
+  height: 26px;
+}
+
+.ht-compare > p.hc-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ht-compare > p.hc-hint .hint-tag {
+  flex: none;
+  margin: 0;
+}
+
+/* The old Home tab */
+.hto-app {
+  --pt: calc(93.2cqw / 375);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #f1f3f3;
+  color: #111;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.hto-app p {
+  margin: 0;
+}
+
+.hto-app img,
+.hto-app svg {
+  display: block;
+  flex: none;
+}
+
+.hto-app small {
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.hto-header {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(241, 243, 243, 0.94);
+}
+
+.hto-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(66 * var(--pt));
+  padding: 0 calc(16 * var(--pt));
+}
+
+.hto-wallet {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--pt));
+  height: calc(38 * var(--pt));
+  padding: 0 calc(12 * var(--pt)) 0 calc(7 * var(--pt));
+  border-radius: 999px;
+  background: #222;
+  color: #fff;
+  font-size: calc(15 * var(--pt));
+  font-weight: 500;
+  box-shadow: 0 calc(3 * var(--pt)) calc(8 * var(--pt)) rgba(0, 0, 0, 0.18);
+}
+
+.hto-wallet-icon {
+  display: grid;
+  place-items: center;
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+  border-radius: 999px;
+  background: #000;
+}
+
+.hto-app .hto-wallet-icon img {
+  width: calc(18 * var(--pt));
+  height: calc(18 * var(--pt));
+}
+
+.hto-iconbtns {
+  display: flex;
+  gap: calc(8 * var(--pt));
+}
+
+.hto-iconbtn {
+  display: grid;
+  place-items: center;
+  width: calc(38 * var(--pt));
+  height: calc(38 * var(--pt));
+  border-radius: calc(10 * var(--pt));
+  background: #e6e8e9;
+}
+
+.hto-app .hto-iconbtn :is(img, svg) {
+  width: calc(22 * var(--pt));
+  height: calc(22 * var(--pt));
+}
+
+.hto-main {
+  display: flex;
+  flex-direction: column;
+  padding: calc(136 * var(--pt)) calc(16 * var(--pt)) 0;
+}
+
+.hto-welcome {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+}
+
+.hto-welcome p {
+  font-size: calc(26 * var(--pt));
+  font-weight: 600;
+  line-height: calc(32 * var(--pt));
+  letter-spacing: calc(-0.4 * var(--pt));
+}
+
+.hto-eye {
+  display: grid;
+  place-items: center;
+  width: calc(30 * var(--pt));
+  height: calc(30 * var(--pt));
+  border-radius: 999px;
+  background: #e1e4e5;
+}
+
+.hto-app .hto-eye img {
+  width: calc(18 * var(--pt));
+  height: calc(18 * var(--pt));
+}
+
+.hto-group-head {
+  display: flex;
+  justify-content: space-between;
+  margin: calc(30 * var(--pt)) 0 calc(14 * var(--pt)) !important;
+  color: #697780;
+  font-size: calc(15 * var(--pt));
+}
+
+.hto-welcome + .hto-group-head {
+  margin-top: calc(32 * var(--pt)) !important;
+}
+
+.hto-group {
+  overflow: hidden;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.hto-row {
+  display: flex;
+  align-items: flex-start;
+  padding-left: calc(15 * var(--pt));
+}
+
+.hto-icon {
+  display: grid;
+  place-items: center;
+  width: calc(38 * var(--pt));
+  height: calc(38 * var(--pt));
+  margin: calc(15 * var(--pt)) calc(15 * var(--pt)) 0 0;
+  border-radius: calc(10 * var(--pt));
+  background: #eceeef;
+  color: #b9bec2;
+}
+
+.hto-icon.is-dark {
+  color: #2a2a2b;
+}
+
+.hto-app .hto-icon :is(svg, img) {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.hto-row-body {
+  display: flex;
+  flex: 1 0 0;
+  align-items: flex-start;
+  gap: calc(8 * var(--pt));
+  min-height: calc(68 * var(--pt));
+  box-sizing: border-box;
+  padding: calc(17 * var(--pt)) calc(12 * var(--pt)) calc(15 * var(--pt)) 0;
+  border-bottom: 0.5px solid #e1e4e5;
+}
+
+.hto-row.is-last .hto-row-body {
+  border-bottom: 0;
+}
+
+.hto-row-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(3 * var(--pt));
+}
+
+.hto-row:not(:has(small)) .hto-row-body {
+  align-items: center;
+  padding-top: calc(15 * var(--pt));
+}
+
+.hto-row:not(:has(small)) .hto-icon {
+  margin-bottom: calc(15 * var(--pt));
+}
+
+.hto-amount {
+  white-space: nowrap;
+}
+
+.hto-app .hto-chev {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.hto-chip {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--pt));
+  margin-top: calc(8 * var(--pt));
+  padding: calc(4 * var(--pt)) calc(10 * var(--pt)) calc(4 * var(--pt)) calc(8 * var(--pt));
+  border-radius: 999px;
+  background: #f1f3f3;
+  font-size: calc(13 * var(--pt));
+  line-height: calc(16 * var(--pt));
+  white-space: nowrap;
+}
+
+.hto-app .hto-chip svg {
+  width: calc(14 * var(--pt));
+  height: calc(14 * var(--pt));
+}
+
+.hto-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(10 * var(--pt));
+  min-height: calc(50 * var(--pt));
+  margin-top: calc(32 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e6e8e9;
+  font-weight: 600;
+}
+
+.hto-app .hto-add img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  filter: brightness(0);
+}
+
+/* It borrows the new tab's status bar (.na-header), at its own height */
+.na-header.hto-header {
+  height: auto;
+  background: rgba(241, 243, 243, 0.94);
+}
+
+.hto-app .ht-tab img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+/* The old tab bar is the same as the new one, a touch more see-through */
+.hto-tabbar {
+  background: rgba(241, 243, 243, 0.96);
+}
+
+/* ===== The problem, shown (home-tab-refresh.html)
+   The old Home tab in a phone with three numbered callouts. A note's dot sits
+   on its target (--x, --y in the screen's points) and its leader line runs
+   out past the phone to the label; the bracket runs down the left side of
+   the account list (--y1 to --y2). Positions are in the phone's own width
+   (cqw), so they hold at any size. */
+.case-placeholder.pa-board {
+  height: 600px;
+  overflow: hidden;
+}
+
+.pa-wrap {
+  --at: calc(93.2cqw / 375);
+  position: relative;
+  z-index: 1;
+  width: 232px;
+  container-type: inline-size;
+}
+
+.pa-phone {
+  width: 100%;
+}
+
+.pa-num {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e5484d;
+  color: #fff;
+  font: 600 11px/1 "Geist", sans-serif;
+  box-shadow: 0 4px 10px rgba(229, 72, 77, 0.3), 0 1px 3px rgba(229, 72, 77, 0.25);
+}
+
+.pa-note p,
+.pa-bracket p {
+  margin: 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  line-height: 1.45;
+}
+
+/* A note on the right: dot on the target, a line out, then number and label */
+.pa-note {
+  position: absolute;
+  top: calc(3.4cqw + var(--y) * var(--at));
+  left: calc(3.4cqw + var(--x) * var(--at));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(-50%);
+}
+
+.pa-line {
+  position: relative;
+  flex: none;
+  width: calc(100cqw - 3.4cqw - var(--x) * var(--at) + 28px);
+  height: 1px;
+  background: rgba(12, 12, 13, 0.35);
+}
+
+.pa-line::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e5484d;
+  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.16), 0 2px 6px rgba(229, 72, 77, 0.35);
+  transform: translate(-50%, -50%);
+}
+
+.pa-note p {
+  width: 168px;
+}
+
+/* The bracket down the left of the account list, its label beside it */
+.pa-bracket {
+  position: absolute;
+  top: calc(3.4cqw + var(--y1) * var(--at));
+  right: calc(100% + 20px);
+  height: calc((var(--y2) - var(--y1)) * var(--at));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 16px;
+  border-right: 1px solid rgba(12, 12, 13, 0.35);
+}
+
+.pa-bracket::before,
+.pa-bracket::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  width: 8px;
+  height: 1px;
+  background: rgba(12, 12, 13, 0.35);
+}
+
+.pa-bracket::before { top: 0; }
+.pa-bracket::after { bottom: 0; }
+
+.pa-bracket p {
+  width: 150px;
+  text-align: right;
+}
+
+.pa-bracket .pa-num {
+  order: 2;
+}
+
+@media (max-width: 720px) {
+  .case-placeholder.pa-board {
+    height: 440px;
+  }
+
+  .pa-wrap {
+    width: 156px;
+  }
+
+  .pa-note p,
+  .pa-bracket p {
+    width: 96px;
+  }
+}
+
+/* ===== Home refresh (home-tab-refresh.html, home-refresh.js)
+   The new Home tab in a phone, filmed like a camera: home-refresh.js moves
+   and scales the phone (transform on .phone-mock-body) to frame the accounts
+   list, the greeting, an inline message and the rewards chip. data-list
+   swaps the old accounts list for the new one, which pops in. */
+.case-placeholder.ac-show {
+  height: 600px;
+  overflow: hidden;
+}
+
+.ac-phone.is-cut .phone-mock-body {
+  transition: opacity 0.4s ease;
+}
+
+.ac-phone.is-dark .phone-mock-body {
+  opacity: 0;
+}
+
+/* Solo (the opening close-up): only the accounts list shows. The phone's
+   frame, the screen's background and everything else on it are faded out,
+   and fade back in as the camera pulls back */
+.ac-phone .phone-mock-body,
+.ac-phone .phone-mock-screen,
+.ac-phone .ht-app {
+  transition-property: transform, opacity, background-color, box-shadow;
+  transition-duration: 1.1s, 0.4s, 0.8s, 0.8s;
+  transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1), ease, ease, ease;
+}
+
+.ac-phone .phone-mock-body::before,
+.ac-phone .phone-mock-body::after,
+.ac-phone .phone-mock-screen::before,
+.ac-phone .phone-mock-screen::after,
+.ac-phone :is(.ht-header, .ht-greeting, .ht-actions, .ht-refer, .ht-dots) {
+  transition: opacity 0.8s ease 0.2s;
+}
+
+.ac-phone.is-solo .phone-mock-body {
+  background-color: transparent;
+  box-shadow:
+    inset 0 0 0 0.6cqw transparent,
+    inset 0 0 0 1cqw transparent,
+    0 28px 50px transparent,
+    0 6px 14px transparent;
+}
+
+.ac-phone.is-solo .phone-mock-screen,
+.ac-phone.is-solo .ht-app {
+  background-color: transparent;
+}
+
+.ac-phone.is-solo .phone-mock-body::before,
+.ac-phone.is-solo .phone-mock-body::after,
+.ac-phone.is-solo .phone-mock-screen::before,
+.ac-phone.is-solo .phone-mock-screen::after,
+.ac-phone.is-solo :is(.ht-header, .ht-greeting, .ht-actions, .ht-refer, .ht-dots) {
+  opacity: 0;
+  transition: none;
+}
+
+/* In the close-up the account cards float: a hairline border and a soft
+   shadow, which fade away as the camera pulls back */
+.ac-phone :is(.hto-group, .ht-group) {
+  box-shadow: inset 0 0 0 0.5px transparent, 0 14px 36px transparent, 0 3px 10px transparent;
+  transition: box-shadow 0.9s ease;
+}
+
+.ac-phone.is-solo :is(.hto-group, .ht-group) {
+  box-shadow: inset 0 0 0 0.5px #e4e7e8, 0 14px 36px rgba(12, 12, 13, 0.045), 0 3px 10px rgba(12, 12, 13, 0.02);
+}
+
+/* Nothing clips the floating cards (or their shadows) in the close-up */
+.ac-phone.is-solo .phone-mock-screen,
+.ac-phone.is-solo .ht-app {
+  overflow: visible;
+}
+
+/* The old list borrows the old Home tab's styles, laid out in the page */
+.hto-app.ac-old {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+  margin-top: calc(10 * var(--pt));
+  background: none;
+}
+
+.hto-app.ac-old .hto-group-head:first-child {
+  margin-top: 0 !important;
+}
+
+.ac-phone[data-list="old"] .ht-accounts,
+.ac-phone[data-list="new"] .ac-old {
+  display: none;
+}
+
+/* The new list pops in group by group */
+.ac-phone.is-pop .ht-group,
+.ac-phone.is-pop .ht-add {
+  animation: ac-pop 0.7s cubic-bezier(0.34, 1.35, 0.64, 1) backwards;
+}
+
+.ac-phone.is-pop .ht-group:nth-child(2) { animation-delay: 90ms; }
+.ac-phone.is-pop .ht-group:nth-child(3) { animation-delay: 180ms; }
+.ac-phone.is-pop .ht-add { animation-delay: 270ms; }
+
+.ac-phone.is-pop .ht-card {
+  animation: ac-card 0.8s cubic-bezier(0.34, 1.5, 0.64, 1) 0.15s backwards;
+}
+
+@keyframes ac-pop {
+  from { opacity: 0; transform: translateY(calc(14 * 93.2cqw / 375)) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ac-card {
+  from { opacity: 0; transform: rotate(-8deg) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Greeting: the time of day rolls like a slot machine (--roll is 0, 1, 2) */
+.ac-roll {
+  display: inline-block;
+  height: calc(30 * var(--pt));
+  overflow: hidden;
+  vertical-align: top;
+  transition: width 0.6s cubic-bezier(0.25, 1.08, 0.5, 1);
+}
+
+.ac-roll-track {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transform: translateY(calc(var(--roll, 1) * -30 * var(--pt)));
+  transition: transform 0.6s cubic-bezier(0.25, 1.08, 0.5, 1);
+}
+
+.ac-roll-track > span {
+  height: calc(30 * var(--pt));
+  color: #697780;
+}
+
+/* Inline message: opens above the greeting and slides down from the top */
+/* It opens its own space (pushing the greeting and everything below it
+   down) while it fades and slides down from a little higher; closing runs
+   the same in reverse */
+.ac-notice {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ac-notice-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ac-notice-box {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  margin-bottom: calc(28 * var(--pt));
+  padding: calc(16 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+  opacity: 0;
+  transform: translateY(calc(-14 * var(--pt)));
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ac-notice-box p {
+  flex: 1;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.ac-notice-box b {
+  font-weight: 600;
+}
+
+.ht-app .ac-notice-box img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.ac-phone.is-notice .ac-notice {
+  grid-template-rows: 1fr;
+}
+
+.ac-phone.is-notice .ac-notice-box {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease 0.2s, transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* This phone has no tab bar */
+.ac-phone .ht-tabbar {
+  display: none;
+}
+
+/* A little less room above the greeting, a little more below */
+.ac-phone .ht-main {
+  padding-top: calc(136 * var(--pt));
+  transition: padding-top 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* While the inline message shows, it sits a little closer to the header */
+.ac-phone.is-notice .ht-main {
+  padding-top: calc(128 * var(--pt));
+}
+
+.ac-phone .ht-actions {
+  margin-top: calc(48 * var(--pt));
+}
+
+/* The rewards chip gets a soft glow while the camera rests on it */
+.ht-wallet {
+  transition: box-shadow 0.5s ease;
+}
+
+.ac-phone.is-chip .ht-wallet {
+  box-shadow: 0 0 0 calc(4 * var(--pt)) rgba(17, 17, 17, 0.12);
+}
+
+.ac-show .ac-hint {
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 720px) {
+  .case-placeholder.ac-show {
+    height: 440px;
+  }
+}
+
+/* ===== Quick actions prototype (home-tab-refresh.html, quick-actions.js)
+   The new Home tab in a phone; each quick action opens its money movement
+   sheet (built from Figma, in points like the Home tab). Watch taps through
+   them, bouncing each button and zooming the phone in on the key rows;
+   Explore lets visitors tap them. Sheet icons: images/neo-ui/sheets/. */
+.qa-phone {
+  position: relative;
+  z-index: 1;
+  width: var(--phone);
+  margin: 0 auto;
+  container-type: inline-size;
+}
+
+.qa-phone .phone-mock-body {
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 28px 50px rgba(12, 12, 13, 0.18),
+    0 6px 14px rgba(12, 12, 13, 0.1);
+}
+
+/* The quick actions are buttons, styled like the Home tab's */
+.qa-action {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.qa-action > span {
+  position: relative;
+}
+
+/* A little bounce when a quick action is tapped */
+.qa-action.is-bouncing > span {
+  animation: qa-bounce 0.5s ease-out;
+}
+
+@keyframes qa-bounce {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.94); }
+  70% { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+
+/* Explore: a pulsing green ring on each quick action while nothing is open */
+.qa-proto[data-mode="explore"] .qa-phone:not(.is-open) .qa-action > span::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid #2fa84a;
+  border-radius: calc(12 * 93.2cqw / 375 + 3px);
+  animation: qa-pulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes qa-pulse {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+
+/* The sheets, over a dimmed Home tab */
+.qa-layer {
+  --pt: calc(93.2cqw / 375);
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  color: #111;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+  pointer-events: none;
+}
+
+.qa-layer p {
+  margin: 0;
+}
+
+.qa-layer img {
+  display: block;
+  flex: none;
+}
+
+.qa-layer small {
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.qa-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 28, 44, 0.3);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.qa-phone.is-open .qa-scrim {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qa-sheet {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-bottom: calc(40 * var(--pt));
+  border-radius: calc(12 * var(--pt)) calc(12 * var(--pt)) 0 0;
+  background: #f1f3f3;
+  box-shadow: 0 calc(12 * var(--pt)) calc(17 * var(--pt)) calc(2 * var(--pt)) rgba(5, 28, 44, 0.03),
+    0 calc(3 * var(--pt)) calc(23 * var(--pt)) calc(6 * var(--pt)) rgba(5, 28, 44, 0.04),
+    0 calc(7 * var(--pt)) calc(8 * var(--pt)) calc(-4 * var(--pt)) rgba(5, 28, 44, 0.06);
+  transform: translateY(105%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* It slides up and eases to a stop, no overshoot */
+.qa-sheet.is-open {
+  transform: none;
+  pointer-events: auto;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.qa-sheet-head {
+  position: relative;
+  padding: calc(24 * var(--pt)) calc(52 * var(--pt));
+  text-align: center;
+}
+
+.qa-sheet-head p {
+  font-size: calc(20 * var(--pt));
+  font-weight: 600;
+  line-height: calc(25 * var(--pt));
+  letter-spacing: calc(-0.4 * var(--pt));
+}
+
+.qa-close {
+  position: absolute;
+  top: 50%;
+  left: calc(20 * var(--pt));
+  display: grid;
+  place-items: center;
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  margin: calc(-16 * var(--pt)) 0 0 calc(-4 * var(--pt));
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.qa-layer .qa-close img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.qa-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+}
+
+.qa-list {
+  position: relative;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.qa-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding-left: calc(20 * var(--pt));
+}
+
+.qa-row:first-child {
+  border-radius: calc(12 * var(--pt)) calc(12 * var(--pt)) 0 0;
+}
+
+.qa-row:last-child {
+  border-radius: 0 0 calc(12 * var(--pt)) calc(12 * var(--pt));
+}
+
+.qa-row:only-child {
+  border-radius: calc(12 * var(--pt));
+}
+
+.qa-row > .qa-avatar,
+.qa-row > .qa-card {
+  margin: calc(20 * var(--pt)) calc(16 * var(--pt)) calc(20 * var(--pt)) 0;
+}
+
+.qa-row > .qa-card {
+  margin-left: calc(4 * var(--pt));
+  margin-right: calc(20 * var(--pt));
+}
+
+/* The card image fills its mini card (the Home tab's rule is scoped to it) */
+.qa-layer .qa-card img {
+  width: 100%;
+  height: 100%;
+}
+
+.qa-row-body {
+  display: flex;
+  flex: 1 0 0;
+  align-self: stretch;
+  align-items: flex-start;
+  gap: calc(8 * var(--pt));
+  min-width: 0;
+  min-height: calc(60 * var(--pt));
+  box-sizing: border-box;
+  padding: calc(20 * var(--pt)) calc(20 * var(--pt)) calc(20 * var(--pt)) 0;
+  border-bottom: 0.5px solid #e1e4e5;
+}
+
+.qa-row:last-child .qa-row-body {
+  border-bottom: 0;
+}
+
+.qa-row.is-single,
+.qa-row.is-single .qa-row-body {
+  align-items: center;
+}
+
+.qa-row-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+  min-width: 0;
+}
+
+.qa-row-text i {
+  font-style: italic;
+}
+
+.qa-amount {
+  margin-right: calc(4 * var(--pt));
+  white-space: nowrap;
+}
+
+.qa-layer .qa-chev {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+  object-fit: cover;
+}
+
+.qa-avatar {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border: 0.5px solid #e1e4e5;
+  border-radius: calc(8 * var(--pt));
+  background: #f1f3f3;
+}
+
+.qa-avatar.is-image {
+  background: none;
+}
+
+.qa-layer .qa-avatar > img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.qa-layer .qa-avatar > img.qa-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(8 * var(--pt));
+}
+
+.qa-badge {
+  position: absolute;
+  right: calc(-2 * var(--pt));
+  bottom: calc(-2 * var(--pt));
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+  border: calc(2 * var(--pt)) solid #fff;
+  border-radius: 999px;
+  background: #006eff;
+}
+
+.qa-layer .qa-badge img {
+  width: calc(12 * var(--pt));
+  height: calc(12 * var(--pt));
+}
+
+/* The highlight: a green outline around the rows Watch zooms in on */
+.qa-row.qa-focus::after,
+.qa-sheet[data-sheet="send"] .qa-list::after {
+  content: "";
+  position: absolute;
+  inset: calc(-3 * var(--pt));
+  border: calc(2 * var(--pt)) solid #2fa84a;
+  border-radius: calc(14 * var(--pt));
+  box-shadow: 0 0 0 calc(3 * var(--pt)) rgba(47, 168, 74, 0.15);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* Send's two rows share one outline, so it's drawn on the list */
+.qa-sheet[data-sheet="send"] .qa-row.qa-focus::after {
+  display: none;
+}
+
+.qa-row.qa-focus.is-lit::after,
+.qa-list.is-lit::after {
+  opacity: 1;
+}
+
+.qa-tap {
+  z-index: 8;
+}
+
+/* The home indicator stays on top of the sheets */
+.qa-phone .phone-mock-screen::after {
+  z-index: 7;
+}
+
+.qa-proto .qa-hint {
+  transition: opacity 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qa-phone .phone-mock-body,
+  .qa-sheet,
+  .qa-sheet.is-open {
+    transition: none;
+  }
+}
+
+/* ===== Research to framework (home-tab-refresh.html, framework-show.js)
+   The pattern tally and the Quick Actions framework as white cards on the
+   case study grid, stacked in one spot. One shows at a time: Watch cycles
+   through them, Explore has a switch. */
+.fw-stage {
+  display: grid;
+  box-sizing: content-box;
+  margin: 4px 0 8px;
+  transition: height 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.fw-card {
+  position: relative;
+  grid-area: 1 / 1;
+  align-self: start;
+  min-width: 0;
+  border: 0.5px solid rgba(12, 12, 13, 0.06);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(12, 12, 13, 0.07), 0 4px 12px rgba(12, 12, 13, 0.04);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.985);
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
+}
+
+.fw-card.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.6s ease 0.15s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s, visibility 0s;
+}
+
+/* While Watch plays, the cards ignore clicks */
+.fw-show[data-mode="watch"] .fw-card {
+  pointer-events: none;
+}
+
+.fw-show .fw-hint {
+  transition: opacity 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-card,
+  .fw-card.is-active {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== Pattern tally (home-tab-refresh.html, pattern-tally.js)
+   Seven benchmarked apps down the side, the money movement actions across:
+   a green dot where the action sits on the app's Move money screen, an
+   empty ring where it doesn't, and each column's total underneath. Dots pop
+   in by column and totals count up once it scrolls into view (.is-in). */
+.pt-board {
+  padding: 32px 32px 28px;
+}
+
+.pt-scroll {
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pt-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pt-grid {
+  display: grid;
+  grid-template-columns: 128px repeat(5, minmax(84px, 1fr));
+  min-width: 560px;
+}
+
+.pt-corner,
+.pt-head {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--resume-text);
+}
+
+.pt-corner {
+  padding-left: 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.pt-head {
+  justify-content: center;
+  text-align: center;
+}
+
+.pt-head i {
+  font-style: italic;
+}
+
+.pt-app,
+.pt-mark {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  border-top: 2px dotted var(--resume-paper-border);
+}
+
+.pt-app {
+  gap: 13px;
+  font-size: 14px;
+  color: var(--resume-text);
+}
+
+.pt-name {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each app's logo in an avatar tile */
+.pt-logo {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 0.5px solid #e1e4e5;
+  border-radius: 7px;
+  background: #fff;
+}
+
+.pt-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pt-logo.is-contain img {
+  padding: 3px;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+/* CIBC's logo is wider than its square: shown whole on its own red */
+.pt-logo.is-cibc {
+  border-color: #b00b1c;
+  background: #b00b1c;
+}
+
+.pt-logo.is-cibc img {
+  object-fit: contain;
+}
+
+/* KOHO's file has a margin around its square, so it's scaled up to fill */
+.pt-logo.is-koho img {
+  transform: scale(1.24);
+}
+
+.pt-app small {
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.pt-mark {
+  justify-content: center;
+}
+
+.pt-dot {
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+  border: 1.5px dotted rgba(12, 12, 13, 0.3);
+  border-radius: 50%;
+}
+
+.pt-dot.is-on {
+  border: 0;
+  background: #2fa84a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.6 8.2 7 10.5l4.4-4.9' fill='none' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+  box-shadow: 0 0 0 4px rgba(47, 168, 74, 0.14);
+}
+
+.pt-total-label,
+.pt-total {
+  padding-top: 14px;
+  border-top: 2px solid rgba(12, 12, 13, 0.1);
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.pt-total {
+  text-align: center;
+}
+
+.pt-total b {
+  font-weight: 600;
+  color: #1d7a35;
+}
+
+.pt-total.is-low b {
+  color: var(--resume-text);
+}
+
+/* Reveal: each column's dots pop in after the one before, then its total */
+.pt-board.is-ready .pt-dot {
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+  transition-delay: calc(var(--c) * 160ms + var(--r) * 45ms);
+}
+
+.pt-board.is-in .pt-dot {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 720px) {
+  .pt-board {
+    padding: 24px 16px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pt-board.is-ready .pt-dot {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== Quick Actions framework (home-tab-refresh.html, framework-table.js)
+   A table of what each quick action holds for every mix of accounts: today's
+   actions solid, future payment rails dashed, and a green "add an account"
+   pill where an action needs an account the customer doesn't have. The
+   pills fade up column by column when it scrolls into view (.is-in). */
+.fw-board {
+  padding: 32px 28px 28px;
+}
+
+.fw-scroll {
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fw-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.fw-grid {
+  display: grid;
+  grid-template-columns: 118px repeat(4, minmax(124px, 1fr));
+  min-width: 620px;
+}
+
+.fw-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 6px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--resume-text);
+}
+
+.fw-head-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  border-radius: 9px;
+  /* Lit from above: a lighter top fading to a slightly deeper base */
+  background: linear-gradient(180deg, #f8f9f9 0%, #f1f3f3 55%, #eaeced 100%);
+  box-shadow: inset 0 -1px 3px rgba(12, 12, 13, 0.03),
+    0 4px 10px rgba(12, 12, 13, 0.04), 0 1px 2px rgba(12, 12, 13, 0.035);
+}
+
+.fw-head-icon.is-primary {
+  border-color: #111;
+  background: linear-gradient(180deg, #2c2c2e 0%, #161617 55%, #0b0b0b 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(12, 12, 13, 0.12),
+    0 1px 2px rgba(12, 12, 13, 0.08);
+}
+
+.fw-head-icon img {
+  width: 22px;
+  height: 22px;
+}
+
+/* Pay, Move and Send's glyphs fill more of their box, so they're drawn smaller */
+.fw-head-icon img:is([src$="move.svg"], [src$="send.svg"], [src$="pay.svg"]) {
+  width: 18px;
+  height: 18px;
+}
+
+/* Each row: a dotted rule above, the account mix on the left */
+.fw-label,
+.fw-cell {
+  padding: 16px 6px;
+  border-top: 2px dotted var(--resume-paper-border);
+}
+
+.fw-label {
+  padding-left: 0;
+}
+
+.fw-label {
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  line-height: 1.4;
+}
+
+.fw-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  list-style: none;
+}
+
+.fw-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 30px;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.fw-pill i {
+  font-style: italic;
+}
+
+.fw-pill.is-live {
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  background: #fff;
+  color: var(--resume-text);
+  box-shadow: 0 1px 2px rgba(12, 12, 13, 0.05);
+}
+
+.fw-pill.is-future {
+  border: 1px dashed rgba(12, 12, 13, 0.18);
+  color: var(--resume-label);
+}
+
+.fw-pill.is-suggest {
+  border: 0.5px solid rgba(47, 168, 74, 0.3);
+  background: rgba(47, 168, 74, 0.08);
+  color: #1d7a35;
+}
+
+.fw-pill svg {
+  flex: none;
+}
+
+/* The account mixes: a subheading, then a dot where the action works and
+   a green tag where it suggests opening an Everyday account */
+.fw-sub {
+  grid-column: 1 / -1;
+  margin-top: 28px;
+  padding-bottom: 10px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.fw-label.fw-mix,
+.fw-mark {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.fw-mark {
+  justify-content: center;
+  border-top: 2px dotted var(--resume-paper-border);
+}
+
+.fw-mark {
+  gap: 6px;
+}
+
+/* A green check where the action works; a "+" circle where the sheet
+   suggests adding an account: black for a credit card, magenta for Cash,
+   blue for Everyday */
+.fw-dot {
+  display: inline-block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--dot) var(--glyph) center / 100% no-repeat;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 14%, transparent);
+  --glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4.6v6.8M4.6 8h6.8' fill='none' stroke='%23fff' stroke-width='1.7' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.fw-dot.is-check {
+  --dot: #2fa84a;
+  --glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.6 8.2 7 10.5l4.4-4.9' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.fw-dot.is-card { --dot: #111; }
+.fw-dot.is-cash { --dot: #d6338a; }
+.fw-dot.is-everyday { --dot: #006eff; }
+
+.fw-board.is-ready .fw-mark .fw-dot {
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(700ms + var(--c) * 90ms + var(--r) * 50ms);
+}
+
+.fw-board.is-in .fw-mark .fw-dot {
+  opacity: 1;
+  transform: none;
+}
+
+/* The legend, centred along the bottom */
+.fw-legend {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 64px auto 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  white-space: nowrap;
+}
+
+.fw-legend .fw-dot {
+  width: 12px;
+  height: 12px;
+  box-shadow: none;
+}
+
+.fw-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px 5px 8px;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* The pill keys sit on the first line, the circle keys together on the second */
+.fw-legend-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+/* The tally's legend: its dot and ring, above the caption */
+.pt-legend {
+  margin-top: 32px;
+}
+
+.pt-legend .pt-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  box-shadow: none;
+}
+
+.pt-board.is-ready .pt-legend .pt-dot {
+  opacity: 1;
+  transform: none;
+}
+
+.fw-key {
+  width: 14px;
+  height: 10px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.fw-key.is-live {
+  border: 0.5px solid rgba(12, 12, 13, 0.2);
+  background: #fff;
+}
+
+.fw-key.is-future {
+  border: 1px dashed rgba(12, 12, 13, 0.3);
+}
+
+/* Future rails: a toggle under today's actions shows or hides each rail */
+.fw-more {
+  display: flex;
+}
+
+.fw-toggle {
+  flex: 1;
+  width: 100%;
+  margin: 0;
+  background: none;
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.fw-toggle:hover {
+  border-color: rgba(12, 12, 13, 0.32);
+  color: var(--resume-text);
+}
+
+.fw-toggle:focus-visible {
+  outline: 2px solid var(--resume-text);
+  outline-offset: 2px;
+}
+
+.fw-chev {
+  flex: none;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fw-board.is-expanded .fw-chev {
+  transform: rotate(180deg);
+}
+
+.fw-board:not(.is-expanded) .fw-rail {
+  display: none;
+}
+
+.fw-board.is-expanded .fw-rail {
+  animation: fw-rail-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+
+@keyframes fw-rail-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Reveal: each column's pills rise in after the one before; future rails
+   follow the live actions */
+.fw-board.is-ready .fw-pill {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--c) * 90ms + var(--r) * 40ms);
+}
+
+.fw-board.is-ready .fw-pill.is-future {
+  transition-delay: calc(500ms + var(--c) * 90ms + var(--r) * 40ms);
+}
+
+.fw-board.is-in .fw-pill {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 720px) {
+  .fw-board {
+    padding: 24px 16px 20px;
+  }
+
+  .fw-legend {
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-board.is-ready .fw-mark .fw-dot,
+  .fw-board.is-ready .fw-pill {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== Now / Next / Future (home-tab-refresh.html, timeline.js)
+   A closing timeline: three scenes stacked in one stage, one showing at a
+   time, and a track below whose fill and dot move to the current stop
+   (--p: 0, 50 or 100). The Next scene's future rails gather around its
+   phone; the Future scene fans the other concepts out behind its phone. */
+.proto.tl-show {
+  --phone: 190px;
+}
+
+/* More room between the Watch / Explore switch and the phones */
+.tl-show > .mode-divider {
+  margin-bottom: 60px;
+}
+
+.tl-stage {
+  position: relative;
+  height: 400px;
+}
+
+.tl-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.97);
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.5s;
+}
+
+.tl-scene.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.6s ease 0.2s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s, visibility 0s;
+}
+
+/* The cloned phones show at this stage's size and ignore clicks */
+.tl-slot {
+  pointer-events: none;
+}
+
+.tl-show .ht-phone,
+.tl-show .qa-phone,
+.tl-phone {
+  width: var(--phone);
+  container-type: inline-size;
+}
+
+.tl-show .qa-sheet {
+  transition: none;
+}
+
+.tl-phone .phone-mock-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tl-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 44px rgba(12, 12, 13, 0.16),
+    0 5px 12px rgba(12, 12, 13, 0.08);
+}
+
+/* Next: the future payment rails line up on either side of the phone */
+.tl-rails {
+  position: absolute;
+  top: 82px;
+  left: 50%;
+  width: 560px;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(-50%);
+}
+
+.tl-rails li {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px 6px 9px;
+  border: 1px dashed rgba(12, 12, 13, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  color: var(--resume-label);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px) scale(0.92);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.tl-rails li:nth-child(odd) { right: calc(50% + var(--phone) / 2 + 22px); }
+.tl-rails li:nth-child(even) { left: calc(50% + var(--phone) / 2 + 22px); }
+.tl-rails li:nth-child(1), .tl-rails li:nth-child(2) { top: 0; }
+.tl-rails li:nth-child(3), .tl-rails li:nth-child(4) { top: 64px; }
+.tl-rails li:nth-child(5), .tl-rails li:nth-child(6) { top: 128px; }
+
+.tl-scene.is-active .tl-rails li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.7s + var(--i) * 0.12s);
+}
+
+/* Future: the collapsed Home in front, the other concepts fanned behind */
+.tl-fan {
+  position: relative;
+  width: var(--phone);
+}
+
+.tl-fan .tl-phone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+
+.tl-fan .tl-phone.is-front {
+  position: relative;
+  z-index: 2;
+}
+
+.tl-fan .tl-phone.is-left,
+.tl-fan .tl-phone.is-right {
+  opacity: 0;
+  filter: saturate(0.6);
+}
+
+.tl-scene.is-active .tl-fan .is-left {
+  opacity: 0.85;
+  transform: translate(-150px, 26px) rotate(-7deg) scale(0.86);
+  transition-delay: 0.6s;
+}
+
+.tl-scene.is-active .tl-fan .is-right {
+  opacity: 0.85;
+  transform: translate(150px, 26px) rotate(7deg) scale(0.86);
+  transition-delay: 0.7s;
+}
+
+/* The track: a line that fills to the current stop, with a playhead riding it */
+.tl-track {
+  --p: 0;
+  position: relative;
+  width: min(520px, 100%);
+  margin: 44px auto 52px;
+}
+
+.tl-line {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(12, 12, 13, 0.1);
+}
+
+/* Ruler notches along the line: a short one every 2.5%, a tall one every
+   12.5% (so the tall ones land on the three stops too) */
+.tl-line::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: calc(100% + 1px);
+  height: 16px;
+  background:
+    repeating-linear-gradient(90deg, rgba(12, 12, 13, 0.2) 0 1px, transparent 1px 12.5%) 0 0 / 100% 16px no-repeat,
+    repeating-linear-gradient(90deg, rgba(12, 12, 13, 0.13) 0 1px, transparent 1px 2.5%) 0 50% / 100% 7px no-repeat;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.tl-fill {
+  z-index: 1;
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--p) * 1%);
+  border-radius: inherit;
+  background: #111;
+  transition: width 1.2s cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+
+.tl-dot {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: calc(var(--p) * 1%);
+  width: 14px;
+  height: 18px;
+  /* A playhead's head: a rounded tab whose point rests on the line */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'%3E%3Cpath d='M3 0h8a3 3 0 0 1 3 3v7.2a3 3 0 0 1-.9 2.1L8.4 17a2 2 0 0 1-2.8 0L.9 12.3A3 3 0 0 1 0 10.2V3a3 3 0 0 1 3-3z' fill='%23111'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(12, 12, 13, 0.18));
+  /* Floats a few pixels above the line */
+  transform: translate(-50%, calc(-100% - 4px));
+  /* Glides with a little inertia: quick off the mark, easing to a stop just
+     past the mark and settling back */
+  transition: left 1.2s cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+
+.tl-stops {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 26px 0 0;
+  list-style: none;
+}
+
+.tl-stops li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 0;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+  white-space: nowrap;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+.tl-stops li b {
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--resume-text);
+}
+
+.tl-stops li.is-on {
+  opacity: 1;
+}
+
+.tl-show .tl-hint {
+  transition: opacity 0.3s ease;
+}
+
+/* While Watch plays, the stage ignores clicks */
+.tl-show[data-mode="watch"] .tl-stage {
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .proto.tl-show {
+    --phone: 150px;
+  }
+
+  .tl-stage {
+    height: 320px;
+  }
+
+  .tl-rails {
+    display: none;
+  }
+
+  .tl-scene.is-active .tl-fan .is-left {
+    transform: translate(-80px, 20px) rotate(-7deg) scale(0.8);
+  }
+
+  .tl-scene.is-active .tl-fan .is-right {
+    transform: translate(80px, 20px) rotate(7deg) scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-scene,
+  .tl-scene.is-active,
+  .tl-rails li,
+  .tl-fan .tl-phone,
+  .tl-fill,
+  .tl-dot {
+    transition: none;
+  }
+}
+
+/* ===== Future concepts (home-tab-refresh.html)
+   Three phones in a row, each with a screen rendered from Figma. The Grow
+   tab (1850pt tall) scrolls slowly up and down; a copy of its header (the
+   top 116pt of the same image) stays pinned over it. Screens:
+   images/neo-ui/future/. */
+.case-placeholder.fc-board {
+  height: 600px;
+  padding: 0 32px 40px;
+  box-sizing: border-box;
+}
+
+/* Three in a row, each phone 190px wide */
+.fc-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 190px));
+  justify-content: center;
+  gap: 32px;
+}
+
+.fc-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  margin: 0;
+}
+
+.fc-phone {
+  width: 100%;
+  container-type: inline-size;
+}
+
+.fc-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 44px rgba(12, 12, 13, 0.16),
+    0 5px 12px rgba(12, 12, 13, 0.08);
+}
+
+.fc-phone .phone-mock-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The Grow tab scrolls through its content and back, like a flick: quick
+   off the mark, then a long, slowing glide (the inertia) */
+.fc-scroll .phone-mock-screen {
+  --pt: calc(93.2cqw / 375);
+}
+
+.fc-scroll .fc-long {
+  animation: fc-scroll 16s infinite;
+}
+
+@keyframes fc-scroll {
+  0%, 14% { transform: translateY(0); animation-timing-function: cubic-bezier(0.1, 0.75, 0.2, 1); }
+  55% { transform: translateY(-56.1%); }
+  68% { transform: translateY(-56.1%); animation-timing-function: cubic-bezier(0.1, 0.75, 0.2, 1); }
+  100% { transform: translateY(0); }
+}
+
+/* Its header stays put, down to just under the Accounts / Discover switch:
+   the image's top 176pt, drawn again on top. A thin gray line shows under
+   it while the content is scrolled. */
+.fc-pin {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: calc(176 * var(--pt));
+  background: url("images/neo-ui/future/grow.jpg") top / 100% auto no-repeat;
+}
+
+.fc-pin::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 0.5px;
+  background: #d9dcde;
+  opacity: 0;
+  animation: fc-scrolled 16s linear infinite;
+}
+
+/* The Accounts / Discover switch stays put too (the image's pill, drawn
+   again at its spot), lifting on a soft shadow while the content scrolls */
+.fc-pin-tabs {
+  position: absolute;
+  z-index: 2;
+  top: calc(128 * var(--pt));
+  left: calc(20 * var(--pt));
+  width: calc(335 * var(--pt));
+  height: calc(38 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: url("images/neo-ui/future/grow.jpg") calc(-20 * var(--pt)) calc(-128 * var(--pt)) / calc(375 * var(--pt)) auto no-repeat;
+  box-shadow: 0 calc(6 * var(--pt)) calc(16 * var(--pt)) rgba(5, 28, 44, 0.1), 0 calc(1 * var(--pt)) calc(3 * var(--pt)) rgba(5, 28, 44, 0.06);
+  opacity: 1;
+}
+
+.fc-pin-tabs {
+  animation: fc-tabs 16s linear infinite;
+}
+
+@keyframes fc-scrolled {
+  0%, 14% { opacity: 0; }
+  18%, 94% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fc-tabs {
+  0%, 14% { box-shadow: 0 0 0 transparent, 0 0 0 transparent; }
+  18%, 94% { box-shadow: 0 calc(6 * var(--pt)) calc(16 * var(--pt)) rgba(5, 28, 44, 0.1), 0 calc(1 * var(--pt)) calc(3 * var(--pt)) rgba(5, 28, 44, 0.06); }
+  100% { box-shadow: 0 0 0 transparent, 0 0 0 transparent; }
+}
+
+.fc-label {
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+@media (max-width: 720px) {
+  .case-placeholder.fc-board {
+    height: auto;
+    padding: 28px 16px 64px;
+  }
+
+  .fc-row {
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fc-scroll .fc-long,
+  .fc-pin::after,
+  .fc-pin-tabs {
+    animation: none;
+  }
+
+  .fc-pin-tabs {
+    box-shadow: none;
+  }
+}
+
+/* ===== Research (home-tab-refresh.html): four other banking apps' home
+   screens in phones, each with its quick action / money movement buttons
+   outlined (--top, --h, --l, --r place the outline on the screenshot), a
+   legend above and the app's name below. Screens: images/research/. */
+.case-placeholder.rs-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 560px;
+  padding: 0 32px 44px;
+  box-sizing: border-box;
+}
+
+.rs-legend {
+  position: absolute;
+  z-index: 2;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 11px 5px 8px;
+  border: 0.5px solid rgba(12, 12, 13, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.rs-legend-swatch {
+  width: 14px;
+  height: 10px;
+  border: 1.5px solid #2f6bff;
+  border-radius: 3px;
+  background: rgba(47, 107, 255, 0.12);
+}
+
+.rs-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.rs-item {
+  display: flex;
+  flex: 0 1 140px;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+}
+
+.rs-phone {
+  width: 100%;
+  container-type: inline-size;
+}
+
+.rs-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 18px 36px rgba(12, 12, 13, 0.16),
+    0 4px 10px rgba(12, 12, 13, 0.08);
+}
+
+.rs-phone .phone-mock-screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.rs-mark {
+  position: absolute;
+  top: var(--top);
+  right: var(--r);
+  left: var(--l);
+  height: var(--h);
+  box-sizing: border-box;
+  border: 1.5px solid #2f6bff;
+  border-radius: 6px;
+  background: rgba(47, 107, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.16), 0 0 12px rgba(47, 107, 255, 0.35);
+}
+
+.rs-label {
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+@media (max-width: 720px) {
+  .case-placeholder.rs-board {
+    height: auto;
+    padding: 28px 20px 72px;
+  }
+
+  .rs-row {
+    flex-wrap: wrap;
+    gap: 20px 16px;
+  }
+
+  .rs-item {
+    flex-basis: calc(50% - 8px);
+    max-width: 130px;
+  }
 }
 
 @media (max-width: 720px) {
