@@ -312,9 +312,18 @@ h1, h2, h3 {
   display: block;
   padding: 4px 0 4px 18px;
   font: var(--type-ui-small);
+  font-weight: 400;
   color: var(--resume-label);
   text-decoration: none;
-  transition: color 0.2s ease;
+  -webkit-text-stroke: 0 transparent;
+  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
+}
+
+/* The current item looks a step heavier. A thin outline thickens the letters
+   instead of a real font-weight change, so their widths don't change and
+   the text doesn't jitter as the current item moves. */
+.page-toc a.is-current {
+  -webkit-text-stroke: 0.35px currentColor;
 }
 
 /* The dark stretch of line beside the current item */
@@ -1269,6 +1278,528 @@ html.is-loading body {
 /* The fold's hover area opens the stamp too */
 .fold-hotspot {
   cursor: pointer;
+}
+
+/* ===== Page 2 (resume) =====
+   Experience and Expertise sit on a second sheet, 56px below the first, with
+   its own folded corner. Its fold lifts on hover but hides no stamp. */
+.resume-frame.resume-page-2 {
+  margin-top: 56px;
+  view-transition-name: none;
+}
+
+.resume-page-2 .fold-hotspot {
+  cursor: default;
+}
+
+/* ===== Fun (resume) =====
+   Side projects: two tall tiles on the case studies' light grid */
+.fun-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.fun-tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 4;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+/* ===== Savings concept (savings-anim.js) =====
+   Fun UI & Ideas: a savings screen built in HTML from the Figma frame
+   (Edward's Wunderland, 3520:49372), in an iPhone mock. Laid out like the
+   frame, in points (--pt) on a 375 × 812 screen; the graph is live SVG so the
+   script can draw it, drag the tooltip across it and reshape it. */
+.sv-phone {
+  width: 48%;
+  container-type: inline-size;
+  margin-bottom: 28px;
+}
+
+.sv-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 40px rgba(12, 12, 13, 0.16),
+    0 5px 12px rgba(12, 12, 13, 0.08);
+}
+
+.sv-app {
+  --pt: calc(93.2cqw / 375);
+  --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #f1f3f3;
+  color: #000;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+}
+
+.sv-app p {
+  margin: 0;
+}
+
+.sv-app img {
+  display: block;
+}
+
+.sv-app > * {
+  position: absolute;
+}
+
+.sv-header {
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.sv-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(72 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+}
+
+.sv-nav b {
+  position: absolute;
+  left: 50%;
+  font-size: calc(18 * var(--pt));
+  font-weight: 600;
+  line-height: calc(22.5 * var(--pt));
+  letter-spacing: calc(-0.36 * var(--pt));
+  transform: translateX(-50%);
+}
+
+.sv-iconbtn {
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+}
+
+.sv-app .sv-iconbtn img,
+.sv-app .sv-goalcard img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.sv-total {
+  top: calc(140 * var(--pt));
+  left: calc(20 * var(--pt));
+}
+
+.sv-amount {
+  font-size: calc(40 * var(--pt));
+  font-weight: 600;
+  line-height: calc(45 * var(--pt));
+  letter-spacing: calc(-0.8 * var(--pt));
+  font-variant-numeric: tabular-nums;
+}
+
+.sv-label {
+  margin-top: calc(8 * var(--pt)) !important;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  font-weight: 500;
+  line-height: calc(20 * var(--pt));
+}
+
+.sv-track {
+  top: calc(152 * var(--pt));
+  left: calc(213 * var(--pt));
+  display: flex;
+  align-items: center;
+  gap: calc(3 * var(--pt));
+  height: calc(26 * var(--pt));
+  padding: 0 calc(10 * var(--pt)) 0 calc(5 * var(--pt));
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #e7e8e9;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(20 * var(--pt));
+  white-space: nowrap;
+}
+
+.sv-app .sv-track img {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.sv-change {
+  top: calc(222 * var(--pt));
+  left: calc(20 * var(--pt));
+  color: #697780;
+  font-size: calc(15 * var(--pt));
+  line-height: calc(20 * var(--pt));
+  letter-spacing: calc(-0.3 * var(--pt));
+  white-space: nowrap;
+}
+
+.sv-change b {
+  color: #00a508;
+  font-size: calc(16 * var(--pt));
+  font-weight: 600;
+}
+
+.sv-y {
+  top: calc(317 * var(--pt));
+  left: calc(14 * var(--pt));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(147 * var(--pt));
+  color: #697780;
+  font-size: calc(10.5 * var(--pt));
+  font-weight: 500;
+  line-height: calc(14 * var(--pt));
+  letter-spacing: calc(0.105 * var(--pt));
+}
+
+.sv-y b {
+  color: #000;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(20 * var(--pt));
+  letter-spacing: 0;
+}
+
+.sv-graph {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(812 * var(--pt));
+  overflow: visible;
+}
+
+.sv-goal,
+.sv-guide-top {
+  stroke: #b4babf;
+  stroke-width: 1;
+  stroke-dasharray: 8 8;
+}
+
+.sv-guide-top {
+  stroke-dasharray: 7.25 7.25;
+}
+
+.sv-guide-drop {
+  stroke: url(#sv-drop);
+  stroke-width: 2;
+  stroke-dasharray: 7.7 7.7;
+}
+
+.sv-area {
+  fill: url(#sv-fill);
+}
+
+.sv-line {
+  fill: none;
+  stroke: #5647ff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sv-dot {
+  top: 0;
+  left: 0;
+  width: calc(14 * var(--pt));
+  height: calc(14 * var(--pt));
+  border: calc(2 * var(--pt)) solid #f1f3f3;
+  border-radius: 50%;
+  background: #5647ff;
+  box-shadow: 0 calc(7 * var(--pt)) calc(8 * var(--pt)) calc(-4 * var(--pt)) rgba(5, 28, 44, 0.56), 0 calc(3 * var(--pt)) calc(23 * var(--pt)) rgba(5, 28, 44, 0.04);
+  /* Placed with translate, so the pop-in scale doesn't move it */
+  translate: calc(var(--dx, 190) * var(--pt) - 50%) calc(var(--dy, 382) * var(--pt) - 50%);
+}
+
+.sv-tip {
+  top: calc(289 * var(--pt));
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+  padding: calc(8 * var(--pt)) calc(16 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #000;
+  box-shadow: 0 calc(7 * var(--pt)) calc(15 * var(--pt)) rgba(6, 4, 23, 0.3);
+  color: #fff;
+  white-space: nowrap;
+  translate: calc(var(--tx, 174) * var(--pt)) 0;
+}
+
+.sv-tip-date {
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.sv-tip-value {
+  font-size: calc(18 * var(--pt));
+  font-weight: 600;
+  line-height: calc(22.5 * var(--pt));
+  letter-spacing: calc(-0.36 * var(--pt));
+  font-variant-numeric: tabular-nums;
+}
+
+.sv-x {
+  top: calc(522 * var(--pt));
+  left: calc(21 * var(--pt));
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: calc(334 * var(--pt));
+  padding-left: calc(24 * var(--pt));
+  color: #697780;
+  font-size: calc(10.5 * var(--pt));
+  font-weight: 500;
+  line-height: calc(14 * var(--pt));
+  letter-spacing: calc(0.105 * var(--pt));
+}
+
+.sv-x span {
+  width: calc(63 * var(--pt));
+  margin-right: calc(-4.6 * var(--pt));
+}
+
+.sv-x span:last-child {
+  width: auto;
+  margin-right: 0;
+  text-align: right;
+}
+
+.sv-tabs {
+  top: calc(584 * var(--pt));
+  left: calc(20 * var(--pt));
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: calc(335 * var(--pt));
+  height: calc(40 * var(--pt));
+  padding: 0 calc(4 * var(--pt));
+  border-radius: 999px;
+  background: #e1e4e5;
+}
+
+.sv-tab {
+  position: relative;
+  z-index: 1;
+  flex: 1 0 0;
+  color: #616d76;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(30 * var(--pt));
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.sv-tab.is-on {
+  color: #fff;
+}
+
+/* The black selection slides between ranges with a bounce */
+.sv-tab-pill {
+  position: absolute;
+  top: calc(5 * var(--pt));
+  left: calc(4 * var(--pt));
+  width: calc(327 / 6 * var(--pt));
+  height: calc(30 * var(--pt));
+  border-radius: 999px;
+  background: #000;
+  transform: translateX(calc(var(--tab, 2) * 327 / 6 * var(--pt)));
+  transition: transform 0.6s var(--bounce);
+}
+
+.sv-goalcard {
+  top: calc(671 * var(--pt));
+  left: calc(21 * var(--pt));
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  box-sizing: border-box;
+  width: calc(335 * var(--pt));
+  padding: calc(12 * var(--pt)) calc(16 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #000;
+  box-shadow: 0 calc(7 * var(--pt)) calc(15 * var(--pt)) rgba(6, 4, 23, 0.3);
+  color: #fff;
+}
+
+.sv-emoji {
+  font-size: calc(24 * var(--pt));
+  line-height: calc(30 * var(--pt));
+}
+
+.sv-goalcard p {
+  flex: 1 0 0;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(25 * var(--pt));
+}
+
+/* The loop's moves (savings-anim.js sets these classes). Each piece springs
+   in with a bounce; .is-out fades everything away before the next loop. */
+.sv-app [data-pop] {
+  transition: opacity 0.45s ease, transform 0.7s var(--bounce), translate 0.7s var(--bounce), scale 0.7s var(--bounce);
+}
+
+.sv-app:not(.is-in) [data-pop="up"] {
+  opacity: 0;
+  translate: 0 calc(16 * var(--pt));
+}
+
+.sv-app:not(.is-in) [data-pop="scale"] {
+  opacity: 0;
+  scale: 0.6;
+}
+
+.sv-app:not(.is-in) .sv-goalcard {
+  translate: 0 calc(140 * var(--pt));
+}
+
+.sv-app .sv-goalcard {
+  transition: translate 0.8s var(--bounce), opacity 0.4s ease;
+}
+
+.sv-app:not(.is-goal) .sv-goalcard {
+  translate: 0 calc(140 * var(--pt));
+  opacity: 0;
+}
+
+.sv-app .sv-dot,
+.sv-app .sv-tip,
+.sv-app .sv-guide-top,
+.sv-app .sv-guide-drop {
+  transition: opacity 0.35s ease, scale 0.5s var(--bounce);
+}
+
+.sv-app:not(.is-scrub) .sv-dot,
+.sv-app:not(.is-scrub) .sv-tip {
+  opacity: 0;
+  scale: 0.6;
+}
+
+.sv-app:not(.is-scrub) .sv-guide-top,
+.sv-app:not(.is-scrub) .sv-guide-drop {
+  opacity: 0;
+}
+
+.sv-tip {
+  transform-origin: 16% 100%;
+}
+
+.sv-app.is-press .sv-dot {
+  scale: 1.35;
+}
+
+.sv-emoji {
+  display: inline-block;
+}
+
+.sv-app.is-goal .sv-emoji {
+  animation: sv-wiggle 0.9s var(--bounce) 0.35s;
+}
+
+@keyframes sv-wiggle {
+  0% { rotate: 0deg; scale: 1; }
+  30% { rotate: -18deg; scale: 1.25; }
+  60% { rotate: 12deg; scale: 1.1; }
+  100% { rotate: 0deg; scale: 1; }
+}
+
+.sv-app.is-out > * {
+  opacity: 0 !important;
+  transition: opacity 0.5s ease !important;
+}
+
+.sv-app.is-out > .sv-header {
+  opacity: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-app *,
+  .sv-app *::before {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ===== Posters (poster-tilt.js) =====
+   A poster in 3D: --rx / --ry lean it and --gx / --gy place the glare. The
+   script drifts it gently on its own and follows the cursor on hover. The
+   outer .poster stays still, so the cursor is measured against it. */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+  width: 78%;
+  margin-bottom: 28px;
+}
+
+.poster-tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 4px;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  scale: 1;
+  box-shadow:
+    0 2px 4px rgba(12, 12, 13, 0.06),
+    0 14px 28px rgba(12, 12, 13, 0.14),
+    0 30px 60px rgba(12, 12, 13, 0.1);
+  transition: scale 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.poster.is-tilting .poster-tilt {
+  scale: 1.04;
+  box-shadow:
+    0 4px 8px rgba(12, 12, 13, 0.08),
+    0 22px 40px rgba(12, 12, 13, 0.18),
+    0 44px 80px rgba(12, 12, 13, 0.12);
+}
+
+.poster-tilt img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A soft sheen while it drifts, brighter under the cursor */
+.poster-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 55%);
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+.poster.is-tilting .poster-glare {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .fun-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .fun-tile {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 /* ===== Stamp lightbox =====
@@ -2257,6 +2788,30 @@ html:has(.lightbox.is-open) body {
     radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
 }
 
+/* Card 2's cover: the Home Tab Refresh Accounts tab, still, on the grid */
+.case-ht {
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+}
+
+.case-ht .ht-phone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 54%;
+  transform: translate(-50%, -50%);
+}
+
+.case-ht .ht-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 22px 40px rgba(12, 12, 13, 0.18),
+    0 5px 12px rgba(12, 12, 13, 0.1);
+}
+
 .case-anim-stage {
   position: absolute;
   inset: 0;
@@ -2375,10 +2930,14 @@ html:has(.lightbox.is-open) body {
 
 .resume .case-title {
   font: var(--type-body-strong);
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   color: var(--resume-text);
 }
 
 .resume .case-desc {
+  margin-top: 6px;
   font: var(--type-caption);
   color: var(--resume-body);
 }
@@ -2394,7 +2953,116 @@ html:has(.lightbox.is-open) body {
 }
 
 .case-text .glass-button {
-  margin-top: 16px;
+  margin-top: 24px;
+}
+
+/* The company tag above each case study's title: plain mono text, lined up
+   with the title */
+.resume .case-tag {
+  display: block;
+  margin: 0 0 10px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+/* ===== Case Study V2 (.case-list-v2) =====
+   One case study per row: the cover runs the full width, and the title,
+   description and button sit in its bottom-left corner. The live cover's
+   phone shifts right to make room.
+   Without the class, the cards are Case Study V1 (two columns). */
+.case-list-v2 {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+.case-list-v2 .case-item {
+  position: relative;
+  display: block;
+}
+
+.case-list-v2 .case-image {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+/* The text sits just above the cover's middle */
+.case-list-v2 .case-text {
+  position: absolute;
+  z-index: 2;
+  top: 46%;
+  left: 0;
+  width: 52%;
+  box-sizing: border-box;
+  padding: 0 32px 0 64px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* The button hangs 4px past the text's left edge */
+.case-list-v2 .case-text .glass-button {
+  margin-left: -4px;
+  pointer-events: auto;
+}
+
+.case-list-v2 .case-anim-stage {
+  left: 48%;
+}
+
+.case-list-v2 .case-anim-phone {
+  width: 48%;
+}
+
+.case-list-v2 .case-video-toggle {
+  right: 16px;
+  bottom: 16px;
+}
+
+.case-list-v2 .case-ht .ht-phone {
+  left: 74%;
+  width: 25%;
+}
+
+.case-list-v2 .case-image-placeholder > svg {
+  margin-left: 48%;
+}
+
+@media (max-width: 720px) {
+  .case-list-v2 .case-image {
+    aspect-ratio: 3 / 4;
+  }
+
+  .case-list-v2 .case-text {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    padding: 24px;
+    transform: none;
+  }
+
+  .case-list-v2 .case-anim-stage {
+    left: 0;
+    bottom: 36%;
+  }
+
+  .case-list-v2 .case-anim-phone {
+    width: 46%;
+  }
+
+  .case-list-v2 .case-ht .ht-phone {
+    top: 32%;
+    left: 50%;
+    width: 46%;
+  }
+
+  .case-list-v2 .case-image-placeholder > svg {
+    margin: 0 0 36%;
+  }
+
+  .case-list-v2 .case-video-toggle {
+    top: 12px;
+    right: 12px;
+    bottom: auto;
+  }
 }
 
 /* ===== Glass button =====
@@ -2675,11 +3343,16 @@ html:has(.lightbox.is-open) body {
   margin-bottom: 40px;
 }
 
-/* The project's facts, between the hero and the write-up */
+/* The project's facts, under the title */
 .case-details {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
+}
+
+/* A dotted line between the subtitle and the details */
+.case-page-desc + .case-divider {
+  margin: 32px 0;
 }
 
 .case-details dt {
@@ -2732,6 +3405,449 @@ html:has(.lightbox.is-open) body {
   color: var(--resume-text);
 }
 
+/* Case study template: a stand-in for an animation, on the same grid as
+   the real ones, with its caption pill */
+.case-placeholder {
+  display: grid;
+  place-items: center;
+  height: 520px;
+  margin: 40px 0 72px;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+}
+
+.case-placeholder.case-hero {
+  height: 560px;
+  margin: 48px 0 40px;
+}
+
+.case-placeholder-label {
+  padding: 5px 11px;
+  border: 0.5px dashed rgba(12, 12, 13, 0.2);
+  border-radius: 999px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+@media (max-width: 720px) {
+  .case-placeholder {
+    height: 360px;
+  }
+
+  .case-placeholder.case-hero {
+    height: 380px;
+    margin: 32px 0;
+  }
+}
+
+/* ===== Home Tab Refresh: the new Accounts tab (home-tab-refresh.html) =====
+   Built in HTML from the Figma frame (Portfolio Screens, 23:15583), in an
+   iPhone mock in the hero. Sized in points (--pt) on a 375-wide screen like
+   the other live screens; the header and tab bar stay put while the content
+   runs under them. Assets: images/neo-ui/home/. */
+.ht-hero {
+  overflow: hidden;
+}
+
+.ht-phone {
+  width: 232px;
+  container-type: inline-size;
+}
+
+.ht-phone .phone-mock-body {
+  box-shadow:
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617,
+    0 28px 50px rgba(12, 12, 13, 0.18),
+    0 6px 14px rgba(12, 12, 13, 0.1);
+}
+
+.ht-app {
+  --pt: calc(93.2cqw / 375);
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #f1f3f3;
+  color: #111;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ht-app p {
+  margin: 0;
+}
+
+.ht-app img {
+  display: block;
+  flex: none;
+}
+
+.ht-app small {
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+/* Header: wallet chip and profile button */
+.ht-header {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.ht-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: calc(72 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+}
+
+.ht-wallet {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--pt));
+  padding: calc(8 * var(--pt)) calc(12 * var(--pt)) calc(8 * var(--pt)) calc(8 * var(--pt));
+  border-radius: 999px;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ht-wallet-icon {
+  display: grid;
+  place-items: center;
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+  border-radius: 999px;
+  background: #000;
+}
+
+.ht-app .ht-wallet-icon img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.ht-iconbtn {
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+}
+
+.ht-app .ht-iconbtn img,
+.ht-app .ht-action img,
+.ht-app .ht-avatar img,
+.ht-app .ht-tab img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.ht-main {
+  display: flex;
+  flex-direction: column;
+  padding: calc(148 * var(--pt)) calc(20 * var(--pt)) 0;
+}
+
+/* Greeting */
+.ht-greeting {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--pt));
+}
+
+.ht-greeting p {
+  font-size: calc(24 * var(--pt));
+  font-weight: 600;
+  line-height: calc(30 * var(--pt));
+  letter-spacing: calc(-0.48 * var(--pt));
+}
+
+.ht-greeting p span {
+  color: #697780;
+}
+
+.ht-eye {
+  display: grid;
+  place-items: center;
+  width: calc(32 * var(--pt));
+  height: calc(32 * var(--pt));
+  border-radius: 999px;
+  background: #e7e8e9;
+}
+
+.ht-app .ht-eye img,
+.ht-app .ht-add img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+/* Quick actions */
+.ht-actions {
+  display: flex;
+  gap: calc(12 * var(--pt));
+  margin-top: calc(40 * var(--pt));
+}
+
+.ht-action {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+  text-align: center;
+}
+
+.ht-action > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: calc(64 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+}
+
+.ht-action > span.is-primary {
+  background: #111;
+}
+
+/* Accounts, grouped by type */
+.ht-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8 * var(--pt));
+  margin-top: calc(40 * var(--pt));
+}
+
+.ht-group {
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(20 * var(--pt));
+  overflow: hidden;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.ht-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(4 * var(--pt));
+  margin-bottom: calc(12 * var(--pt)) !important;
+  padding: 0 calc(20 * var(--pt));
+}
+
+.ht-row {
+  display: flex;
+  align-items: flex-start;
+  padding-left: calc(20 * var(--pt));
+}
+
+.ht-row > .ht-card,
+.ht-row > .ht-avatar {
+  margin: calc(20 * var(--pt)) calc(16 * var(--pt)) calc(20 * var(--pt)) 0;
+}
+
+.ht-row > .ht-card {
+  margin-left: calc(4 * var(--pt));
+  margin-right: calc(20 * var(--pt));
+}
+
+.ht-row-body {
+  display: flex;
+  flex: 1 0 0;
+  align-self: stretch;
+  align-items: flex-start;
+  gap: calc(16 * var(--pt));
+  min-height: calc(60 * var(--pt));
+  padding: calc(20 * var(--pt)) calc(20 * var(--pt)) calc(20 * var(--pt)) 0;
+  border-bottom: 0.5px solid #e1e4e5;
+}
+
+.ht-row.is-last .ht-row-body {
+  border-bottom: 0;
+}
+
+.ht-row-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: calc(4 * var(--pt));
+}
+
+.ht-row-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(4 * var(--pt));
+  white-space: nowrap;
+}
+
+.ht-trend {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.ht-app .ht-trend img {
+  width: calc(12 * var(--pt));
+  height: calc(12 * var(--pt));
+}
+
+.ht-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  width: calc(40 * var(--pt));
+  height: calc(40 * var(--pt));
+  border: 0.5px solid #e1e4e5;
+  border-radius: calc(8 * var(--pt));
+  background: #f1f3f3;
+}
+
+/* Mini vertical cards: Figma's own render of each card (border included) */
+.ht-card {
+  position: relative;
+  flex: none;
+  width: calc(32 * var(--pt));
+  height: calc(50.667 * var(--pt));
+  overflow: hidden;
+  border-radius: calc(4 * var(--pt));
+  filter: drop-shadow(0 calc(4 * var(--pt)) calc(2.5 * var(--pt)) rgba(5, 28, 44, 0.03)) drop-shadow(0 calc(5 * var(--pt)) calc(5 * var(--pt)) rgba(5, 28, 44, 0.04)) drop-shadow(0 calc(2 * var(--pt)) calc(2 * var(--pt)) rgba(5, 28, 44, 0.06));
+}
+
+.ht-app .ht-card img {
+  width: 100%;
+  height: 100%;
+}
+
+.ht-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(8 * var(--pt));
+  min-height: calc(48 * var(--pt));
+  margin-top: calc(8 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #e7e8e9;
+  font-weight: 600;
+}
+
+/* Refer and earn */
+.ht-refer {
+  position: relative;
+  display: flex;
+  min-height: calc(176 * var(--pt));
+  margin-top: calc(56 * var(--pt));
+  padding-left: calc(20 * var(--pt));
+  overflow: hidden;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.ht-refer-text {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(8 * var(--pt));
+  padding: calc(20 * var(--pt)) calc(138 * var(--pt)) calc(20 * var(--pt)) 0;
+}
+
+.ht-refer-text b {
+  font-weight: 600;
+}
+
+.ht-refer-text p {
+  min-height: calc(60 * var(--pt));
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(17.5 * var(--pt));
+}
+
+.ht-refer-button {
+  display: grid;
+  place-items: center;
+  min-height: calc(32 * var(--pt));
+  margin-top: calc(8 * var(--pt));
+  padding: 0 calc(12 * var(--pt));
+  border-radius: calc(8 * var(--pt));
+  background: #111;
+  color: #fff;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(17.5 * var(--pt));
+}
+
+/* The photo fills the card's right side at the card's height */
+.ht-app .ht-refer-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: calc(130 * var(--pt));
+  height: 100%;
+  object-fit: cover;
+}
+
+.ht-app .ht-dots {
+  width: 100%;
+  height: calc(6 * var(--pt));
+  margin-top: calc(12 * var(--pt));
+}
+
+/* Tab bar, pinned to the bottom (the mock draws the home indicator) */
+.ht-tabbar {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-bottom: calc(34 * var(--pt));
+  border-top: 0.5px solid #e1e4e5;
+  background: #f1f3f3;
+}
+
+.ht-tabs {
+  display: flex;
+  gap: calc(8 * var(--pt));
+  padding: calc(8 * var(--pt)) calc(12 * var(--pt)) 0;
+}
+
+.ht-tab {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  font-size: calc(12 * var(--pt));
+  font-weight: 500;
+  line-height: calc(15 * var(--pt));
+  white-space: nowrap;
+}
+
+.ht-tab:not(.is-on) {
+  color: rgba(17, 17, 17, 0.4);
+}
+
+@media (max-width: 720px) {
+  .ht-phone {
+    width: 156px;
+  }
+}
+
 /* Reflections: each lesson's title on the left (one third), its text on
    the right (two thirds), like the details grid */
 .case-reflections {
@@ -2780,7 +3896,7 @@ html:has(.lightbox.is-open) body {
 
 .case-signoff-signature {
   display: block;
-  width: 150px;
+  width: 200px;
   height: auto;
   margin-top: 26px;
   /* Hangs 16px past the text's left edge */
@@ -3145,7 +4261,9 @@ html:has(.lightbox.is-open) body {
 .proto,
 .combo,
 .joint,
-.problem-tabs {
+.problem-tabs,
+.case-placeholder,
+.fun-tile {
   position: relative;
   background:
     linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
@@ -3154,7 +4272,7 @@ html:has(.lightbox.is-open) body {
   isolation: isolate;
 }
 
-:is(.compare-slider, .approach-board, .proto, .combo, .joint, .problem-tabs)::after {
+:is(.compare-slider, .approach-board, .proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile)::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -4765,10 +5883,14 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   animation-direction: reverse;
 }
 
+/* Section dividers: the same dotted line as the case studies' */
 .resume-divider {
   display: block;
-  max-width: 100%;
+  width: 100%;
+  height: 0;
   margin: 38px 0 63px;
+  border: 0;
+  border-top: 2px dotted var(--resume-paper-border);
 }
 
 .company + .resume-divider {
@@ -6075,7 +7197,7 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   padding-bottom: 76px;
 }
 
-:is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint {
+:is(.proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile) > p.proto-hint {
   position: absolute;
   z-index: 5;
   left: 20px;
@@ -6092,7 +7214,7 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   text-align: left;
 }
 
-:is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint:empty {
+:is(.proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile) > p.proto-hint:empty {
   display: none;
 }
 
@@ -6120,7 +7242,7 @@ p.proto-hint.is-out {
 }
 
 @media (max-width: 720px) {
-  :is(.proto, .combo, .joint, .problem-tabs) > p.proto-hint {
+  :is(.proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile) > p.proto-hint {
     left: 12px;
     bottom: 12px;
     max-width: calc(100% - 24px);

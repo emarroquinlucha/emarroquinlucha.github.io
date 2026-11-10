@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=551">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=578">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -100,7 +100,8 @@
     <ul>
       <li><a href="#intro">Intro</a></li>
       <li><a href="#selected-work">Selected Impact</a></li>
-      <li><a href="#case-studies">Case Studies</a></li>
+      <li><a href="#case-studies">Work</a></li>
+      <li><a href="#fun">Fun!</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#expertise">Expertise</a></li>
     </ul>
@@ -147,7 +148,7 @@
 
       <h2 class="resume-label" id="selected-work">Selected Impact</h2>
 
-      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <hr class="resume-divider">
 
       <!-- Selected work: copy one <article class="work-item">...</article> to add another.
            A stamp goes first in the item, as <button class="work-stamp">…</button>:
@@ -201,12 +202,14 @@
         </article>
       </div>
 
-      <h2 class="resume-label" id="case-studies">Selected Case Studies</h2>
+      <h2 class="resume-label" id="case-studies">Selected Work</h2>
 
-      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <hr class="resume-divider">
 
-      <!-- Case studies: copy one <article class="case-item">...</article> to add another -->
-      <div class="case-list">
+      <!-- Case studies: copy one <article class="case-item">...</article> to add another.
+           "case-list-v2" = full-width covers with the text in the corner;
+           remove it to go back to Case Study V1 (two columns, text below). -->
+      <div class="case-list case-list-v2">
         <article class="case-item">
           <!-- Cover animation (case-anim.js): the redesigned credit account,
                built in HTML (copied from the case study's showcase), tips into
@@ -326,50 +329,91 @@
             </button>
           </div>
           <div class="case-text">
-            <h3 class="case-title">Accounts Architecture @ Neo</h3>
-            <p class="case-desc">Designing the foundations of a growing digital bank.</p>
+            <p class="case-tag">Neo Financial</p>
+            <h3 class="case-title">Accounts Architecture</h3>
+            <p class="case-desc">Designing the foundations of a growing digital&nbsp;bank.</p>
             <a class="glass-button" href="accounts-architecture.html">View project</a>
           </div>
         </article>
-        <!-- Placeholder covers: swap for the case-media block above once there is a video -->
         <article class="case-item">
-          <div class="case-image case-image-placeholder case-video-placeholder" data-cover="final-final-v7.html" role="img" aria-label="Placeholder for a case study video">
-            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
-            <a class="case-image-link" href="final-final-v7.html" tabindex="-1" aria-hidden="true"></a>
+          <!-- Cover: the new Accounts tab (the same HTML screen as the case
+               study's hero), still, on the case studies' light grid -->
+          <div class="case-image case-media case-ht" role="img" aria-label="Home tab refresh: the new Accounts tab, with quick actions and every account grouped by type">
+            <div class="ht-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- The new Accounts tab, built in HTML from the Figma frame (Portfolio Screens, 23:15583) --><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span>Afternoon,</span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
+            <a class="case-image-link" href="home-tab-refresh.html" tabindex="-1" aria-hidden="true"></a>
           </div>
           <div class="case-text">
-            <h3 class="case-title">Final_Final_v7 @ My Desktop</h3>
-            <p class="case-desc">How 47 rounds of feedback led us back to version 1.</p>
-            <a class="glass-button" href="final-final-v7.html">View project</a>
-          </div>
-        </article>
-        <article class="case-item">
-          <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
-            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
-            <a class="case-image-link" href="quick-question.html" tabindex="-1" aria-hidden="true"></a>
-          </div>
-          <div class="case-text">
-            <h3 class="case-title">Quick Question @ 4:59 PM</h3>
-            <p class="case-desc">A one-line Slack message that became a full redesign by Monday.</p>
-            <a class="glass-button" href="quick-question.html">View project</a>
-          </div>
-        </article>
-        <article class="case-item">
-          <div class="case-image case-image-placeholder case-video-placeholder" role="img" aria-label="Placeholder for a case study video">
-            <svg width="24" height="24" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
-            <a class="case-image-link" href="make-the-logo-bigger.html" tabindex="-1" aria-hidden="true"></a>
-          </div>
-          <div class="case-text">
-            <h3 class="case-title">Make the Logo Bigger @ Every Company</h3>
-            <p class="case-desc">A decade-long study of one request. Results are still coming in.</p>
-            <a class="glass-button" href="make-the-logo-bigger.html">View project</a>
+            <p class="case-tag">Neo Financial</p>
+            <h3 class="case-title">Home Tab Refresh</h3>
+            <p class="case-desc">A one-line summary of the project goes here.</p>
+            <a class="glass-button" href="home-tab-refresh.html">View project</a>
           </div>
         </article>
       </div>
 
+      <h2 class="resume-label" id="fun">Fun!</h2>
+
+      <hr class="resume-divider">
+
+      <!-- Fun: side projects and experiments. Placeholder tiles for now; swap
+           each .fun-tile's label for the real thing -->
+      <div class="fun-grid">
+        <!-- Fun UI & Ideas (savings-anim.js): a savings concept in an iPhone
+             mock. On a loop: the total counts up, the graph draws in, a finger
+             drags the tooltip across it, and the range switch reshapes it. -->
+        <div class="fun-tile fun-savings" role="img" aria-label="A savings concept: total savings to date with a graph, a tooltip that follows a drag across it, and a range switch">
+          <div class="sv-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- A savings concept, built in HTML from the Figma frame (Edward's Wunderland, 3520:49372) --><div class="sv-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Total savings</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="sv-total"><p class="sv-amount">$12,345.67</p><p class="sv-label">Total balance</p></div><span class="sv-track"><img src="images/fun-ui/savings/check.svg" width="16" height="16" alt="">On track</span><p class="sv-change"><b>+$450.00 (6.3%)</b> this month</p><div class="sv-y"><b>$20k</b><span>$10k</span><span>$0K</span></div><svg class="sv-graph" viewBox="0 0 375 812" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sv-fill" x1="0" y1="366" x2="0" y2="505" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9c93ff" stop-opacity="0.2"/><stop offset="1" stop-color="#9c93ff" stop-opacity="0"/></linearGradient><linearGradient id="sv-drop" x1="0" y1="536" x2="0" y2="382" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d037e"/><stop offset="0.82" stop-color="#f1f3f3"/></linearGradient><clipPath id="sv-clip"><rect x="14" y="317" width="361" height="193"/></clipPath></defs><line class="sv-goal" x1="54" y1="328.5" x2="375" y2="328.5"/><g clip-path="url(#sv-clip)"><path class="sv-area" d=""/><path class="sv-line" d=""/></g><line class="sv-guide-top" x1="190" y1="324" x2="190" y2="382"/><line class="sv-guide-drop" x1="190" y1="382" x2="190" y2="536"/></svg><span class="sv-dot"></span><div class="sv-tip"><span class="sv-tip-date">May 5</span><b class="sv-tip-value">$11,342.32</b></div><div class="sv-x"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div><div class="sv-tabs"><span class="sv-tab-pill"></span><span class="sv-tab" data-range="1M">1M</span><span class="sv-tab" data-range="3M">3M</span><span class="sv-tab is-on" data-range="6m">6m</span><span class="sv-tab" data-range="1Y">1Y</span><span class="sv-tab" data-range="5Y">5Y</span><span class="sv-tab" data-range="All">All</span></div><div class="sv-goalcard"><span class="sv-emoji">🎉</span><p>You’ll reach your $20k goal by November 5th, 2025</p><img src="images/fun-ui/savings/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div>
+          <p class="proto-hint">Fun UI &amp; Ideas</p>
+        </div>
+        <!-- Psychedelic posters (poster-tilt.js): four posters in a 2 × 2 grid,
+             each drifting gently in 3D with a soft glare, and leaning toward
+             the cursor on hover like the stamps -->
+        <div class="fun-tile fun-posters">
+          <div class="poster-grid">
+            <div class="poster">
+              <div class="poster-tilt">
+                <img src="images/poster-carousel.jpg" width="960" height="1200" alt="Carousel, a psychedelic event poster for Winnipeg Psychedelic and dialog: a glowing carousel framed by purple velvet curtains and an ornate floral arch, with three marbled moons above" loading="lazy">
+                <span class="poster-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="poster">
+              <div class="poster-tilt">
+                <img src="images/poster-horrors.jpg" width="958" height="1200" alt="Eddie Marroquin Nº11, The Horrors and Hypnotism of Three Pleasures: an endless stone arch tunnel floating in space under three marbled moons, above a marbled planet" loading="lazy">
+                <span class="poster-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="poster">
+              <div class="poster-tilt">
+                <img src="images/poster-cherries.jpg" width="960" height="1200" alt="Eddie Marroquin Nº9, Gradients of Eternity Part II: a pair of red cherries floating in a lavender sky over snowy mountains" loading="lazy">
+                <span class="poster-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="poster">
+              <div class="poster-tilt">
+                <img src="images/poster-saturnalia.jpg" width="915" height="1143" alt="Saturnalia, a dialog event poster for December 14: three snowy pine trees under golden moons, framed by an ornate carved arch" loading="lazy">
+                <span class="poster-glare" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <p class="proto-hint">Psychedelic Posters</p>
+        </div>
+      </div>
+
+    </article>
+      <!-- Hover area for the folded corner. It sits outside the card so the card's
+           trimmed corner can't cut it off while the fold lifts (which caused flicker). -->
+      <span class="fold-hotspot" aria-hidden="true"></span>
+    </div>
+
+    <!-- ===== Page 2: Experience and Expertise, on a second sheet ===== -->
+    <div class="resume-frame resume-page-2">
+      <div class="resume-shadow" aria-hidden="true"></div>
+    <article class="resume" id="experience-page">
+      <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+
       <h2 class="resume-label" id="experience">Experience</h2>
 
-      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <hr class="resume-divider">
 
       <!-- Neo Financial -->
       <section class="company">
@@ -477,7 +521,7 @@
         </div>
       </section>
 
-      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <hr class="resume-divider">
 
       <!-- SkipTheDishes -->
       <section class="company">
@@ -526,7 +570,7 @@
 
       <h2 class="resume-label" id="expertise">Expertise</h2>
 
-      <img class="resume-divider" src="images/resume-divider.svg" width="936" height="1" alt="">
+      <hr class="resume-divider">
 
       <section class="expertise" aria-label="Expertise">
         <!-- Each group: an icon and a title set like the bullet titles, then its skills -->
@@ -1325,8 +1369,9 @@
 
         // Page stats: read time, likes and views
     (function () {
-      // Read time: words in the resume at ~200 words per minute
-      var words = document.querySelector(".resume").innerText.trim().split(/\s+/).length;
+      // Read time: words on both sheets at ~200 words per minute
+      var words = 0;
+      document.querySelectorAll(".resume").forEach(function (sheet) { words += sheet.innerText.trim().split(/\s+/).length; });
       document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
 
       // Shared counters (Abacus). Likes = "likes-up" minus "likes-down", since
@@ -1465,6 +1510,8 @@
   <script src="case-video.js?v=3"></script>
   <script src="case-anim.js?v=1"></script>
 
+  <script src="poster-tilt.js?v=1"></script>
+  <script src="savings-anim.js?v=1"></script>
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>
   <script src="top-blur.js?v=1"></script>

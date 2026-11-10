@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=551">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=578">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=18"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
@@ -50,19 +50,7 @@
         <h1 class="case-page-title">Accounts Architecture @ Neo</h1>
         <p class="case-page-desc">Designing the foundations of a growing digital bank.</p>
 
-        <!-- Hero (finale.js, "pair"): the Credit account and its skeleton fade
-             in side by side once, and stay. finale.js copies the
-             showcase's live credit screen into both phones. -->
-        <div class="finale case-hero is-pair" data-scene="trio" role="img" aria-label="The redesigned Credit account beside its skeleton: the building blocks underneath it">
-          <div class="finale-stage" aria-hidden="true">
-            <div class="finale-rig">
-              <div class="finale-phone" data-account="credit" style="--i: -0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
-              <div class="finale-phone is-bones" data-account="credit" style="--i: 0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
-            </div>
-          </div>
-          <button class="finale-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="finale-icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/><rect x="7.1" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/></svg><svg class="finale-icon-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.2 2.1v7.8a.6.6 0 0 0 .9.5l6-3.9a.6.6 0 0 0 0-1l-6-3.9a.6.6 0 0 0-.9.5Z" fill="currentColor"/></svg></button>
-        </div>
-
+        <hr class="case-divider">
         <dl class="case-details">
           <div>
             <dt>Company</dt>
@@ -85,7 +73,20 @@
             <dd class="case-details-status"><span class="case-details-dot" aria-hidden="true"></span>Launched September 2025</dd>
           </div>
         </dl>
-        <hr class="case-divider">
+
+        <!-- Hero (finale.js, "pair"): the Credit account and its skeleton fade
+             in side by side once, and stay. finale.js copies the
+             showcase's live credit screen into both phones. -->
+        <div class="finale case-hero is-pair" data-scene="trio" role="img" aria-label="The redesigned Credit account beside its skeleton: the building blocks underneath it">
+          <div class="finale-stage" aria-hidden="true">
+            <div class="finale-rig">
+              <div class="finale-phone" data-account="credit" style="--i: -0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+              <div class="finale-phone is-bones" data-account="credit" style="--i: 0.5"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+            </div>
+          </div>
+          <button class="finale-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="finale-icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/><rect x="7.1" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/></svg><svg class="finale-icon-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.2 2.1v7.8a.6.6 0 0 0 .9.5l6-3.9a.6.6 0 0 0 0-1l-6-3.9a.6.6 0 0 0-.9.5Z" fill="currentColor"/></svg></button>
+        </div>
+
 
         <section class="case-page-section" id="outcomes">
           <h2 class="case-eyebrow">Outcomes</h2>
@@ -994,7 +995,7 @@
           <div class="case-signoff">
             <p>I hope this wasn't too boring,</p>
             <img class="case-signoff-signature" src="images/signature-v2.svg" width="1394" height="762" alt="Edward Marroquin's signature" loading="lazy">
-            <p class="case-signoff-name">Eddie</p>
+            <p class="case-signoff-name">Eddie Marroquin</p>
           </div>
         </section>
       </article>

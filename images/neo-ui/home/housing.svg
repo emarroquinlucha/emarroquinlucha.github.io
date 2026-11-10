@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="category / housing">
+<path id="Vector" d="M19 9.63V5.33C19 4.77772 18.5523 4.33 18 4.33H17C16.4477 4.33 16 4.77772 16 5.33V6.93L12.67 3.93C12.2894 3.58648 11.7106 3.58648 11.33 3.93L3 11.46C2.84795 11.5982 2.7959 11.8153 2.86876 12.0074C2.94162 12.1995 3.12457 12.3274 3.33 12.33H5V19.33C5 19.8823 5.44772 20.33 6 20.33H9C9.55228 20.33 10 19.8823 10 19.33V14.33H14V19.33C14 19.8823 14.4477 20.33 15 20.33H18C18.5523 20.33 19 19.8823 19 19.33V12.33H20.7C20.9054 12.3274 21.0884 12.1995 21.1612 12.0074C21.2341 11.8153 21.182 11.5982 21.03 11.46L19 9.63ZM10 10.33C10 9.22543 10.8954 8.33 12 8.33C13.1046 8.33 14 9.22543 14 10.33H10Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_324)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_324" x1="7.80001" y1="7.13184" x2="17.7867" y2="19.2719" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B383CA"/>
+<stop offset="1" stop-color="#8031A7"/>
+</linearGradient>
+</defs>
+</svg>

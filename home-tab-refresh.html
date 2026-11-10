@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume page-case">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Tab Refresh @ Neo | Edward A. Marroquin</title>
+  <meta name="description" content="A one-line summary of the project goes here.">
+  <!-- Placeholder content: keep out of search results until the write-up is real -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f9f9fa">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=578">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <script src="page-transitions.js?v=18"></script>
+  <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
+  <link rel="expect" href="#page-end" blocking="render">
+</head>
+<body>
+
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <!-- Progressive blur at the top of the window (see "Top blur" in style.css) -->
+  <div class="top-blur" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+
+  <a class="glass-button case-back" href="index.html#case-studies">Back</a>
+
+  <!-- Contents: placeholder sections, a small list beside the paper (wide screens only) -->
+  <nav class="page-toc" aria-label="On this page">
+    <ul>
+      <li><a href="#intro">Intro</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#the-problem">Problem</a></li>
+      <li><a href="#the-approach">Approach</a></li>
+      <li><a href="#the-redesign">Redesign</a></li>
+      <li><a href="#the-outcome">Outcome</a></li>
+      <li><a href="#reflections">Reflections</a></li>
+    </ul>
+  </nav>
+
+  <main class="resume-wrap">
+    <div class="resume-frame">
+      <div class="resume-shadow" aria-hidden="true"></div>
+      <article class="resume" id="intro">
+        <!-- Folded top-right corner; hovering it lifts the fold -->
+        <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+        <!-- Template: copied from the Accounts Architecture case study. Swap
+             each placeholder (text, .case-placeholder) for the real thing. -->
+        <h1 class="case-page-title">Home Tab Refresh @ Neo</h1>
+        <p class="case-page-desc">A one-line summary of the project goes here.</p>
+
+        <hr class="case-divider">
+        <dl class="case-details">
+          <div>
+            <dt>Company</dt>
+            <dd>Neo Financial</dd>
+          </div>
+          <div>
+            <dt>My Role</dt>
+            <dd>Lead Designer</dd>
+          </div>
+          <div>
+            <dt>Collaborators</dt>
+            <dd>X PM, X Engineers</dd>
+          </div>
+          <div>
+            <dt>Time Period</dt>
+            <dd>Month - Month Year</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd class="case-details-status"><span class="case-details-dot" aria-hidden="true"></span>Launched Month Year</dd>
+          </div>
+        </dl>
+
+        <!-- Hero: the new Accounts tab in an iPhone mock, on the case study grid -->
+        <div class="case-placeholder case-hero ht-hero" role="img" aria-label="The redesigned Accounts tab: a greeting, quick actions, and every account grouped by type">
+          <div class="ht-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- The new Accounts tab, built in HTML from the Figma frame (Portfolio Screens, 23:15583) --><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span>Afternoon,</span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
+          <p class="proto-hint">The New Accounts Tab</p>
+        </div>
+
+        <section class="case-page-section" id="outcomes">
+          <h2 class="case-eyebrow">Outcomes</h2>
+          <!-- Placeholder results: replace each XX with the real number -->
+          <ul class="case-outcomes">
+            <li>
+              <p class="case-outcome-stat">+XX pts <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+              <p class="case-outcome-label">First result after launch</p>
+            </li>
+            <li>
+              <p class="case-outcome-stat">XX% <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+              <p class="case-outcome-label">Second result after launch</p>
+            </li>
+            <li>
+              <p class="case-outcome-stat">XX% <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+              <p class="case-outcome-label">Third result after launch</p>
+            </li>
+          </ul>
+        </section>
+
+        <hr class="case-divider">
+
+        <section class="case-page-section" id="overview">
+          <p class="case-eyebrow">Overview</p>
+          <h2>A short line that frames the project and why it needed a <mark class="case-mark case-mark-green">change</mark>.</h2>
+          <p>Describe the product, the team and your role in a sentence or two, and call out the <strong>main areas</strong> you worked on.</p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Before and After</p>
+        </div>
+
+        <section class="case-page-section" id="the-problem">
+          <p class="case-eyebrow">The Problem</p>
+          <h2>What wasn't working, and why it <mark class="case-mark case-mark-red">mattered</mark>.</h2>
+          <p>Explain where the signals came from, like <mark class="case-mark case-mark-red">research</mark> or <mark class="case-mark case-mark-red">customer feedback</mark>, and what kept coming up:</p>
+          <ul class="case-list-bullets">
+            <li><strong>First issue</strong> in a short sentence.</li>
+            <li><strong>Second issue</strong> in a short sentence.</li>
+            <li><strong>Third issue</strong> and the effect it had on customers.</li>
+          </ul>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">The Problem, Shown</p>
+        </div>
+
+        <section class="case-page-section" id="the-approach">
+          <p class="case-eyebrow">The Approach</p>
+          <h2>How I started working through the <mark class="case-mark case-mark-yellow">problem</mark>.</h2>
+          <p><mark class="case-mark case-mark-yellow">A short hook goes here</mark>, followed by what you looked at, who you worked with and what you were trying to learn.</p>
+          <p>Then sum up how that shaped <strong>the direction</strong> you took.</p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Research and Exploration</p>
+        </div>
+        <section class="case-page-section" id="the-redesign">
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 01</span></p>
+          <h3 class="case-step">The first change, made <mark class="case-mark case-mark-blue">easier to see</mark>.</h3>
+          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-blue">Then the result in a few words.</mark></p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">First Change</p>
+        </div>
+
+        <section class="case-page-section">
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 02</span></p>
+          <h3 class="case-step">The second change, made <mark class="case-mark case-mark-pink">easier to understand</mark>.</h3>
+          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-pink">Then the result in a few words.</mark></p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Second Change</p>
+        </div>
+
+        <section class="case-page-section">
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 03</span></p>
+          <h3 class="case-step"><mark class="case-mark case-mark-purple">One idea</mark>, applied everywhere.</h3>
+          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-purple">Then the result in a few words.</mark></p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Third Change</p>
+        </div>
+
+        <section class="case-page-section">
+          <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 04</span></p>
+          <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark>.</h3>
+          <p>What changed and why, in a sentence. <mark class="case-mark case-mark-teal">Then the result in a few words.</mark></p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Fourth Change</p>
+        </div>
+
+        <section class="case-page-section" id="the-outcome">
+          <p class="case-eyebrow">The Outcome</p>
+          <h2>A headline that sums up the <mark class="case-mark case-mark-green">result</mark>.</h2>
+          <p>Lead with the numbers: the first result rose by <strong>+XX points</strong>, the second improved by <strong>XX%</strong>, and the third dropped by <strong>XX%</strong>.</p>
+          <p>Then describe what changed in the <strong>experience</strong> customers see.</p>
+          <p>Finish with what it set up for the <strong>team and the product</strong> going forward.</p>
+        </section>
+
+        <div class="case-placeholder" role="img" aria-label="Placeholder for an animation">
+          <span class="case-placeholder-label">Animation Placeholder</span>
+          <p class="proto-hint">Final Showcase</p>
+        </div>
+
+        <section class="case-page-section" id="reflections">
+          <p class="case-eyebrow">Reflections</p>
+          <h2>What I <mark class="case-mark case-mark-teal">learned</mark>.</h2>
+          <div class="case-reflections">
+            <h3>The first lesson.</h3>
+            <p>A few sentences on what you learned, with the <strong>key takeaway</strong> in bold.</p>
+            <h3>The second lesson.</h3>
+            <p>A few sentences on what you learned, with the <strong>key takeaway</strong> in bold.</p>
+          </div>
+          <div class="case-signoff">
+            <p>I hope this wasn't too boring,</p>
+            <img class="case-signoff-signature" src="images/signature-v2.svg" width="1394" height="762" alt="Edward Marroquin's signature" loading="lazy">
+            <p class="case-signoff-name">Eddie Marroquin</p>
+          </div>
+        </section>
+      </article>
+      <!-- Hover area for the folded corner (see "Folded corner" in style.css) -->
+      <span class="fold-hotspot" aria-hidden="true"></span>
+    </div>
+    <footer class="site-footer resume-footer">
+      <p>© <span id="year">2026</span> Edward A. Marroquin</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Tells the resume to skip its loading screen on the way back
+    window.addEventListener("pagehide", function () {
+      try { sessionStorage.setItem("from-case-study", "1"); } catch (e) {}
+    });
+  </script>
+  <script src="glass-button.js?v=1"></script>
+  <script src="dot-grid.js?v=1"></script>
+  <script src="top-blur.js?v=1"></script>
+  <script src="page-toc.js?v=1"></script>
+  <script src="grid-overlay.js?v=1"></script>
+  <script src="title-wrap.js?v=4"></script>
+  <script src="gradient-word.js?v=8"></script>
+  <!-- Page stats (bottom-left corner): the read time, from the word count at
+       ~200 words a minute -->
+  <div class="floating-dock">
+    <div class="page-stats">
+      <span class="stat-pill" id="stat-read">– min read</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      function count(text) { return (text || "").split(/\s+/).filter(Boolean).length; }
+      var article = document.querySelector("article#intro");
+      var words = count(article.innerText);
+      article.querySelectorAll('[aria-hidden="true"]').forEach(function (el) {
+        if (!el.parentElement.closest('[aria-hidden="true"]')) words -= count(el.innerText);
+      });
+      document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
+    })();
+  </script>
+  <div id="page-end"></div>
+</body>
+</html>
