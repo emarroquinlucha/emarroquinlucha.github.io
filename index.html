@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=644">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=648">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -68,7 +68,7 @@
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.loadStart = performance.now();
   </script>
-  <script src="page-transitions.js?v=19"></script>
+  <script src="page-transitions.js?v=20"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
@@ -361,9 +361,10 @@
         <!-- Fun UI & Ideas (savings-anim.js): a savings concept in an iPhone
              mock. On a loop: the total counts up, the graph draws in, a finger
              drags the tooltip across it, and the range switch reshapes it. -->
-        <div class="fun-tile fun-savings" role="img" aria-label="A savings concept: total savings to date with a graph, a tooltip that follows a drag across it, and a range switch">
-          <div class="sv-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- A savings concept, built in HTML from the Figma frame (Edward's Wunderland, 3520:49372) --><div class="sv-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Total savings</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="sv-total"><p class="sv-amount">$12,345.67</p><p class="sv-label">Total balance</p></div><span class="sv-track"><img src="images/fun-ui/savings/check.svg" width="16" height="16" alt="">On track</span><p class="sv-change"><b>+$450.00 (6.3%)</b> this month</p><div class="sv-y"><b>$20k</b><span>$10k</span><span>$0K</span></div><svg class="sv-graph" viewBox="0 0 375 812" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sv-fill" x1="0" y1="366" x2="0" y2="505" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9c93ff" stop-opacity="0.2"/><stop offset="1" stop-color="#9c93ff" stop-opacity="0"/></linearGradient><linearGradient id="sv-drop" x1="0" y1="536" x2="0" y2="382" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d037e"/><stop offset="0.82" stop-color="#f1f3f3"/></linearGradient><clipPath id="sv-clip"><rect x="14" y="317" width="361" height="193"/></clipPath></defs><line class="sv-goal" x1="54" y1="328.5" x2="375" y2="328.5"/><g clip-path="url(#sv-clip)"><path class="sv-area" d=""/><path class="sv-line" d=""/></g><line class="sv-guide-top" x1="190" y1="324" x2="190" y2="382"/><line class="sv-guide-drop" x1="190" y1="382" x2="190" y2="536"/></svg><span class="sv-dot"></span><div class="sv-tip"><span class="sv-tip-date">May 5</span><b class="sv-tip-value">$11,342.32</b></div><div class="sv-x"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div><div class="sv-tabs"><span class="sv-tab-pill"></span><span class="sv-tab" data-range="1M">1M</span><span class="sv-tab" data-range="3M">3M</span><span class="sv-tab is-on" data-range="6m">6m</span><span class="sv-tab" data-range="1Y">1Y</span><span class="sv-tab" data-range="5Y">5Y</span><span class="sv-tab" data-range="All">All</span></div><div class="sv-goalcard"><span class="sv-emoji">🎉</span><p>You’ll reach your $20k goal by November 5th, 2025</p><img src="images/fun-ui/savings/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div>
+        <div class="fun-tile fun-savings">
+          <div class="sv-phone" role="img" aria-label="A savings concept: total savings to date with a graph, a tooltip that follows a drag across it, and a range switch"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- A savings concept, built in HTML from the Figma frame (Edward's Wunderland, 3520:49372) --><div class="sv-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Total savings</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="sv-total"><p class="sv-amount">$12,345.67</p><p class="sv-label">Total balance</p></div><span class="sv-track"><img src="images/fun-ui/savings/check.svg" width="16" height="16" alt="">On track</span><p class="sv-change"><b>+$450.00 (6.3%)</b> this month</p><div class="sv-y"><b>$20k</b><span>$10k</span><span>$0K</span></div><svg class="sv-graph" viewBox="0 0 375 812" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sv-fill" x1="0" y1="366" x2="0" y2="505" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9c93ff" stop-opacity="0.2"/><stop offset="1" stop-color="#9c93ff" stop-opacity="0"/></linearGradient><linearGradient id="sv-drop" x1="0" y1="536" x2="0" y2="382" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d037e"/><stop offset="0.82" stop-color="#f1f3f3"/></linearGradient><clipPath id="sv-clip"><rect x="14" y="317" width="361" height="193"/></clipPath></defs><line class="sv-goal" x1="54" y1="328.5" x2="375" y2="328.5"/><g clip-path="url(#sv-clip)"><path class="sv-area" d=""/><path class="sv-line" d=""/></g><line class="sv-guide-top" x1="190" y1="324" x2="190" y2="382"/><line class="sv-guide-drop" x1="190" y1="382" x2="190" y2="536"/></svg><span class="sv-dot"></span><div class="sv-tip"><span class="sv-tip-date">May 5</span><b class="sv-tip-value">$11,342.32</b></div><div class="sv-x"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div><div class="sv-tabs"><span class="sv-tab-pill"></span><span class="sv-tab" data-range="1M">1M</span><span class="sv-tab" data-range="3M">3M</span><span class="sv-tab is-on" data-range="6m">6m</span><span class="sv-tab" data-range="1Y">1Y</span><span class="sv-tab" data-range="5Y">5Y</span><span class="sv-tab" data-range="All">All</span></div><div class="sv-goalcard"><span class="sv-emoji">🎉</span><p>You’ll reach your $20k goal by November 5th, 2025</p><img src="images/fun-ui/savings/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div>
           <p class="proto-hint">Fun UI &amp; Ideas</p>
+          <a class="glass-button fun-tile-button" href="fun-ui.html" aria-label="View Fun UI &amp; Ideas" title="View Fun UI &amp; Ideas"></a>
         </div>
         <!-- Psychedelic posters (poster-tilt.js): four posters in a 2 × 2 grid,
              each drifting gently in 3D with a soft glare, and leaning toward
@@ -398,10 +399,11 @@
           <p class="proto-hint">Psychedelic Posters</p>
           <a class="glass-button fun-tile-button" href="posters.html" aria-label="View posters" title="View posters"></a>
         </div>
-        <!-- Full width, a third the height of the tiles above; a placeholder
-             for now -->
+        <!-- Full width and short; a placeholder for now -->
         <div class="fun-tile fun-wide">
-          <span class="case-placeholder-label">🚧 3D Experiments Coming soon</span>
+          <!-- A small dotted world spinning above the label (globe.js, three.js) -->
+          <canvas class="fun-globe" aria-hidden="true"></canvas>
+          <p class="proto-hint">🚧 3D Experiments Coming Soon</p>
         </div>
       </div>
 
@@ -1518,6 +1520,7 @@
 
   <script src="poster-tilt.js?v=1"></script>
   <script src="savings-anim.js?v=1"></script>
+  <script type="module" src="globe.js?v=6"></script>
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>
   <script src="top-blur.js?v=1"></script>

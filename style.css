@@ -1312,7 +1312,7 @@ html.is-loading body {
    so two side by side and two thirds as tall comes to about 9:4) */
 .fun-tile.fun-wide {
   grid-column: 1 / -1;
-  aspect-ratio: 9 / 4;
+  aspect-ratio: 3 / 1;
 }
 
 /* ===== Savings concept (savings-anim.js) =====
@@ -1835,7 +1835,7 @@ html.is-loading body {
   }
 
   .fun-tile.fun-wide {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 5 / 2;
   }
 }
 
@@ -7740,7 +7740,8 @@ html:has(.lightbox.is-open) body {
 }
 
 .page-case .resume-frame,
-.page-posters .pg {
+.page-posters .pg,
+.page-fun .pg {
   view-transition-name: case-sheet;
 }
 
@@ -8101,6 +8102,11 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 .company + .resume-divider {
   margin-top: 74px;
   margin-bottom: 74px;
+}
+
+/* Right under a section label, the line sits close to it */
+.resume-label + .resume-divider {
+  margin-top: 16px;
 }
 
 .company + .resume-divider + .expertise {
@@ -12577,5 +12583,480 @@ article#intro {
 @media (prefers-reduced-motion: reduce) {
   .holo-stage {
     transition: none;
+  }
+}
+
+/* ===== Fun UI & Ideas page (fun-ui.html) =====
+   Three money concepts side by side, each in an iPhone mock on the light
+   grid with a caption pill. Total Savings reuses the resume's animated mock
+   (savings-anim.js); Credit Wellness (Figma 3777:105335) and Total Spend
+   (3777:105443) are still, laid out like their frames in points (--pt) on a
+   375 × 812 screen. */
+.fx-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.fun-tile.fx-tile {
+  position: relative;
+  aspect-ratio: auto;
+  padding: 56px 0 88px;
+}
+
+.fx-tile .sv-phone {
+  width: 62%;
+  margin-bottom: 0;
+}
+
+.fx-app {
+  --pt: calc(93.2cqw / 375);
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #f1f3f3;
+  color: #000;
+  font-family: "Neo Commons", "Geist", sans-serif;
+  font-weight: 450;
+}
+
+.fx-app p,
+.fx-app ul {
+  margin: 0;
+  padding: 0;
+}
+
+.fx-app img {
+  display: block;
+  flex: none;
+}
+
+.fx-app > * {
+  position: absolute;
+}
+
+/* Credit wellness: the score, then four cards */
+.cw-score {
+  top: calc(128 * var(--pt));
+  left: calc(88 * var(--pt));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(194.25 * var(--pt));
+}
+
+.cw-big {
+  font-size: calc(54.514 * var(--pt));
+  font-weight: 600;
+  line-height: calc(68.143 * var(--pt));
+  letter-spacing: calc(-5.4514 * var(--pt));
+  white-space: nowrap;
+}
+
+.cw-big span {
+  color: #697780;
+}
+
+.cw-caption {
+  display: flex;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+  margin-top: calc(7 * var(--pt)) !important;
+  padding: 0 calc(8 * var(--pt)) !important;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  font-weight: 600;
+  line-height: calc(20 * var(--pt));
+  white-space: nowrap;
+}
+
+.cw-caption img,
+.cw-title img,
+.cw-bolt {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.cw-steps {
+  display: flex;
+  align-items: center;
+  gap: calc(8 * var(--pt));
+  margin-top: calc(24 * var(--pt));
+}
+
+.cw-steps img {
+  width: calc(30 * var(--pt));
+  height: calc(30 * var(--pt));
+}
+
+.cw-steps img:nth-child(4) {
+  width: calc(25.005 * var(--pt));
+}
+
+.cw-steps img:nth-child(5) {
+  width: calc(25.005 * var(--pt));
+  height: calc(25.005 * var(--pt));
+}
+
+.cw-cards {
+  top: calc(326 * var(--pt));
+  left: calc(20 * var(--pt));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(16 * var(--pt)) calc(12 * var(--pt));
+  width: calc(335 * var(--pt));
+}
+
+.cw-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: calc(16 * var(--pt));
+  border-radius: calc(20 * var(--pt));
+  background: #fff;
+  box-shadow: 0 calc(12 * var(--pt)) calc(32 * var(--pt)) rgba(19, 21, 31, 0.05);
+}
+
+.cw-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(24 * var(--pt));
+  color: #697780;
+  font-size: calc(14 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.cw-title b,
+.cw-sub b,
+.cw-big {
+  font-weight: 600;
+}
+
+.cw-value {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--pt));
+  font-size: calc(28 * var(--pt));
+  font-weight: 600;
+  line-height: calc(35 * var(--pt));
+  letter-spacing: calc(-0.56 * var(--pt));
+}
+
+.cw-dot {
+  width: calc(8 * var(--pt));
+  height: calc(8 * var(--pt));
+}
+
+.cw-tri {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+  margin-right: calc(-2 * var(--pt));
+}
+
+.cw-streak .cw-value {
+  gap: 0;
+}
+
+.cw-sub {
+  margin-top: calc(8 * var(--pt)) !important;
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  font-weight: 500;
+  line-height: calc(15 * var(--pt));
+  white-space: nowrap;
+}
+
+.cw-bar {
+  overflow: hidden;
+  height: calc(8 * var(--pt));
+  margin-top: calc(37 * var(--pt));
+  border-radius: 999px;
+  background: #e7e8e9;
+}
+
+.cw-bar span {
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: linear-gradient(146deg, #00b30d 10%, #00b30c 103%);
+}
+
+.cw-limit {
+  display: flex;
+  justify-content: space-between;
+  margin-top: calc(8 * var(--pt)) !important;
+  font-size: calc(12 * var(--pt));
+  font-weight: 500;
+  line-height: calc(15 * var(--pt));
+}
+
+.cw-limit span {
+  color: #697780;
+}
+
+.cw-credit {
+  padding-bottom: calc(29 * var(--pt));
+}
+
+.cw-graph {
+  width: calc(164 * var(--pt));
+  height: calc(41.75 * var(--pt));
+  margin: calc(24 * var(--pt)) 0 calc(-1 * var(--pt)) calc(-17.25 * var(--pt));
+  /* The card is mirrored in Figma, so its exported graph comes out upside down */
+  transform: scaleY(-1);
+}
+
+.cw-streak,
+.cw-rate {
+  padding-bottom: calc(24 * var(--pt));
+}
+
+.cw-months {
+  display: flex;
+  justify-content: space-between;
+  margin-top: calc(27 * var(--pt));
+}
+
+.cw-months span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 * var(--pt));
+}
+
+.cw-months span.is-next {
+  gap: calc(5 * var(--pt));
+}
+
+.cw-months i {
+  color: #697780;
+  font-size: calc(12 * var(--pt));
+  font-style: normal;
+  font-weight: 500;
+  line-height: calc(15.99 * var(--pt));
+  letter-spacing: calc(0.12 * var(--pt));
+}
+
+.cw-months img {
+  width: calc(20 * var(--pt));
+  height: calc(20 * var(--pt));
+}
+
+.cw-months .is-next img {
+  width: calc(16.67 * var(--pt));
+  height: calc(16.67 * var(--pt));
+  margin: auto 0;
+}
+
+.cw-sleep {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: calc(16 * var(--pt));
+}
+
+.cw-sleep i {
+  width: calc(9.3 * var(--pt));
+  border-radius: calc(20 * var(--pt));
+  background: #e9ebec;
+}
+
+.cw-sleep i.is-on {
+  background: #b4babf;
+}
+
+/* Total spend: the month, the total, an insight, then spend by category */
+.ts-month {
+  top: calc(116 * var(--pt));
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--pt));
+  transform: translateX(-50%);
+}
+
+.ts-month img,
+.ts-insight img {
+  width: calc(24 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.ts-month .ts-prev {
+  transform: rotate(180deg);
+}
+
+.ts-month span {
+  height: calc(32 * var(--pt));
+  padding: 0 calc(12 * var(--pt));
+  border-radius: calc(8 * var(--pt));
+  background: #e7e8e9;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(32 * var(--pt));
+}
+
+.ts-total {
+  top: calc(179 * var(--pt));
+  left: calc(21 * var(--pt));
+  width: calc(334 * var(--pt));
+  text-align: center;
+}
+
+.ts-amount {
+  font-size: calc(40 * var(--pt));
+  font-weight: 600;
+  line-height: calc(45 * var(--pt));
+  letter-spacing: calc(-0.8 * var(--pt));
+}
+
+.ts-change {
+  margin-top: calc(12 * var(--pt)) !important;
+  color: #697780;
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ts-change b {
+  color: #c28e17;
+  font-weight: 600;
+}
+
+.ts-insight {
+  top: calc(297 * var(--pt));
+  left: calc(20 * var(--pt));
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--pt));
+  box-sizing: border-box;
+  width: calc(335 * var(--pt));
+  padding: calc(12 * var(--pt)) calc(16 * var(--pt));
+  border-radius: calc(12 * var(--pt));
+  background: #000;
+  box-shadow: 0 calc(7 * var(--pt)) calc(15 * var(--pt)) rgba(6, 4, 23, 0.3);
+  color: #fff;
+}
+
+.ts-emoji {
+  font-size: calc(24 * var(--pt));
+  line-height: calc(30 * var(--pt));
+}
+
+.ts-insight p {
+  flex: 1;
+  font-size: calc(12 * var(--pt));
+  font-weight: 500;
+  line-height: calc(15 * var(--pt));
+}
+
+.ts-card {
+  left: calc(20 * var(--pt));
+  display: flex;
+  flex-direction: column;
+  gap: calc(16 * var(--pt));
+  box-sizing: border-box;
+  width: calc(335 * var(--pt));
+  padding: calc(16 * var(--pt)) 0;
+  border-radius: calc(12 * var(--pt));
+  background: #fff;
+}
+
+.ts-essential {
+  top: calc(391 * var(--pt));
+}
+
+.ts-discretionary {
+  top: calc(604 * var(--pt));
+}
+
+.ts-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(20 * var(--pt));
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+  letter-spacing: calc(-0.32 * var(--pt));
+}
+
+.ts-card-head b {
+  font-weight: 600;
+}
+
+.ts-card-head img {
+  width: calc(14.5 * var(--pt));
+  height: calc(24 * var(--pt));
+}
+
+.ts-segs {
+  display: flex;
+  gap: calc(8 * var(--pt));
+  padding: 0 calc(20 * var(--pt));
+}
+
+.ts-segs i {
+  flex: 1;
+  height: calc(5 * var(--pt));
+  border-radius: 999px;
+}
+
+.ts-card ul {
+  list-style: none;
+}
+
+.ts-card li {
+  display: flex;
+  align-items: center;
+  padding: calc(8 * var(--pt)) calc(20 * var(--pt));
+  font-size: calc(16 * var(--pt));
+  line-height: calc(20 * var(--pt));
+}
+
+.ts-card li img {
+  width: calc(12 * var(--pt));
+  height: calc(12 * var(--pt));
+  margin-right: calc(16 * var(--pt));
+}
+
+.ts-card li span {
+  flex: 1;
+  color: #697780;
+}
+
+.ts-card li b {
+  font-weight: 450;
+}
+
+.ts-fade {
+  top: calc(729 * var(--pt));
+  left: 0;
+  width: 100%;
+  height: calc(83 * var(--pt));
+  background: linear-gradient(rgba(241, 243, 243, 0), #f1f3f3);
+  backdrop-filter: blur(calc(2 * var(--pt)));
+}
+
+@media (max-width: 900px) {
+  .fx-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+/* ===== 3D Experiments globe (globe.js) =====
+   A small spinning world in the middle of the wide tile, with its caption
+   pill in the corner like the other Play tiles */
+.fun-globe {
+  display: block;
+  width: 136px;
+  height: 136px;
+}
+
+@media (max-width: 720px) {
+  .fun-globe {
+    width: 96px;
+    height: 96px;
   }
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume page-fun">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fun UI &amp; Ideas | Edward A. Marroquin</title>
+  <meta name="description" content="Small UI concepts and ideas by Edward A. Marroquin.">
+  <meta name="theme-color" content="#f9f9fa">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=648">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <script src="page-transitions.js?v=20"></script>
+</head>
+<body>
+
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <!-- Progressive blur at the top of the window (see "Top blur" in style.css) -->
+  <div class="top-blur" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+
+  <a class="glass-button case-back" href="index.html#fun">Back</a>
+
+  <!-- ===== Fun UI & Ideas =====
+       Small money concepts, each in an iPhone mock on the light grid. The
+       savings one is animated (savings-anim.js); the others are still. Styles
+       are under "Fun UI & Ideas page" in style.css. -->
+  <main class="pg" id="pg">
+    <header class="pg-header">
+      <p class="pg-eyebrow">Play</p>
+      <h1 class="pg-title">Fun UI &amp; Ideas</h1>
+      <p class="pg-desc">Small concepts for seeing your money at a glance.</p>
+    </header>
+    <div class="fx-grid">
+      <div class="fun-tile fx-tile">
+        <div class="sv-phone" role="img" aria-label="A savings concept: total savings to date with a graph, a tooltip that follows a drag across it, and a range switch"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- A savings concept, built in HTML from the Figma frame (Edward's Wunderland, 3520:49372) --><div class="sv-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Total savings</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="sv-total"><p class="sv-amount">$12,345.67</p><p class="sv-label">Total balance</p></div><span class="sv-track"><img src="images/fun-ui/savings/check.svg" width="16" height="16" alt="">On track</span><p class="sv-change"><b>+$450.00 (6.3%)</b> this month</p><div class="sv-y"><b>$20k</b><span>$10k</span><span>$0K</span></div><svg class="sv-graph" viewBox="0 0 375 812" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sv-fill" x1="0" y1="366" x2="0" y2="505" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9c93ff" stop-opacity="0.2"/><stop offset="1" stop-color="#9c93ff" stop-opacity="0"/></linearGradient><linearGradient id="sv-drop" x1="0" y1="536" x2="0" y2="382" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d037e"/><stop offset="0.82" stop-color="#f1f3f3"/></linearGradient><clipPath id="sv-clip"><rect x="14" y="317" width="361" height="193"/></clipPath></defs><line class="sv-goal" x1="54" y1="328.5" x2="375" y2="328.5"/><g clip-path="url(#sv-clip)"><path class="sv-area" d=""/><path class="sv-line" d=""/></g><line class="sv-guide-top" x1="190" y1="324" x2="190" y2="382"/><line class="sv-guide-drop" x1="190" y1="382" x2="190" y2="536"/></svg><span class="sv-dot"></span><div class="sv-tip"><span class="sv-tip-date">May 5</span><b class="sv-tip-value">$11,342.32</b></div><div class="sv-x"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div><div class="sv-tabs"><span class="sv-tab-pill"></span><span class="sv-tab" data-range="1M">1M</span><span class="sv-tab" data-range="3M">3M</span><span class="sv-tab is-on" data-range="6m">6m</span><span class="sv-tab" data-range="1Y">1Y</span><span class="sv-tab" data-range="5Y">5Y</span><span class="sv-tab" data-range="All">All</span></div><div class="sv-goalcard"><span class="sv-emoji">🎉</span><p>You’ll reach your $20k goal by November 5th, 2025</p><img src="images/fun-ui/savings/chevron.svg" width="24" height="24" alt=""></div></div></div></div></div>
+        <p class="proto-hint">Total Savings</p>
+      </div>
+      <div class="fun-tile fx-tile">
+        <div class="sv-phone" role="img" aria-label="A credit wellness concept: a score of three out of five, with cards for utilization, credit score, payment streak and savings rate"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- Credit wellness, built in HTML from the Figma frame (Edward's Wunderland, 3777:105335) --><div class="fx-app cw-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Credit wellness</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="cw-score"><p class="cw-big">3 <span>/ 5</span></p><p class="cw-caption">Credit wellness score<img src="images/fun-ui/credit/info.svg" width="20" height="20" alt=""></p><div class="cw-steps"><img src="images/fun-ui/credit/check-green.svg" width="30" height="30" alt=""><img src="images/fun-ui/credit/check-green.svg" width="30" height="30" alt=""><img src="images/fun-ui/credit/check-green.svg" width="30" height="30" alt=""><img src="images/fun-ui/credit/step-4.svg" width="25.005" height="30" alt=""><img src="images/fun-ui/credit/step-5.svg" width="25.005" height="25.005" alt=""></div></div><div class="cw-cards"><div class="cw-card cw-util"><div class="cw-title"><b>Utilization</b><img src="images/fun-ui/credit/chevron.svg" width="20" height="20" alt=""></div><div class="cw-value"><img class="cw-dot" src="images/fun-ui/credit/dot-green.svg" width="8" height="8" alt=""><span>30%</span></div><p class="cw-sub"><b style="color:#00b30d">-10%</b> from last month</p><div class="cw-bar"><span></span></div><p class="cw-limit"><span>Total Limit</span>$10,000</p></div><div class="cw-card cw-credit"><div class="cw-title"><b>Credit score</b><img src="images/fun-ui/credit/chevron.svg" width="20" height="20" alt=""></div><div class="cw-value"><img class="cw-tri" src="images/fun-ui/credit/triangle.svg" width="16" height="16" alt=""><span>625</span></div><p class="cw-sub"><b style="color:#5647ff">+10pts</b> from last month</p><img class="cw-graph" src="images/fun-ui/credit/score-graph.svg" width="164" height="41.7503" alt=""></div><div class="cw-card cw-streak"><div class="cw-title"><b>Payment streak</b><img src="images/fun-ui/credit/chevron.svg" width="20" height="20" alt=""></div><div class="cw-value"><img class="cw-bolt" src="images/fun-ui/credit/bolt.svg" width="20" height="20" alt=""><span>4 mo</span></div><p class="cw-sub">Current streak</p><div class="cw-months"><span><i>J</i><img src="images/fun-ui/credit/check-orange.svg" width="20" height="20" alt=""></span><span><i>F</i><img src="images/fun-ui/credit/check-orange.svg" width="20" height="20" alt=""></span><span><i>M</i><img src="images/fun-ui/credit/check-orange.svg" width="20" height="20" alt=""></span><span><i>A</i><img src="images/fun-ui/credit/check-orange.svg" width="20" height="20" alt=""></span><span class="is-next"><i>M</i><img src="images/fun-ui/credit/circle-month.svg" width="16.67" height="16.67" alt=""></span><span class="is-next"><i>J</i><img src="images/fun-ui/credit/circle-month.svg" width="16.67" height="16.67" alt=""></span></div></div><div class="cw-card cw-rate"><div class="cw-title"><b>Savings rate</b><img src="images/fun-ui/credit/chevron.svg" width="20" height="20" alt=""></div><div class="cw-value"><img class="cw-dot" src="images/fun-ui/credit/dot-pink.svg" width="8" height="8" alt=""><span>0%</span></div><p class="cw-sub"><b style="color:#f63e6f">+0%</b> from last month</p><div class="cw-sleep"><i style="height:calc(24.512 * var(--pt))"></i><i class="is-on" style="height:calc(39.832 * var(--pt))"></i><i style="height:calc(24.512 * var(--pt))"></i><i class="is-on" style="height:calc(36.768 * var(--pt))"></i><i style="height:calc(17.158 * var(--pt))"></i><i style="height:calc(17.662 * var(--pt))"></i><i style="height:calc(17.662 * var(--pt))"></i><i style="height:calc(17.662 * var(--pt))"></i><i style="height:calc(17.662 * var(--pt))"></i></div></div></div></div></div></div></div>
+        <p class="proto-hint">Credit Wellness</p>
+      </div>
+      <div class="fun-tile fx-tile">
+        <div class="sv-phone" role="img" aria-label="A total spend concept: November's spend with an insight, then essential and discretionary spend by category"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- Total spend, built in HTML from the Figma frame (Edward's Wunderland, 3777:105443) --><div class="fx-app ts-app"><div class="na-header sv-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="sv-nav"><span class="sv-iconbtn"><img src="images/fun-ui/savings/back.svg" width="24" height="24" alt=""></span><b>Total spend</b><span class="sv-iconbtn"><img src="images/fun-ui/savings/gear.svg" width="24" height="24" alt=""></span></div></div><div class="ts-month"><img class="ts-prev" src="images/fun-ui/spend/month-prev.svg" width="24" height="24" alt=""><span>November</span><img src="images/fun-ui/spend/month-next.svg" width="24" height="24" alt=""></div><div class="ts-total"><p class="ts-amount">$12,345.67</p><p class="ts-change"><b>+$450.00 (6.3%)</b> up from last month</p></div><div class="ts-insight"><span class="ts-emoji">🫨</span><p>You have steady living expenses but you’re discretionary spend was higher this month.</p><img src="images/fun-ui/spend/chevron-white.svg" width="24" height="24" alt=""></div><div class="ts-card ts-essential"><div class="ts-card-head"><b>Essential</b><img src="images/fun-ui/spend/chevron-flush.svg" width="14.5" height="24" alt=""></div><div class="ts-segs"><i style="background:#66a8ff;flex:none;width:calc(117 * var(--pt))"></i><i style="background:#8b9bff"></i><i style="background:#b383ca"></i><i style="background:#ff88c8"></i></div><ul><li><img src="images/fun-ui/spend/dot-rent.svg" width="12" height="12" alt=""><span>Rent</span><b>$1,200.50</b></li><li><img src="images/fun-ui/spend/dot-groceries.svg" width="12" height="12" alt=""><span>Groceries</span><b>$532.32</b></li><li><img src="images/fun-ui/spend/dot-bills.svg" width="12" height="12" alt=""><span>Bills</span><b>$530.50</b></li></ul></div><div class="ts-card ts-discretionary"><div class="ts-card-head"><b>Discretionary</b><img src="images/fun-ui/spend/chevron-flush.svg" width="14.5" height="24" alt=""></div><div class="ts-segs"><i style="background:#ff9b33;flex:none;width:calc(130 * var(--pt))"></i><i style="background:#f095ff"></i><i style="background:#ff797d"></i></div><ul><li><img src="images/fun-ui/spend/dot-shopping.svg" width="12" height="12" alt=""><span>Shopping</span><b>$600.43</b></li><li><img src="images/fun-ui/spend/dot-entertainment.svg" width="12" height="12" alt=""><span>Entertainment</span><b>$532.32</b></li><li><img src="images/fun-ui/spend/dot-food.svg" width="12" height="12" alt=""><span>Food &amp; Drink</span><b>$530.50</b></li></ul></div><span class="ts-fade"></span></div></div></div></div>
+        <p class="proto-hint">Total Spend</p>
+      </div>
+    </div>
+    <footer class="pg-footer">
+      <p>© <span id="year">2026</span> Edward A. Marroquin</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Tells the resume to skip its loading screen on the way back
+    window.addEventListener("pagehide", function () {
+      try { sessionStorage.setItem("from-case-study", "1"); } catch (e) {}
+    });
+  </script>
+  <script src="glass-button.js?v=1"></script>
+  <script src="dot-grid.js?v=1"></script>
+  <script src="top-blur.js?v=1"></script>
+  <script src="savings-anim.js?v=1"></script>
+</body>
+</html>

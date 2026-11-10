@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="164" height="41.7503" viewBox="0 0 164 41.7503" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 3398">
+<g id="Frame 41125145">
+<line id="Line 340" x1="13.0002" y1="41.7502" x2="13.0002" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 341" x1="36.0002" y1="41.7502" x2="36.0002" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 342" x1="59.0003" y1="41.7502" x2="59.0002" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 343" x1="82.0002" y1="41.7502" x2="82.0002" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 344" x1="105" y1="41.7503" x2="105" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 345" x1="128" y1="41.7503" x2="128" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+<line id="Line 346" x1="151" y1="41.7503" x2="151" y2="1.00025" stroke-width="0.5" stroke="#E1E4E5"/>
+</g>
+<path id="Vector 5" d="M1.00025 1.00025C49.4081 22.5386 54.5037 28.3719 72.3382 20.7437C105.838 6.41505 99.3057 34.8784 163 36.0003" stroke-width="2" stroke-linecap="round" stroke="url(#paint0_linear_0_416)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_416" x1="0.750249" y1="4.12525" x2="168.068" y2="45.438" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="0.235577" stop-color="#5647FF"/>
+<stop offset="0.831731" stop-color="#9C93FF"/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+</defs>
+</svg>

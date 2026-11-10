@@ -9,7 +9,8 @@
     "quick-question.html": "stack",
     "make-the-logo-bigger.html": "stack",
     "home-tab-refresh.html": "stack",
-    "posters.html": "stack"
+    "posters.html": "stack",
+    "fun-ui.html": "stack"
   };
 
   function pageName(url) {

@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="general / checkmark-circled">
+<path id="Vector" d="M10 1.66667C5.39763 1.66667 1.66667 5.39763 1.66667 10C1.66667 14.6024 5.39763 18.3333 10 18.3333C14.6024 18.3333 18.3333 14.6024 18.3333 10C18.3333 7.78986 17.4554 5.67025 15.8926 4.10744C14.3298 2.54464 12.2101 1.66667 10 1.66667ZM7.75 13.4292L4.75833 10.4383C4.43468 10.1132 4.43468 9.58763 4.75833 9.2625V9.2625C5.08336 8.9394 5.6083 8.9394 5.93333 9.2625L8.33333 11.6583L13.9167 6.075C14.242 5.75024 14.7688 5.75024 15.0942 6.075V6.075C15.4167 6.39993 15.4167 6.92423 15.0942 7.24917L8.91917 13.4233C8.59642 13.7442 8.07593 13.7468 7.75 13.4292Z" fill-rule="evenodd" clip-rule="evenodd" fill="url(#paint0_linear_0_434)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_434" x1="10" y1="18.3333" x2="10" y2="1.66667" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F37D02"/>
+<stop offset="1" stop-color="#F4AB5F"/>
+</linearGradient>
+</defs>
+</svg>
