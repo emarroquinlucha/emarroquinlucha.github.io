@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=648">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=672">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=20"></script>
 </head>
 <body>
@@ -24,115 +24,128 @@
 
   <a class="glass-button case-back" href="index.html#fun">Back</a>
 
+  <!-- Filters (posters-gallery.js): show one group of posters at a time -->
+  <nav class="pg-filter" aria-label="Filter posters">
+    <p class="pg-filter-label">Filter</p>
+    <ul>
+      <li><button type="button" data-filter="all" class="is-current" aria-pressed="true">All<span>17</span></button></li>
+      <li><button type="button" data-filter="rave" aria-pressed="false">Rave<span>4</span></button></li>
+      <li><button type="button" data-filter="fruit" aria-pressed="false">Fruit<span>3</span></button></li>
+      <li><button type="button" data-filter="space" aria-pressed="false">Space<span>3</span></button></li>
+      <li><button type="button" data-filter="sweets" aria-pressed="false">Sweets<span>3</span></button></li>
+      <li><button type="button" data-filter="concepts" aria-pressed="false">Concepts<span>4</span></button></li>
+    </ul>
+  </nav>
+
   <!-- ===== Posters gallery (posters-gallery.js) =====
        No paper here: the posters float on the page in a staggered grid. The
        page scrolls smoothly, the columns drift at slightly different speeds,
        each poster bobs gently in its spot, and hovering one tilts it in 3D
-       with a glare. Placeholder: the four posters repeated to make 20. -->
+       with a glare. Clicking one opens it in the lightbox (holo-lightbox.js). -->
   <main class="pg" id="pg">
     <header class="pg-header">
-      <p class="pg-eyebrow">Play</p>
       <h1 class="pg-title">Psychedelic Posters</h1>
       <p class="pg-desc">Gig posters and personal pieces, made for the love of it.</p>
+      <p class="pg-badge" title="Mostly photo collages, pieced together from photographs">No AI</p>
     </header>
     <div class="pg-grid">
-          <figure class="pg-item is-holo" data-holo="carousel" tabindex="0" role="button" aria-label="Open the Carousel poster in 3D" style="--i: 0">
+          <figure class="pg-item" data-group="rave" data-title="Carousel" style="--i: 0">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-carousel.jpg" width="960" height="1200" alt="Carousel, a psychedelic event poster for Winnipeg Psychedelic and dialog" loading="eager">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 1">
+          <figure class="pg-item" data-group="concepts" data-title="The Time Keeper" style="--i: 1">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-timekeeper.jpg" width="960" height="960" alt="Eddie Marroquin Nº14, an eternal time keeper awakens from a horrible, horrible dream" loading="eager">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 2">
+          <figure class="pg-item" data-group="concepts" data-title="Acid Warehouse" style="--i: 2">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-acid-warehouse.jpg" width="960" height="1200" alt="Eddie Marroquin No.3, Acid Warehouse" loading="eager">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 3">
+          <figure class="pg-item" data-group="fruit" data-title="Gradients of Eternity II" style="--i: 3">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-cherries.jpg" width="960" height="1200" alt="Eddie Marroquin Nº9, Gradients of Eternity Part II" loading="eager">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 4">
+          <figure class="pg-item" data-group="space" data-title="The Horrors and Hypnotism of Three Pleasures" style="--i: 4">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-horrors.jpg" width="958" height="1200" alt="Eddie Marroquin Nº11, The Horrors and Hypnotism of Three Pleasures" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 5">
+          <figure class="pg-item" data-group="rave" data-title="The Funhouse" style="--i: 5">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-funhouse.jpg" width="960" height="1200" alt="The Funhouse, house music and debauchery, a dialog event poster" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 6">
+          <figure class="pg-item" data-group="sweets" data-title="Dopaminergic Overdrive" style="--i: 6">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-dopaminergic.jpg" width="960" height="1200" alt="Dopaminergic Overdrive, The Complete Debauchery Part II" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 7">
+          <figure class="pg-item" data-group="space" data-title="A Celestial Body Begins to Worry" style="--i: 7">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-celestial.jpg" width="958" height="1200" alt="Eddie Marroquin Nº12, A Celestial Body Begins to Worry" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 8">
+          <figure class="pg-item" data-group="fruit" data-title="Gradients of Eternity III" style="--i: 8">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-avocado.jpg" width="960" height="1200" alt="Eddie Marroquin Nº10, Gradients of Eternity Part III" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 9">
+          <figure class="pg-item" data-group="rave" data-title="Saturnalia" style="--i: 9">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-saturnalia.jpg" width="915" height="1143" alt="Saturnalia, a dialog event poster for December 14" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 10">
+          <figure class="pg-item" data-group="rave" data-title="Wonderland" style="--i: 10">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-wonderland.jpg" width="960" height="1200" alt="Wonderland, an Always Dale event poster for October 31" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 11">
+          <figure class="pg-item" data-group="sweets" data-title="Love Will Take on New Aspects" style="--i: 11">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-lollipops.jpg" width="960" height="1200" alt="Love will take on new aspects and incarnations, The Complete Debauchery Part III" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 12">
+          <figure class="pg-item" data-group="fruit" data-title="Gradients of Eternity I" style="--i: 12">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-strawberry.jpg" width="960" height="1200" alt="Eddie Marroquin Nº8, Gradients of Eternity Part I" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 13">
+          <figure class="pg-item" data-group="concepts" data-title="Love" style="--i: 13">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-love.jpg" width="960" height="1200" alt="Eddie Marroquin No. 2, Love" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 14">
+          <figure class="pg-item" data-group="space" data-title="The Adoration of Venus by Taurus" style="--i: 14">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-venus.jpg" width="958" height="1200" alt="Eddie Marroquin Nº12, The Adoration of Venus by Taurus" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 15">
+          <figure class="pg-item" data-group="concepts" data-title="Matroyshka" style="--i: 15">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-matroyshka.jpg" width="960" height="1200" alt="Eddie Marroquin Nº4, Matroyshka" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
             </div></div>
           </figure>
-          <figure class="pg-item" style="--i: 16">
+          <figure class="pg-item" data-group="sweets" data-title="Pleasure &amp; Pain" style="--i: 16">
             <div class="pg-float"><div class="pg-tilt">
               <img src="images/poster-pleasure-pain.jpg" width="960" height="1200" alt="Pleasure & Pain, The Complete Debauchery Part I" loading="lazy">
               <span class="pg-glare" aria-hidden="true"></span>
@@ -154,7 +167,7 @@
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>
   <script src="top-blur.js?v=1"></script>
-  <script src="posters-gallery.js?v=1"></script>
-  <script src="holo-lightbox.js?v=2"></script>
+  <script src="posters-gallery.js?v=9"></script>
+  <script src="holo-lightbox.js?v=10"></script>
 </body>
 </html>

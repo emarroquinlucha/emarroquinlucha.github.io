@@ -1,8 +1,10 @@
 // Posters gallery (posters.html): lays the posters out in staggered columns,
 // scrolls the page smoothly (the content eases after the real scroll
 // position), lets each column drift at its own speed for a little depth,
-// and tilts a poster in 3D with a glare while the cursor is over it. Each
-// poster's gentle bob is CSS (see "Posters gallery" in style.css).
+// and tilts a poster in 3D with a glare while the cursor is over it. The
+// filters on the left show one group at a time: the gallery fades out, the
+// matching posters are laid out again, and it fades back in. Each poster's
+// gentle bob is CSS (see "Posters gallery" in style.css).
 (function () {
   var page = document.getElementById("pg");
   var grid = page.querySelector(".pg-grid");
@@ -15,15 +17,16 @@
   var SPEEDS = [0, 0.06, -0.04, 0.09];
   var columns = [];
   var count = 0;
+  var group = "all";
 
   function columnCount() {
     var w = window.innerWidth;
     return w < 640 ? 2 : w < 1000 ? 3 : 4;
   }
 
-  function layout() {
+  function layout(force) {
     var n = columnCount();
-    if (n === count) return;
+    if (n === count && !force) return;
     count = n;
     columns.forEach(function (c) { c.remove(); });
     columns = [];
@@ -34,7 +37,17 @@
       grid.appendChild(col);
       columns.push(col);
     }
-    items.forEach(function (item, i) { columns[i % n].appendChild(item); });
+    items.forEach(function (item) { if (item.parentNode) item.parentNode.removeChild(item); });
+    var shown = items.filter(function (item) {
+      return group === "all" || item.dataset.group === group;
+    });
+    // Filtered, only as many columns as posters (centred, by CSS)
+    grid.classList.toggle("is-filtered", group !== "all");
+    grid.style.setProperty("--cols", n);
+    columns.forEach(function (col, i) {
+      if (group !== "all" && i >= shown.length) col.remove();
+    });
+    shown.forEach(function (item, i) { columns[i % n].appendChild(item); });
     grid.classList.add("is-columns");
   }
 
@@ -60,9 +73,13 @@
     current += (target - current) * (smooth ? 0.09 : 1);
     if (Math.abs(target - current) < 0.05) current = target;
     if (smooth) page.style.transform = "translate3d(0," + (-current).toFixed(2) + "px,0)";
+    pinFilter();
+    fadeTop();
     if (!reduced) {
+      // No drift while filtered, so the row's tops stay lined up
+      var still = group !== "all";
       columns.forEach(function (col, i) {
-        col.style.transform = "translate3d(0," + (current * SPEEDS[i % SPEEDS.length]).toFixed(2) + "px,0)";
+        col.style.transform = still ? "" : "translate3d(0," + (current * SPEEDS[i % SPEEDS.length]).toFixed(2) + "px,0)";
       });
     }
     requestAnimationFrame(frame);
@@ -77,6 +94,61 @@
     if (!img.complete) img.addEventListener("load", measure);
   });
   requestAnimationFrame(frame);
+
+  // The filter control (desktop): under the heading, then pinned to the top
+  // of the window once the page scrolls it up there. Phones keep it at the
+  // bottom of the window (CSS).
+  var filter = document.querySelector(".pg-filter");
+  var header = page.querySelector(".pg-header");
+  var wide = window.matchMedia("(min-width: 641px)");
+  var PIN = 60;
+  function pinFilter() {
+    if (!filter || !wide.matches) return;
+    var natural = header.offsetTop + header.offsetHeight + 44;
+    filter.style.top = Math.max(PIN, natural - current).toFixed(2) + "px";
+    filter.classList.toggle("is-pinned", natural - current <= PIN);
+  }
+
+  // The posters fade out as they reach the top of the window: a mask on the
+  // page, from clear at FADE_FROM to solid at FADE_TO (px from the window's
+  // top). The page moves under it, so the mask is shifted by the scroll.
+  var FADE_FROM = 0, FADE_TO = 140, lastFade = null;
+  function fadeTop() {
+    var y = Math.round(current);
+    if (y === lastFade) return;
+    lastFade = y;
+    var mask = "linear-gradient(to bottom, transparent " + (y + FADE_FROM) + "px, #000 " + (y + FADE_TO) + "px)";
+    page.style.webkitMaskImage = mask;
+    page.style.maskImage = mask;
+  }
+
+  // Filters: fade the gallery out, lay out the chosen group, fade it back in
+  var buttons = Array.prototype.slice.call(document.querySelectorAll(".pg-filter button"));
+  var busy = null;
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var next = btn.dataset.filter;
+      if (next === group) return;
+      buttons.forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle("is-current", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      group = next;
+      clearTimeout(busy);
+      grid.classList.add("is-filtering");
+      busy = setTimeout(function () {
+        // From now on the posters come in with the quick blur-in, not the fog
+        grid.classList.add("is-refiltered");
+        layout(true);
+        measure();
+        // Back up to the top of the gallery if the page was scrolled past it
+        var top = grid.offsetTop - 120;
+        if (window.scrollY > top) window.scrollTo(0, Math.max(0, top));
+        requestAnimationFrame(function () { grid.classList.remove("is-filtering"); });
+      }, reduced ? 0 : 260);
+    });
+  });
 
   // Hover: the poster leans toward the cursor, the glare follows it
   if (!fine || reduced) return;
