@@ -547,12 +547,12 @@ h1, h2, h3 {
 .quick-menu {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Room between rows, on top of the items' 8px hover padding */
+  gap: 2px; /* Room between rows, on top of the items' 8px hover padding */
   /* As wide as the longest row (its value, 16px of space, then the icon),
      but at least 200px so the icons sit further from the labels */
   width: max-content;
   min-width: 200px;
-  padding: 16px 10px;
+  padding: 10px 8px;
   line-height: normal;
   background: #f4f4f6;
   border: 0.5px solid #d0d0d7;
@@ -638,11 +638,11 @@ h1, h2, h3 {
    Technology icons. With a single line of text, the icon centres on it. */
 .quick-avatar {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   margin-right: -4px; /* 12px to the text, not the row's 16px */
   border-radius: 4px;
-  box-shadow: 0 3px 8px rgba(50, 50, 52, 0.14), 0 1px 2px rgba(50, 50, 52, 0.1);
+  box-shadow: 0 3px 8px rgba(50, 50, 52, 0.09), 0 1px 2px rgba(50, 50, 52, 0.07);
 }
 
 .quick-item:has(.quick-avatar) .quick-icon {
