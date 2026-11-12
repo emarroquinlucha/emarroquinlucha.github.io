@@ -223,14 +223,23 @@ h1, h2, h3 {
 /* On page load, the pills and the action menu fade in, slide up 16px with a
    little bounce and come into focus from a blur, like the popovers. The menu
    follows the pills by a beat. ("backwards" only holds the start state during
-   the delay, so nothing lingers once the animation is done.) */
-.floating-dock,
-.quick-dock {
+   the delay, so nothing lingers once the animation is done.) The pills and
+   menu animate themselves, not their docks: a fading or blurring parent
+   would stop their frosted glass from blurring the page behind them, so
+   they'd look see-through until the animation ended. */
+.floating-dock .stat-pill {
   animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
 }
 
-.quick-dock {
-  animation-delay: 0.65s;
+.quick-dock .quick-toggle {
+  animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s backwards;
+}
+
+/* Wide screens show the menu itself (narrower ones keep it closed) */
+@media (min-width: 1531px) {
+  .quick-dock .quick-menu {
+    animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s backwards;
+  }
 }
 
 @keyframes dock-in {
@@ -248,8 +257,9 @@ h1, h2, h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .floating-dock,
-  .quick-dock,
+  .floating-dock .stat-pill,
+  .quick-dock .quick-toggle,
+  .quick-dock .quick-menu,
   .page-toc {
     animation-name: dock-fade-in;
     animation-timing-function: ease;
@@ -861,7 +871,7 @@ h1, h2, h3 {
   right: 0;
   z-index: 6;
   height: 5px;
-  background: linear-gradient(90deg, #e5883c 0%, #e9a592 35%, #e48ec8 65%, #b19adc 100%);
+  background: linear-gradient(90deg, #ec7f2a 0%, #f09a80 35%, #ec7cc6 65%, #a789e4 100%);
   clip-path: inset(0 calc((1 - var(--progress)) * 100%) 0 0);
   pointer-events: none;
 }
@@ -1171,6 +1181,9 @@ h1, h2, h3 {
 .is-loading .resume-wrap,
 .is-loading .floating-dock,
 .is-loading .quick-dock,
+.is-loading .floating-dock .stat-pill,
+.is-loading .quick-dock .quick-toggle,
+.is-loading .quick-dock .quick-menu,
 .is-loading .page-toc,
 .is-loading .reading-progress {
   opacity: 0;
@@ -1190,12 +1203,13 @@ html.is-loading body {
   animation: page-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s backwards;
 }
 
-.is-revealing .floating-dock,
+.is-revealing .floating-dock .stat-pill,
 .is-revealing .page-toc {
   animation-delay: 1s;
 }
 
-.is-revealing .quick-dock {
+.is-revealing .quick-dock .quick-toggle,
+.is-revealing .quick-dock .quick-menu {
   animation-delay: 1.15s;
 }
 
@@ -7895,8 +7909,9 @@ body::after {
 
 /* Coming back to the resume, the pills and Connect menu stay put instead of playing
    their entrance; the contents list does play its own */
-.is-returning .floating-dock,
-.is-returning .quick-dock {
+.is-returning .floating-dock .stat-pill,
+.is-returning .quick-dock .quick-toggle,
+.is-returning .quick-dock .quick-menu {
   animation: none;
 }
 
@@ -16126,7 +16141,7 @@ html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) 
 /* ===== Back on the resume (page-transitions.js adds .is-docking) =====
    The pills rise in again after the resume settles, the way they come in
    as a case study opens (the Connect menu stays put) */
-html.is-docking .floating-dock {
+html.is-docking .floating-dock .stat-pill {
   animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s backwards;
 }
 
@@ -16314,8 +16329,8 @@ html.is-docking .floating-dock {
 
 /* ===== Selected Impact avatars: lifted while they render, then dropped =====
    As an illustration builds (the 6s build, in step with it), it slowly rises
-   a few pixels; as the colour finishes rising it's let go, falls back to its
-   place, dips just past it and settles, as if set down with a little drop.
+   a few pixels; as the colour finishes rising it floats gently back down
+   into its place (1.5s), with no bounce.
    (translate, so the hover's scale on transform still works.) */
 .work-avatar .tv-art {
   animation-name: tv-lift-drop;
@@ -16324,11 +16339,10 @@ html.is-docking .floating-dock {
 
 @keyframes tv-lift-drop {
   0% { translate: 0 0; animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1); }
-  55% { translate: 0 -4px; animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.4); }
-  61% { translate: 0 1px; animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1); }
-  66% { translate: 0 -0.3px; animation-timing-function: ease-in-out; }
-  71%, 100% { translate: 0 0; }
+  55% { translate: 0 -2.5px; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  80%, 100% { translate: 0 0; }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .work-avatar .tv-art {
@@ -16470,4 +16484,15 @@ html.is-docking .floating-dock {
 .company-pin {
   left: 50%;
   translate: -50% 0;
+}
+
+/* The heart pill's tap bounce wins over the pills' entrance rules above */
+.floating-dock .stat-pill.stat-like.is-bouncing {
+  animation: pill-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-dock .stat-pill.stat-like.is-bouncing {
+    animation: none;
+  }
 }
