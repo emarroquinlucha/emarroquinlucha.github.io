@@ -4,17 +4,20 @@
 // "Page transitions" in style.css. Load this in the <head> of every page.
 (function () {
   var transitions = {
-    "accounts-architecture.html": "stack",
-    "final-final-v7.html": "stack",
-    "quick-question.html": "stack",
-    "make-the-logo-bigger.html": "stack",
-    "home-tab-refresh.html": "stack",
-    "posters.html": "stack",
-    "fun-ui.html": "stack"
+    "accounts-architecture": "stack",
+    "final-final-v7": "stack",
+    "quick-question": "stack",
+    "make-the-logo-bigger": "stack",
+    "home-tab-refresh": "stack",
+    "posters": "stack",
+    "fun-ui": "stack"
   };
 
+  // A page's name from its address, with or without ".html" (the links use
+  // clean addresses like /accounts-architecture; the home page is "index")
   function pageName(url) {
-    return new URL(url).pathname.split("/").pop();
+    var name = new URL(url).pathname.replace(/\/$/, "").split("/").pop().replace(/\.html$/, "");
+    return name || "index";
   }
 
   // e.g. "slide-forward" going to a case study, "slide-back" coming home
@@ -126,7 +129,7 @@
     // A few pages tune their own: leaving the posters keeps its quick slide
     // out ("posters-back"); a case study opening fades itself in more slowly
     // ("case-forward"). See "Page transitions" in style.css.
-    if (from === "posters.html" && type === "stack-back") e.viewTransition.types.add("posters-back");
+    if (from === "posters" && type === "stack-back") e.viewTransition.types.add("posters-back");
     // Back on the resume, the pills and Connect menu rise in again, the way
     // they do as a case study opens
     if (type === "stack-back") {
