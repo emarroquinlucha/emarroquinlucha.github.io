@@ -9,15 +9,15 @@
   var accounts = [
     {
       title: "Credit Account",
-      before: "images/neo-credit-before.png", after: "images/neo-credit-after.png"
+      before: "images/neo-credit-before.avif", after: "images/neo-credit-after.avif"
     },
     {
       title: "Chequing Account",
-      before: "images/neo-chequing-before.png", after: "images/neo-chequing-after.png"
+      before: "images/neo-chequing-before.avif", after: "images/neo-chequing-after.avif"
     },
     {
       title: "Savings Account",
-      before: "images/neo-savings-before.png", after: "images/neo-savings-after.png"
+      before: "images/neo-savings-before.avif", after: "images/neo-savings-after.avif"
     }
   ];
 

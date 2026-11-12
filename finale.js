@@ -32,6 +32,14 @@
     var paused = false;
     var measured = false;
 
+    // Section 03's Watch: each phone gets real thickness, thin slices stacked
+    // behind it in 3D (see "Section 03 Watch blueprints" in style.css)
+    if (finale.classList.contains("combo-finale")) {
+      var slabs = "";
+      for (var z = 1; z <= 6; z++) slabs += '<span class="phone-slab" style="--z: ' + z + '" aria-hidden="true"></span>';
+      phones.forEach(function (phone) { phone.insertAdjacentHTML("afterbegin", slabs); });
+    }
+
     // Copy each hero screen in, without its animation-only parts, and add an
     // empty block for each part of the skeleton
     phones.forEach(function (phone) {

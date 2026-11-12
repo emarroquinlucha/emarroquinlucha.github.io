@@ -42,7 +42,13 @@
   function update() {
     titles.forEach(function (title) {
       release(title);
-      if (lines(title) === 2) keepEnd(title);
+      if (lines(title) === 2) {
+        keepEnd(title);
+        // Kept together, the last words mustn't be wider than the title
+        // itself (on a narrow phone they'd run off the page): let them wrap
+        var keep = title.querySelector(":scope > .title-keep");
+        if (keep && keep.getBoundingClientRect().width > title.clientWidth + 1) release(title);
+      }
     });
   }
 

@@ -42,6 +42,26 @@
       document.querySelector(".case-hero");
   }
 
+  // The sheets are long (the case studies' run past 10,000px), and the browser
+  // snapshots the whole of a named element for the transition: on a sharp
+  // screen that can be bigger than the graphics card holds, so the snapshot
+  // fails and the page flashes white, and moving it is heavy. For the length
+  // of a transition each sheet is trimmed to what's on screen (plus a margin,
+  // and its full width so its shadow and folded corner stay).
+  function trim(el) {
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    var m = 160;
+    var top = Math.max(0, -r.top - m);
+    var bottom = Math.max(0, r.bottom - innerHeight - m);
+    el.style.clipPath = "inset(" + top + "px -240px " + bottom + "px -240px)";
+  }
+  function untrim() {
+    document.querySelectorAll(".resume-frame, .pg").forEach(function (el) { el.style.clipPath = ""; });
+  }
+  // Back to a page kept in memory (the browser's back button): no trim left
+  window.addEventListener("pageshow", untrim);
+
   function clearCovers() {
     document.querySelectorAll("[data-cover], .case-hero").forEach(function (el) {
       el.style.viewTransitionName = "";
@@ -69,6 +89,7 @@
         center: innerHeight / 2 - frame.top
       }));
     } catch (err) {}
+    trim(sheet());
   });
 
   // On the page arriving: choose the animation and hand it the measurements
@@ -100,13 +121,20 @@
       }
     }
 
+    trim(sheet());
     e.viewTransition.types.add(type);
+    // A few pages tune their own: leaving the posters keeps its quick slide
+    // out ("posters-back"); a case study opening fades itself in more slowly
+    // ("case-forward"). See "Page transitions" in style.css.
+    if (from === "posters.html" && type === "stack-back") e.viewTransition.types.add("posters-back");
+    if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
     if (!transitions[to]) {
       root.classList.add("is-page-transition");
       root.classList.toggle("is-top-blurred", window.scrollY > 8);
     }
     e.viewTransition.finished.then(function () {
       clearCovers();
+      untrim();
       root.classList.remove("is-page-transition", "is-top-blurred");
     });
   });

@@ -101,7 +101,7 @@
         var front = Math.min(1, Math.max(0, q[2] * 0.5 + 0.5));
         var p = project(q);
         // (#ababb0: the grey the 3D version's dots actually showed in)
-        dot(p[0], p[1], 3 * (0.55 + 0.45 * front), "#ababb0", 0.06 + 0.79 * front * front);
+        dot(p[0], p[1], 2.2 * (0.55 + 0.45 * front), "#ababb0", 0.06 + 0.79 * front * front);
       }
 
       // The faint body over them, so the back reads as further away
@@ -116,7 +116,7 @@
       ctx.fillStyle = "#c4c4ca";
       for (var o = 0; o < ring.length; o++) {
         var rp = project(ring[o]);
-        ctx.fillRect(rp[0] - 0.8, rp[1] - 0.8, 1.6, 1.6);
+        ctx.fillRect(rp[0] - 0.6, rp[1] - 0.6, 1.2, 1.2);
       }
       if (!hidden) drawMoon(moon);
       ctx.globalAlpha = 1;

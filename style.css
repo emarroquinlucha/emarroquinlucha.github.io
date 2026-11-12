@@ -14,8 +14,8 @@
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Resume page background (from the "Blank Resume" Figma frame) */
-  --resume-gradient-start: #f2f2f7;
-  --resume-gradient-end: #e0e0e5;
+  --resume-gradient-start: #f5f5f9;
+  --resume-gradient-end: #e5e5ea;
 
   /* Resume colors (from the resume Figma design) */
   --resume-paper: #f9f9fa;
@@ -1059,7 +1059,7 @@ h1, h2, h3 {
 /* ===== Loading screen (resume page) =====
    While <html> has .is-loading (set in the page's <head>), the page is hidden
    and the loader shows: the stamp sways in 3D with a shine passing over it,
-   the bar fills in the reading progress colors over 2s, and "Loading" sits
+   the bar fills in the reading progress colors over about 1.1s, and "Loading" sits
    below. Then .is-revealing fades and blurs the loader out while the resume
    comes in from a blur. */
 .loader {
@@ -1151,7 +1151,7 @@ h1, h2, h3 {
   display: block;
   height: 100%;
   background: linear-gradient(90deg, #e5883c 0%, #e9a592 35%, #e48ec8 65%, #b19adc 100%);
-  animation: loader-fill 1.9s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+  animation: loader-fill 1.1s cubic-bezier(0.45, 0, 0.25, 1) forwards;
 }
 
 @keyframes loader-fill {
@@ -2449,11 +2449,8 @@ html:has(.lightbox.is-open) body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  /* Flows for about a minute, then rests where the words show the most of
-     the band: orange, peach, pink and lavender (0.92 of a pass in, the
-     words span 8%–58% of it). A moving gradient on text is redrawn every
-     frame, so it shouldn't run forever. */
-  animation: letter-cycle 7s linear 8.92 forwards;
+  /* Flows on and on (off screen it stands still: offscreen-pause.js) */
+  animation: letter-cycle 7s linear infinite;
   transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -2856,17 +2853,19 @@ html:has(.lightbox.is-open) body {
    light grid that tips into an isometric view as its skeleton and back */
 .case-anim {
   background:
-    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 24px 24px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 24px 24px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
 }
 
 /* Card 2's cover: the Home Tab Refresh Accounts tab, still, on the grid */
 .case-ht {
   background:
-    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 24px 24px,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 24px 24px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 24px 24px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
 }
 
 .case-ht .ht-phone {
@@ -3516,7 +3515,9 @@ html:has(.lightbox.is-open) body {
   height: 8px;
   margin-top: 7.5px;
   border-radius: 50%;
-  background: #2fa84a;
+  /* A lit green with a soft glow round it (less neon than a screen) */
+  background: #34c46c;
+  box-shadow: 0 0 0 2px rgba(52, 196, 108, 0.14), 0 0 6px rgba(52, 196, 108, 0.45);
 }
 
 .case-divider {
@@ -4328,7 +4329,7 @@ html:has(.lightbox.is-open) body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #f07a7c;
+  background: #f24d55;
   color: #fff;
   font: 600 11px/1 "Geist", sans-serif;
   /* A white ring and a soft black shadow */
@@ -6594,9 +6595,10 @@ html:has(.lightbox.is-open) body {
 .fun-tile {
   position: relative;
   background:
-    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
   isolation: isolate;
 }
 
@@ -7203,7 +7205,7 @@ html:has(.lightbox.is-open) body {
   left: 0;
   width: 100%;
   height: calc(132 / 1125 * 93.2cqw);
-  background: url(images/neo-credit-statement.png) top / 100% auto no-repeat;
+  background: url(images/neo-credit-statement.avif) top / 100% auto no-repeat;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -8015,7 +8017,7 @@ html.is-top-blurred::view-transition-group(top-blur-4) {
 }
 
 ::view-transition-new(root) {
-  animation: layer-in 0.4s ease both;
+  animation: layer-in 0.5s ease both;
   mix-blend-mode: normal;
 }
 
@@ -8144,35 +8146,42 @@ html:active-view-transition-type(slide-back)::view-transition-old(case-sheet) {
 
 /* Stack: the resume blurs away as the case study slides in over it, and the case
    study slides out as the resume pops back */
-html:active-view-transition-type(stack-forward, stack-back, grow-forward, grow-back)::view-transition-group(case-sheet) {
+html:active-view-transition-type(stack-forward, grow-forward, grow-back)::view-transition-group(case-sheet) {
+  z-index: 3;
+}
+
+/* On the way home the case study pushes in under the resume, so the resume
+   comes up over it */
+html:active-view-transition-type(stack-back)::view-transition-group(resume-sheet) {
   z-index: 3;
 }
 
 html:active-view-transition-type(stack-forward)::view-transition-old(resume-sheet) {
   animation-name: sheet-sink, sheet-blur-out;
-  animation-duration: 0.6s;
+  animation-duration: 0.72s;
   animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), linear;
 }
 
 /* On the way home the case study slides back out, starting right away (played in
    reverse, this curve speeds up), then the resume pops back in */
 html:active-view-transition-type(stack-back)::view-transition-old(case-sheet) {
-  animation-name: sheet-slide;
-  animation-duration: 0.3s;
-  animation-direction: reverse;
-  animation-timing-function: cubic-bezier(0, 0, 0.6, 1);
+  /* Pushed in, the way the resume goes when a case study opens: it sinks
+     back a little, goes out of focus and fades */
+  animation-name: sheet-sink, sheet-blur-out;
+  animation-duration: 1.22s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), linear;
 }
 
+/* Either way, the arriving page comes in the same way: it grows up from
+   slightly smaller as it fades in (the case studies used to slide up) */
 html:active-view-transition-type(stack-forward)::view-transition-new(case-sheet),
 html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
   animation-name: sheet-pop-in;
-  animation-duration: 0.4s;
-  animation-delay: 0.28s;
-  animation-timing-function: cubic-bezier(0.34, 1.35, 0.64, 1);
-}
-
-html:active-view-transition-type(stack-forward)::view-transition-new(case-sheet) {
-  animation-name: sheet-slide;
+  /* A hair slower, easing smoothly into place (no bounce, which stutters
+     when frames drop) */
+  animation-duration: 0.56s;
+  animation-delay: 0.3s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Grow: the card's cover moves into place as the hero, and the sheet opens out
@@ -10055,13 +10064,13 @@ article#intro {
 
 /* Gradient highlight colours: --mark-a is the lighter left end, --mark-b the
    deeper right end, from the same palettes as the old gradient words */
-.case-mark-green   { --mark-a: rgba(134, 199, 90, 0.38);  --mark-b: rgba(40, 160, 84, 0.3); }
-.case-mark-red     { --mark-a: rgba(240, 120, 92, 0.34);  --mark-b: rgba(214, 52, 40, 0.28); }
-.case-mark-yellow  { --mark-a: rgba(242, 196, 60, 0.42);  --mark-b: rgba(207, 138, 4, 0.3); }
-.case-mark-blue    { --mark-a: rgba(106, 168, 250, 0.38); --mark-b: rgba(40, 100, 235, 0.28); }
-.case-mark-pink    { --mark-a: rgba(236, 111, 190, 0.34); --mark-b: rgba(196, 34, 132, 0.26); }
-.case-mark-orange  { --mark-a: rgba(240, 150, 100, 0.38); --mark-b: rgba(196, 86, 52, 0.3); }
-.case-mark-mustard { --mark-a: rgba(240, 192, 84, 0.42);  --mark-b: rgba(196, 130, 26, 0.32); }
+.case-mark-green   { --mark-a: rgba(123, 205, 80, 0.41);  --mark-b: rgba(29, 164, 81, 0.33); }
+.case-mark-red     { --mark-a: rgba(245, 112, 82, 0.38);  --mark-b: rgba(220, 43, 34, 0.31); }
+.case-mark-yellow  { --mark-a: rgba(247, 198, 44, 0.46);  --mark-b: rgba(216, 141, 2, 0.33); }
+.case-mark-blue    { --mark-a: rgba(93, 162, 252, 0.41);  --mark-b: rgba(32, 94, 240, 0.31); }
+.case-mark-pink    { --mark-a: rgba(241, 100, 191, 0.38); --mark-b: rgba(204, 26, 134, 0.29); }
+.case-mark-orange  { --mark-a: rgba(245, 144, 89, 0.41);  --mark-b: rgba(206, 82, 42, 0.33); }
+.case-mark-mustard { --mark-a: rgba(245, 193, 70, 0.45);  --mark-b: rgba(205, 132, 17, 0.35); }
 .case-mark-plum    { --mark-a: rgba(206, 98, 148, 0.3);   --mark-b: rgba(128, 38, 78, 0.26); }
 
 /* In body copy the phrase is set bold in the dark heading colour instead of
@@ -10120,9 +10129,10 @@ article#intro {
   border: 0.5px solid var(--resume-paper-border);
   border-radius: 20px;
   background:
-    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
   isolation: isolate;
 }
 
@@ -11128,9 +11138,10 @@ article#intro {
   overflow: hidden;
   border: 0.5px solid var(--resume-paper-border);
   background:
-    linear-gradient(rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.028) 1px, transparent 1px) center / 28px 28px,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
   isolation: isolate;
 }
 
@@ -12356,7 +12367,7 @@ article#intro {
 }
 
 /* The before screens in the before/after slider are shown in black and white */
-.compare-slider img[src*="-before.png"] {
+.compare-slider img[src*="-before."] {
   filter: grayscale(1);
 }
 
@@ -14261,7 +14272,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 
 /* Case study pages: a small mono label above the title (Project 01, 02) */
 .case-page-eyebrow {
-  margin: 0 0 12px;
+  margin: 0 0 24px;
   font: var(--type-label-s);
   color: var(--resume-label);
 }
@@ -14310,11 +14321,12 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   /* A blueprint grid in grey (lines every quarter, finer ones every
      sixteenth) over the containers' soft white glow */
   background:
-    linear-gradient(rgba(12, 12, 13, 0.07) 1px, transparent 1px) -1px -1px / 25% 25%,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.07) 1px, transparent 1px) -1px -1px / 25% 25%,
-    linear-gradient(rgba(12, 12, 13, 0.035) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.035) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
-    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.088) 1px, transparent 1px) -1px -1px / 25% 25%,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.088) 1px, transparent 1px) -1px -1px / 25% 25%,
+    linear-gradient(rgba(12, 12, 13, 0.046) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.046) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
   isolation: isolate;
 }
 
@@ -14759,7 +14771,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 .quick-avatar[src*="resume-avatar"] {
   box-sizing: border-box;
   border: 0.5px solid var(--resume-paper-border);
-  background: radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  background: radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
   box-shadow: none;
 }
 
@@ -14843,14 +14855,12 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 /* The same near-white sheet as the fanned copies: light, and so the copies
    fade away over it without any change in tone */
 .case-anim.is-skeleton .phone-mock-screen {
-  background:
-    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
-    rgba(250, 250, 251, 0.92);
+  background: rgba(250, 250, 251, 0.92);
 }
 
 .case-anim.is-skeleton .phone-mock-body {
-  background: rgba(250, 250, 251, 0.92);
+  /* The frame's bezel in grey, the screen inside it near-white */
+  background: #d6d6dc;
 }
 
 .case-anim .finale-zone[data-zone] {
@@ -14876,16 +14886,18 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   content: "";
   position: absolute;
   inset: -4px;
-  --c: rgba(var(--ink), 0.5);
+  /* In the gradient: orange at the left corners, lavender at the right */
+  --c: #ef7c28;
+  --c2: #9e80e6;
   background:
     linear-gradient(var(--c), var(--c)) 0 3.5px / 8px 1px no-repeat,
     linear-gradient(var(--c), var(--c)) 3.5px 0 / 1px 8px no-repeat,
-    linear-gradient(var(--c), var(--c)) 100% 3.5px / 8px 1px no-repeat,
-    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) 100% 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
     linear-gradient(var(--c), var(--c)) 0 calc(100% - 3.5px) / 8px 1px no-repeat,
     linear-gradient(var(--c), var(--c)) 3.5px 100% / 1px 8px no-repeat,
-    linear-gradient(var(--c), var(--c)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
-    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
+    linear-gradient(var(--c2), var(--c2)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
   pointer-events: none;
 }
 
@@ -14984,14 +14996,11 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 /* The upper sheets are near-solid, so each layer reads cleanly over the one
    below instead of their lines tangling */
 .case-anim.is-skeleton .case-anim-layer .phone-mock-screen {
-  background:
-    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
-    rgba(250, 250, 251, 0.92);
+  background: rgba(250, 250, 251, 0.92);
 }
 
 .case-anim.is-skeleton .case-anim-layer .phone-mock-body {
-  background: rgba(250, 250, 251, 0.92);
+  background: #d6d6dc;
 }
 
 /* The hatching in a lighter version of the same gradient: the gradient,
@@ -15025,7 +15034,8 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 
 /* ===== Phone depth (card one, case-anim.js) =====
    The phone and the blueprint sheets get real thickness: six thin slices
-   (.phone-slab) sit 1.2px apart behind each phone in 3D, so as it tips
+   (.phone-slab) sit 1.9px apart behind each phone in 3D (deep enough that
+   the edge still shows when the phone is back in the card's centre), so as it tips
    its edge shows as a solid side. Dark like the phone's frame on the real
    screen; light grey, with a fine outline on the last slice, in the
    blueprint. */
@@ -15048,7 +15058,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   inset: 0;
   border-radius: 15cqw;
   background: #2c2c2f;
-  transform: translateZ(calc(var(--z) * -1.2px));
+  transform: translateZ(calc(var(--z) * -1.9px));
   transition: background-color 0.8s ease, box-shadow 0.8s ease;
   pointer-events: none;
 }
@@ -15058,12 +15068,12 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 }
 
 .case-anim.is-skeleton .phone-slab {
-  background: #dcdce1;
+  background: #c6c6cd;
 }
 
 .case-anim.is-skeleton .phone-slab[style*="--z: 6"] {
-  background: #cfcfd5;
-  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.18);
+  background: #b5b5bc;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
 }
 
 /* ===== Today's Home blueprint build (ht-build.js) =====
@@ -15079,7 +15089,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 }
 
 .case-ht.is-blueprint .ht-phone .phone-mock-body {
-  background: rgba(250, 250, 251, 0.92);
+  background: #d6d6dc;
   box-shadow:
     inset 0 0 0 1.5px rgba(12, 12, 13, 0.28),
     inset 0 0 0 0 rgba(22, 22, 23, 0),
@@ -15123,9 +15133,9 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   position: absolute;
   z-index: -1;
   inset: 0;
-  background:
-    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
-    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  background: var(--bp-grid-ink);
+  -webkit-mask: var(--bp-grid);
+  mask: var(--bp-grid);
   opacity: 0;
   transition: opacity 0.7s ease;
   pointer-events: none;
@@ -15210,16 +15220,18 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   content: "";
   position: absolute;
   inset: -4px;
-  --c: rgba(var(--ink), 0.5);
+  /* In the gradient: orange at the left corners, lavender at the right */
+  --c: #ef7c28;
+  --c2: #9e80e6;
   background:
     linear-gradient(var(--c), var(--c)) 0 3.5px / 8px 1px no-repeat,
     linear-gradient(var(--c), var(--c)) 3.5px 0 / 1px 8px no-repeat,
-    linear-gradient(var(--c), var(--c)) 100% 3.5px / 8px 1px no-repeat,
-    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) 100% 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
     linear-gradient(var(--c), var(--c)) 0 calc(100% - 3.5px) / 8px 1px no-repeat,
     linear-gradient(var(--c), var(--c)) 3.5px 100% / 1px 8px no-repeat,
-    linear-gradient(var(--c), var(--c)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
-    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
+    linear-gradient(var(--c2), var(--c2)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c2), var(--c2)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
 }
 
 .bp-zone::after {
@@ -15260,4 +15272,824 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
    rules, which showed its base early in the wrong colours */
 .tv-blue .tv-lines * {
   fill: none !important;
+}
+
+/* ===== Blueprint drafting grid in the gradient (both resume cards) =====
+   The fine grid under the zones is the headline gradient, very light,
+   showing only through thin grid lines (a mask). Card one draws it under
+   its zones (and the fanned copies get it with them); card two's is on
+   .ht-app::before above. */
+:root {
+  --bp-grid-ink: linear-gradient(90deg,
+    rgba(239, 124, 40, 0.3), rgba(242, 147, 122, 0.3) 35%,
+    rgba(236, 115, 195, 0.3) 65%, rgba(158, 128, 230, 0.3));
+  --bp-grid:
+    linear-gradient(#000 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, #000 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+}
+
+.case-anim .finale-zones::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--bp-grid-ink);
+  -webkit-mask: var(--bp-grid);
+  mask: var(--bp-grid);
+  pointer-events: none;
+}
+
+
+/* A thin grey line around the inside edge of each blueprint phone (where
+   the bezel meets the screen), on card one's phones and card two's. An
+   outline, so it draws over the screen's own content. */
+.case-anim .phone-mock-screen,
+.case-ht .ht-phone .phone-mock-screen {
+  outline: 1px solid rgba(12, 12, 13, 0);
+  outline-offset: -1px;
+  transition: outline-color 0.6s ease, opacity 0.7s ease, background-color 0.7s ease;
+}
+
+.case-anim.is-skeleton .phone-mock-screen,
+.case-ht.is-blueprint .ht-phone .phone-mock-screen {
+  outline-color: rgba(12, 12, 13, 0.24);
+}
+
+/* Card two's app keeps its own background over the screen, which hides the
+   screen's outline, so its inner-edge line is drawn from inside the app,
+   on top of everything, following the screen's rounded corners */
+.case-ht .ht-app::after {
+  content: "";
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  border-radius: 11.6cqw;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0);
+  transition: box-shadow 0.6s ease;
+  pointer-events: none;
+}
+
+.case-ht.is-blueprint .ht-app::after {
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
+}
+
+.case-ht:not(.is-blueprint) .ht-app::after {
+  transition-duration: 2s;
+}
+
+/* Card two: the status bar (time, signal, wifi, battery) fades out with the
+   rest as it turns into the blueprint, and back with the mock */
+.case-ht .ht-header .na-status {
+  transition: opacity 0.6s ease;
+}
+
+.case-ht.is-blueprint .ht-header .na-status {
+  opacity: 0;
+}
+
+.case-ht:not(.is-blueprint) .ht-header .na-status {
+  transition-duration: 2s;
+}
+
+/* ===== Glass edges (pills and the Connect menu) =====
+   A subtle catch of light on the frosted pieces: a bright hairline along
+   the top edge, a faint white rim all round and a softer glint along the
+   bottom, over a very light drop shadow (the same on the pills and the
+   menu). */
+:root {
+  --glass-edge:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.22);
+  --glass-drop:
+    0 1px 2px rgba(12, 12, 13, 0.04),
+    0 4px 12px rgba(12, 12, 13, 0.05);
+}
+
+.stat-pill,
+.quick-toggle,
+.company-pin,
+.quick-menu,
+.quick-menu:has(.quick-avatar) {
+  box-shadow: var(--glass-edge), var(--glass-drop);
+}
+
+.quick-toggle:hover,
+.quick-dock.menu-open .quick-toggle {
+  box-shadow: var(--glass-edge), 0 1px 2px rgba(12, 12, 13, 0.04), 0 2px 6px rgba(12, 12, 13, 0.05);
+}
+
+/* The Email and Resume icon tiles a shade darker */
+.quick-avatar[src*="email-avatar"],
+.quick-avatar[src*="resume-avatar"] {
+  background: radial-gradient(ellipse 80% 75% at 50% 40%, #f3f3f5 0%, #ebebee 60%, #e3e3e7 100%);
+}
+
+/* The glass buttons (View Project, Back, the Play tiles' round arrows) and
+   the round pause buttons get the pills' glass edges and light drop
+   shadow, keeping their own fine outline */
+/* A stronger version of the glass edge for the buttons, so they stand out
+   a little more than the pills: a brighter top line, a fuller white rim,
+   a clearer bottom glint and a soft inner sheen */
+:root {
+  --glass-edge-strong:
+    inset 0 1.5px 0 rgba(255, 255, 255, 1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1.5px 0 rgba(255, 255, 255, 0.65),
+    inset 0 8px 12px -8px rgba(255, 255, 255, 1),
+    inset 0 -8px 12px -8px rgba(12, 12, 13, 0.12);
+}
+
+.glass-button {
+  box-shadow:
+    var(--glass-edge-strong),
+    0 0 0 0.5px rgba(12, 12, 13, 0.1),
+    0 1px 2px rgba(12, 12, 13, 0.06),
+    0 6px 16px rgba(12, 12, 13, 0.08);
+}
+
+@media (hover: hover) {
+  .glass-button:hover,
+  .case-item:has(.case-image-link:hover) .glass-button,
+  .fun-tile:has(.fun-tile-button):hover .glass-button {
+    box-shadow:
+      var(--glass-edge-strong),
+      0 0 0 0.5px rgba(12, 12, 13, 0.12),
+      0 2px 3px rgba(12, 12, 13, 0.05),
+      0 8px 20px rgba(12, 12, 13, 0.08);
+  }
+}
+
+.finale-pause {
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.6);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: var(--glass-edge-strong), var(--glass-drop);
+}
+
+/* The round pause buttons' outline lighter too, like the glass buttons' */
+.finale-pause {
+  border-color: rgba(12, 12, 13, 0.06);
+}
+
+
+/* The pages (the resume's sheets and the case studies') catch the light
+   like the pills: a bright hairline along the top edge, a faint white rim
+   inside the paper's border and a softer glint along the bottom */
+.resume {
+  /* A lighter border, so the white glass edge carries the outline */
+  border-color: #e2e2e7;
+  /* Stronger, but softly: the rim is a translucent white (not full white),
+     3px wide, with a deeper sheen inside the top and a faint grey shade just
+     inside the bottom for depth */
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 20px 24px -20px rgba(255, 255, 255, 0.85),
+    inset 0 -14px 20px -14px rgba(12, 12, 13, 0.05);
+}
+
+/* The blueprint grids inside the phones (card one's three, card two's)
+   feather off toward the screen's edges: the grid lines are kept only
+   where a soft radial fade allows (the fade intersected with the grid) */
+.case-anim .finale-zones::before,
+.case-ht .ht-app::before {
+  -webkit-mask:
+    radial-gradient(ellipse 58% 50% at 50% 42%, #000 20%, transparent 95%),
+    linear-gradient(#000 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, #000 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  -webkit-mask-composite: source-in, source-over;
+  mask:
+    radial-gradient(ellipse 58% 50% at 50% 42%, #000 20%, transparent 95%),
+    linear-gradient(#000 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, #000 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  mask-composite: intersect, add;
+}
+
+/* The caption pills in the containers (Play tiles, case study demos) in
+   the same frosted glass as the floating pills: see-through, blurred
+   behind, with the glass edges and the light drop shadow */
+:is(.proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile) > p.proto-hint {
+  border-color: rgba(12, 12, 13, 0.05);
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: var(--glass-edge), var(--glass-drop);
+}
+
+/* On the case study pages the caption pills keep their glass edges but
+   drop the shadow */
+.page-case :is(.proto, .combo, .joint, .problem-tabs, .case-placeholder, .fun-tile) > p.proto-hint {
+  box-shadow: var(--glass-edge);
+}
+
+/* ===== Hero stack (hero-stack.js, accounts-architecture.html) =====
+   The case study's hero: the credit screen head on, with two blueprints
+   tucked behind it that fan out to either side when the page opens
+   (.is-fanned). The top
+   phone is the real Credit screen; the two under it are blueprints, using
+   the resume card's styles (.case-anim, its .is-skeleton look, the
+   drafting zones and the phone slices). Its frame is the finale's. */
+.hero-stack {
+  position: relative;
+  margin: 40px 0 72px;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+    linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 28px 28px,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
+  isolation: isolate;
+}
+
+.hs-stage {
+  position: relative;
+  height: 560px;
+  perspective: 1400px;
+  perspective-origin: 50% 42%;
+  animation: finale-drift 9s ease-in-out infinite alternate;
+}
+
+/* Each phone is its own layer. The credit screen faces you, head on, in
+   the middle; the two blueprints start tucked behind it and fan out to the
+   left and right as they're drawn, turned slightly in toward it, so their
+   depth shows */
+.hs-layer.case-anim {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: none;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  /* Hidden, blurred and a little low until the page opens; they rise,
+     clear and fan out, easing gently into place */
+  transform: translateX(0) translateY(7%) rotateY(0deg) scale(0.9);
+  opacity: 0;
+  filter: blur(14px);
+  transition:
+    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 1s ease,
+    filter 1.1s ease;
+}
+
+.hs-layer.is-credit {
+  transform: translateX(0) translateY(7%) rotateY(0deg) scale(0.96);
+}
+
+.hs-layer .case-anim-phone {
+  width: 24%;
+}
+
+.hero-stack.is-fanned .hs-layer {
+  opacity: 1;
+  filter: none;
+}
+
+.hero-stack.is-fanned .hs-layer.is-credit {
+  transform: translateX(0) translateY(0) rotateY(0deg) scale(1);
+}
+
+/* The blueprints come in a beat after the credit screen */
+.hero-stack.is-fanned .hs-layer:not(.is-credit) {
+  transition-delay: 0.15s;
+}
+
+.hero-stack.is-fanned .hs-layer[data-layer="0"] {
+  transform: translateX(-28%) translateY(0) rotateY(16deg) scale(0.9);
+}
+
+.hero-stack.is-fanned .hs-layer[data-layer="1"] {
+  transform: translateX(28%) translateY(0) rotateY(-16deg) scale(0.9);
+}
+
+/* Measured face-on, for that one reading */
+.hero-stack.is-measuring .hs-layer {
+  transform: none !important;
+  transition: none !important;
+}
+
+.hero-stack.no-motion .hs-layer,
+.hero-stack.no-motion .finale-zone {
+  transition: none !important;
+}
+
+/* Measured while still hidden: the layers just need their layout */
+
+@media (max-width: 720px) {
+  .hs-stage {
+    height: 380px;
+  }
+
+  .hs-layer .case-anim-phone {
+    width: 29%;
+  }
+
+  .hero-stack {
+    margin: 32px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hs-stage {
+    animation: none;
+  }
+}
+
+/* ===== Section 03 Watch blueprints (combo-finale, finale.js) =====
+   When the three accounts tip into their skeletons they turn into the
+   resume card's blueprints: real depth (the slices finale.js adds), a grey
+   bezel with a thin inner line, a near-white screen with a fine grid, and
+   zones drawn as dashed outlines with hatching and corner crosses, each in
+   its own colour (magenta, violet, orange, yellow, blue), drawing in one
+   after another. The grid runs through the same colours, top to bottom, so
+   it matches the zones at each height, and feathers off at the edges. */
+.combo-finale .finale-phone {
+  transform-style: preserve-3d;
+}
+
+.combo-finale .finale-phone .phone-mock-body {
+  transform: translateZ(0);
+}
+
+.combo-finale.is-skeleton .phone-slab {
+  background: #c6c6cd;
+}
+
+.combo-finale.is-skeleton .phone-slab[style*="--z: 6"] {
+  background: #b5b5bc;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
+}
+
+/* Four shadows, inset and outer in the same places as the phone's own, so
+   the dark frame fades into the outline instead of snapping */
+.combo-finale.is-skeleton .phone-mock-body {
+  background: #d6d6dc;
+  box-shadow:
+    inset 0 0 0 1.5px rgba(12, 12, 13, 0.28),
+    inset 0 0 0 0 rgba(22, 22, 23, 0),
+    0 18px 40px rgba(12, 12, 13, 0.06),
+    0 5px 12px rgba(12, 12, 13, 0);
+}
+
+.combo-finale .phone-mock-screen {
+  outline: 1px solid rgba(12, 12, 13, 0);
+  outline-offset: -1px;
+  transition: background-color 0.7s ease, outline-color 0.6s ease;
+}
+
+.combo-finale.is-skeleton .phone-mock-screen {
+  background: rgba(250, 250, 251, 0.92);
+  outline-color: rgba(12, 12, 13, 0.24);
+}
+
+.combo-finale.is-skeleton .phone-mock-body::before,
+.combo-finale.is-skeleton .phone-mock-body::after {
+  background: #a6a6ad;
+}
+
+.combo-finale.is-skeleton .phone-mock-body::before {
+  box-shadow: 0 16cqw 0 #a6a6ad;
+}
+
+.combo-finale.is-skeleton .phone-mock-screen::after {
+  background: #96969c;
+}
+
+/* The zones as blueprint outlines, each in its colour */
+.combo-finale .finale-zone[data-zone] {
+  border: 0;
+  border-radius: 1.6cqw;
+  /* Hidden, ready to draw in; reset only once the blueprint has faded */
+  clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px);
+  transition: clip-path 0s linear 0.7s;
+}
+
+.combo-finale .finale-zone[data-zone="settings"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%23e02d8c' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
+.combo-finale .finale-zone[data-zone="card"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%238a46f0' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
+.combo-finale .finale-zone[data-zone="balance"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%23ff7a1a' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
+.combo-finale .finale-zone[data-zone="actions"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%23f7be14' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
+.combo-finale .finale-zone[data-zone="details"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%233b82ff' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
+
+.combo-finale .finale-zone[data-zone]::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: rgb(var(--zone));
+  opacity: 0.35;
+  -webkit-mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+  mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+  pointer-events: none;
+}
+
+.combo-finale .finale-zone[data-zone]::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  --c: rgb(var(--zone));
+  background:
+    linear-gradient(var(--c), var(--c)) 0 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 100% / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
+  pointer-events: none;
+}
+
+.combo-finale.is-skeleton .finale-zone[data-zone] {
+  clip-path: inset(-6px -6px -6px -6px);
+  transition: clip-path 0.8s cubic-bezier(0.45, 0, 0.25, 1) var(--draw, 0.3s);
+}
+
+.combo-finale .finale-zone[data-zone="settings"] { --draw: 0.3s; }
+.combo-finale .finale-zone[data-zone="card"] { --draw: 0.45s; }
+.combo-finale .finale-zone[data-zone="balance"] { --draw: 0.6s; }
+.combo-finale .finale-zone[data-zone="actions"] { --draw: 0.75s; }
+.combo-finale .finale-zone[data-zone="details"] { --draw: 0.9s; }
+
+/* The grid in the zones' colours, top to bottom, feathered at the edges */
+.combo-finale .finale-zones::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(224, 45, 140, 0.32) 6%,
+    rgba(138, 70, 240, 0.32) 20%,
+    rgba(255, 122, 26, 0.32) 40%,
+    rgba(247, 190, 20, 0.32) 60%,
+    rgba(59, 130, 255, 0.32) 84%);
+  -webkit-mask:
+    radial-gradient(ellipse 58% 50% at 50% 46%, #000 20%, transparent 95%),
+    linear-gradient(#000 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, #000 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  -webkit-mask-composite: source-in, source-over;
+  mask:
+    radial-gradient(ellipse 58% 50% at 50% 46%, #000 20%, transparent 95%),
+    linear-gradient(#000 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, #000 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  mask-composite: intersect, add;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combo-finale .finale-zone[data-zone],
+  .combo-finale.is-skeleton .finale-zone[data-zone] {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* Fun UI page: its captions stay plain labels under the phones, no pills
+   (the glass caption pill above would otherwise give them a frame) */
+.fun-tile.fx-tile > p.proto-hint {
+  border: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* ===== Home Tab Refresh hero: built from its blueprint (ht-build.js) =====
+   The hero shares the resume card's blueprint build (.case-ht), played once
+   as the page opens: it starts hidden, blurred and low, tipped into an
+   isometric view (.is-iso, .is-hidden); fades, sharpens and rises in; turns
+   to face you as the boxes draw in; then the parts render and it settles as
+   the mock. It keeps its own size and place (not the card's). */
+.ht-hero.case-ht .ht-phone {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 232px;
+  transform: perspective(1400px) translateY(0) rotateX(0deg) rotateZ(0deg) scale(1);
+  /* Turning to face you: a slow, even ease in and out of the tilt */
+  transition: transform 2.2s cubic-bezier(0.45, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* The fade and blur are on the phone's parts (its slices and its face), not
+   the phone: on the phone they'd flatten it in 3D and hide its depth until
+   they'd cleared */
+.ht-hero.case-ht .ht-phone > .phone-slab,
+.ht-hero.case-ht .ht-phone > .phone-mock-body {
+  opacity: 1;
+  filter: none;
+  transition: opacity 0.9s ease, filter 1s ease, background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.ht-hero.case-ht.is-hidden .ht-phone > .phone-slab,
+.ht-hero.case-ht.is-hidden .ht-phone > .phone-mock-body {
+  opacity: 0;
+  filter: blur(14px);
+}
+
+.ht-hero.case-ht .ht-phone .phone-mock-body {
+  transform: translateZ(0);
+}
+
+/* Its thickness: light grey in the blueprint, dark like the frame as the
+   mock */
+.ht-hero.case-ht.is-blueprint .phone-slab {
+  background: #c6c6cd;
+}
+
+.ht-hero.case-ht.is-blueprint .phone-slab[style*="--z: 6"] {
+  background: #b5b5bc;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
+}
+
+.ht-hero.case-ht:not(.is-blueprint) .phone-slab {
+  transition-duration: 2s;
+}
+
+.ht-hero.case-ht.is-iso .ht-phone {
+  transform: perspective(1400px) translateY(0) rotateX(50deg) rotateZ(-28deg) scale(0.88);
+}
+
+.ht-hero.case-ht.is-hidden .ht-phone {
+  transform: perspective(1400px) translateY(56px) rotateX(50deg) rotateZ(-28deg) scale(0.88);
+}
+
+/* Measured face-on and still */
+.ht-hero.case-ht.is-measuring .ht-phone,
+.ht-hero.case-ht.is-measuring .ht-part {
+  transform: none !important;
+  transition: none !important;
+}
+
+.ht-hero.case-ht.is-snapping .ht-phone,
+.ht-hero.case-ht.is-snapping .ht-part {
+  transition: none !important;
+}
+
+@media (max-width: 720px) {
+  .ht-hero.case-ht .ht-phone {
+    width: 46%;
+  }
+}
+
+
+/* ...and coming back as the mock, their colours change slowly (2s) */
+.ht-hero.case-ht:not(.is-blueprint) .ht-phone > .phone-slab,
+.ht-hero.case-ht:not(.is-blueprint) .ht-phone > .phone-mock-body {
+  transition-duration: 0.9s, 1s, 2s, 2s;
+}
+
+/* ===== Grid current (Home Tab Refresh hero, ht-build.js) =====
+   Once the mock has settled (.is-charged), the container's grid lights up
+   faintly in the headline gradient, as if a current were running through
+   it: a soft band of colour travels across the grid lines, entering and
+   leaving at the edges, which feather away. Only the grid lines show it
+   (a mask lined up with the container's 24px grid). */
+.grid-current {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(90deg, #ef7c28 0%, #f2937a 35%, #ec73c3 65%, #9e80e6 100%);
+  opacity: 0;
+  transition: opacity 2s ease;
+  /* The band of light travels top to bottom; the lines are the hero's own
+     28px grey grid (same size and centring), so they're what lights up */
+  --band: linear-gradient(180deg, transparent 0%, transparent 36%, rgba(0, 0, 0, 0.8) 50%, transparent 64%, transparent 100%);
+  --edge: radial-gradient(ellipse 70% 66% at 50% 45%, #000 30%, transparent 92%);
+  -webkit-mask:
+    var(--band) 0 85% / 100% 300% no-repeat,
+    var(--edge),
+    linear-gradient(#000 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, #000 1px, transparent 1px) center / 28px 28px;
+  -webkit-mask-composite: source-in, source-in, source-over;
+  mask:
+    var(--band) 0 85% / 100% 300% no-repeat,
+    var(--edge),
+    linear-gradient(#000 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(90deg, #000 1px, transparent 1px) center / 28px 28px;
+  mask-composite: intersect, intersect, add;
+}
+
+.ht-hero.is-charged .grid-current,
+.hero-stack.is-charged .grid-current {
+  opacity: 0.38;
+  animation: grid-current 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes grid-current {
+  from {
+    -webkit-mask-position: 0 85%, center, center, center;
+    mask-position: 0 85%, center, center, center;
+  }
+  to {
+    -webkit-mask-position: 0 15%, center, center, center;
+    mask-position: 0 15%, center, center, center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht-hero.is-charged .grid-current {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* The One Structure hero's stage sits above its grid current */
+.hero-stack .hs-stage {
+  z-index: 1;
+}
+
+
+/* ===== One Structure case study on phones ===== */
+@media (max-width: 720px) {
+  /* Hero: the blueprints fan a little further out, with clear space
+     between them and the credit screen */
+  .hero-stack.is-fanned .hs-layer[data-layer="0"] {
+    transform: translateX(-34%) translateY(0) rotateY(16deg) scale(0.9);
+  }
+
+  .hero-stack.is-fanned .hs-layer[data-layer="1"] {
+    transform: translateX(34%) translateY(0) rotateY(-16deg) scale(0.9);
+  }
+
+  /* "Everything hid behind the same three tabs": the three phones fit
+     inside the container */
+  .problem-tabs {
+    --pw: 84px;
+    padding: 44px 12px 84px;
+  }
+
+  .pt-row {
+    --pt-gap: 10px;
+  }
+
+  /* Section 03's Watch: the three accounts fit inside the container, and
+     spread to match when they tip into their blueprints */
+  .finale.combo-finale {
+    --pw: 84px;
+    --gap: 96px;
+  }
+
+  .combo-finale[data-scene="blueprint"] .finale-phone {
+    transform: translateX(calc(var(--i) * 96px)) translateZ(calc((var(--i) + 1) * 20px));
+  }
+
+  /* The Design / 04 demo: a smaller credit phone, so the container isn't
+     so tall */
+  .joint {
+    --phone: 200px;
+  }
+
+  /* The outcome: the three accounts together smaller, in a shorter frame */
+  .showcase {
+    --pw: 100px;
+  }
+
+  .showcase.is-closer {
+    aspect-ratio: 1 / 1.08;
+  }
+}
+
+/* On phones the case study sheet starts just below the Back button (12px
+   from the top, about 38px tall) instead of under it */
+@media (max-width: 720px) {
+  .page-case .resume-wrap {
+    padding-top: 62px;
+  }
+}
+
+/* The problem, shown, when its frame is narrow: the numbered dots stay on
+   the phone, and the notes' words move to a numbered list under the frame
+   (.pa-legend), so they never run off the edges. The board and its list
+   share a wrapper (.pa-figure) that sizes against its own width. */
+.pa-figure {
+  container: pa-figure / inline-size;
+}
+
+.pa-legend {
+  display: none;
+}
+
+@container pa-figure (max-width: 720px) {
+  .pa-note p,
+  .pa-bracket p {
+    display: none;
+  }
+
+  /* With no words beside them, the numbers sit just past the phone */
+  .pa-line {
+    width: calc(100cqw - 3.4cqw - var(--x) * var(--at) + 16px);
+  }
+
+  .pa-bracket {
+    right: calc(100% + 12px);
+    padding-right: 10px;
+  }
+
+  .case-placeholder.pa-board {
+    margin-bottom: 20px;
+  }
+
+  .pa-legend {
+    display: grid;
+    gap: 12px;
+    margin: 0 0 56px;
+    padding: 0 4px;
+    list-style: none;
+  }
+
+  .pa-legend li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pa-legend .pa-num {
+    margin-top: 1px;
+  }
+
+  .pa-legend p {
+    margin: 0;
+    font: var(--type-label-xs);
+    line-height: 1.6;
+    color: var(--resume-label);
+  }
+}
+
+/* The timeline's copy of the hero phone leaves behind the hero's build
+   pieces (its depth slices, blueprint boxes), which showed as a dark block */
+.tl-slot .phone-slab,
+.tl-slot .bp-zones {
+  display: none;
+}
+
+/* Building a framework, on phones: no Watch (framework-show.js switches to
+   Explore), and the two tables keep their full width and scroll sideways
+   inside their cards */
+@media (max-width: 720px) {
+  .fw-show .proto-mode,
+  .fw-show > .watch-pause {
+    display: none;
+  }
+
+  .fw-show .pt-scroll,
+  .fw-show .fw-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .fw-show .pt-grid {
+    min-width: 560px;
+  }
+
+  .fw-show .fw-grid {
+    min-width: 620px;
+  }
+}
+
+/* ===== Page transitions: a few pages' own touches =====
+   Leaving the posters, the gallery keeps its old exit: a quick slide down
+   and fade over the resume coming back, instead of pushing in under it. */
+html:active-view-transition-type(posters-back)::view-transition-group(case-sheet) {
+  z-index: 4;
+}
+
+html:active-view-transition-type(posters-back)::view-transition-old(case-sheet) {
+  animation-name: sheet-slide;
+  animation-duration: 0.3s;
+  animation-direction: reverse;
+  animation-timing-function: cubic-bezier(0, 0, 0.6, 1);
+}
+
+/* Opening a case study, the case study itself fades in 0.5s slower */
+html:active-view-transition-type(case-forward)::view-transition-new(case-sheet) {
+  animation-duration: 1.06s;
+}
+
+/* The posters page's heading and filter control rise out of the same fog
+   as the posters as the page opens */
+.page-posters .pg-header {
+  animation: pg-fog-in 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+.page-posters .pg-filter {
+  animation: pg-fog-in 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-posters .pg-header,
+  .page-posters .pg-filter {
+    animation: none;
+  }
+}
+
+
+/* Coming home, the resume fades back in 0.5s slower too */
+html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
+  animation-duration: 1.06s;
 }

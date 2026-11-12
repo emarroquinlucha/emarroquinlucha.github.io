@@ -86,6 +86,17 @@
     if (box.classList.contains("case-ht")) {
       setTime(1);
       pillTo(0, false);
+      // The greeting's window is sized from the word's width, which reads 0
+      // while the page is still hidden behind its loader; size it again
+      // once the card is actually on screen
+      if ("IntersectionObserver" in window) {
+        var sized = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting || !words[1].offsetWidth) return;
+          setTime(1);
+          sized.disconnect();
+        });
+        sized.observe(box);
+      }
       return;
     }
 

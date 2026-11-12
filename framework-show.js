@@ -116,6 +116,21 @@
 
   cards.framework.inert = true;
 
+  // On phones there's no Watch: the tables are shown to explore (and
+  // scroll sideways), with the mode switch hidden (see style.css)
+  var narrow = window.matchMedia("(max-width: 720px)");
+  function fitMode() {
+    var mode = narrow.matches ? "explore" : show.dataset.mode;
+    if (narrow.matches && show.dataset.mode !== "explore") {
+      show.dataset.mode = "explore";
+      modeButtons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === "explore")); });
+      start();
+    }
+    return mode;
+  }
+  fitMode();
+  if (narrow.addEventListener) narrow.addEventListener("change", fitMode);
+
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       inView = entries[0].isIntersecting;

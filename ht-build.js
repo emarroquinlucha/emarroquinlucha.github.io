@@ -15,7 +15,12 @@
 
   document.querySelectorAll(".case-ht").forEach(function (box) {
     var screen = box.querySelector(".ht-phone .phone-mock-screen");
-    if (!screen || reduced) return;
+    if (!screen) return;
+    if (reduced) {
+      // Reduced motion: just the finished mock
+      box.classList.remove("is-blueprint", "is-iso", "is-hidden");
+      return;
+    }
     var parts = Array.prototype.slice.call(screen.querySelectorAll(PARTS.join(", ")));
     var built = false, run = 0;
 
@@ -83,6 +88,68 @@
       stage("is-blueprint", false);
       stage("is-drawn", false);
       stage("is-render", false);
+    }
+
+    // The case study's hero plays it once, when the page opens: hidden,
+    // blurred and low, tilted into an isometric view as a bare blueprint,
+    // it fades and rises in; the boxes draw in as it turns to face you; the
+    // parts render back; and it settles as the mock, and stays
+    if (box.classList.contains("ht-hero")) {
+      // Real thickness: thin slices stacked behind the phone in 3D, so its
+      // edge shows while it's tilted
+      var slabs = "";
+      for (var z = 1; z <= 6; z++) slabs += '<span class="phone-slab" style="--z: ' + z + '" aria-hidden="true"></span>';
+      box.querySelector(".ht-phone").insertAdjacentHTML("afterbegin", slabs);
+      // The grid's current (see "Grid current" in style.css)
+      box.insertAdjacentHTML("afterbegin", '<span class="grid-current" aria-hidden="true"></span>');
+
+      var go = function () {
+        // Measured face-on, then snapped straight back to its tilt (with no
+        // transition, so it doesn't visibly turn back before fading in)
+        box.classList.add("is-measuring");
+        build();
+        box.classList.add("is-snapping");
+        box.classList.remove("is-measuring");
+        void box.offsetWidth;
+        box.classList.remove("is-snapping");
+        void box.offsetWidth;
+        var id = ++run;
+        (async function () {
+          await wait(150, id);
+          box.classList.remove("is-hidden");          // fade, sharpen and rise in
+          await wait(700, id);
+          stage("is-drawn", true);                     // the boxes draw in...
+          box.classList.remove("is-iso");              // ...as it turns to face you
+          await wait(300 + parts.length * 110 + 700, id);
+          stage("is-render", true);                    // the parts render back
+          parts.forEach(function (p, i) {
+            timers.push(setTimeout(function () { p.classList.add("is-in"); }, i * 130));
+          });
+          await wait(Math.round(parts.length * 130 * 0.4) + 500, id);
+          clearTimers();
+          stage("is-blueprint", false);                // and it settles as the mock
+          // Once it has settled, a faint current starts running through
+          // the container's grid in the headline gradient
+          await wait(2200, id);
+          box.classList.add("is-charged");
+        })().catch(function () {});
+      };
+      var started = false;
+      var start = function () { if (!started) { started = true; requestAnimationFrame(go); } };
+      var whenLoaded = function () {
+        if (document.readyState === "complete") start();
+        else window.addEventListener("load", start, { once: true });
+      };
+      if ("onpagereveal" in window) {
+        window.addEventListener("pagereveal", function (e) {
+          if (e.viewTransition) e.viewTransition.finished.then(whenLoaded, whenLoaded);
+          else whenLoaded();
+        }, { once: true });
+        setTimeout(whenLoaded, 3000);
+      } else {
+        whenLoaded();
+      }
+      return;
     }
 
     if ("IntersectionObserver" in window) {
