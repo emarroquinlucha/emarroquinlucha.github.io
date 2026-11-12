@@ -139,6 +139,10 @@
     }
 
     trim(sheet());
+    // Scrolling while the page arrives moves it past the trimmed part, which
+    // showed as blank paper until the transition ended: re-trim as it scrolls
+    var retrim = function () { trim(sheet()); };
+    window.addEventListener("scroll", retrim, { passive: true });
     nameDocks("in");
     e.viewTransition.types.add(type);
     // A few pages tune their own: leaving the posters keeps its quick slide
@@ -159,6 +163,7 @@
       root.classList.toggle("is-top-blurred", window.scrollY > 8);
     }
     e.viewTransition.finished.then(function () {
+      window.removeEventListener("scroll", retrim);
       clearCovers();
       untrim();
       nameDocks();
