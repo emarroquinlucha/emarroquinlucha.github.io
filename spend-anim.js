@@ -36,7 +36,8 @@
   }
 
   // The total spins in like a slot machine (slot-counter.js)
-  SlotCounter.mount(amount, money(TOTAL));
+  // The total rolls up from a few hundred dollars short of it
+  SlotCounter.mount(amount, money(TOTAL), money(TOTAL - 286.38));
 
   var scrollY = 0;
   function scrollTo(y) {

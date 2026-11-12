@@ -81,7 +81,8 @@
 
   // The total spins in like a slot machine (slot-counter.js)
   var TOTAL = 12345.67;
-  SlotCounter.mount(amount, money(TOTAL));
+  // The total rolls up from a few hundred dollars short of it
+  SlotCounter.mount(amount, money(TOTAL), money(TOTAL - 318.49));
 
   // The curve between points i and i + 1: a cubic Bezier through them
   // (Catmull-Rom), as its y control points

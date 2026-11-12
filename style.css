@@ -8495,7 +8495,7 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   border: 0.5px solid #cecece;
   border-radius: calc(var(--avatar-size) * 0.2);
   background: linear-gradient(136deg, #232323 6.09%, #161616 52.69%, #2b2b2b 97.54%);
-  box-shadow: 0 calc(var(--avatar-size) * 0.08) calc(var(--avatar-size) * 0.16) calc(var(--avatar-size) * -0.04) rgba(12, 12, 13, 0.4);
+  box-shadow: 0 calc(var(--avatar-size) * 0.06) calc(var(--avatar-size) * 0.14) calc(var(--avatar-size) * -0.04) rgba(12, 12, 13, 0.2);
 }
 
 .avatar img {
@@ -13858,6 +13858,8 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
    that rolls down and lands on its digit, left to right. Each reel's window
    reaches 0.225em above and below its digit (pulled back by the margins so
    the line keeps its height) and fades out at its edges. */
+/* Slot counters (slot-counter.js): steady digit widths, and a light
+   vertical blur on a reel while it rolls (.is-rolling) */
 .slot {
   display: inline-flex;
   font-variant-numeric: tabular-nums;
@@ -13876,7 +13878,12 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 .slot-strip {
   display: flex;
   flex-direction: column;
+  align-items: center;
   transform: translateY(0.225em);
+}
+
+.slot-reel.is-rolling .slot-strip {
+  filter: url(#slot-vblur);
 }
 
 .slot-char {
@@ -14463,7 +14470,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 /* --- B: blueprint lines first, then the colour rises through them --- */
 .tv-blue .tv-lines * {
   fill: none;
-  stroke: #8a8d94;
+  stroke: #6f727a;
   stroke-width: 0.9;
   stroke-linejoin: round;
   stroke-dasharray: 1;
@@ -15265,7 +15272,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
    the finished piece. The loop's last beat (fading it all out) is dropped. */
 .work-avatar .tv-blue .tv-lines * { animation-name: tv-draw; animation-duration: 6s; }
 .work-avatar .tv-blue .tv-lines { animation-name: tv-lines-dim; animation-duration: 6s; }
-.work-avatar .tv-blue .tv-rise { animation-name: tv-rise; animation-duration: 6s; }
+.work-avatar .tv-blue .tv-rise { animation-name: tvo-rise; animation-duration: 6s; }
 .work-avatar .tv-blue .tv-render { animation: none; }
 
 /* The linework is outline only: the bank's steps carry fills from older
@@ -15864,20 +15871,21 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   -webkit-mask:
     var(--band) 0 85% / 100% 300% no-repeat,
     var(--edge),
-    linear-gradient(#000 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(90deg, #000 1px, transparent 1px) center / 28px 28px;
+    linear-gradient(#000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px),
+    linear-gradient(90deg, #000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px);
   -webkit-mask-composite: source-in, source-in, source-over;
   mask:
     var(--band) 0 85% / 100% 300% no-repeat,
     var(--edge),
-    linear-gradient(#000 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(90deg, #000 1px, transparent 1px) center / 28px 28px;
+    linear-gradient(#000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px),
+    linear-gradient(90deg, #000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px);
   mask-composite: intersect, intersect, add;
 }
 
 .ht-hero.is-charged .grid-current,
-.hero-stack.is-charged .grid-current {
-  opacity: 0.38;
+.hero-stack.is-charged .grid-current,
+.case-list-v2 .case-image.is-charged .grid-current {
+  opacity: 0.28;
   animation: grid-current 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
@@ -16093,3 +16101,150 @@ html:active-view-transition-type(case-forward)::view-transition-new(case-sheet) 
 html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) {
   animation-duration: 1.06s;
 }
+
+/* The resume's Selected Work cards: their grid is 24px */
+.case-list-v2 .case-image {
+  --gc-size: 24px;
+}
+
+/* ===== Back on the resume (page-transitions.js adds .is-docking) =====
+   The pills rise in again after the resume settles, the way they come in
+   as a case study opens (the Connect menu stays put) */
+html.is-docking .floating-dock {
+  animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s backwards;
+}
+
+/* The heart pill on hover: lighter, and lifting a little */
+/* The heart pill on hover: a shade darker than the other pills */
+.stat-like:hover {
+  background: color-mix(in srgb, color-mix(in srgb, #fff 62%, #d6d6dc) 62%, transparent);
+}
+
+/* The Email and Resume tiles, a little lighter */
+.quick-avatar[src*="email-avatar"],
+.quick-avatar[src*="resume-avatar"] {
+  background: radial-gradient(ellipse 80% 75% at 50% 40%, #fdfdfd 0%, #f6f6f8 60%, #efeff2 100%);
+}
+
+/* ===== Avatar sheen =====
+   The LinkedIn and Neo avatars and the tool icons get a slight gradient
+   (lighter at the top, a touch deeper at the bottom) and a glassy catch of
+   light: a soft highlight from the top left and a bright hairline rim. */
+.avatar-sheen {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 4px;
+  margin-right: -4px;
+}
+
+.quick-avatar-sheen .quick-avatar {
+  margin-right: 0;
+}
+
+.avatar-sheen::after,
+.tool::before,
+.avatar::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(155deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 50%, rgba(12, 12, 13, 0.05) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+/* Skip's logo keeps its plain tile */
+.avatar.avatar-skip::before {
+  display: none;
+}
+
+.avatar {
+  position: relative;
+}
+
+.tool::before {
+  border-radius: 10px;
+}
+
+/* The Selected Impact illustrations' gradient shine shows once they're built */
+.tv-shine {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.work-avatar.is-done .tv-shine {
+  opacity: 1;
+}
+
+/* On desktop the Selected Work cards' current runs only through the right
+   side, behind the phones, away from the text; on phones it fills the card */
+@media (min-width: 721px) {
+  .case-list-v2 .case-image .grid-current {
+    --edge: radial-gradient(ellipse 46% 78% at 76% 48%, #000 25%, transparent 95%);
+  }
+}
+
+/* The avatars' render: the colour starts rising through the linework while
+   it's still being drawn, filling in gradually, rather than all at once
+   after the lines are done */
+@keyframes tvo-rise {
+  0%, 8% { transform: translateY(215px); animation-timing-function: cubic-bezier(0.4, 0, 0.3, 1); }
+  62%, 100% { transform: translateY(-10px); }
+}
+
+/* Glassier illustrations: a hair more saturated, with a subtle soft glow in
+   their own colours */
+.work-avatar .tv-art {
+  filter: saturate(1.12) drop-shadow(0 2px 5px rgba(236, 115, 195, 0.16)) drop-shadow(0 0 8px rgba(255, 170, 120, 0.12));
+}
+
+/* Contents: one dark stretch that slides smoothly along the track to the
+   current item (page-toc.js sets --toc-top and --toc-h), instead of each
+   item's own stretch fading in and out */
+.page-toc ul.has-indicator::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: var(--toc-h, 0px);
+  border-radius: 1px;
+  background: var(--resume-text);
+  transform: translateY(var(--toc-top, 0px));
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.page-toc ul.has-indicator a::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-toc ul.has-indicator::after {
+    transition: none;
+  }
+}
+
+/* Selected Impact avatars already played this visit (.is-instant): shown
+   built at once, with no build, streak or shine fade */
+.work-avatar.is-instant .tv-art,
+.work-avatar.is-instant .tv-art * {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+
+.work-avatar.is-instant .tv-streak-band {
+  animation: none !important;
+  visibility: hidden;
+}
+
+.work-avatar.is-instant .tv-shine {
+  transition: none;
+}
+

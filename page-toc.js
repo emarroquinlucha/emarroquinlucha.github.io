@@ -4,6 +4,7 @@
 (function () {
   var links = [].slice.call(document.querySelectorAll(".page-toc a"));
   var targets = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  var list = links.length ? links[0].closest("ul") : null;
   var ticking = false;
   function update() {
     ticking = false;
@@ -20,6 +21,13 @@
       if (i === current) a.setAttribute("aria-current", "location");
       else a.removeAttribute("aria-current");
     });
+    // The dark stretch slides along the track to the current item
+    var on = links[current];
+    if (on && list) {
+      list.style.setProperty("--toc-top", on.offsetTop + "px");
+      list.style.setProperty("--toc-h", on.offsetHeight + "px");
+      list.classList.add("has-indicator");
+    }
   }
   window.addEventListener("scroll", function () {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }

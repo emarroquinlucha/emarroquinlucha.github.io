@@ -127,6 +127,14 @@
     // out ("posters-back"); a case study opening fades itself in more slowly
     // ("case-forward"). See "Page transitions" in style.css.
     if (from === "posters.html" && type === "stack-back") e.viewTransition.types.add("posters-back");
+    // Back on the resume, the pills and Connect menu rise in again, the way
+    // they do as a case study opens
+    if (type === "stack-back") {
+      root.classList.remove("is-docking");
+      void root.offsetWidth;
+      root.classList.add("is-docking");
+      setTimeout(function () { root.classList.remove("is-docking"); }, 2600);
+    }
     if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
     if (!transitions[to]) {
       root.classList.add("is-page-transition");

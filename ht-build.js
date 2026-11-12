@@ -115,12 +115,12 @@
         void box.offsetWidth;
         var id = ++run;
         (async function () {
-          await wait(150, id);
+          await wait(60, id);
           box.classList.remove("is-hidden");          // fade, sharpen and rise in
-          await wait(700, id);
+          await wait(450, id);
           stage("is-drawn", true);                     // the boxes draw in...
           box.classList.remove("is-iso");              // ...as it turns to face you
-          await wait(300 + parts.length * 110 + 700, id);
+          await wait(300 + parts.length * 95 + 400, id);
           stage("is-render", true);                    // the parts render back
           parts.forEach(function (p, i) {
             timers.push(setTimeout(function () { p.classList.add("is-in"); }, i * 130));
@@ -142,8 +142,8 @@
       };
       if ("onpagereveal" in window) {
         window.addEventListener("pagereveal", function (e) {
-          if (e.viewTransition) e.viewTransition.finished.then(whenLoaded, whenLoaded);
-          else whenLoaded();
+          // Starts while the page is still settling in, not after it
+          setTimeout(whenLoaded, e.viewTransition ? 400 : 0);
         }, { once: true });
         setTimeout(whenLoaded, 3000);
       } else {

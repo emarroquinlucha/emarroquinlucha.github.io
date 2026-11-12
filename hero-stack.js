@@ -90,7 +90,7 @@
     measure();
     if (reduced) { box.classList.add("no-motion"); fanOut(); return; }
     void box.offsetWidth;
-    setTimeout(fanOut, 500);
+    setTimeout(fanOut, 150);
   }
 
   // Once the page has finished coming in (after its page transition, if
@@ -107,8 +107,8 @@
   }
   if ("onpagereveal" in window) {
     window.addEventListener("pagereveal", function (e) {
-      if (e.viewTransition) e.viewTransition.finished.then(whenLoaded, whenLoaded);
-      else whenLoaded();
+      // Starts while the page is still settling in, not after it
+      setTimeout(whenLoaded, e.viewTransition ? 400 : 0);
     }, { once: true });
     setTimeout(whenLoaded, 3000);
   } else {
