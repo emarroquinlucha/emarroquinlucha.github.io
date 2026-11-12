@@ -2262,10 +2262,11 @@ html:has(.lightbox.is-open) body {
   height: auto;
 }
 
-/* Sharp copy: fully visible in the top half, fading out below it */
+/* Sharp copy: the top half, fading out below it. Its ink is a slightly
+   softer black (95%); the blurry bottom keeps full black. */
 .resume-signature img:first-child {
-  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 67%);
-  mask-image: linear-gradient(to bottom, #000 50%, transparent 67%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 50%, transparent 67%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 50%, transparent 67%);
 }
 
 /* Blurrier copies take over band by band toward the bottom */
@@ -2293,7 +2294,7 @@ html:has(.lightbox.is-open) body {
   grid-area: 1 / 1;
   pointer-events: none;
   background: linear-gradient(105deg,
-    rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0) 62%)
+    rgba(255, 255, 255, 0) 27%, rgba(255, 255, 255, 0.68) 50%, rgba(255, 255, 255, 0) 73%)
     100% 0 / 300% 100% no-repeat;
   -webkit-mask:
     url("images/signature.svg?v=2") 0 0 / 100% 100% no-repeat,
@@ -2307,7 +2308,8 @@ html:has(.lightbox.is-open) body {
 }
 
 .resume-signature.is-shimmering .signature-shimmer {
-  animation: signature-shimmer 1.4s ease-in-out;
+  /* Unhurried, with the same easing as the Neo and Skip logos' sweep */
+  animation: signature-shimmer 2.6s cubic-bezier(0.45, 0, 0.2, 1);
 }
 
 @keyframes signature-shimmer {
@@ -2318,7 +2320,7 @@ html:has(.lightbox.is-open) body {
 .resume-name {
   font: var(--type-h1);
   letter-spacing: normal;
-  color: var(--resume-heading);
+  color: var(--resume-text);
 }
 
 .resume-title,
@@ -8513,19 +8515,20 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 .company-header .avatar::after {
   content: "";
   position: absolute;
-  inset: 0;
+  /* Wider than the tile, so the band is broad and soft */
+  inset: 0 -40%;
   background: linear-gradient(115deg,
-    rgba(255, 255, 255, 0) 18%,
-    rgba(255, 255, 255, 0.16) 40%,
-    rgba(255, 255, 255, 0.3) 50%,
-    rgba(255, 255, 255, 0.16) 60%,
-    rgba(255, 255, 255, 0) 82%);
+    rgba(255, 255, 255, 0) 12%,
+    rgba(255, 255, 255, 0.15) 36%,
+    rgba(255, 255, 255, 0.27) 50%,
+    rgba(255, 255, 255, 0.15) 64%,
+    rgba(255, 255, 255, 0) 88%);
   transform: translateX(-100%);
   pointer-events: none;
 }
 
 .company-header .avatar.is-sweeping::after {
-  animation: avatar-sweep 1.1s cubic-bezier(0.45, 0, 0.2, 1);
+  animation: avatar-sweep 1.8s cubic-bezier(0.45, 0, 0.2, 1);
 }
 
 @keyframes avatar-sweep {
@@ -14756,7 +14759,7 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 
 .work-avatar.is-done .tv-streak-band {
   visibility: visible;
-  animation: tvo-streak 2.4s cubic-bezier(0.45, 0, 0.3, 1) both;
+  animation: tvo-streak 3.4s cubic-bezier(0.45, 0, 0.3, 1) both;
 }
 
 @keyframes tvo-streak {
@@ -14788,12 +14791,12 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   width: 300px;
   padding: 24px;
   /* Dark, like the rebranded app the phones show */
-  background: #1c1c1e;
+  background: #141416;
   cursor: default;
 }
 
 .popover-image .popover-tail-fill {
-  fill: #1c1c1e;
+  fill: #141416;
 }
 
 .popover-image img {
@@ -16307,4 +16310,164 @@ html.is-docking .floating-dock {
 ::view-transition-new(dock-in-1),
 ::view-transition-new(dock-in-2) {
   animation: none;
+}
+
+/* ===== Selected Impact avatars: lifted while they render, then dropped =====
+   As an illustration builds (the 6s build, in step with it), it slowly rises
+   a few pixels; as the colour finishes rising it's let go, falls back to its
+   place, dips just past it and settles, as if set down with a little drop.
+   (translate, so the hover's scale on transform still works.) */
+.work-avatar .tv-art {
+  animation-name: tv-lift-drop;
+  animation-duration: 6s;
+}
+
+@keyframes tv-lift-drop {
+  0% { translate: 0 0; animation-timing-function: cubic-bezier(0.3, 0, 0.4, 1); }
+  55% { translate: 0 -4px; animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.4); }
+  61% { translate: 0 1px; animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1); }
+  66% { translate: 0 -0.3px; animation-timing-function: ease-in-out; }
+  71%, 100% { translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-avatar .tv-art {
+    animation-name: none;
+  }
+}
+
+/* ===== Neo and Skip popovers: the photo runs into the tail =====
+   Below its trigger the tail sits on the popover's top edge, against the
+   photo, so the photo fills it too: the image is drawn 13px taller, up into
+   the tail, and masked to the tail's shape plus the image area with its
+   6px top corners. The white tail is hidden. (Above the trigger the tail
+   meets the text, so it stays white.) */
+.popover.is-below .popover-media {
+  position: relative;
+  overflow: visible;
+}
+
+.popover.is-below .popover-media img {
+  position: absolute;
+  top: -13px;
+  left: 0;
+  height: calc(100% + 13px);
+  --tail-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41.5 28' preserveAspectRatio='none'%3E%3Cpath transform='translate(0 28) scale(1 -1)' d='M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z'/%3E%3C/svg%3E");
+  -webkit-mask:
+    var(--tail-up) calc(var(--tail-x) - 17px) 0 / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 0 19px / 100% calc(100% - 19px) no-repeat,
+    linear-gradient(#000, #000) 6px 13px / calc(100% - 12px) 6px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 0 13px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 100% 13px / 12px 12px no-repeat;
+  mask:
+    var(--tail-up) calc(var(--tail-x) - 17px) 0 / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 0 19px / 100% calc(100% - 19px) no-repeat,
+    linear-gradient(#000, #000) 6px 13px / calc(100% - 12px) 6px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 0 13px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 100% 13px / 12px 12px no-repeat;
+}
+
+.popover.is-below:has(.popover-media) .popover-tail {
+  display: none;
+}
+
+/* ===== App Rebrand popover: 5:3, on a soft gradient glow =====
+   A 5:3 card (480 x 288, as wide as the video popovers) with the phones in
+   the middle, on soft pools of the rebrand's own colours: warm amber and terracotta
+   from its photography, a muted green, a cool silver-blue like the phones'
+   frames, and a faint violet behind them. The glow fills the tail too: it's
+   drawn 40px past the card on every side and masked to the card, with its 6px corners, plus the tail,
+   at the bottom or (.is-below) the top. The tail's own shape stays in place,
+   invisible, so the script still measures it. */
+.popover-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 480px;
+  height: 288px;
+  padding: 28px;
+  isolation: isolate;
+}
+
+.popover-image img {
+  width: auto;
+  height: 100%;
+}
+
+.popover-image .popover-tail {
+  visibility: hidden;
+}
+
+.popover-image::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -40px;
+  background:
+    radial-gradient(ellipse 34% 40% at 40% 40%, rgba(214, 152, 88, 0.16), transparent 100%),
+    radial-gradient(ellipse 34% 40% at 60% 60%, rgba(176, 100, 84, 0.15), transparent 100%),
+    radial-gradient(ellipse 30% 36% at 60% 38%, rgba(156, 176, 200, 0.11), transparent 100%),
+    radial-gradient(ellipse 30% 36% at 40% 62%, rgba(88, 124, 110, 0.14), transparent 100%),
+    radial-gradient(ellipse 38% 44% at 50% 50%, rgba(124, 96, 150, 0.08), transparent 100%),
+    #141416;
+  --tail-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41.5 28' preserveAspectRatio='none'%3E%3Cpath d='M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z'/%3E%3C/svg%3E");
+  --tail-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 41.5 28' preserveAspectRatio='none'%3E%3Cpath transform='translate(0 28) scale(1 -1)' d='M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z'/%3E%3C/svg%3E");
+  -webkit-mask:
+    var(--tail-down) calc(var(--tail-x) + 23px) calc(100% - 27px) / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 46px 40px / calc(100% - 92px) calc(100% - 80px) no-repeat,
+    linear-gradient(#000, #000) 40px 46px / calc(100% - 80px) calc(100% - 92px) no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px calc(100% - 40px) / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) calc(100% - 40px) / 12px 12px no-repeat;
+  mask:
+    var(--tail-down) calc(var(--tail-x) + 23px) calc(100% - 27px) / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 46px 40px / calc(100% - 92px) calc(100% - 80px) no-repeat,
+    linear-gradient(#000, #000) 40px 46px / calc(100% - 80px) calc(100% - 92px) no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px calc(100% - 40px) / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) calc(100% - 40px) / 12px 12px no-repeat;
+  pointer-events: none;
+}
+
+.popover-image.is-below::before {
+  -webkit-mask:
+    var(--tail-up) calc(var(--tail-x) + 23px) 27px / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 46px 40px / calc(100% - 92px) calc(100% - 80px) no-repeat,
+    linear-gradient(#000, #000) 40px 46px / calc(100% - 80px) calc(100% - 92px) no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px calc(100% - 40px) / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) calc(100% - 40px) / 12px 12px no-repeat;
+  mask:
+    var(--tail-up) calc(var(--tail-x) + 23px) 27px / 34px 13.5px no-repeat,
+    linear-gradient(#000, #000) 46px 40px / calc(100% - 92px) calc(100% - 80px) no-repeat,
+    linear-gradient(#000, #000) 40px 46px / calc(100% - 80px) calc(100% - 92px) no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) 40px / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) 40px calc(100% - 40px) / 12px 12px no-repeat,
+    radial-gradient(circle at 6px 6px, #000 5.5px, transparent 6px) calc(100% - 40px) calc(100% - 40px) / 12px 12px no-repeat;
+}
+
+/* A whisper of noise so the glow doesn't band */
+.popover-image::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--grain);
+  background-size: 160px;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ===== Company pin (tablets and phones): centred =====
+   The pill sits in the middle of the top of the screen. (translate, so the
+   pill's own transform still handles its entrance.) */
+.company-pin {
+  left: 50%;
+  translate: -50% 0;
 }
