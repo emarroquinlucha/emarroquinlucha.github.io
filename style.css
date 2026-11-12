@@ -15861,43 +15861,56 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(90deg, #ef7c28 0%, #f2937a 35%, #ec73c3 65%, #9e80e6 100%);
+  overflow: hidden;
   opacity: 0;
   transition: opacity 2s ease;
-  /* The band of light travels top to bottom; the lines are the hero's own
-     28px grey grid (same size and centring), so they're what lights up */
-  --band: linear-gradient(180deg, transparent 0%, transparent 36%, rgba(0, 0, 0, 0.8) 50%, transparent 64%, transparent 100%);
+  /* The lines are the container's own grey grid (same size and centring), so
+     they're what lights up; the edges feather away. This mask stays still. */
   --edge: radial-gradient(ellipse 70% 66% at 50% 45%, #000 30%, transparent 92%);
   -webkit-mask:
-    var(--band) 0 85% / 100% 300% no-repeat,
     var(--edge),
     linear-gradient(#000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px),
     linear-gradient(90deg, #000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px);
-  -webkit-mask-composite: source-in, source-in, source-over;
+  -webkit-mask-composite: source-in, source-over;
   mask:
-    var(--band) 0 85% / 100% 300% no-repeat,
     var(--edge),
     linear-gradient(#000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px),
     linear-gradient(90deg, #000 1px, transparent 1px) center / var(--gc-size, 28px) var(--gc-size, 28px);
-  mask-composite: intersect, intersect, add;
+  mask-composite: intersect, add;
+}
+
+/* The band of light: a strip three times the container's height, coloured in
+   the headline gradient and faded to a soft band in its middle, travelling top
+   to bottom. It moves with a transform, which the graphics card handles on its
+   own; moving the mask instead redrew the whole card every frame. */
+.grid-current::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 300%;
+  background: linear-gradient(90deg, #ef7c28 0%, #f2937a 35%, #ec73c3 65%, #9e80e6 100%);
+  -webkit-mask: linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.8) 50%, transparent 64%);
+  mask: linear-gradient(180deg, transparent 36%, rgba(0, 0, 0, 0.8) 50%, transparent 64%);
+  transform: translateY(-56.667%);
 }
 
 .ht-hero.is-charged .grid-current,
 .hero-stack.is-charged .grid-current,
 .case-list-v2 .case-image.is-charged .grid-current {
   opacity: 0.28;
+}
+
+.ht-hero.is-charged .grid-current::before,
+.hero-stack.is-charged .grid-current::before,
+.case-list-v2 .case-image.is-charged .grid-current::before {
   animation: grid-current 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 @keyframes grid-current {
-  from {
-    -webkit-mask-position: 0 85%, center, center, center;
-    mask-position: 0 85%, center, center, center;
-  }
-  to {
-    -webkit-mask-position: 0 15%, center, center, center;
-    mask-position: 0 15%, center, center, center;
-  }
+  from { transform: translateY(-56.667%); }
+  to { transform: translateY(-10%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -16248,3 +16261,50 @@ html.is-docking .floating-dock {
   transition: none;
 }
 
+/* The One Structure hero's caption: a glass pill in the bottom-left corner,
+   like every other container's */
+.hero-stack > p.proto-hint {
+  position: absolute;
+  z-index: 5;
+  left: 20px;
+  bottom: 18px;
+  max-width: calc(100% - 40px);
+  margin: 0;
+  padding: 5px 11px;
+  box-sizing: border-box;
+  border: 0.5px solid rgba(12, 12, 13, 0.05);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: var(--glass-edge);
+  text-align: left;
+}
+
+/* The case studies' caption pills on a lighter glass */
+.page-case p.proto-hint,
+.page-case .finale-caption,
+.page-case .showcase-caption {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ===== Page transitions: the pills and Connect menu stay on top =====
+   page-transitions.js names them for the length of a transition, so they sit
+   above the moving sheets (under the top blur and grain). The old page's fade
+   out quickly; the new page's play their own entrance inside their layer. */
+::view-transition-group(dock-out-1),
+::view-transition-group(dock-out-2),
+::view-transition-group(dock-in-1),
+::view-transition-group(dock-in-2) {
+  z-index: 6;
+}
+
+::view-transition-old(dock-out-1),
+::view-transition-old(dock-out-2) {
+  animation-duration: 0.2s;
+}
+
+::view-transition-new(dock-in-1),
+::view-transition-new(dock-in-2) {
+  animation: none;
+}

@@ -65,6 +65,19 @@
   // Back to a page kept in memory (the browser's back button): no trim left
   window.addEventListener("pageshow", untrim);
 
+  // The pills (bottom left) and the Connect menu (bottom right) get layers of
+  // their own above the sheets, so the pages don't pass over them. The ones
+  // leaving and the ones arriving get different names, so each simply fades
+  // rather than stretching into the other page's. Only for the transition: a
+  // named element stops the pills' glass from blurring the page behind it.
+  function nameDocks(side) {
+    [".floating-dock", ".quick-dock"].forEach(function (sel, i) {
+      var el = document.querySelector(sel);
+      if (el) el.style.viewTransitionName = side ? "dock-" + side + "-" + (i + 1) : "";
+    });
+  }
+  window.addEventListener("pageshow", function () { nameDocks(); });
+
   function clearCovers() {
     document.querySelectorAll("[data-cover], .case-hero").forEach(function (el) {
       el.style.viewTransitionName = "";
@@ -93,6 +106,7 @@
       }));
     } catch (err) {}
     trim(sheet());
+    nameDocks("out");
   });
 
   // On the page arriving: choose the animation and hand it the measurements
@@ -125,6 +139,7 @@
     }
 
     trim(sheet());
+    nameDocks("in");
     e.viewTransition.types.add(type);
     // A few pages tune their own: leaving the posters keeps its quick slide
     // out ("posters-back"); a case study opening fades itself in more slowly
@@ -146,6 +161,7 @@
     e.viewTransition.finished.then(function () {
       clearCovers();
       untrim();
+      nameDocks();
       root.classList.remove("is-page-transition", "is-top-blurred");
     });
   });
