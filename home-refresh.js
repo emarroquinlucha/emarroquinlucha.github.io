@@ -7,7 +7,9 @@
 //      in around the new list.
 //   4. It zooms into the greeting, which rolls Morning, Afternoon, Evening.
 //   5. It pans up as an inline message slides in from the top, then away.
-//   6. It settles on the rewards chip for a beat, then starts over.
+//   6. It settles on the rewards pill, which lights up blue with twinkling
+//      stars and rolls +$20.32, +300 pts, then Rewards, before fading back
+//      to grey. Then it starts over.
 // Plays only while on screen. Styles are under "Home refresh" in style.css.
 (function () {
   var box = document.querySelector(".ac-show");
@@ -26,16 +28,55 @@
   };
   var run = 0;
 
+  // The rewards pill's roll: the label strip (Rewards, +$20.32, +300 pts,
+  // Rewards) steps 26 points at a time; the icon strip (sparkle, points,
+  // sparkle) follows the label it belongs to
+  // The inline message keeps its room in the layout; what's below it slides
+  // up out of the way by its height (--nh) while it's hidden, with a
+  // transform, so nothing re-lays out (and jitters) as it comes and goes
+  function measureNotice() {
+    phone.style.setProperty("--nh", parts.notice.offsetHeight + "px");
+  }
+  measureNotice();
+  window.addEventListener("resize", measureNotice);
+  if (document.fonts) document.fonts.ready.then(measureNotice);
+
+  var pill = phone.querySelector(".rp");
+  var ICON_FOR = [0, 0, 1, 2];
+  function pillTo(i, animate) {
+    if (!pill) return;
+    if (!animate) pill.classList.add("is-still");
+    pill.style.setProperty("--label", i);
+    pill.style.setProperty("--icon", ICON_FOR[i]);
+    if (!animate) { void pill.offsetWidth; pill.classList.remove("is-still"); }
+  }
+
+  // A pause / play button (watch-pause.js); waits hold while it's paused
+  if (window.watchPause) watchPause.attach(box);
   function wait(ms, id) {
+    if (window.watchPause) return watchPause.wait(box, ms, function () { return id === run; });
     return new Promise(function (resolve, reject) {
       setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
     });
   }
 
-  function say(text) {
-    if (hint.textContent === text) return;
+  // The caption fades to new words; tag adds a red "Before" or green "After"
+  // chip in front of them (the compare's .hint-tag)
+  function say(text, tag) {
+    var key = (tag || "") + "|" + text;
+    if (hint.dataset.key === key) return;
+    hint.dataset.key = key;
     hint.style.opacity = 0;
-    setTimeout(function () { hint.textContent = text; hint.style.opacity = ""; }, 200);
+    setTimeout(function () {
+      hint.textContent = text;
+      if (tag) {
+        var chip = document.createElement("span");
+        chip.className = "hint-tag" + (tag === "After" ? " is-after" : "");
+        chip.textContent = tag;
+        hint.insertBefore(chip, hint.firstChild);
+      }
+      hint.style.opacity = "";
+    }, 200);
   }
 
   // Frames el in the middle of the box at scale times (yFrac picks the point
@@ -82,6 +123,9 @@
     phone.classList.add("is-solo");
     phone.dataset.list = "old";
     roll(0);
+    // The pill is out of shot: back to its first "Rewards", grey
+    if (pill) pill.classList.remove("is-earn");
+    pillTo(0, false);
     body.style.transform = "";
     void body.offsetWidth;
     frame(parts.old, fit(parts.old, 1.6), 0.5);
@@ -92,7 +136,7 @@
   async function loop(id) {
     while (true) {
       await opening(id);
-      say("Before: Plain Account Rows");
+      say("Plain Account Rows", "Before");
       await wait(1800, id);
 
       // The new list pops in with the card art
@@ -100,7 +144,7 @@
       phone.classList.add("is-pop");
       // The new list is taller, so the camera eases back to fit all of it
       frame(parts.accounts, fit(parts.accounts, 1.6), 0.5);
-      say("After: Accounts With Their Cards");
+      say("Accounts With Their Cards", "After");
       await wait(2200, id);
 
       // Pull back; the phone and the rest of the screen fade in around it
@@ -128,17 +172,28 @@
       phone.classList.remove("is-notice");
       await wait(1000, id);
 
-      // Settle on the rewards chip for a beat
+      // Settle on the rewards pill: it lights up and rolls through what you
+      // just earned, then fades back to grey
       frame(parts.chip, 3, 0.5);
       phone.classList.add("is-chip");
-      say("The Rewards Chip");
-      await wait(2400, id);
+      say("Rewards Pill Concept. Unreleased.");
+      await wait(900, id);
+      if (pill) pill.classList.add("is-earn");
+      pillTo(1, true);
+      await wait(1500, id);
+      pillTo(2, true);
+      await wait(1500, id);
+      pillTo(3, true);
+      await wait(700, id);
+      if (pill) pill.classList.remove("is-earn");
+      await wait(1300, id);
     }
   }
 
   if (reduced) {
     phone.dataset.list = "new";
     roll(1);
+    pillTo(3, false);
     return;
   }
 

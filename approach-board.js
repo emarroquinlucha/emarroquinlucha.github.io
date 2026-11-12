@@ -56,7 +56,9 @@
     var LOOP_MS = 7200;
     var ring = window.modeRing ? window.modeRing(board.querySelector(".approach-mode")) : null;
 
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(board, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });

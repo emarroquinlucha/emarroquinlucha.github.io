@@ -28,7 +28,9 @@
   var inView = false;
   var current = null;
 
+  // Holds while the demo is paused (watch-pause.js), if that's loaded
   function wait(ms, id) {
+    if (window.watchPause) return watchPause.wait(show, ms, function () { return id === run; });
     return new Promise(function (resolve, reject) {
       setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
     });

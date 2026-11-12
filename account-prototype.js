@@ -103,7 +103,9 @@
 
     function say(text) { hint.textContent = text; }
 
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(proto, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });
@@ -233,7 +235,9 @@
     function el(selector) { return proto.querySelector(selector); }
 
     // Resolves after ms, or rejects if the loop was stopped in the meantime
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(proto, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });
@@ -409,7 +413,9 @@
       }
     }
 
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(combo, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });

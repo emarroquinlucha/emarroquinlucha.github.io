@@ -1,7 +1,8 @@
 // Case study cover animations: a live HTML phone (the redesigned credit
 // account) that loops between the screen and its skeleton, tipping into an
-// isometric view as the screen gives way to coloured blocks sitting on its
-// own parts, then back. Plays while on screen (unless the visitor asked for
+// isometric view as the screen gives way to its blueprint (drafting zones
+// on its own parts), two more blueprints fan out above it into a stack of
+// three and fan back in, then it tips back. Plays while on screen (unless the visitor asked for
 // reduced motion or pressed pause) and holds until the page has finished
 // transitioning in, like the cover videos. Styles are under "Cover
 // animation" in style.css; the blocks reuse the case study's .finale-zone.
@@ -18,7 +19,14 @@
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // The phone's thickness: thin slices stacked behind it in 3D, so its edge
+  // shows as it tips (see "Phone depth" in style.css)
+  var SLABS = "";
+  for (var z = 1; z <= 6; z++) SLABS += '<span class="phone-slab" style="--z: ' + z + '" aria-hidden="true"></span>';
+
   document.querySelectorAll(".case-anim").forEach(function (media) {
+    var phoneBox = media.querySelector(".case-anim-rig .case-anim-phone");
+    if (phoneBox) phoneBox.insertAdjacentHTML("afterbegin", SLABS);
     var toggle = media.querySelector(".case-video-toggle");
     var screen = media.querySelector(".phone-mock-screen");
     var wantsPlay = !reduce;
@@ -30,6 +38,10 @@
     // 375-wide screen), once, while the phone is flat
     function measure() {
       if (zones) return;
+      // Measured face-on: the resting turn is lifted for this one reading
+      var rig = media.querySelector(".case-anim-rig");
+      rig.style.transition = "none";
+      rig.style.transform = "none";
       var s = screen.getBoundingClientRect();
       var pt = s.width / 375;
       var bottom = s.height / pt - 34;
@@ -66,6 +78,21 @@
         layer.appendChild(zone);
       });
       screen.appendChild(layer);
+      rig.style.transform = "";
+      void rig.offsetWidth;
+      rig.style.transition = "";
+
+      // Two more blueprint phones for the fan: just a frame and a copy of
+      // the drafting zones, each tipped like the phone, stacked above it
+      var stage = media.querySelector(".case-anim-stage");
+      [1, 2].forEach(function (n) {
+        var ghost = document.createElement("div");
+        ghost.className = "case-anim-layer";
+        ghost.dataset.layer = n;
+        ghost.innerHTML = '<div class="case-anim-phone">' + SLABS + '<div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>';
+        ghost.querySelector(".phone-mock-screen").appendChild(layer.cloneNode(true));
+        stage.appendChild(ghost);
+      });
     }
 
     function wait(ms, id) {
@@ -75,12 +102,19 @@
     }
 
     function skeleton(on) { media.classList.toggle("is-skeleton", on); }
+    function fan(on) { media.classList.toggle("is-fanned", on); }
 
+    // The screen; it tips into the blueprint; two more blueprints fan out
+    // above it into a stack of three; they fan back in; it tips back
     async function loop(id) {
       while (true) {
         await wait(2600, id);
         skeleton(true);
-        await wait(3400, id);
+        await wait(1700, id);
+        fan(true);
+        await wait(3000, id);
+        fan(false);
+        await wait(1800, id);
         skeleton(false);
         await wait(1000, id);
       }
@@ -94,7 +128,7 @@
       }
     }
 
-    toggle.addEventListener("click", function () {
+    if (toggle) toggle.addEventListener("click", function () {
       wantsPlay = !wantsPlay;
       media.classList.toggle("is-paused", !wantsPlay);
       toggle.setAttribute("aria-label", wantsPlay ? "Pause the animation" : "Play the animation");

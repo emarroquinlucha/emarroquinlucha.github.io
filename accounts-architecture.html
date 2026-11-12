@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accounts Architecture @ Neo | Edward A. Marroquin</title>
-  <meta name="description" content="Designing the foundations of a growing digital bank.">
+  <title>One Structure, Every Account | Edward A. Marroquin</title>
+  <meta name="description" content="Redesigning Credit, Chequing, and Savings to work as one family.">
   <!-- Placeholder content: keep out of search results until the write-up is real -->
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#f9f9fa">
@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=674">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=756">  <!-- bump the number after changing style.css so browsers load the new version -->
   <script src="page-transitions.js?v=20"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
@@ -47,32 +47,10 @@
       <article class="resume" id="intro">
         <!-- Folded top-right corner; hovering it lifts the fold -->
         <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
-        <h1 class="case-page-title">Accounts Architecture @ Neo</h1>
-        <p class="case-page-desc">Designing the foundations of a growing digital bank.</p>
+        <p class="case-page-eyebrow">Project 01</p>
+        <h1 class="case-page-title">One Structure, Every Account</h1>
+        <p class="case-page-desc">Redesigning Credit, Chequing, and Savings to work as one family.</p>
 
-        <hr class="case-divider">
-        <dl class="case-details">
-          <div>
-            <dt>Company</dt>
-            <dd>Neo Financial</dd>
-          </div>
-          <div>
-            <dt>My Role</dt>
-            <dd>Lead Designer</dd>
-          </div>
-          <div>
-            <dt>Collaborators</dt>
-            <dd>1 PM, 3-5 Engineers</dd>
-          </div>
-          <div>
-            <dt>Time Period</dt>
-            <dd>June - September 2025</dd>
-          </div>
-          <div>
-            <dt>Status</dt>
-            <dd class="case-details-status"><span class="case-details-dot" aria-hidden="true"></span>Launched September 2025</dd>
-          </div>
-        </dl>
 
         <!-- Hero (finale.js, "pair"): the Credit account and its skeleton fade
              in side by side once, and stay. finale.js copies the
@@ -87,6 +65,39 @@
           <button class="finale-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="finale-icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/><rect x="7.1" y="2" width="2.4" height="8" rx="0.8" fill="currentColor"/></svg><svg class="finale-icon-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.2 2.1v7.8a.6.6 0 0 0 .9.5l6-3.9a.6.6 0 0 0 0-1l-6-3.9a.6.6 0 0 0-.9.5Z" fill="currentColor"/></svg></button>
         </div>
 
+
+        <!-- Project details, under the hero -->
+        <section class="case-page-section" id="project-details">
+          <h2 class="case-eyebrow">Project Details</h2>
+          <dl class="case-details">
+            <div>
+              <dt>Company</dt>
+              <dd>Neo Financial</dd>
+            </div>
+            <div>
+              <dt>My Role</dt>
+              <dd>Lead Designer</dd>
+            </div>
+            <div>
+              <dt>Collaborators</dt>
+              <dd>Head of Design, PM, Mobile Engineering</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>Credit, Chequing &amp; Savings · iOS &amp; Android</dd>
+            </div>
+            <div>
+              <dt>Time Period</dt>
+              <dd>June–September 2025 (4 months)</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd class="case-details-status"><span class="case-details-dot" aria-hidden="true"></span>Launched September 2025</dd>
+            </div>
+          </dl>
+        </section>
+
+        <hr class="case-divider">
 
         <section class="case-page-section" id="outcomes">
           <h2 class="case-eyebrow">Outcomes</h2>
@@ -112,7 +123,7 @@
         <section class="case-page-section" id="overview">
           <p class="case-eyebrow">Overview</p>
           <h2>As Neo Financial continued to grow, its account experiences needed a <mark class="case-mark case-mark-green">refresh</mark>.</h2>
-          <p>I led the redesign of <strong>Credit</strong>, <strong>Chequing</strong>, and <strong>Savings</strong> accounts, bringing them together with the existing GIC experience under a clearer, more consistent design.</p>
+          <p>I led the redesign of <strong>Credit</strong>, <strong>Chequing</strong>, and <strong>Savings</strong> accounts, giving them a clearer, more consistent design with <strong>simple rules for where actions and features belong</strong>.</p>
         </section>
 
         <!-- Before/after: "Watch" wipes each account's old screen away to reveal the
@@ -266,12 +277,12 @@
         <section class="case-page-section" id="the-problem">
           <p class="case-eyebrow">The Problem</p>
           <h2>The old tab-based layout made key information and features <mark class="case-mark case-mark-red">harder to find</mark>.</h2>
-          <p>Through <mark class="case-mark case-mark-red">customer support calls</mark> and <mark class="case-mark case-mark-red">in-app feedback</mark>, we started seeing a few recurring issues:</p>
+          <p><mark class="case-mark case-mark-red">Support calls</mark> and <mark class="case-mark case-mark-red">in-app feedback</mark> kept pointing to the same issues:</p>
           <ul class="case-list-bullets">
             <li><strong>Card management</strong> was hard to find across chequing and credit accounts.</li>
             <li><strong>Credit statements</strong> were difficult to locate, leading to customer support calls.</li>
             <li><strong>Outstanding balances</strong> weren't always clear, leaving credit customers unsure of how much they owed.</li>
-            <li><strong>Upcoming features needed a home.</strong> Features like joint chequing didn't have a clear place within the existing structure.</li>
+            <li><strong>Upcoming features had no home.</strong> Features like joint chequing had no clear place in the old structure.</li>
           </ul>
         </section>
 
@@ -292,8 +303,8 @@
         <section class="case-page-section" id="the-approach">
           <p class="case-eyebrow">The Approach</p>
           <h2>I started by studying how other financial apps solved the <mark class="case-mark case-mark-yellow">same problem</mark>.</h2>
-          <p><mark class="case-mark case-mark-yellow">Rather than reinvent the wheel</mark>, I looked at how major fintechs, big banks and other popular apps organized their accounts: their navigation, what they prioritized, and how people reached everyday actions.</p>
-          <p>Then I pulled <strong>the best ideas together</strong> into something that fit Neo.</p>
+          <p>I looked at how fintechs, big banks and other popular apps organized their accounts: their navigation, what they put first, and how people reached everyday actions.</p>
+          <p>Then I pulled <strong>the best ideas</strong> into something that fit Neo.</p>
         </section>
 
         <!-- Competitive analysis: each screen's layout is color-coded by zone (see "Approach board" in style.css) -->
@@ -422,7 +433,7 @@
           <p>Everyday tasks were buried in tabs. <mark class="case-mark case-mark-blue">Now they're one tap away.</mark></p>
           <ul class="case-list-bullets case-list-titled">
             <li><strong>Quick Actions Replace Tabs</strong> Pay, View Statements and Manage Card sit right under the balance.</li>
-            <li><strong>Fewer Steps</strong> Card and account tools no longer hide behind the Cards and Details tabs.</li>
+            <li><strong>One Tap, Not Three</strong> Freezing a card or finding a statement no longer means digging through tabs first.</li>
             <li><strong>Settings Where You Expect Them</strong> A gear in the header, like most modern fintechs and popular apps.</li>
             <li><strong>Same Pattern on Every Account</strong> Chequing, Credit and Savings all work the same way.</li>
           </ul>
@@ -473,8 +484,8 @@
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 02</span></p>
           <h3 class="case-step">Making account information <mark class="case-mark case-mark-pink">easier to understand</mark>.</h3>
-          <p>Rather than relying on rows of numbers, I explored <strong>more visual ways</strong> to show important account information.</p>
-          <p>For credit accounts, this meant introducing indicators for <strong>available credit</strong> and <strong>utilization</strong>, plus a <strong>statement progress bar</strong> that shows how much of the statement has been paid, so customers can understand their account <strong>at a glance</strong>.</p>
+          <p>Instead of rows of numbers, I explored <strong>more visual ways</strong> to show key account information.</p>
+          <p>For Credit, that meant indicators for <strong>available credit</strong> and <strong>utilization</strong>, plus a <strong>statement progress bar</strong> showing how much of the statement is paid, so customers understand their account <strong>at a glance</strong>.</p>
         </section>
 
         <!-- Tap for details: plays a looping tap-through ("Watch") or lets visitors tap ("Try it"); the balance and utilization open bottom sheets (see "Prototype" in style.css and account-prototype.js) -->
@@ -507,8 +518,8 @@
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 03</span></p>
           <h3 class="case-step"><mark class="case-mark case-mark-purple">One structure</mark>, different accounts.</h3>
-          <p>I developed a <strong>shared information hierarchy</strong> that could work across Neo's financial products, while still giving each account room for its own features.</p>
-          <p>For example, savings accounts could prioritize <strong>interest earnings</strong> and <strong>savings goals</strong>, while credit accounts could focus on <strong>payments, statements</strong>, and <strong>available credit</strong>.</p>
+          <p>I built <strong>one information hierarchy</strong> for all of Neo's accounts, with room for each one's own features.</p>
+          <p>Savings can lead with <strong>interest</strong> and <strong>goals</strong>; Credit with <strong>payments, statements</strong>, and <strong>available credit</strong>.</p>
         </section>
 
         <!-- One structure: plays a short story ("Watch") — the accounts one by one, then wireframes, then all three side by side — or lets visitors explore. See "Combo" in style.css and account-prototype.js. -->
@@ -594,8 +605,8 @@
         <section class="case-page-section">
           <p class="case-eyebrow">The Redesign <span class="case-eyebrow-step">/ 04</span></p>
           <h3 class="case-step">Making room for <mark class="case-mark case-mark-teal">what's next</mark>.</h3>
-          <p>With joint accounts on the horizon, the new structure also needed to accommodate <strong>shared ownership</strong>.</p>
-          <p>I explored using <strong>member avatars</strong> in the <strong>account header</strong>, borrowing a familiar pattern from collaborative apps to make joint accounts recognizable and provide an entry point for managing members.</p>
+          <p>Joint accounts were coming, so the structure needed room for <strong>shared ownership</strong>.</p>
+          <p>I explored using <strong>member avatars</strong> in the <strong>account header</strong>, a familiar pattern from group chats, so joint accounts are easy to spot and members are a tap away.</p>
         </section>
 
         <!-- Joint chip (see "Joint chip" in style.css and joint-demo.js). Watch: the
@@ -610,21 +621,21 @@
           <div class="joint-stage">
             <div class="joint-scene" data-scene="inspo">
               <figure class="joint-phone joint-inspo" data-zoom="2.6" data-span="0.9">
-                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-instagram.jpg" width="1170" height="2532" alt="Instagram group chat with two stacked member avatars beside the group name" loading="lazy"><span class="joint-target" style="--x: 0.5; --y: 72"></span></div></div>
+                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-instagram.jpg" width="1170" height="2532" alt="Instagram group chat with two stacked member avatars beside the group name" loading="lazy"><span class="joint-dim" style="--hb: 99" aria-hidden="true"></span><span class="joint-target" style="--x: 0.5; --y: 72"></span></div></div>
               </figure>
               <figure class="joint-phone joint-inspo" data-zoom="2.6" data-span="0.9">
-                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-messages.jpg" width="1170" height="2532" alt="Messages group chat with three member avatars clustered above 3 People" loading="lazy"><span class="joint-target" style="--x: 0.5; --y: 80"></span></div></div>
+                <div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/neo-joint-inspo-messages.jpg" width="1170" height="2532" alt="Messages group chat with three member avatars clustered above 3 People" loading="lazy"><span class="joint-dim" style="--hb: 122" aria-hidden="true"></span><span class="joint-target" style="--x: 0.5; --y: 80"></span></div></div>
               </figure>
             </div>
             <div class="joint-scene" data-scene="chip">
-              <span class="joint-chip-big"><img src="images/neo-joint-chip.png?v=2" width="280" height="160" alt="The joint chip: a person icon followed by the two co-owners' overlapping avatars" loading="lazy"></span>
+              <span class="joint-chip-big" role="img" aria-label="The joint chip: a person icon followed by the two co-owners' overlapping avatars"><svg class="jchip" viewBox="0 0 70 40" aria-hidden="true"><defs><clipPath id="jc-a1"><circle cx="42" cy="20" r="8.85"/></clipPath><clipPath id="jc-b1"><circle cx="52" cy="20" r="8.85"/></clipPath><filter id="jc-s1" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="2.7" stdDeviation="0.75" flood-color="#051c2c" flood-opacity="0.06"/><feDropShadow dx="0" dy="1.15" stdDeviation="2.2" flood-color="#051c2c" flood-opacity="0.04"/></filter></defs><rect width="70" height="40" rx="12" fill="#e7e8e9"/><image href="images/neo-ui/profile.svg" x="8" y="10" width="20" height="20"/><g filter="url(#jc-s1)"><circle cx="52" cy="20" r="10" fill="#fff"/></g><image href="images/neo-ui/joint-photo-2.jpg" x="43.15" y="11.15" width="17.7" height="17.7" preserveAspectRatio="xMidYMid slice" clip-path="url(#jc-b1)"/><g filter="url(#jc-s1)"><circle cx="42" cy="20" r="10" fill="#fff"/></g><image href="images/neo-ui/joint-photo-1.jpg" x="33.15" y="11.15" width="17.7" height="17.7" preserveAspectRatio="xMidYMid slice" clip-path="url(#jc-a1)"/></svg></span>
             </div>
             <div class="joint-scene" data-scene="credit">
               <figure class="joint-phone joint-credit proto-phone" data-zoom="3" data-span="0.42">
                 <div class="phone-mock-body">
                   <div class="phone-mock-screen">
                     <div class="joint-views" data-view="home">
-                      <div class="joint-view is-current" data-view="home"><img src="images/neo-credit-joint.png" width="1125" height="3579" alt="Neo World Elite Mastercard account with the joint chip in the header, beside settings" loading="lazy"><span class="joint-chip-slot" aria-hidden="true"><img src="images/neo-joint-chip.png?v=2" width="280" height="160" alt=""></span><span class="joint-target" style="--x: 0.789; --y: 80"></span><button class="proto-hotspot" type="button" data-go="cardholders" style="--x: 0.7253; --y: 80" aria-label="Open Cardholders"></button></div>
+                      <div class="joint-view is-current" data-view="home"><img src="images/neo-credit-joint.png" width="1125" height="3579" alt="Neo World Elite Mastercard account with the joint chip in the header, beside settings" loading="lazy"><span class="joint-chip-slot" aria-hidden="true"><svg class="jchip" viewBox="0 0 70 40" aria-hidden="true"><defs><clipPath id="jc-a2"><circle cx="42" cy="20" r="8.85"/></clipPath><clipPath id="jc-b2"><circle cx="52" cy="20" r="8.85"/></clipPath><filter id="jc-s2" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="2.7" stdDeviation="0.75" flood-color="#051c2c" flood-opacity="0.06"/><feDropShadow dx="0" dy="1.15" stdDeviation="2.2" flood-color="#051c2c" flood-opacity="0.04"/></filter></defs><rect width="70" height="40" rx="12" fill="#e7e8e9"/><image href="images/neo-ui/profile.svg" x="8" y="10" width="20" height="20"/><g filter="url(#jc-s2)"><circle cx="52" cy="20" r="10" fill="#fff"/></g><image href="images/neo-ui/joint-photo-2.jpg" x="43.15" y="11.15" width="17.7" height="17.7" preserveAspectRatio="xMidYMid slice" clip-path="url(#jc-b2)"/><g filter="url(#jc-s2)"><circle cx="42" cy="20" r="10" fill="#fff"/></g><image href="images/neo-ui/joint-photo-1.jpg" x="33.15" y="11.15" width="17.7" height="17.7" preserveAspectRatio="xMidYMid slice" clip-path="url(#jc-a2)"/></svg></span><span class="joint-target" style="--x: 0.789; --y: 80"></span><button class="proto-hotspot" type="button" data-go="cardholders" style="--x: 0.7253; --y: 80" aria-label="Open Cardholders"></button></div>
                       <div class="joint-view" data-view="cardholders" inert><img src="images/neo-credit-cardholders.png" width="1125" height="2436" alt="Cardholders screen listing Jon (You) and Winnie" loading="lazy"><button class="proto-hotspot" type="button" data-go="home" style="--x: 0.1067; --y: 80" aria-label="Back to the account"></button><button class="proto-hotspot" type="button" data-go="cardholder" style="--x: 0.8667; --y: 271" aria-label="Open Winnie's additional card"></button></div>
                       <div class="joint-view" data-view="cardholder" inert><img src="images/neo-credit-cardholder.png" width="1125" height="2436" alt="Additional card screen for Winnie: her Neo World Mastercard ending 1235, the date it was added, and Remove card" loading="lazy"><button class="proto-hotspot" type="button" data-go="cardholders" style="--x: 0.1067; --y: 80" aria-label="Back to Cardholders"></button></div>
                     </div>
@@ -641,7 +652,7 @@
           <h2>One foundation, built to <mark class="case-mark case-mark-green">grow with Neo</mark>.</h2>
           <p>After launch, customers found their way around more easily. NPS rose by <strong>+XX points</strong>, feature discoverability improved by <strong>XX%</strong>, and payment questions to support dropped by <strong>XX%</strong>.</p>
           <p>A <strong>refreshed visual direction</strong> made the accounts feel lighter and more modern: cards up top, clear balances, and everyday actions within reach.</p>
-          <p>Underneath it all is a <strong>shared foundation</strong> that stays consistent across every account, with room for each product's needs and for features like joint accounts.</p>
+          <p>And underneath, one <strong>shared structure</strong> keeps every account consistent, with room for new features like joint accounts.</p>
         </section>
 
         <!-- Showcase (showcase.js): the redesigned accounts, live, with a slow
@@ -988,9 +999,9 @@
           <h2>What I <mark class="case-mark case-mark-teal">learned</mark>.</h2>
           <div class="case-reflections">
             <h3>Using established patterns.</h3>
-            <p>Building on navigation patterns people already knew from other fintechs, big banks and popular apps made the whole process <strong>much faster</strong>, and helped me <strong>win stakeholder buy-in</strong> sooner.</p>
+            <p>Building on patterns people already knew <strong>sped up the work</strong> and <strong>won stakeholder buy-in</strong> sooner.</p>
             <h3>A shared architecture is harder than it sounds.</h3>
-            <p>Most of my exploration came down to balancing <strong>each account's own needs</strong> against <strong>one structure that works for all of them</strong>. The result is a family of products that belong together: once customers learn one account, they already know their way around the rest.</p>
+            <p>Most of my exploration came down to balancing <strong>each account's own needs</strong> against <strong>one structure that works for all of them</strong>. The result is a family of accounts that belong together: learn one, and you know the rest.</p>
           </div>
           <div class="case-signoff">
             <p>I hope this wasn't too boring,</p>
@@ -1024,10 +1035,11 @@
   <script src="gradient-word.js?v=8"></script>
   <script src="phone-mock.js?v=9"></script>
   <script src="mode-ring.js?v=2"></script>
-  <script src="compare-wipe.js?v=12"></script>
-  <script src="approach-board.js?v=11"></script>
-  <script src="account-prototype.js?v=23"></script>
-  <script src="joint-demo.js?v=3"></script>
+  <script src="watch-pause.js?v=1"></script>
+  <script src="compare-wipe.js?v=13"></script>
+  <script src="approach-board.js?v=12"></script>
+  <script src="account-prototype.js?v=24"></script>
+  <script src="joint-demo.js?v=6"></script>
   <script src="finale.js?v=12"></script>
   <script src="caption-fade.js?v=2"></script>
   <script src="showcase.js?v=25"></script>
@@ -1052,5 +1064,6 @@
     })();
   </script>
   <div id="page-end"></div>
+  <script src="offscreen-pause.js?v=1" defer></script>
 </body>
 </html>

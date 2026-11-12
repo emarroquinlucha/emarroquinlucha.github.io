@@ -26,7 +26,9 @@
       cardholder: "Tap the Back Arrow to Return"
     };
 
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(joint, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });
@@ -59,12 +61,15 @@
       clearTimeout(uncropTimer);
       stageEl.classList.add("is-cropped");
       phone.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + scale + ")";
+      // The screen greys out and fades, all but its header (.joint-dim)
+      phone.classList.add("is-focus");
     }
 
     // The stage only crops while a phone is zoomed in, so it never covers
     // the caption; uncropping waits for the phone to finish zooming out
     function unzoom(phone) {
       phone.style.transform = "";
+      phone.classList.remove("is-focus");
       clearTimeout(uncropTimer);
       uncropTimer = setTimeout(function () {
         if (!joint.querySelector('.joint-phone[style*="scale"]')) stageEl.classList.remove("is-cropped");
@@ -150,6 +155,7 @@
       modes.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode); });
       run++;
       if (ring) ring.stop();
+      if (window.watchPause) watchPause.set(joint, false);
       reset();
       if (mode === "watch") {
         scene("inspo");

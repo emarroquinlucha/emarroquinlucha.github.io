@@ -42,13 +42,45 @@
       var sheet = copy.querySelector('.qa-sheet[data-sheet="' + slot.dataset.sheet + '"]');
       if (sheet) { sheet.classList.add("is-open"); copy.classList.add("is-open"); }
     }
+    if (slot.dataset.sheet === "send") addRails(copy);
     slot.appendChild(copy);
   });
+
+  // Next's Send sheet: just the Interac send row (no "add" badge), then the
+  // future payment rails as rows under it
+  function addRails(copy) {
+    var list = copy.querySelector('.qa-sheet[data-sheet="send"] .qa-list');
+    if (!list) return;
+    var rows = list.querySelectorAll(".qa-row");
+    if (rows[1]) rows[1].remove();
+    if (rows[0]) {
+      var badge = rows[0].querySelector(".qa-badge");
+      if (badge) badge.remove();
+      var note = rows[0].querySelector(".qa-row-text small");
+      if (note) note.textContent = "Send up to $3,000.";
+    }
+    [
+      ["internal-transfer", "Neo P2P Transfer", "Send money to other Neo members instantly."],
+      ["link", "Wire Transfer", "Send larger amounts straight to any bank."],
+      ["globe", "International Transfer", "Send money abroad, in their currency."],
+      ["bill", "Bill Split", "Split a bill with friends, then settle up."]
+    ].forEach(function (r, i) {
+      var row = document.createElement("div");
+      row.className = "qa-row tl-rail-row";
+      row.style.setProperty("--i", i);
+      row.innerHTML = '<span class="qa-avatar"><img src="images/neo-ui/sheets/' + r[0] + '.svg" width="24" height="24" alt=""></span>' +
+        '<div class="qa-row-body"><span class="qa-row-text"><span>' + r[1] + '</span><small>' + r[2] + '</small></span>' +
+        '<img class="qa-chev" src="images/neo-ui/sheets/chevron.svg" width="24" height="24" alt=""></div>';
+      list.appendChild(row);
+    });
+  }
 
   var run = 0;
   var inView = false;
 
+  // Holds while the demo is paused (watch-pause.js), if that's loaded
   function wait(ms, id) {
+    if (window.watchPause) return watchPause.wait(show, ms, function () { return id === run; });
     return new Promise(function (resolve, reject) {
       setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
     });

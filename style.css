@@ -430,13 +430,7 @@ h1, h2, h3 {
   padding: 0 14px;
   border: 0;
   border-radius: 999px;
-  /* Lightens toward white as the page is scrolled (--progress, 0 to 1, set on
-     .page-stats by the reading progress script), so the pills stay visible
-     against the darker bottom of the page */
-  background: color-mix(in srgb,
-    color-mix(in srgb, #fff calc(var(--progress, 0) * 85%), #dedee3) 85%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  /* Frosted glass, one colour throughout (see "Frosted pills") */
   font: var(--type-ui);
   color: var(--resume-text);
   font-variant-numeric: tabular-nums;
@@ -1760,6 +1754,11 @@ html.is-loading body {
 
 /* A round glass button with just the arrow, in the tile's bottom-right
    corner (level with the caption pill on the left) */
+/* The whole tile opens it (index.html clicks the button) and hovers it */
+.fun-tile:has(.fun-tile-button) {
+  cursor: pointer;
+}
+
 .glass-button.fun-tile-button {
   position: absolute;
   z-index: 5;
@@ -1842,8 +1841,32 @@ html.is-loading body {
     aspect-ratio: 4 / 3;
   }
 
+  /* Fun UI: tall enough for the whole phone, with room above it and
+     above the caption pill below */
+  .fun-tile.fun-savings {
+    aspect-ratio: auto;
+    padding: 32px 0 76px;
+  }
+
+  .fun-savings .sv-phone {
+    width: 46%;
+    margin-bottom: 0;
+  }
+
+  /* The posters a little smaller, with room around them and above the
+     caption pill */
+  .fun-tile.fun-posters {
+    aspect-ratio: 1 / 1.08;
+    padding: 28px 0 64px;
+  }
+
+  .fun-posters .poster-grid {
+    width: 62%;
+  }
+
+  /* Taller, so the globe has white space around it */
   .fun-tile.fun-wide {
-    aspect-ratio: 5 / 2;
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -2039,9 +2062,10 @@ html:has(.lightbox.is-open) body {
   display: block;
 }
 
+/* The sign-off in mono grey, like the section labels */
 .lightbox-about p.lightbox-about-signoff {
-  font: var(--type-body-strong);
-  color: var(--resume-text);
+  font: 400 14px/24px var(--font-mono);
+  color: var(--resume-label);
 }
 
 /* The stamp and About text share a wrapper. It does nothing on its own
@@ -2425,7 +2449,11 @@ html:has(.lightbox.is-open) body {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: letter-cycle 7s linear infinite;
+  /* Flows for about a minute, then rests where the words show the most of
+     the band: orange, peach, pink and lavender (0.92 of a pass in, the
+     words span 8%–58% of it). A moving gradient on text is redrawn every
+     frame, so it shouldn't run forever. */
+  animation: letter-cycle 7s linear 8.92 forwards;
   transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -2738,10 +2766,10 @@ html:has(.lightbox.is-open) body {
   opacity: 1;
 }
 
-/* The kicker ("Product Architecture") is the heading, at H3 like the
-   role titles below */
+/* The kicker ("Product Architecture") is the heading, a step smaller than
+   the role titles below */
 .resume .work-kicker {
-  font: var(--type-h3);
+  font: 500 16px/normal var(--font-sans);
   color: var(--resume-text);
 }
 
@@ -2869,13 +2897,35 @@ html:has(.lightbox.is-open) body {
   inset: 0;
   display: grid;
   place-items: center;
-  transform-style: preserve-3d;
   transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1);
   animation: finale-drift 9s ease-in-out infinite alternate;
+  /* One flat phone, so no preserve-3d; kept on its own layer for good so it
+     isn't re-made (and flickers) each time it tips over and back */
+  /* The same functions as the tilt, so it blends straight there and back */
+  transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+  will-change: transform, translate;
+  backface-visibility: hidden;
+}
+
+/* The card's soft drop shadows are filters, which re-render every frame of
+   the tilt; at this size they don't show, so the cover goes without */
+.case-anim .na-card {
+  filter: none;
+}
+
+/* The side buttons in the frame's outer grey, so they read as part of it
+   instead of a dark line down its edge */
+.case-list-v2 .phone-mock-body::before,
+.case-list-v2 .phone-mock-body::after {
+  background: #55555a;
+}
+
+.case-list-v2 .phone-mock-body::before {
+  box-shadow: 0 16cqw 0 #55555a;
 }
 
 .case-anim.is-skeleton .case-anim-rig {
-  transform: translateY(3%) rotateX(54deg) rotateZ(-30deg) scale(0.86);
+  transform: translateY(3%) rotateX(54deg) rotateY(0deg) rotateZ(-30deg) scale(0.86);
 }
 
 .case-anim.is-paused .case-anim-rig {
@@ -2915,7 +2965,13 @@ html:has(.lightbox.is-open) body {
 
 .case-anim.is-skeleton .phone-mock-body {
   background: transparent;
-  box-shadow: inset 0 0 0 1.5px rgba(12, 12, 13, 0.28), 0 18px 40px rgba(12, 12, 13, 0.06);
+  /* Four shadows, inset and outer in the same places as the phone's, so the
+     frame fades into the outline instead of snapping halfway */
+  box-shadow:
+    inset 0 0 0 1.5px rgba(12, 12, 13, 0.28),
+    inset 0 0 0 0 rgba(22, 22, 23, 0),
+    0 18px 40px rgba(12, 12, 13, 0.06),
+    0 5px 12px rgba(12, 12, 13, 0);
 }
 
 .case-anim.is-skeleton .phone-mock-screen {
@@ -3062,31 +3118,53 @@ html:has(.lightbox.is-open) body {
   bottom: 16px;
 }
 
+/* Zoomed in: the phone, bigger, sits near the top and runs off the card's
+   bottom edge, so the card shows its top down to the credit cards */
 .case-list-v2 .case-ht .ht-phone {
+  top: 76px;
+  /* centred under the One Structure, Every Account card's phone (74%) */
   left: 74%;
-  width: 25%;
+  width: 40%;
+  transform: translateX(-50%);
 }
 
 .case-list-v2 .case-image-placeholder > svg {
   margin-left: 48%;
 }
 
+/* Phones: the whole phone sits in a zone at the top of the card and the
+   text flows underneath it, so the two never overlap whatever the text's
+   length. The cover becomes the card's background (filling the whole item),
+   the item's top padding makes the zone (the phone's height, 46% wide at
+   about 2.05 tall, plus 36px above and 28px below; padding % is of the
+   width), and the text sits in the flow below. */
 @media (max-width: 720px) {
   .case-list-v2 .case-image {
-    aspect-ratio: 3 / 4;
+    position: absolute;
+    inset: 0;
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  .case-list-v2 .case-item {
+    padding-top: calc(94.4% + 64px);
   }
 
   .case-list-v2 .case-text {
+    position: relative;
     top: auto;
-    bottom: 0;
+    bottom: auto;
     width: 100%;
-    padding: 24px;
+    padding: 0 24px 28px;
     transform: none;
   }
 
   .case-list-v2 .case-anim-stage {
+    top: 36px;
     left: 0;
-    bottom: 36%;
+    right: 0;
+    bottom: auto;
+    aspect-ratio: 1 / 0.944;
   }
 
   .case-list-v2 .case-anim-phone {
@@ -3094,7 +3172,7 @@ html:has(.lightbox.is-open) body {
   }
 
   .case-list-v2 .case-ht .ht-phone {
-    top: 32%;
+    top: 36px;
     left: 50%;
     width: 46%;
   }
@@ -3221,7 +3299,8 @@ html:has(.lightbox.is-open) body {
 
 @media (hover: hover) {
   .glass-button:hover,
-  .case-item:has(.case-image-link:hover) .glass-button {
+  .case-item:has(.case-image-link:hover) .glass-button,
+  .fun-tile:has(.fun-tile-button):hover .glass-button {
     transform: translateY(-1px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.95),
@@ -3234,35 +3313,43 @@ html:has(.lightbox.is-open) body {
   .glass-button:hover::before,
   .glass-button:hover::after,
   .case-item:has(.case-image-link:hover) .glass-button::before,
-  .case-item:has(.case-image-link:hover) .glass-button::after {
+  .fun-tile:has(.fun-tile-button):hover .glass-button::before,
+  .case-item:has(.case-image-link:hover) .glass-button::after,
+  .fun-tile:has(.fun-tile-button):hover .glass-button::after {
     opacity: 1;
   }
 
   .glass-button:hover .glass-button-glow,
-  .case-item:has(.case-image-link:hover) .glass-button-glow {
+  .case-item:has(.case-image-link:hover) .glass-button-glow,
+  .fun-tile:has(.fun-tile-button):hover .glass-button-glow {
     opacity: 0.3;
   }
 
   .glass-button:hover::after,
   .glass-button:hover .glass-button-glow::before,
   .case-item:has(.case-image-link:hover) .glass-button::after,
-  .case-item:has(.case-image-link:hover) .glass-button-glow::before {
+  .fun-tile:has(.fun-tile-button):hover .glass-button::after,
+  .case-item:has(.case-image-link:hover) .glass-button-glow::before,
+  .fun-tile:has(.fun-tile-button):hover .glass-button-glow::before {
     animation-play-state: running;
   }
 
   .glass-button:hover .glass-button-arrow svg,
-  .case-item:has(.case-image-link:hover) .glass-button-arrow svg {
+  .case-item:has(.case-image-link:hover) .glass-button-arrow svg,
+  .fun-tile:has(.fun-tile-button):hover .glass-button-arrow svg {
     transform: translateX(100%);
   }
 
   .glass-button:hover .glass-button-arrow svg + svg,
-  .case-item:has(.case-image-link:hover) .glass-button-arrow svg + svg {
+  .case-item:has(.case-image-link:hover) .glass-button-arrow svg + svg,
+  .fun-tile:has(.fun-tile-button):hover .glass-button-arrow svg + svg {
     transform: translateX(0);
   }
 }
 
 .glass-button:active,
-.case-item:has(.case-image-link:active) .glass-button {
+.case-item:has(.case-image-link:active) .glass-button,
+.fun-tile:has(.fun-tile-button):active .glass-button {
   transform: translateY(0.5px);
   box-shadow:
     inset 0 1px 2px rgba(12, 12, 13, 0.14),
@@ -3322,14 +3409,18 @@ html:has(.lightbox.is-open) body {
   .glass-button:hover,
   .glass-button:active,
   .case-item:has(.case-image-link:hover) .glass-button,
-  .case-item:has(.case-image-link:active) .glass-button {
+  .fun-tile:has(.fun-tile-button):hover .glass-button,
+  .case-item:has(.case-image-link:active) .glass-button,
+  .fun-tile:has(.fun-tile-button):active .glass-button {
     transform: none;
   }
 
   .glass-button:hover::after,
   .glass-button:hover .glass-button-glow::before,
   .case-item:has(.case-image-link:hover) .glass-button::after,
-  .case-item:has(.case-image-link:hover) .glass-button-glow::before {
+  .fun-tile:has(.fun-tile-button):hover .glass-button::after,
+  .case-item:has(.case-image-link:hover) .glass-button-glow::before,
+  .fun-tile:has(.fun-tile-button):hover .glass-button-glow::before {
     animation-play-state: paused;
   }
 }
@@ -4237,10 +4328,11 @@ html:has(.lightbox.is-open) body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #e5484d;
+  background: #f07a7c;
   color: #fff;
   font: 600 11px/1 "Geist", sans-serif;
-  box-shadow: 0 4px 10px rgba(229, 72, 77, 0.3), 0 1px 3px rgba(229, 72, 77, 0.25);
+  /* A white ring and a soft black shadow */
+  box-shadow: 0 0 0 2px #fff, 0 3px 8px rgba(0, 0, 0, 0.22), 0 1px 2px rgba(0, 0, 0, 0.18);
 }
 
 .pa-note p,
@@ -4278,8 +4370,8 @@ html:has(.lightbox.is-open) body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #e5484d;
-  box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.16), 0 2px 6px rgba(229, 72, 77, 0.35);
+  background: #f07a7c;
+  box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.18);
   transform: translate(-50%, -50%);
 }
 
@@ -4872,27 +4964,32 @@ html:has(.lightbox.is-open) body {
   height: calc(12 * var(--pt));
 }
 
-/* The highlight: a green outline around the rows Watch zooms in on */
-.qa-row.qa-focus::after,
-.qa-sheet[data-sheet="send"] .qa-list::after {
+/* The highlight: a blue outline around the rows Watch zooms in on */
+.qa-row.qa-focus::after {
   content: "";
   position: absolute;
   inset: calc(-3 * var(--pt));
-  border: calc(2 * var(--pt)) solid #2fa84a;
+  border: calc(2 * var(--pt)) solid #006eff;
   border-radius: calc(14 * var(--pt));
-  box-shadow: 0 0 0 calc(3 * var(--pt)) rgba(47, 168, 74, 0.15);
+  box-shadow: 0 0 0 calc(3 * var(--pt)) rgba(0, 110, 255, 0.15);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
-/* Send's two rows share one outline, so it's drawn on the list */
+/* On Send each row gets its own outline, just inside the list, lighting
+   one after the other (Watch lights the list) */
 .qa-sheet[data-sheet="send"] .qa-row.qa-focus::after {
-  display: none;
+  inset: calc(4 * var(--pt)) calc(6 * var(--pt));
+  border-radius: calc(10 * var(--pt));
+}
+
+.qa-sheet[data-sheet="send"] .qa-list.is-lit .qa-row.qa-focus:nth-child(2)::after {
+  transition-delay: 0.35s;
 }
 
 .qa-row.qa-focus.is-lit::after,
-.qa-list.is-lit::after {
+.qa-list.is-lit .qa-row.qa-focus::after {
   opacity: 1;
 }
 
@@ -5847,11 +5944,12 @@ html:has(.lightbox.is-open) body {
   animation: fc-scroll 16s infinite;
 }
 
+/* Each glide settles in about 3.5s, with a quick ease-out */
 @keyframes fc-scroll {
-  0%, 14% { transform: translateY(0); animation-timing-function: cubic-bezier(0.1, 0.75, 0.2, 1); }
-  55% { transform: translateY(-56.1%); }
-  68% { transform: translateY(-56.1%); animation-timing-function: cubic-bezier(0.1, 0.75, 0.2, 1); }
-  100% { transform: translateY(0); }
+  0%, 14% { transform: translateY(0); animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1); }
+  36% { transform: translateY(-56.1%); }
+  60% { transform: translateY(-56.1%); animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1); }
+  82%, 100% { transform: translateY(0); }
 }
 
 /* Its header stays put, down to just under the Accounts / Discover switch:
@@ -5900,14 +5998,14 @@ html:has(.lightbox.is-open) body {
 
 @keyframes fc-scrolled {
   0%, 14% { opacity: 0; }
-  18%, 94% { opacity: 1; }
-  100% { opacity: 0; }
+  18%, 76% { opacity: 1; }
+  82%, 100% { opacity: 0; }
 }
 
 @keyframes fc-tabs {
   0%, 14% { box-shadow: 0 0 0 transparent, 0 0 0 transparent; }
-  18%, 94% { box-shadow: 0 calc(6 * var(--pt)) calc(16 * var(--pt)) rgba(5, 28, 44, 0.1), 0 calc(1 * var(--pt)) calc(3 * var(--pt)) rgba(5, 28, 44, 0.06); }
-  100% { box-shadow: 0 0 0 transparent, 0 0 0 transparent; }
+  18%, 76% { box-shadow: 0 calc(6 * var(--pt)) calc(16 * var(--pt)) rgba(5, 28, 44, 0.1), 0 calc(1 * var(--pt)) calc(3 * var(--pt)) rgba(5, 28, 44, 0.06); }
+  82%, 100% { box-shadow: 0 0 0 transparent, 0 0 0 transparent; }
 }
 
 .fc-label {
@@ -6103,7 +6201,7 @@ html:has(.lightbox.is-open) body {
 .case-page-section .case-signoff .case-signoff-name {
   margin-top: -4px;
   font-weight: 600;
-  color: var(--resume-text);
+  color: var(--resume-label);
 }
 
 .case-signoff-signature {
@@ -6176,7 +6274,8 @@ html:has(.lightbox.is-open) body {
   aspect-ratio: 16 / 9;
 }
 
-/* Bullets are small dots with a gray-to-black gradient */
+/* Bullets are small dots with a gray-to-black gradient (the resume's
+   .highlights share it) */
 .case-list-bullets {
   margin: 32px 0 0;
   padding-left: 34px;
@@ -6197,7 +6296,7 @@ html:has(.lightbox.is-open) body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #4a4a4f;
+  background: linear-gradient(135deg, #9a9aa0 0%, #4a4a4f 50%, #111113 100%);
 }
 
 .case-list-bullets li + li {
@@ -6367,6 +6466,18 @@ html:has(.lightbox.is-open) body {
   border-radius: 20px;
 }
 
+/* The combo's skeletons use the avatars' palette, every zone its own
+   colour (the approach board keeps its original colours, above) */
+.combo {
+  --zone-card: 138, 70, 240;      /* violet */
+  --zone-balance: 255, 122, 26;   /* orange */
+  --zone-actions: 247, 190, 20;   /* sunny yellow */
+  --zone-details: 59, 130, 255;   /* bright blue */
+  --zone-activity: 240, 70, 80;   /* coral red */
+  --zone-other: 168, 152, 160;    /* warm grey */
+  --zone-settings: 224, 45, 140;  /* magenta */
+}
+
 .approach-board > .mode-divider {
   display: none;
 }
@@ -6375,14 +6486,19 @@ html:has(.lightbox.is-open) body {
   margin-bottom: 32px;
 }
 
+/* Frosted glass, above whatever slides under it (a zoomed phone) */
 .approach-toggle {
+  position: relative;
+  z-index: 10;
   display: flex;
   width: fit-content;
   margin: 0 auto 28px;
   padding: 3px;
   border: 0.5px solid rgba(12, 12, 13, 0.1);
   border-radius: 999px;
-  background: rgba(12, 12, 13, 0.04);
+  background: rgba(236, 236, 240, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
 }
 
 .approach-toggle-button {
@@ -7116,13 +7232,13 @@ html:has(.lightbox.is-open) body {
   margin-bottom: 0;
 }
 
-/* While a phone zooms in (JS adds .is-cropped) the stage clips its top, so
-   the zoom never covers the controls, but lets it run on past the bottom:
-   the frame itself (overflow: clip) trims it at its rounded edge, and the
-   caption pill floats on top, so there's no hard cut above the caption. */
+/* While a phone zooms in (JS adds .is-cropped) it can run past the stage
+   at the top and bottom: the frame itself (overflow: clip) trims it at its
+   rounded edge, the Watch / Try it switch floats on top in frosted glass,
+   and the caption pill floats on top below, so there's no hard cut. */
 .proto-stage.is-cropped,
 .joint-stage.is-cropped {
-  clip-path: inset(0 0 -200px 0);
+  clip-path: inset(-800px 0 -200px 0);
 }
 
 .proto,
@@ -8285,8 +8401,24 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   color: var(--resume-body);
 }
 
-.highlights li::marker {
-  color: #323234;
+/* The case studies' dots: small, gray to black, centred on the title line */
+.highlights {
+  list-style: none;
+}
+
+.highlights li {
+  position: relative;
+}
+
+.highlights li::before {
+  content: "";
+  position: absolute;
+  top: 10.5px;
+  left: -18px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9a9aa0 0%, #4a4a4f 50%, #111113 100%);
 }
 
 .highlights strong {
@@ -8531,63 +8663,9 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   object-fit: cover;
 }
 
-/* When the popover opens below its trigger, the tail is at the top, right
-   above the photo. The photo then grows upward by the tail's height (23px)
-   and is clipped to the shape of "photo + tail", so one continuous image
-   fills the tail too. --tail-x lines the tail part up with the real tail. */
-.popover.is-below .popover-media:has(img) {
-  position: relative;
-  box-sizing: content-box;
-  padding-top: 23px;
-  margin-top: -43px;
-  border-radius: 0;
-  overflow: visible;
-  clip-path: polygon(
-      0 100%,
-      0.00px 29.00px,
-      0.80px 26.00px,
-      3.00px 23.80px,
-      6.00px 23.00px,
-      calc(var(--tail-x) - 21.25px + 0.00px) 23.00px,
-      calc(var(--tail-x) - 21.25px + 1.59px) 22.98px,
-      calc(var(--tail-x) - 21.25px + 2.62px) 22.84px,
-      calc(var(--tail-x) - 21.25px + 3.39px) 22.56px,
-      calc(var(--tail-x) - 21.25px + 4.06px) 22.16px,
-      calc(var(--tail-x) - 21.25px + 4.73px) 21.49px,
-      calc(var(--tail-x) - 21.25px + 5.54px) 20.37px,
-      calc(var(--tail-x) - 21.25px + 19.00px) 1.23px,
-      calc(var(--tail-x) - 21.25px + 19.75px) 0.62px,
-      calc(var(--tail-x) - 21.25px + 20.73px) 0.41px,
-      calc(var(--tail-x) - 21.25px + 21.70px) 0.62px,
-      calc(var(--tail-x) - 21.25px + 22.46px) 1.23px,
-      calc(var(--tail-x) - 21.25px + 35.91px) 20.37px,
-      calc(var(--tail-x) - 21.25px + 36.73px) 21.49px,
-      calc(var(--tail-x) - 21.25px + 37.39px) 22.16px,
-      calc(var(--tail-x) - 21.25px + 38.07px) 22.56px,
-      calc(var(--tail-x) - 21.25px + 38.83px) 22.84px,
-      calc(var(--tail-x) - 21.25px + 39.86px) 22.98px,
-      calc(var(--tail-x) - 21.25px + 41.45px) 23.00px,
-      calc(100% - 6.00px) 23.00px,
-      calc(100% - 3.00px) 23.80px,
-      calc(100% - 0.80px) 26.00px,
-      calc(100% - 0.00px) 29.00px,
-      100% 100%
-    );
-}
-
-.popover.is-below .popover-media:has(img) img {
-  position: absolute;
-  inset: 0;
-}
-
-/* ...and the tail's own fill steps aside so the photo shows through it */
-.popover.is-below:has(.popover-media img) .popover-tail-fill {
-  fill: transparent;
-}
-
 .popover p {
   margin: 0;
-  font: var(--type-body-small);
+  font: 400 14px/23px var(--font-sans);
   color: var(--resume-body);
 }
 
@@ -8601,7 +8679,7 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 .popover-tail {
   position: absolute;
   top: 100%;
-  left: calc(var(--tail-x) - 20.75px);
+  left: calc(var(--tail-x) - 17px);
   overflow: visible;
 }
 
@@ -9280,13 +9358,15 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   height: 1px;
 }
 
-/* The chip export comes with dark corners, so both copies are masked to the
-   chip's own shape: 70 × 40 with 12px corners at 60% iOS corner smoothing,
-   pulled in half a point so the dark edge pixels don't show */
-.joint-chip-big img,
-.joint-chip-slot img {
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 40' preserveAspectRatio='none'%3E%3Cpath d='M50.8 0c6.721 0 10.081 0 12.648 1.308a12 12 0 0 1 5.244 5.244c1.308 2.567 1.308 5.927 1.308 12.648L70 20.8c0 6.721 0 10.081 -1.308 12.648a12 12 0 0 1 -5.244 5.244c-2.567 1.308 -5.927 1.308 -12.648 1.308L19.2 40c-6.721 0 -10.081 0 -12.648 -1.308a12 12 0 0 1 -5.244 -5.244c-1.308 -2.567 -1.308 -5.927 -1.308 -12.648L0 19.2c0 -6.721 0 -10.081 1.308 -12.648a12 12 0 0 1 5.244 -5.244c2.567 -1.308 5.927 -1.308 12.648 -1.308Z'/%3E%3C/svg%3E") center / 98.6% 97.5% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 40' preserveAspectRatio='none'%3E%3Cpath d='M50.8 0c6.721 0 10.081 0 12.648 1.308a12 12 0 0 1 5.244 5.244c1.308 2.567 1.308 5.927 1.308 12.648L70 20.8c0 6.721 0 10.081 -1.308 12.648a12 12 0 0 1 -5.244 5.244c-2.567 1.308 -5.927 1.308 -12.648 1.308L19.2 40c-6.721 0 -10.081 0 -12.648 -1.308a12 12 0 0 1 -5.244 -5.244c-1.308 -2.567 -1.308 -5.927 -1.308 -12.648L0 19.2c0 -6.721 0 -10.081 1.308 -12.648a12 12 0 0 1 5.244 -5.244c2.567 -1.308 5.927 -1.308 12.648 -1.308Z'/%3E%3C/svg%3E") center / 98.6% 97.5% no-repeat;
+/* The joint chip: one inline SVG (70 × 40 points, --pt), so it scales as a
+   single piece when the phone zooms and nothing inside it shifts: the chip,
+   a person icon, then the two co-owners' faces overlapping, each ringed in
+   white with a soft shadow */
+.jchip {
+  display: block;
+  width: calc(70 * var(--pt));
+  height: calc(40 * var(--pt));
+  overflow: visible;
 }
 
 /* The chip on its own pops in when its scene comes up. The mask would clip a
@@ -9304,13 +9384,12 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 40' preserveAspectRatio='none'%3E%3Cpath d='M50.8 0c6.721 0 10.081 0 12.648 1.308a12 12 0 0 1 5.244 5.244c1.308 2.567 1.308 5.927 1.308 12.648L70 20.8c0 6.721 0 10.081 -1.308 12.648a12 12 0 0 1 -5.244 5.244c-2.567 1.308 -5.927 1.308 -12.648 1.308L19.2 40c-6.721 0 -10.081 0 -12.648 -1.308a12 12 0 0 1 -5.244 -5.244c-1.308 -2.567 -1.308 -5.927 -1.308 -12.648L0 19.2c0 -6.721 0 -10.081 1.308 -12.648a12 12 0 0 1 5.244 -5.244c2.567 -1.308 5.927 -1.308 12.648 -1.308Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   opacity: 0;
   transform: scale(0.6);
-  transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.34, 1.5, 0.64, 1);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.joint-chip-big img {
-  display: block;
-  width: 230px;
-  height: auto;
+/* The chip on its own, 230px across */
+.joint-chip-big .jchip {
+  --pt: calc(230px / 70);
 }
 
 .joint[data-scene="chip"] .joint-chip-big {
@@ -9362,23 +9441,25 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 
 /* The chip in the account header, drawn over the screenshot's own chip (its
    box is in the screenshot's pixels, 1125 wide) so Watch can pop it in */
+/* The slot reaches a little past the screenshot's chip on every side, so
+   none of its edge shows while the chip is hidden */
 .joint-chip-slot {
   position: absolute;
-  top: calc(180 / 1125 * 93.2cqw);
-  left: calc(711 / 1125 * 100%);
-  width: calc(210 / 1125 * 100%);
-  height: calc(120 / 1125 * 93.2cqw);
+  top: calc(170 / 1125 * 93.2cqw);
+  left: calc(701 / 1125 * 100%);
+  display: grid;
+  place-items: center;
+  width: calc(230 / 1125 * 100%);
+  height: calc(140 / 1125 * 93.2cqw);
   background: #f1f3f3;
 }
 
-.joint-chip-slot img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.34, 1.6, 0.64, 1);
+.joint-chip-slot .jchip {
+  --pt: calc(210 / 1125 * 93.2cqw / 70);
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.joint[data-mode="watch"]:not(.is-chip-added) .joint-chip-slot img {
+.joint[data-mode="watch"]:not(.is-chip-added) .joint-chip-slot .jchip {
   opacity: 0;
   transform: scale(0.4);
 }
@@ -10208,11 +10289,13 @@ article#intro {
   transition-duration: 1.1s, 1.1s, 1.1s, 1.1s, 0.4s;
 }
 
-.finale-zone[data-zone="settings"] { --zone: 219, 39, 119; border-radius: 2.5cqw; }
-.finale-zone[data-zone="card"] { --zone: 142, 78, 198; }
-.finale-zone[data-zone="balance"] { --zone: 59, 130, 246; }
-.finale-zone[data-zone="actions"] { --zone: 47, 168, 74; }
-.finale-zone[data-zone="details"] { --zone: 245, 165, 36; }
+/* The skeleton's zones, each a clearly different hue (the same as the
+   combo's): magenta, violet, orange, sunny yellow, bright blue */
+.finale-zone[data-zone="settings"] { --zone: 224, 45, 140; border-radius: 2.5cqw; }
+.finale-zone[data-zone="card"] { --zone: 138, 70, 240; }
+.finale-zone[data-zone="balance"] { --zone: 255, 122, 26; }
+.finale-zone[data-zone="actions"] { --zone: 247, 190, 20; }
+.finale-zone[data-zone="details"] { --zone: 59, 130, 255; }
 
 .finale.is-skeleton .phone-mock-screen > :not(.finale-zones) {
   opacity: 0;
@@ -11721,20 +11804,27 @@ article#intro {
   isolation: isolate;
 }
 
+/* Each face is a 17.7pt photo with its white ring drawn as a solid shadow
+   just outside it (a border on a round image lets a thin dark sliver of
+   the photo show at its edge), 20pt across in all, as in the design */
 .na-header .na-joint-faces img {
   box-sizing: border-box;
-  width: calc(20 * var(--pt));
-  height: calc(20 * var(--pt));
-  border: calc(1.15 * var(--pt)) solid #fff;
+  width: calc(17.7 * var(--pt));
+  height: calc(17.7 * var(--pt));
+  margin: calc(1.15 * var(--pt));
+  border: 0;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 calc(2.7 * var(--pt)) calc(1.5 * var(--pt)) rgba(5, 28, 44, 0.06), 0 calc(1.15 * var(--pt)) calc(4.4 * var(--pt)) rgba(5, 28, 44, 0.04);
+  box-shadow:
+    0 0 0 calc(1.15 * var(--pt)) #fff,
+    0 calc(2.7 * var(--pt)) calc(1.5 * var(--pt)) calc(1.15 * var(--pt)) rgba(5, 28, 44, 0.06),
+    0 calc(1.15 * var(--pt)) calc(4.4 * var(--pt)) calc(1.15 * var(--pt)) rgba(5, 28, 44, 0.04);
 }
 
 .na-header .na-joint-faces img:first-child {
   position: relative;
   z-index: 2;
-  margin-right: calc(-10 * var(--pt));
+  margin-right: calc(-8.85 * var(--pt));
 }
 
 .na-nav .na-joint {
@@ -13791,4 +13881,1383 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 
 .slot-char {
   white-space: pre;
+}
+
+/* A little more room under the Project Details label */
+#project-details .case-eyebrow {
+  margin-bottom: 32px;
+}
+
+/* Skeleton phones: the side buttons and the home indicator in the same soft
+   grey as the outline, instead of near-black */
+.phone-mock-body::before,
+.phone-mock-body::after,
+.phone-mock-screen::after {
+  transition: background-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+.case-anim.is-skeleton .phone-mock-body::before,
+.case-anim.is-skeleton .phone-mock-body::after,
+.finale.is-skeleton .phone-mock-body::before,
+.finale.is-skeleton .phone-mock-body::after,
+.finale-phone.is-bones .phone-mock-body::before,
+.finale-phone.is-bones .phone-mock-body::after {
+  background: #c4c4ca;
+}
+
+.case-anim.is-skeleton .phone-mock-body::before,
+.finale.is-skeleton .phone-mock-body::before,
+.finale-phone.is-bones .phone-mock-body::before {
+  box-shadow: 0 16cqw 0 #c4c4ca;
+}
+
+.case-anim.is-skeleton .phone-mock-screen::after,
+.finale.is-skeleton .phone-mock-screen::after,
+.finale-phone.is-bones .phone-mock-screen::after {
+  background: #b8b8be;
+}
+
+/* Joint demo: while an inspo screen is zoomed in (is-focus), everything
+   below its header greys out and fades, so the avatars up top stand out.
+   --hb is where the header ends, in points. */
+.joint-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(238, 239, 241, 0.74);
+  -webkit-backdrop-filter: grayscale(1);
+  backdrop-filter: grayscale(1);
+  -webkit-mask-image: linear-gradient(to bottom, transparent calc(var(--hb) / 375 * 93.2cqw), #000 calc((var(--hb) + 1) / 375 * 93.2cqw));
+  mask-image: linear-gradient(to bottom, transparent calc(var(--hb) / 375 * 93.2cqw), #000 calc((var(--hb) + 1) / 375 * 93.2cqw));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.joint-inspo.is-focus .joint-dim {
+  opacity: 1;
+  transition-delay: 0.35s;
+}
+
+/* Watch pause (watch-pause.js): the pause / play button on every Watch
+   demo, styled like the hero's, in the demo's bottom-right corner. It only
+   shows in Watch; paused, the mode ring stops filling too. */
+.watch-pause {
+  z-index: 6;
+}
+
+[data-mode]:not([data-mode="watch"]) > .watch-pause {
+  display: none;
+}
+
+.is-paused > .watch-pause .finale-icon-pause {
+  display: none;
+}
+
+.is-paused > .watch-pause .finale-icon-play {
+  display: block;
+}
+
+/* (important: the ring sets its animation inline) */
+.is-paused .mode-ring-path {
+  animation-play-state: paused !important;
+}
+
+/* ===== Rewards pill (home-tab-refresh.html, home-refresh.js) =====
+   The new rewards pill in the Home refresh phone, built from Figma (Rewards
+   Pill, 40000070:197032): 94 × 40 points. Resting, it's grey with a black
+   sparkle and "Rewards". With .is-earn it lights up in a blue gradient with
+   a white border, soft shadow and twinkling stars drifting across. The icon
+   and the label each roll inside an 18pt window (--icon, --label, 26pt a
+   step). .is-still jumps without rolling. */
+.ht-app .ht-wallet.rp {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: calc(94 * var(--pt));
+  height: calc(40 * var(--pt));
+  padding: 0 calc(8 * var(--pt));
+  gap: 0;
+  border-radius: 999px;
+  background: #e7e8e9;
+  color: #000;
+  font-size: calc(14 * var(--pt));
+  font-weight: 600;
+  line-height: calc(17.5 * var(--pt));
+  box-shadow: 0 calc(4 * var(--pt)) calc(8 * var(--pt)) calc(2 * var(--pt)) rgba(5, 28, 44, 0);
+  transition: color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* The blue gradient and its white border fade in over the grey */
+.ht-app .ht-wallet.rp::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(#2783fe, #00b3fe);
+  box-shadow: inset 0 0 0 calc(1 * var(--pt)) #fff;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.ht-app .ht-wallet.rp.is-earn {
+  color: #fff;
+  box-shadow: 0 calc(4 * var(--pt)) calc(8 * var(--pt)) calc(2 * var(--pt)) rgba(5, 28, 44, 0.06);
+}
+
+.ht-app .ht-wallet.rp.is-earn::before {
+  opacity: 1;
+}
+
+.ac-phone.is-chip .ht-wallet.rp {
+  outline: none;
+}
+
+/* Stars: small dots in a 300 × 70 field, drifting slowly sideways and
+   twinkling, only while lit */
+.rp-stars {
+  position: absolute;
+  z-index: -1;
+  top: calc(-6 * var(--pt));
+  left: calc(-105.29 * var(--pt));
+  width: calc(300 * var(--pt));
+  height: calc(70 * var(--pt));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  animation: rp-drift 9s linear infinite alternate;
+}
+
+.rp.is-earn .rp-stars {
+  opacity: 0.7;
+}
+
+.rp-stars i {
+  position: absolute;
+  top: calc(var(--y) * var(--pt));
+  left: calc(var(--x) * var(--pt));
+  width: calc(1.6 * var(--pt));
+  height: calc(1.6 * var(--pt));
+  margin: calc(-0.8 * var(--pt)) 0 0 calc(-0.8 * var(--pt));
+  border-radius: 50%;
+  background: #fff;
+  animation: rp-twinkle 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--d) * -0.37s);
+}
+
+@keyframes rp-drift {
+  to { transform: translateX(calc(60 * var(--pt))); }
+}
+
+@keyframes rp-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* The roll: an 18pt icon window, then the label window 4pt after it */
+.rp-roll {
+  position: relative;
+  display: flex;
+  gap: calc(4 * var(--pt));
+  height: calc(18 * var(--pt));
+}
+
+.rp-icon,
+.rp-label {
+  overflow: hidden;
+  height: calc(18 * var(--pt));
+}
+
+.rp-icon {
+  width: calc(18 * var(--pt));
+}
+
+.rp-label {
+  width: calc(56 * var(--pt));
+}
+
+.rp-icon-strip,
+.rp-label-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.rp-label-strip {
+  align-items: flex-start;
+  gap: calc(8 * var(--pt));
+  transform: translateY(calc(var(--label, 3) * -26 * var(--pt)));
+}
+
+.rp-label-strip span {
+  height: calc(18 * var(--pt));
+  line-height: calc(18 * var(--pt));
+  white-space: nowrap;
+}
+
+/* Icons: 18, 16 and 18pt tall with 9pt between, so each step is 26pt */
+.rp-icon-strip {
+  gap: calc(9 * var(--pt));
+  transform: translateY(calc(var(--icon, 2) * -26 * var(--pt)));
+}
+
+.ht-app .rp-ico {
+  display: block;
+  flex: none;
+  width: calc(18 * var(--pt));
+  height: calc(18 * var(--pt));
+  color: #000;
+  transition: color 0.5s ease;
+}
+
+.ht-app .rp-ico-pts {
+  width: calc(16 * var(--pt));
+  height: calc(16 * var(--pt));
+}
+
+.rp.is-earn .rp-ico {
+  color: #d2edff;
+}
+
+.rp.is-still,
+.rp.is-still * {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-stars,
+  .rp-stars i {
+    animation: none;
+  }
+}
+
+/* Home refresh: the inline message without layout animation. It always
+   keeps its room (rows at 1fr, the padding at its "message" value), and
+   everything after it sits raised by the message's height (--nh, set by
+   home-refresh.js) less the 8pt the padding gives back, then slides down
+   into place as it appears: transforms only, so the text doesn't jitter. */
+.ac-phone .ac-notice {
+  grid-template-rows: 1fr;
+  transition: none;
+}
+
+.ac-phone .ht-main,
+.ac-phone.is-notice .ht-main {
+  padding-top: calc(128 * var(--pt));
+  transition: none;
+}
+
+.ac-phone .ac-notice ~ * {
+  transform: translateY(calc(8 * var(--pt) - var(--nh, 0px)));
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s ease 0.2s;
+}
+
+.ac-phone.is-notice .ac-notice ~ * {
+  transform: none;
+}
+
+/* Home refresh caption: a Before / After chip in front of the words, like
+   the compare's */
+.ac-show > p.ac-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ac-show > p.ac-hint .hint-tag {
+  flex: none;
+  margin: 0;
+}
+
+/* The hero sits 40px above the Project Details under it, on both case
+   studies */
+.case-placeholder.case-hero:has(+ #project-details) {
+  margin-bottom: 40px;
+}
+
+/* Now / Next / Future: the future rails added to Next's Send sheet ease in
+   one after another when Next comes up */
+.tl-scene .tl-rail-row {
+  opacity: 0;
+  transform: translateY(calc(8 * var(--pt)));
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tl-scene.is-active .tl-rail-row {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.5s + var(--i) * 0.12s);
+}
+
+/* ===== A day on Home (hero-day.js) =====
+   The hero container's light shifts with the time of day (data-time on the
+   box): a warm wash glowing from the top in the morning, nothing in the
+   afternoon, a cool one in the evening. Both layers sit behind the phone,
+   over the grid, and cross-fade slowly. The phone floats gently in front. */
+.ht-hero .hd-light {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+
+.ht-hero .hd-light.is-warm {
+  background:
+    radial-gradient(90% 75% at 50% 0%, rgba(255, 178, 110, 0.24), rgba(255, 178, 110, 0) 70%),
+    radial-gradient(60% 50% at 15% 100%, rgba(255, 205, 150, 0.12), rgba(255, 205, 150, 0) 70%);
+}
+
+.ht-hero .hd-light.is-cool {
+  background:
+    radial-gradient(90% 75% at 50% 0%, rgba(96, 116, 214, 0.2), rgba(96, 116, 214, 0) 70%),
+    radial-gradient(60% 50% at 85% 100%, rgba(60, 74, 150, 0.12), rgba(60, 74, 150, 0) 70%);
+}
+
+.ht-hero[data-time="morning"] .hd-light.is-warm,
+.ht-hero[data-time="evening"] .hd-light.is-cool {
+  opacity: 1;
+}
+
+/* The phone floats in space: a slow drift up and down with a hint of tilt */
+.ht-hero .ht-phone {
+  position: relative;
+  z-index: 1;
+  animation: hd-float 7s ease-in-out infinite alternate;
+}
+
+@keyframes hd-float {
+  from { translate: 0 -6px; rotate: -0.6deg; }
+  to { translate: 0 6px; rotate: 0.6deg; }
+}
+
+.ht-hero.is-paused .ht-phone {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ht-hero .ht-phone {
+    animation: none;
+  }
+}
+
+/* Copies of the hero phone elsewhere (the timeline) stay in the afternoon */
+.tl-slot .hd-light {
+  display: none;
+}
+
+/* Both Selected Work cards: the text sits 12px lower (desktop layout only) */
+@media (min-width: 721px) {
+  .case-list-v2 .case-text {
+    top: calc(46% + 12px);
+  }
+}
+
+/* Case study pages: a small mono label above the title (Project 01, 02) */
+.case-page-eyebrow {
+  margin: 0 0 12px;
+  font: var(--type-label-s);
+  color: var(--resume-label);
+}
+
+.case-page-eyebrow + .case-page-title {
+  margin-top: 0;
+}
+
+/* ===== Avatar concepts (index.html, temporary) =====
+   Two takes on a new Product Architecture avatar, side by side under it:
+   a glass tile on a blueprint grid holding a small marble temple, drawn in
+   an oblique 3D view (t-top / t-front / t-side faces, columns shaded with
+   a gradient). A builds the temple up piece by piece, a crane line lowering
+   the pediment last; B draws it in blue lines first, then the colour rises
+   through them. Both loop every 9s. */
+.tv-compare {
+  display: flex;
+  gap: 48px;
+  margin: -8px 0 8px 146px;
+}
+
+.tv-compare figure {
+  margin: 0;
+}
+
+.tv-compare figcaption {
+  margin-top: 12px;
+  font: var(--type-label-xs);
+  color: var(--resume-label);
+}
+
+.tv-pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+/* The tile: the case study containers' look (their 28px grey grid, soft
+   white glow, vignette and hairline border), with small corners */
+.tv-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 0.5px solid var(--resume-paper-border);
+  border-radius: 7%;
+  /* A blueprint grid in grey (lines every quarter, finer ones every
+     sixteenth) over the containers' soft white glow */
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.07) 1px, transparent 1px) -1px -1px / 25% 25%,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.07) 1px, transparent 1px) -1px -1px / 25% 25%,
+    linear-gradient(rgba(12, 12, 13, 0.035) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.035) 1px, transparent 1px) -1px -1px / 6.25% 6.25%,
+    radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  isolation: isolate;
+}
+
+.tv-lg {
+  width: 180px;
+  height: 180px;
+}
+
+.tv-sm {
+  width: 98px;
+  height: 98px;
+}
+
+/* The containers' vignette, softening the grid toward the edges */
+.tv-glass {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 40%, rgba(246, 246, 248, 0.9) 100%);
+  pointer-events: none;
+}
+
+.tv-art {
+  position: absolute;
+  inset: 8% 6% 4%;
+  width: 88%;
+  height: 88%;
+  overflow: visible;
+}
+
+/* The temple in Product Architecture's stamp palette: warm cream stone lit
+   by a sunset, terracotta shadows, a brick-red wall behind the columns */
+.tv-art .t-top { fill: #fbe9cf; }
+.tv-art .t-front { fill: #f3d3a6; }
+.tv-art .t-side { fill: #d9955d; }
+.tv-art .t-step.t-front { fill: #eebf86; }
+.tv-art .t-step.t-top { fill: #f8dcb2; }
+.tv-art .t-step.t-side { fill: #c9743f; }
+.tv-art .t-ent.t-front { fill: #f6dcb4; }
+.tv-art .t-cella { fill: #c4502f; }
+.tv-art .t-cella-side { fill: #9c3a24; }
+.tv-art .t-shaft { fill: var(--shaft); }
+.tv-art .t-cap,
+.tv-art .t-base { fill: #fae6c6; }
+.tv-art .t-roof-l { fill: #f0c58e; }
+.tv-art .t-roof-r { fill: #d27a43; }
+.tv-art .t-ped { fill: #f8e3c2; }
+.tv-art .t-ped-in { fill: #e9a865; }
+
+.tv-art .tp {
+  transform-box: fill-box;
+}
+
+/* --- A: built up, piece by piece --- */
+.tv-build .tp-s1 { animation: tv-up 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; transform-origin: 50% 100%; }
+.tv-build .tp-s2 { animation: tv-up-2 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; transform-origin: 50% 100%; }
+.tv-build .tp-s3 { animation: tv-up-3 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; transform-origin: 50% 100%; }
+.tv-build .tp-cella { animation: tv-cella 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; transform-origin: 50% 100%; }
+.tv-build .tp-col {
+  transform-origin: 50% 100%;
+  animation: tv-col 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * 0.13s);
+}
+.tv-build .tp-ent { animation: tv-ent 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; }
+.tv-build .tp-ped { animation: tv-ped 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; }
+.tv-build .tp-crane {
+  stroke: #b5452f;
+  stroke-width: 1.2;
+  fill: none;
+  stroke-linecap: round;
+  animation: tv-crane 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+}
+.tv-build .t-ground { animation: tv-fade 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite; }
+
+@keyframes tv-up {
+  0% { opacity: 0; transform: translateY(10px); }
+  6%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-up-2 {
+  0%, 4% { opacity: 0; transform: translateY(10px); }
+  10%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-up-3 {
+  0%, 8% { opacity: 0; transform: translateY(10px); }
+  14%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-cella {
+  0%, 13% { opacity: 0; transform: scaleY(0.2); }
+  21%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-col {
+  0%, 18% { opacity: 0; transform: scaleY(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  28%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-ent {
+  0%, 38% { opacity: 0; transform: translateY(-8px); }
+  45%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+/* The pediment hangs from the crane line and is lowered into place */
+@keyframes tv-ped {
+  0%, 46% { opacity: 0; transform: translateY(-46px); }
+  50% { opacity: 1; transform: translateY(-46px); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  64%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes tv-crane {
+  0%, 46% { opacity: 0; transform: translateY(-46px); }
+  50% { opacity: 1; transform: translateY(-46px); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  64% { opacity: 1; transform: none; }
+  68% { opacity: 1; transform: translateY(-4px); }
+  76%, 100% { opacity: 0; transform: translateY(-70px); }
+}
+
+@keyframes tv-fade {
+  0% { opacity: 0; }
+  10%, 88% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+
+/* --- B: blueprint lines first, then the colour rises through them --- */
+.tv-blue .tv-lines * {
+  fill: none;
+  stroke: #8a8d94;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tv-draw 9s infinite;
+}
+
+.tv-blue .tv-lines .is-hidden {
+  display: none;
+}
+
+.tv-blue .tv-lines {
+  animation: tv-lines-dim 9s infinite;
+}
+
+.tv-blue .tv-rise {
+  animation: tv-rise 9s infinite;
+}
+
+.tv-blue .tv-render {
+  animation: tv-fade-late 9s infinite;
+}
+
+@keyframes tv-draw {
+  0%, 3% { stroke-dashoffset: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+  32%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes tv-lines-dim {
+  0%, 42% { opacity: 1; }
+  60%, 100% { opacity: 0; }
+}
+
+/* The mask's fill climbs from below the building to above it */
+@keyframes tv-rise {
+  0%, 34% { transform: translateY(215px); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  60%, 100% { transform: translateY(-10px); }
+}
+
+@keyframes tv-fade-late {
+  0%, 88% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-art *,
+  .tv-art {
+    animation: none !important;
+  }
+
+  .tv-blue .tv-lines * {
+    stroke-dashoffset: 0;
+  }
+
+  .tv-blue .tv-rise {
+    transform: translateY(-24px);
+  }
+}
+
+/* The avatar in each Selected Impact item, in the stamp's place */
+.work-avatar {
+  grid-column: 1;
+  width: 80px;
+}
+
+.work-avatar .tv-sm {
+  width: 80px;
+  height: 80px;
+}
+
+/* Each avatar sits centred against its copy */
+.work-item:has(.work-avatar) {
+  align-items: center;
+}
+
+/* A tighter gap beside the 80px avatar; the text still ends at 669px */
+@media (min-width: 721px) {
+  .work-item:has(.work-avatar) {
+    grid-template-columns: 80px minmax(0, 549px);
+    column-gap: 40px;
+  }
+}
+
+/* Gradient version: the crane line in the band's lavender */
+.tv-grad .tp-crane {
+  stroke: #aa8ce3;
+}
+
+/* Build version, Design Systems: the blocks drop into the pyramid one by
+   one, bottom row first, and lift away again before the next loop */
+.tv-blocks .tb {
+  animation: tv-drop 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+  animation-delay: calc(var(--i) * 0.36s);
+}
+
+.tv-blocks .tb-ground {
+  animation: tv-fade 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+}
+
+@keyframes tv-drop {
+  0% { opacity: 0; transform: translateY(-22px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  7%, 78% { opacity: 1; transform: none; }
+  86%, 100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Build version, Visual Direction: the swatches open out from a closed
+   stack into the fan, then close again before the next loop */
+.tv-fan .tf {
+  transform-origin: 100px 150px;
+  animation: tv-open 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+}
+
+.tv-fan .tb-ground,
+.tv-fan .tf-rivet {
+  animation: tv-fade 7.5s cubic-bezier(0.33, 0, 0.2, 1) infinite;
+}
+
+@keyframes tv-open {
+  0% { opacity: 0; transform: rotate(var(--from)); }
+  8% { opacity: 1; transform: rotate(var(--from)); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  38%, 80% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(0.55, 0, 0.45, 1); }
+  92% { opacity: 1; transform: rotate(var(--from)); }
+  100% { opacity: 0; transform: rotate(var(--from)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-blocks .tb,
+  .tv-fan .tf {
+    animation: none;
+  }
+}
+
+/* ===== Avatars play once (index.html script) =====
+   Each avatar holds on its first frame (nothing built yet) until it scrolls
+   into view, then plays its build once and stays built (.is-play). These
+   one-shot keyframes end on the finished picture. */
+.work-avatar .tv-art *,
+.work-avatar .tv-art {
+  animation-iteration-count: 1 !important;
+  animation-fill-mode: both !important;
+  animation-play-state: paused !important;
+}
+
+.work-avatar.is-play .tv-art *,
+.work-avatar.is-play .tv-art {
+  animation-play-state: running !important;
+}
+
+/* Temple: steps, wall, columns one by one, the beam, then the pediment
+   lowered on the crane line, which then pulls away (6s) */
+.work-avatar .tv-build .tp-s1 { animation-name: tvo-s1; animation-duration: 6s; }
+.work-avatar .tv-build .tp-s2 { animation-name: tvo-s2; animation-duration: 6s; }
+.work-avatar .tv-build .tp-s3 { animation-name: tvo-s3; animation-duration: 6s; }
+.work-avatar .tv-build .tp-cella { animation-name: tvo-cella; animation-duration: 6s; }
+.work-avatar .tv-build .tp-col { animation-name: tvo-col; animation-duration: 6s; }
+.work-avatar .tv-build .tp-ent { animation-name: tvo-ent; animation-duration: 6s; }
+.work-avatar .tv-build .tp-ped { animation-name: tvo-ped; animation-duration: 6s; }
+.work-avatar .tv-build .tp-crane { animation-name: tvo-crane; animation-duration: 6s; }
+.work-avatar .tv-build .t-ground { animation-name: tvo-fade; animation-duration: 6s; }
+
+@keyframes tvo-s1 {
+  0% { opacity: 0; transform: translateY(10px); }
+  10%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-s2 {
+  0%, 6% { opacity: 0; transform: translateY(10px); }
+  16%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-s3 {
+  0%, 12% { opacity: 0; transform: translateY(10px); }
+  22%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-cella {
+  0%, 20% { opacity: 0; transform: scaleY(0.2); }
+  33%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-col {
+  0%, 28% { opacity: 0; transform: scaleY(0); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  44%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-ent {
+  0%, 52% { opacity: 0; transform: translateY(-8px); }
+  62%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-ped {
+  0%, 62% { opacity: 0; transform: translateY(-46px); }
+  67% { opacity: 1; transform: translateY(-46px); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  86%, 100% { opacity: 1; transform: none; }
+}
+
+@keyframes tvo-crane {
+  0%, 62% { opacity: 0; transform: translateY(-46px); }
+  67% { opacity: 1; transform: translateY(-46px); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+  86% { opacity: 1; transform: none; }
+  90% { opacity: 1; transform: translateY(-4px); }
+  100% { opacity: 0; transform: translateY(-70px); }
+}
+
+@keyframes tvo-fade {
+  0% { opacity: 0; }
+  15%, 100% { opacity: 1; }
+}
+
+/* Blocks: each drops into place in turn and stays */
+.work-avatar .tv-blocks .tb { animation-name: tvo-drop; animation-duration: 0.7s; }
+.work-avatar .tv-blocks .tb-ground { animation-name: tvo-fade; animation-duration: 2.5s; }
+
+@keyframes tvo-drop {
+  0% { opacity: 0; transform: translateY(-22px); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* Swatches: the closed stack fades in, then fans open and stays */
+.work-avatar .tv-fan .tf { animation-name: tvo-open; animation-duration: 2.4s; }
+.work-avatar .tv-fan .tb-ground,
+.work-avatar .tv-fan .tf-rivet { animation-name: tvo-fade; animation-duration: 2.4s; }
+
+@keyframes tvo-open {
+  0% { opacity: 0; transform: rotate(var(--from)); }
+  18% { opacity: 1; transform: rotate(var(--from)); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  100% { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-avatar .tv-art *,
+  .work-avatar .tv-art {
+    animation: none !important;
+  }
+
+  .work-avatar .tp-crane {
+    display: none;
+  }
+}
+
+/* ===== Frosted pills =====
+   The floating pills (the read time, likes and views, the Connect pill and
+   the company pin) as frosted glass: see-through enough for the page to
+   show, softly blurred and a touch more saturated behind, with a faint white
+   rim along their edge. */
+.stat-pill,
+.quick-toggle,
+.company-pin {
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+}
+
+.stat-pill {
+  /* The colour they used to lighten to by the bottom of the page, now fixed */
+  background: color-mix(in srgb, color-mix(in srgb, #fff 85%, #e4e4e9) 55%, transparent);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
+}
+
+.quick-toggle {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(208, 208, 215, 0.7);
+}
+
+.quick-toggle:hover,
+.quick-dock.menu-open .quick-toggle {
+  background: rgba(244, 244, 246, 0.72);
+}
+
+.company-pin {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.6), 0 2px 8px rgba(12, 12, 13, 0.08);
+}
+
+/* ===== Selected Impact avatars: a light streak =====
+   Once an avatar's build has finished (index.html adds .is-done), a soft
+   band of light at half strength sweeps slowly across the illustration
+   only: the band (.tv-streak-band, added by index.html) is masked to the
+   art's own shapes. */
+.tv-streak-band {
+  transform: translateX(0) skewX(-18deg);
+  visibility: hidden;
+}
+
+.work-avatar.is-done .tv-streak-band {
+  visibility: visible;
+  animation: tvo-streak 2.4s cubic-bezier(0.45, 0, 0.3, 1) both;
+}
+
+@keyframes tvo-streak {
+  from { transform: translateX(0) skewX(-18deg); }
+  to { transform: translateX(var(--run)) skewX(-18deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-avatar.is-done .tv-streak-band {
+    animation: none;
+    visibility: hidden;
+  }
+}
+
+/* ===== Connect menu: Email and Resume icons =====
+   On the same tile as the animation containers: their grey hairline and
+   soft white glow, with no shadow (the SVGs are just the line icon) */
+.quick-avatar[src*="email-avatar"],
+.quick-avatar[src*="resume-avatar"] {
+  box-sizing: border-box;
+  border: 0.5px solid var(--resume-paper-border);
+  background: radial-gradient(ellipse 80% 75% at 50% 40%, #ffffff 0%, #fafafb 60%, #f4f4f6 100%);
+  box-shadow: none;
+}
+
+/* ===== Image popover (App Rebrand) =====
+   A dark card, with its tail, and ample padding around the cut-out phones */
+.popover-image {
+  width: 300px;
+  padding: 24px;
+  /* Dark, like the rebranded app the phones show */
+  background: #1c1c1e;
+  cursor: default;
+}
+
+.popover-image .popover-tail-fill {
+  fill: #1c1c1e;
+}
+
+.popover-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The video popovers' tail: white like the video's frame, with a whisper
+   of shadow (their card has no drop-shadow filter to give it one) */
+.popover-video .popover-tail {
+  filter: drop-shadow(0 6px 8px rgba(12, 12, 13, 0.06));
+}
+
+/* Selected Impact avatars: on hover the illustration (not its tile) grows a
+   little, and settles back when the cursor leaves */
+.work-avatar .tv-art {
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .work-avatar:hover .tv-art {
+    transform: scale(1.08);
+  }
+}
+
+/* The Connect menu in frosted glass, like the pills */
+.quick-menu,
+.quick-menu:has(.quick-avatar) {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(208, 208, 215, 0.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+}
+
+/* ===== Off-screen pause (offscreen-pause.js) =====
+   Endless animations stand still while they're off screen */
+.is-offscreen,
+.is-offscreen::before,
+.is-offscreen::after {
+  animation-play-state: paused !important;
+}
+
+/* The loader's sway and shine stop as soon as it starts fading out */
+.is-revealing .loader-stamp,
+.is-revealing .loader-shine {
+  animation-play-state: paused;
+}
+
+/* Glass buttons (View project, Back, the Play tiles' arrows) frost what's
+   behind them, like the pills */
+.glass-button {
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.6);
+}
+
+
+/* ===== Card one's skeleton as a drafting drawing =====
+   On the resume's One Structure, Every Account card (.case-anim) the
+   skeleton reads like an architect's plan in grey instead of coloured
+   blocks: each zone is a dashed outline with light diagonal hatching (a
+   section cut) and small crosshairs at its corners, over a fine drafting
+   grid on the screen. As the phone tips over, the zones draw themselves in
+   one after another (top to bottom); on the way back they fade out with
+   the rest. */
+/* The same near-white sheet as the fanned copies: light, and so the copies
+   fade away over it without any change in tone */
+.case-anim.is-skeleton .phone-mock-screen {
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    rgba(250, 250, 251, 0.92);
+}
+
+.case-anim.is-skeleton .phone-mock-body {
+  background: rgba(250, 250, 251, 0.92);
+}
+
+.case-anim .finale-zone[data-zone] {
+  --ink: 12, 12, 13;
+  /* The dashed outline in the headline gradient (orange, peach, pink,
+     lavender, left to right): a CSS dashed border can't take a gradient, so
+     it's a small SVG drawn at the zone's size (its 4px stroke is half
+     clipped, leaving 2px inside the edge) */
+  border: 0;
+  border-radius: 1.6cqw;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23ef7c28'/><stop offset='.35' stop-color='%23f2937a'/><stop offset='.65' stop-color='%23ec73c3'/><stop offset='1' stop-color='%239e80e6'/></linearGradient></defs><rect width='100%' height='100%' rx='5' fill='none' stroke='url(%23g)' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat;
+  /* Hidden, ready to draw in: reset only after the fade out has finished */
+  clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px);
+  transition: clip-path 0s linear 0.7s;
+}
+
+.case-anim .finale-zone[data-zone="settings"] {
+  border-radius: 1.4cqw;
+}
+
+/* The corner crosshairs: four small plus marks just outside each corner */
+.case-anim .finale-zone[data-zone]::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  --c: rgba(var(--ink), 0.5);
+  background:
+    linear-gradient(var(--c), var(--c)) 0 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 100% / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
+  pointer-events: none;
+}
+
+/* Drawn in from the top-left corner, each zone a beat after the last */
+.case-anim.is-skeleton .finale-zone[data-zone] {
+  clip-path: inset(-6px -6px -6px -6px);
+  transition: clip-path 0.8s cubic-bezier(0.45, 0, 0.25, 1) var(--draw, 0.3s);
+}
+
+.case-anim .finale-zone[data-zone="settings"] { --draw: 0.3s; }
+.case-anim .finale-zone[data-zone="card"] { --draw: 0.45s; }
+.case-anim .finale-zone[data-zone="balance"] { --draw: 0.6s; }
+.case-anim .finale-zone[data-zone="actions"] { --draw: 0.75s; }
+.case-anim .finale-zone[data-zone="details"] { --draw: 0.9s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .case-anim .finale-zone[data-zone],
+  .case-anim.is-skeleton .finale-zone[data-zone] {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* The blueprint stack (case-anim.js): two more blueprint phones
+   (.case-anim-layer) tipped exactly like the phone, hidden until the fan.
+   Fanned out (.is-fanned) they rise above it into a stack of three with
+   space between, while the phone drops a little so the stack stays
+   centred; then they sink back into it and fade. The drift moves from the
+   phone to the stage, so all three float together. */
+.case-anim .case-anim-stage {
+  animation: finale-drift 9s ease-in-out infinite alternate;
+}
+
+.case-anim .case-anim-rig {
+  animation: none;
+}
+
+.case-anim-layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform: translateY(3%) rotateX(54deg) rotateZ(-30deg) scale(0.86);
+  /* Folding back in: the same 1.6s glide as the phone (so the sheets stay
+     evenly spaced all the way down) */
+  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.case-anim.is-fanned .case-anim-layer {
+  transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* The copies sit exactly on the phone and look just like it, so they don't
+   fade (a half see-through copy shows its grey edge through its face, a
+   grey flash): they appear at once as the fan starts and vanish at once
+   the moment they've landed back on it (1.6s). It's done by their parts
+   (the slices and the face), not the whole sheet, so the sheet stays 3D. */
+.case-anim-layer .phone-slab,
+.case-anim-layer .phone-mock-body {
+  opacity: 0;
+  transition:
+    opacity 0s linear 1.6s,
+    background-color 0.8s ease,
+    box-shadow 0.8s ease;
+}
+
+.case-anim.is-fanned .case-anim-layer .phone-slab,
+.case-anim.is-fanned .case-anim-layer .phone-mock-body {
+  opacity: 1;
+  transition:
+    opacity 0s,
+    background-color 0.8s ease,
+    box-shadow 0.8s ease;
+}
+
+.case-anim.is-fanned .case-anim-layer[data-layer="1"] {
+  transform: translateY(1%) rotateX(54deg) rotateZ(-30deg) scale(0.86);
+}
+
+.case-anim.is-fanned .case-anim-layer[data-layer="2"] {
+  transform: translateY(-11%) rotateX(54deg) rotateZ(-30deg) scale(0.86);
+}
+
+.case-anim.is-skeleton.is-fanned .case-anim-rig {
+  transform: translateY(13%) rotateX(54deg) rotateY(0deg) rotateZ(-30deg) scale(0.86);
+  transition-duration: 1.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-anim .case-anim-stage {
+    animation: none;
+  }
+}
+
+/* The upper sheets are near-solid, so each layer reads cleanly over the one
+   below instead of their lines tangling */
+.case-anim.is-skeleton .case-anim-layer .phone-mock-screen {
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    rgba(250, 250, 251, 0.92);
+}
+
+.case-anim.is-skeleton .case-anim-layer .phone-mock-body {
+  background: rgba(250, 250, 251, 0.92);
+}
+
+/* The hatching in a lighter version of the same gradient: the gradient,
+   faded, showing only through thin diagonal lines */
+.case-anim .finale-zone[data-zone]::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ef7c28 0%, #f2937a 35%, #ec73c3 65%, #9e80e6 100%);
+  opacity: 0.4;
+  -webkit-mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+  mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+  pointer-events: none;
+}
+
+/* Card one's blueprint: the side buttons and the home indicator a shade
+   darker, so the phone's outline holds up next to the bolder zones */
+.case-anim.is-skeleton .phone-mock-body::before,
+.case-anim.is-skeleton .phone-mock-body::after {
+  background: #a6a6ad;
+}
+
+.case-anim.is-skeleton .phone-mock-body::before {
+  box-shadow: 0 16cqw 0 #a6a6ad;
+}
+
+.case-anim.is-skeleton .phone-mock-screen::after {
+  background: #96969c;
+}
+
+/* ===== Phone depth (card one, case-anim.js) =====
+   The phone and the blueprint sheets get real thickness: six thin slices
+   (.phone-slab) sit 1.2px apart behind each phone in 3D, so as it tips
+   its edge shows as a solid side. Dark like the phone's frame on the real
+   screen; light grey, with a fine outline on the last slice, in the
+   blueprint. */
+.case-anim .case-anim-rig,
+.case-anim-layer,
+.case-anim .case-anim-phone {
+  transform-style: preserve-3d;
+}
+
+.case-anim .case-anim-phone {
+  position: relative;
+}
+
+.case-anim .phone-mock-body {
+  transform: translateZ(0);
+}
+
+.phone-slab {
+  position: absolute;
+  inset: 0;
+  border-radius: 15cqw;
+  background: #2c2c2f;
+  transform: translateZ(calc(var(--z) * -1.2px));
+  transition: background-color 0.8s ease, box-shadow 0.8s ease;
+  pointer-events: none;
+}
+
+.phone-slab[style*="--z: 6"] {
+  background: #19191b;
+}
+
+.case-anim.is-skeleton .phone-slab {
+  background: #dcdce1;
+}
+
+.case-anim.is-skeleton .phone-slab[style*="--z: 6"] {
+  background: #cfcfd5;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.18);
+}
+
+/* ===== Today's Home blueprint build (ht-build.js) =====
+   The resume's second card: the mock fades to the drafting grid
+   (.is-blueprint), blueprint boxes draw in over its parts (.is-drawn), the
+   parts render back one by one (.is-render), then the full mock returns.
+   The boxes look like card one's: gradient dashed outlines, light gradient
+   hatching and grey corner crosshairs. */
+
+/* The phone: dark frame to a light outline, like card one's blueprint */
+.case-ht .ht-phone .phone-mock-body {
+  transition: background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.case-ht.is-blueprint .ht-phone .phone-mock-body {
+  background: rgba(250, 250, 251, 0.92);
+  box-shadow:
+    inset 0 0 0 1.5px rgba(12, 12, 13, 0.28),
+    inset 0 0 0 0 rgba(22, 22, 23, 0),
+    0 18px 40px rgba(12, 12, 13, 0.06),
+    0 5px 12px rgba(12, 12, 13, 0);
+}
+
+.case-ht .ht-phone .phone-mock-body::before,
+.case-ht .ht-phone .phone-mock-body::after,
+.case-ht .ht-phone .phone-mock-screen::before,
+.case-ht .ht-phone .phone-mock-screen::after {
+  transition: background-color 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease;
+}
+
+.case-ht.is-blueprint .ht-phone .phone-mock-body::before,
+.case-ht.is-blueprint .ht-phone .phone-mock-body::after {
+  background: #a6a6ad;
+}
+
+.case-ht.is-blueprint .ht-phone .phone-mock-body::before {
+  box-shadow: 0 16cqw 0 #a6a6ad;
+}
+
+.case-ht.is-blueprint .ht-phone .phone-mock-screen::before {
+  opacity: 0;
+}
+
+.case-ht.is-blueprint .ht-phone .phone-mock-screen::after {
+  background: #96969c;
+}
+
+/* The screen keeps the mock's own background colour; a fine drafting grid
+   fades in over it, under the parts (the header clears so the grid runs to
+   the top) */
+.case-ht .ht-app {
+  isolation: isolate;
+}
+
+.case-ht .ht-app::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw,
+    linear-gradient(90deg, rgba(12, 12, 13, 0.075) 1px, transparent 1px) 0 0 / 8cqw 8cqw;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+.case-ht.is-blueprint .ht-app::before {
+  opacity: 1;
+}
+
+.case-ht .ht-header {
+  transition: background-color 0.7s ease;
+}
+
+.case-ht.is-blueprint .ht-header {
+  background-color: transparent;
+}
+
+/* The parts: gone in the blueprint, then back one by one */
+/* (Coming back with the full mock, the parts still to render ease in
+   together, slowly, over 2s) */
+.case-ht .ht-part {
+  transition: opacity 2s ease, transform 2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.case-ht.is-blueprint .ht-part {
+  transition-duration: 0.5s;
+}
+
+.case-ht.is-blueprint .ht-part {
+  opacity: 0;
+  transform: translateY(1.5cqw);
+}
+
+/* Each part back as the script reaches it (.is-in, a beat apart) */
+.case-ht.is-blueprint .ht-part.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* The blueprint boxes, placed in points on a 375-wide screen */
+.bp-zones {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.case-ht.is-blueprint .bp-zones {
+  opacity: 1;
+}
+
+/* The way back to the full mock is slow: the boxes and grid fade out, the
+   frame darkens and the background returns over about 2s */
+.case-ht:not(.is-blueprint) .bp-zones,
+.case-ht:not(.is-blueprint) .ht-app::before,
+.case-ht:not(.is-blueprint) .ht-header,
+.case-ht:not(.is-blueprint) .ht-phone .phone-mock-body,
+.case-ht:not(.is-blueprint) .ht-phone .phone-mock-body::before,
+.case-ht:not(.is-blueprint) .ht-phone .phone-mock-body::after,
+.case-ht:not(.is-blueprint) .ht-phone .phone-mock-screen::before,
+.case-ht:not(.is-blueprint) .ht-phone .phone-mock-screen::after {
+  transition-duration: 2s;
+}
+
+.bp-zone {
+  --ink: 12, 12, 13;
+  position: absolute;
+  top: calc(var(--t) / 375 * 93.2cqw);
+  left: calc(var(--l) / 375 * 100%);
+  width: calc(var(--w) / 375 * 100%);
+  height: calc(var(--h) / 375 * 93.2cqw);
+  border-radius: 1.6cqw;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='0'><stop offset='0' stop-color='%23ef7c28'/><stop offset='.35' stop-color='%23f2937a'/><stop offset='.65' stop-color='%23ec73c3'/><stop offset='1' stop-color='%239e80e6'/></linearGradient></defs><rect width='100%' height='100%' rx='5' fill='none' stroke='url(%23g)' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat;
+  /* Hidden, ready to draw in: reset only after the blueprint has faded */
+  clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px);
+  transition: clip-path 0s linear 0.7s, opacity 0s linear 0.7s;
+}
+
+.bp-zone::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  --c: rgba(var(--ink), 0.5);
+  background:
+    linear-gradient(var(--c), var(--c)) 0 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 3.5px / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 0 / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) 3.5px 100% / 1px 8px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% calc(100% - 3.5px) / 8px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3.5px) 100% / 1px 8px no-repeat;
+}
+
+.bp-zone::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ef7c28 0%, #f2937a 35%, #ec73c3 65%, #9e80e6 100%);
+  opacity: 0.4;
+  -webkit-mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+  mask: repeating-linear-gradient(-45deg, #000 0 1px, transparent 1px 2.2cqw);
+}
+
+/* Drawn in from the top-left corner, top to bottom, a beat apart */
+.case-ht.is-drawn .bp-zone {
+  clip-path: inset(-6px -6px -6px -6px);
+  transition: clip-path 0.8s cubic-bezier(0.45, 0, 0.25, 1) calc(var(--i) * 110ms);
+}
+
+/* Each box fades as its part renders over it */
+.case-ht.is-drawn.is-render .bp-zone {
+  opacity: 0;
+  transition:
+    clip-path 0.8s cubic-bezier(0.45, 0, 0.25, 1),
+    opacity 0.45s ease calc(var(--i) * 130ms + 150ms);
+}
+
+/* Selected Impact: the bank and the blocks play their blueprint render once
+   (when scrolled to, like the fan): the grey lines draw the shape, the
+   gradient colours rise up through them, and the lines fade away, leaving
+   the finished piece. The loop's last beat (fading it all out) is dropped. */
+.work-avatar .tv-blue .tv-lines * { animation-name: tv-draw; animation-duration: 6s; }
+.work-avatar .tv-blue .tv-lines { animation-name: tv-lines-dim; animation-duration: 6s; }
+.work-avatar .tv-blue .tv-rise { animation-name: tv-rise; animation-duration: 6s; }
+.work-avatar .tv-blue .tv-render { animation: none; }
+
+/* The linework is outline only: the bank's steps carry fills from older
+   rules, which showed its base early in the wrong colours */
+.tv-blue .tv-lines * {
+  fill: none !important;
 }

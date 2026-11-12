@@ -39,7 +39,9 @@
   function sheet(name) { return phone.querySelector('.qa-sheet[data-sheet="' + name + '"]'); }
   function action(name) { return phone.querySelector('.qa-action[data-sheet="' + name + '"]'); }
 
+  // Holds while the demo is paused (watch-pause.js), if that's loaded
   function wait(ms, id) {
+    if (window.watchPause) return watchPause.wait(proto, ms, function () { return id === run; });
     return new Promise(function (resolve, reject) {
       setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
     });

@@ -34,7 +34,9 @@
     var LOOP_MS = 21600;
     var ring = window.modeRing ? window.modeRing(slider.querySelector(".proto-mode")) : null;
 
+    // Holds while the demo is paused (watch-pause.js), if that's loaded
     function wait(ms, id) {
+      if (window.watchPause) return watchPause.wait(slider, ms, function () { return id === run; });
       return new Promise(function (resolve, reject) {
         setTimeout(function () { id === run ? resolve() : reject("stopped"); }, ms);
       });

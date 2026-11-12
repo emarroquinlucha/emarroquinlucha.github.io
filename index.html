@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=674">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=756">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -151,8 +151,8 @@
       <hr class="resume-divider">
 
       <!-- Selected work: copy one <article class="work-item">...</article> to add another.
-           A stamp goes first in the item, as <button class="work-stamp">…</button>:
-           it tilts on hover and opens in the lightbox when clicked -->
+           An avatar goes first in the item (div.work-avatar): an illustrated,
+           animated tile. Styles under "Avatar concepts" in style.css -->
       <div class="work-list">
         <div class="work-intro">
           <p class="work-intro-title">A few things I helped shape in my previous role.</p>
@@ -163,43 +163,35 @@
         </div>
 
         <article class="work-item">
-          <button class="work-stamp" type="button" aria-label="Open the Product Architecture stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
-            <span class="work-stamp-tilt">
-              <img src="images/stamp-product-architecture.webp?v=3" width="640" height="640" alt="A vintage-style postage stamp reading “Product Architecture”: a crane lifting a stone block onto a classical columned temple under construction at sunset, with scaffolding beside it. Along the bottom, “Edward A. Marroquin”, his signature and “50¢”." loading="lazy">
-              <span class="work-stamp-glare" aria-hidden="true"></span>
-            </span>
-          </button>
+          <div class="work-avatar" role="img" aria-label="A classical bank, drawn as a blueprint and filled in"><span class="tv-tile tv-sm" data-v="render"><svg class="tv-art tv-blue tv-grad" viewBox="0 12 200 180" aria-hidden="true"><defs><radialGradient id="pa4-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#2a2a2e" stop-opacity="0.2"/><stop offset="1" stop-color="#2a2a2e" stop-opacity="0"/></radialGradient><linearGradient id="pa4-shaft" x1="0" x2="1"><stop offset="0" stop-color="#ffece4"/><stop offset="0.45" stop-color="#f7b9a2"/><stop offset="1" stop-color="#df8274"/></linearGradient><linearGradient id="pa4-fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.12" stop-color="#fff"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="pa4-mask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="240" height="240"><rect class="tv-rise" x="-20" y="-20" width="240" height="240" fill="url(#pa4-fade)"/></mask></defs><g class="tv-render" mask="url(#pa4-mask)"><ellipse class="t-ground" cx="102" cy="160" rx="78" ry="9" fill="url(#pa4-shadow)"/><g class="tp tp-s1"><polygon class="t-step t-top" points="30,150 158,150 174,141 46,141" style="fill: #fcdccf"/><polygon class="t-step t-side" points="158,150 174,141 174,149 158,158" style="fill: #c97d74"/><rect class="t-step t-front" x="30" y="150" width="128" height="8" style="fill: #f39980"/></g><g class="tp tp-s2"><polygon class="t-step t-top" points="38,142 150,142 166,133 54,133" style="fill: #fcdccf"/><polygon class="t-step t-side" points="150,142 166,133 166,141 150,150" style="fill: #c97d74"/><rect class="t-step t-front" x="38" y="142" width="112" height="8" style="fill: #f39980"/></g><g class="tp tp-s3"><polygon class="t-step t-top" points="46,134 142,134 158,125 62,125" style="fill: #fcdccf"/><polygon class="t-step t-side" points="142,134 158,125 158,133 142,142" style="fill: #c97d74"/><rect class="t-step t-front" x="46" y="134" width="96" height="8" style="fill: #f39980"/></g><g class="tp tp-cella"><polygon class="t-cella-side" points="140,84 156,75 156,125 140,134" style="fill: #8a6fd0"/><rect class="t-cella" x="50" y="84" width="90" height="50" style="fill: #aa8ce3"/></g><g class="tp tp-col" style="--i: 0"><rect class="t-base" x="48" y="132" width="14" height="2.5" style="fill: #fde7dc"/><rect class="t-shaft" x="50" y="86" width="10" height="46" style="fill: url(#pa4-shaft)"/><rect class="t-cap" x="48" y="82" width="14" height="4" style="fill: #fde7dc"/></g><g class="tp tp-col" style="--i: 1"><rect class="t-base" x="67" y="132" width="14" height="2.5" style="fill: #fde7dc"/><rect class="t-shaft" x="69" y="86" width="10" height="46" style="fill: url(#pa4-shaft)"/><rect class="t-cap" x="67" y="82" width="14" height="4" style="fill: #fde7dc"/></g><g class="tp tp-col" style="--i: 2"><rect class="t-base" x="86" y="132" width="14" height="2.5" style="fill: #fde7dc"/><rect class="t-shaft" x="88" y="86" width="10" height="46" style="fill: url(#pa4-shaft)"/><rect class="t-cap" x="86" y="82" width="14" height="4" style="fill: #fde7dc"/></g><g class="tp tp-col" style="--i: 3"><rect class="t-base" x="105" y="132" width="14" height="2.5" style="fill: #fde7dc"/><rect class="t-shaft" x="107" y="86" width="10" height="46" style="fill: url(#pa4-shaft)"/><rect class="t-cap" x="105" y="82" width="14" height="4" style="fill: #fde7dc"/></g><g class="tp tp-col" style="--i: 4"><rect class="t-base" x="124" y="132" width="14" height="2.5" style="fill: #fde7dc"/><rect class="t-shaft" x="126" y="86" width="10" height="46" style="fill: url(#pa4-shaft)"/><rect class="t-cap" x="124" y="82" width="14" height="4" style="fill: #fde7dc"/></g><g class="tp tp-ent"><polygon class="t-ent t-top" points="44,72 144,72 160,63 60,63" style="fill: #fde4d8"/><polygon class="t-ent t-side" points="144,72 160,63 160,73 144,82" style="fill: #cc9a93"/><rect class="t-ent t-front" x="44" y="72" width="100" height="10" style="fill: #f7bfa9"/></g><g class="tp tp-ped"><polygon class="t-roof-l" points="44,72 94,51 110,42 60,63" style="fill: #f9c6dd"/><polygon class="t-roof-r" points="94,51 144,72 160,63 110,42" style="fill: #ca6baf"/><polygon class="t-ped" points="44,72 144,72 94,51" style="fill: #f6b6d8"/><polygon class="t-ped-in" points="58,69.5 130,69.5 94,54.5" style="fill: #ee7dc9"/></g></g><g class="tv-lines"><g class="tp tp-s1"><polygon class="t-step t-top" points="30,150 158,150 174,141 46,141" pathLength="1"/><polygon class="t-step t-side" points="158,150 174,141 174,149 158,158" pathLength="1"/><rect class="t-step t-front" x="30" y="150" width="128" height="8" pathLength="1"/></g><g class="tp tp-s2"><polygon class="t-step t-top" points="38,142 150,142 166,133 54,133" pathLength="1"/><polygon class="t-step t-side" points="150,142 166,133 166,141 150,150" pathLength="1"/><rect class="t-step t-front" x="38" y="142" width="112" height="8" pathLength="1"/></g><g class="tp tp-s3"><polygon class="t-step t-top" points="46,134 142,134 158,125 62,125" pathLength="1"/><polygon class="t-step t-side" points="142,134 158,125 158,133 142,142" pathLength="1"/><rect class="t-step t-front" x="46" y="134" width="96" height="8" pathLength="1"/></g><g class="tp tp-cella"><polygon class="t-cella-side" points="140,84 156,75 156,125 140,134" pathLength="1"/><rect class="t-cella" x="50" y="84" width="90" height="50" pathLength="1"/></g><g class="tp tp-col" style="--i: 0"><rect class="t-base" x="48" y="132" width="14" height="2.5" pathLength="1"/><rect class="t-shaft" x="50" y="86" width="10" height="46" pathLength="1"/><rect class="t-cap" x="48" y="82" width="14" height="4" pathLength="1"/></g><g class="tp tp-col" style="--i: 1"><rect class="t-base" x="67" y="132" width="14" height="2.5" pathLength="1"/><rect class="t-shaft" x="69" y="86" width="10" height="46" pathLength="1"/><rect class="t-cap" x="67" y="82" width="14" height="4" pathLength="1"/></g><g class="tp tp-col" style="--i: 2"><rect class="t-base" x="86" y="132" width="14" height="2.5" pathLength="1"/><rect class="t-shaft" x="88" y="86" width="10" height="46" pathLength="1"/><rect class="t-cap" x="86" y="82" width="14" height="4" pathLength="1"/></g><g class="tp tp-col" style="--i: 3"><rect class="t-base" x="105" y="132" width="14" height="2.5" pathLength="1"/><rect class="t-shaft" x="107" y="86" width="10" height="46" pathLength="1"/><rect class="t-cap" x="105" y="82" width="14" height="4" pathLength="1"/></g><g class="tp tp-col" style="--i: 4"><rect class="t-base" x="124" y="132" width="14" height="2.5" pathLength="1"/><rect class="t-shaft" x="126" y="86" width="10" height="46" pathLength="1"/><rect class="t-cap" x="124" y="82" width="14" height="4" pathLength="1"/></g><g class="tp tp-ent"><polygon class="t-ent t-top" points="44,72 144,72 160,63 60,63" pathLength="1"/><polygon class="t-ent t-side" points="144,72 160,63 160,73 144,82" pathLength="1"/><rect class="t-ent t-front" x="44" y="72" width="100" height="10" pathLength="1"/></g><g class="tp tp-ped"><polygon class="t-roof-l" points="44,72 94,51 110,42 60,63" pathLength="1"/><polygon class="t-roof-r" points="94,51 144,72 160,63 110,42" pathLength="1"/><polygon class="t-ped" points="44,72 144,72 94,51" pathLength="1"/><polygon class="t-ped-in" points="58,69.5 130,69.5 94,54.5" pathLength="1"/></g></g></svg><span class="tv-glass" aria-hidden="true"></span></span></div>
           <div class="work-text">
             <p class="work-kicker">Product Architecture</p>
-            <p class="work-desc">Redesigned core account and product experiences, established scalable screen templates across the app, and partnered with company leads to define its <mark class="case-mark case-mark-orange">current</mark> and <mark class="case-mark case-mark-orange">future architecture</mark>.</p>
+            <p class="work-desc">Redesigned core account experiences, set up scalable screen templates, and partnered with company leads to define the app's <mark class="case-mark case-mark-orange">current</mark> and <mark class="case-mark case-mark-orange">future architecture</mark>.</p>
           </div>
         </article>
 
+
         <article class="work-item">
-          <button class="work-stamp" type="button" aria-label="Open the Design Systems stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
-            <span class="work-stamp-tilt">
-              <img src="images/stamp-design-systems.webp?v=2" width="640" height="640" alt="A vintage-style postage stamp reading “Design Systems”: interface pieces stacked like a pyramid at sunset — type, colour swatches, icons, a button, a toggle, a slider and cards — on a grid with spacing marks. Along the bottom, “Edward A. Marroquin”, his signature and “95¢”." loading="lazy">
-              <span class="work-stamp-glare" aria-hidden="true"></span>
-            </span>
-          </button>
+          <div class="work-avatar" role="img" aria-label="A pyramid of building blocks, drawn as a blueprint and filled in"><span class="tv-tile tv-sm" data-v="render"><svg class="tv-art tv-blue tv-grad" viewBox="0.3 11.2 217.4 195.7" aria-hidden="true"><defs><radialGradient id="ds4-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#2a2a2e" stop-opacity="0.2"/><stop offset="1" stop-color="#2a2a2e" stop-opacity="0"/></radialGradient><linearGradient id="ds4-fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.12" stop-color="#fff"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="ds4-mask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="240" height="240"><rect class="tv-rise" x="-20" y="-20" width="240" height="240" fill="url(#ds4-fade)"/></mask></defs><g class="tv-render" mask="url(#ds4-mask)"><ellipse cx="102" cy="160" rx="76" ry="8" fill="url(#ds4-shadow)"/><g><polygon points="30,148 172,148 188,139 46,139" style="fill: #f5dace"/><polygon points="172,148 188,139 188,149 172,158" style="fill: #ca9e97"/><polygon points="30,148 172,148 172,158 30,158" style="fill: #eebfaa"/></g><g><polygon points="38,122 80,122 96,113 54,113" style="fill: #f7b883"/><polygon points="80,122 96,113 96,139 80,148" style="fill: #cc7033"/><polygon points="38,122 80,122 80,148 38,148" style="fill: #f1842a"/></g><g><polygon points="80,122 122,122 138,113 96,113" style="fill: #f8c4b5"/><polygon points="122,122 138,113 138,139 122,148" style="fill: #ce8176"/><polygon points="80,122 122,122 122,148 80,148" style="fill: #f39980"/></g><g><polygon points="122,122 164,122 180,113 138,113" style="fill: #cebcef"/><polygon points="164,122 180,113 180,139 164,148" style="fill: #9576c3"/><polygon points="122,122 164,122 164,148 122,148" style="fill: #aa8ce3"/></g><g><polygon points="59,96 101,96 117,87 75,87" style="fill: #f5b4e0"/><polygon points="101,96 117,87 117,113 101,122" style="fill: #ca6baf"/><polygon points="59,96 101,96 101,122 59,122" style="fill: #ee7dc9"/></g><g><polygon points="101,96 143,96 159,87 117,87" style="fill: #f9c896"/><polygon points="143,96 159,87 159,113 143,122" style="fill: #cf864c"/><polygon points="101,96 143,96 143,122 101,122" style="fill: #f5a04a"/></g><g><polygon points="80,70 122,70 138,61 96,61" style="fill: #bbabe4"/><polygon points="122,70 138,61 138,87 122,96" style="fill: #7c60b4"/><polygon points="80,70 122,70 122,96 80,96" style="fill: #8a6fd0"/></g></g><g class="tv-lines"><g><polygon points="30,148 172,148 188,139 46,139" pathLength="1"/><polygon points="172,148 188,139 188,149 172,158" pathLength="1"/><polygon points="30,148 172,148 172,158 30,158" pathLength="1"/></g><g><polygon points="38,122 80,122 96,113 54,113" pathLength="1"/><polygon points="80,122 96,113 96,139 80,148" pathLength="1"/><polygon points="38,122 80,122 80,148 38,148" pathLength="1"/></g><g><polygon points="80,122 122,122 138,113 96,113" pathLength="1"/><polygon points="122,122 138,113 138,139 122,148" pathLength="1"/><polygon points="80,122 122,122 122,148 80,148" pathLength="1"/></g><g><polygon points="122,122 164,122 180,113 138,113" pathLength="1"/><polygon points="164,122 180,113 180,139 164,148" pathLength="1"/><polygon points="122,122 164,122 164,148 122,148" pathLength="1"/></g><g><polygon points="59,96 101,96 117,87 75,87" pathLength="1"/><polygon points="101,96 117,87 117,113 101,122" pathLength="1"/><polygon points="59,96 101,96 101,122 59,122" pathLength="1"/></g><g><polygon points="101,96 143,96 159,87 117,87" pathLength="1"/><polygon points="143,96 159,87 159,113 143,122" pathLength="1"/><polygon points="101,96 143,96 143,122 101,122" pathLength="1"/></g><g><polygon points="80,70 122,70 138,61 96,61" pathLength="1"/><polygon points="122,70 138,61 138,87 122,96" pathLength="1"/><polygon points="80,70 122,70 122,96 80,96" pathLength="1"/></g></g></svg><span class="tv-glass" aria-hidden="true"></span></span></div>
           <div class="work-text">
             <p class="work-kicker">Design Systems</p>
-            <p class="work-desc">Contributed to, evolved, maintained and documented the components and patterns of our design system, helping designers across teams <mark class="case-mark case-mark-mustard">work faster</mark> and <mark class="case-mark case-mark-mustard">more efficiently</mark>.</p>
+            <p class="work-desc">Evolved, maintained and documented our design system's components and patterns, helping designers across teams <mark class="case-mark case-mark-mustard">work faster</mark>.</p>
           </div>
         </article>
 
+
+
+
         <article class="work-item">
-          <button class="work-stamp" type="button" aria-label="Open the Visual Direction stamp" aria-haspopup="dialog" aria-controls="stamp-lightbox">
-            <span class="work-stamp-tilt">
-              <img src="images/stamp-visual-direction.webp?v=2" width="640" height="640" alt="A vintage-style postage stamp reading “Visual Direction”: a web page on an easel at sunset, showing an image, “Aa” type, a colour palette and buttons, with a compass star in the sky. Along the bottom, “Edward A. Marroquin”, his signature and “75¢”." loading="lazy">
-              <span class="work-stamp-glare" aria-hidden="true"></span>
-            </span>
-          </button>
+          <div class="work-avatar" role="img" aria-label="A fan of colour swatches, fanning open as it's drawn and filled in"><span class="tv-tile tv-sm" data-v="render"><svg class="tv-art tv-blue tv-fan tv-grad" viewBox="-8.7 9.2 217.4 195.7" aria-hidden="true"><defs><radialGradient id="vd4-shadow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#2a2a2e" stop-opacity="0.2"/><stop offset="1" stop-color="#2a2a2e" stop-opacity="0"/></radialGradient><linearGradient id="vd4-fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.12" stop-color="#fff"/><stop offset="1" stop-color="#fff"/></linearGradient><mask id="vd4-mask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="240" height="240"><rect class="tv-rise" x="-20" y="-20" width="240" height="240" fill="url(#vd4-fade)"/></mask></defs><g class="tv-render" mask="url(#vd4-mask)"><ellipse cx="102" cy="160" rx="76" ry="8" fill="url(#vd4-shadow)"/><g class="tf" style="--from: 0deg; --i: 0"><polygon points="13.5,102.27 25.8,84.03 115.34,144.42 103.04,162.66" style="fill: #bc582c"/><polygon points="10.95,103.2 23.25,84.96 112.78,145.35 100.48,163.59" style="fill: #fbf5ee"/><polygon points="10.95,103.2 23.25,84.96 91.23,130.82 78.93,149.05" style="fill: #e2681f"/></g><g class="tf" style="--from: -16deg; --i: 1"><polygon points="30.01,80.28 46.86,66.14 116.28,148.87 99.43,163.01" style="fill: #c76e34"/><polygon points="27.29,80.47 44.15,66.32 113.57,149.06 96.72,163.2" style="fill: #fbf5ee"/><polygon points="27.29,80.47 44.15,66.32 96.86,129.14 80,143.28" style="fill: #f1842a"/></g><g class="tf" style="--from: -32deg; --i: 2"><polygon points="51.94,63.69 72.04,54.74 115.96,153.4 95.87,162.35" style="fill: #ca824c"/><polygon points="49.28,63.12 69.38,54.17 113.3,152.83 93.2,161.78" style="fill: #fbf5ee"/><polygon points="49.28,63.12 69.38,54.17 102.73,129.08 82.63,138.03" style="fill: #f5a04a"/></g><g class="tf" style="--from: -48deg; --i: 3"><polygon points="77.59,53.78 99.38,50.72 114.41,157.67 92.62,160.73" style="fill: #c97d74"/><polygon points="75.19,52.5 96.98,49.44 112.01,156.39 90.22,159.45" style="fill: #fbf5ee"/><polygon points="75.19,52.5 96.98,49.44 108.39,130.64 86.6,133.71" style="fill: #f39980"/></g><g class="tf" style="--from: -64deg; --i: 4"><polygon points="104.98,51.33 126.77,54.39 111.74,161.34 89.95,158.28" style="fill: #cb9591"/><polygon points="103.02,49.44 124.81,52.5 109.78,159.45 87.99,156.39" style="fill: #fbf5ee"/><polygon points="103.02,49.44 124.81,52.5 113.4,133.71 91.61,130.64" style="fill: #f6b9a6"/></g><g class="tf" style="--from: -80deg; --i: 5"><polygon points="131.98,56.53 152.08,65.48 108.15,164.14 88.06,155.19" style="fill: #c568ab"/><polygon points="130.62,54.17 150.72,63.12 106.8,161.78 86.7,152.83" style="fill: #fbf5ee"/><polygon points="130.62,54.17 150.72,63.12 117.37,138.03 97.27,129.08" style="fill: #ee7dc9"/></g><g class="tf" style="--from: -96deg; --i: 6"><polygon points="156.51,68.96 173.36,83.11 103.94,165.84 87.09,151.7" style="fill: #b272b6"/><polygon points="155.85,66.32 172.71,80.47 103.28,163.2 86.43,149.06" style="fill: #fbf5ee"/><polygon points="155.85,66.32 172.71,80.47 120,143.28 103.14,129.14" style="fill: #d58ad8"/></g><g class="tf" style="--from: -112deg; --i: 7"><polygon points="176.66,87.68 188.96,105.92 99.42,166.31 87.12,148.07" style="fill: #9274bf"/><polygon points="176.75,84.96 189.05,103.2 99.52,163.59 87.22,145.35" style="fill: #fbf5ee"/><polygon points="176.75,84.96 189.05,103.2 121.07,149.05 108.77,130.82" style="fill: #aa8ce3"/></g><g class="tf-rivet"><polygon points="103.2,150 102.263,152.263 100,153.2 97.7373,152.263 96.8,150 97.7373,147.737 100,146.8 102.263,147.737" style="fill: #e9d9cc"/></g></g><g class="tv-lines"><g class="tf" style="--from: 0deg; --i: 0"><polygon points="13.5,102.27 25.8,84.03 115.34,144.42 103.04,162.66" pathLength="1"/><polygon points="10.95,103.2 23.25,84.96 112.78,145.35 100.48,163.59" pathLength="1"/><polygon points="10.95,103.2 23.25,84.96 91.23,130.82 78.93,149.05" pathLength="1"/></g><g class="tf" style="--from: -16deg; --i: 1"><polygon points="30.01,80.28 46.86,66.14 116.28,148.87 99.43,163.01" pathLength="1"/><polygon points="27.29,80.47 44.15,66.32 113.57,149.06 96.72,163.2" pathLength="1"/><polygon points="27.29,80.47 44.15,66.32 96.86,129.14 80,143.28" pathLength="1"/></g><g class="tf" style="--from: -32deg; --i: 2"><polygon points="51.94,63.69 72.04,54.74 115.96,153.4 95.87,162.35" pathLength="1"/><polygon points="49.28,63.12 69.38,54.17 113.3,152.83 93.2,161.78" pathLength="1"/><polygon points="49.28,63.12 69.38,54.17 102.73,129.08 82.63,138.03" pathLength="1"/></g><g class="tf" style="--from: -48deg; --i: 3"><polygon points="77.59,53.78 99.38,50.72 114.41,157.67 92.62,160.73" pathLength="1"/><polygon points="75.19,52.5 96.98,49.44 112.01,156.39 90.22,159.45" pathLength="1"/><polygon points="75.19,52.5 96.98,49.44 108.39,130.64 86.6,133.71" pathLength="1"/></g><g class="tf" style="--from: -64deg; --i: 4"><polygon points="104.98,51.33 126.77,54.39 111.74,161.34 89.95,158.28" pathLength="1"/><polygon points="103.02,49.44 124.81,52.5 109.78,159.45 87.99,156.39" pathLength="1"/><polygon points="103.02,49.44 124.81,52.5 113.4,133.71 91.61,130.64" pathLength="1"/></g><g class="tf" style="--from: -80deg; --i: 5"><polygon points="131.98,56.53 152.08,65.48 108.15,164.14 88.06,155.19" pathLength="1"/><polygon points="130.62,54.17 150.72,63.12 106.8,161.78 86.7,152.83" pathLength="1"/><polygon points="130.62,54.17 150.72,63.12 117.37,138.03 97.27,129.08" pathLength="1"/></g><g class="tf" style="--from: -96deg; --i: 6"><polygon points="156.51,68.96 173.36,83.11 103.94,165.84 87.09,151.7" pathLength="1"/><polygon points="155.85,66.32 172.71,80.47 103.28,163.2 86.43,149.06" pathLength="1"/><polygon points="155.85,66.32 172.71,80.47 120,143.28 103.14,129.14" pathLength="1"/></g><g class="tf" style="--from: -112deg; --i: 7"><polygon points="176.66,87.68 188.96,105.92 99.42,166.31 87.12,148.07" pathLength="1"/><polygon points="176.75,84.96 189.05,103.2 99.52,163.59 87.22,145.35" pathLength="1"/><polygon points="176.75,84.96 189.05,103.2 121.07,149.05 108.77,130.82" pathLength="1"/></g></g></svg><span class="tv-glass" aria-hidden="true"></span></span></div>
           <div class="work-text">
             <p class="work-kicker">Visual Direction</p>
             <p class="work-desc">Evolved Neo's visual direction, bringing <mark class="case-mark case-mark-plum">greater consistency</mark> to the app's interface, iconography, and brand expression.</p>
           </div>
         </article>
+
+
+
       </div>
 
       <h2 class="resume-label" id="case-studies">Selected Work</h2>
@@ -323,29 +315,25 @@
               </div>
             </div>
             <a class="case-image-link" href="accounts-architecture.html" tabindex="-1" aria-hidden="true"></a>
-            <button class="case-video-toggle" type="button" aria-label="Pause the animation">
-              <svg class="icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg>
-              <svg class="icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg>
-            </button>
           </div>
           <div class="case-text">
             <p class="case-tag">Neo Financial</p>
-            <h3 class="case-title">Accounts Architecture</h3>
-            <p class="case-desc">Designing the foundations of a growing digital&nbsp;bank.</p>
+            <h3 class="case-title">One Structure, Every Account</h3>
+            <p class="case-desc">Redesigning Credit, Chequing, and Savings to work as one&nbsp;family.</p>
             <a class="glass-button" href="accounts-architecture.html">View project</a>
           </div>
         </article>
         <article class="case-item">
           <!-- Cover: the new Accounts tab (the same HTML screen as the case
                study's hero), still, on the case studies' light grid -->
-          <div class="case-image case-media case-ht" role="img" aria-label="Home tab refresh: the new Accounts tab, with quick actions and every account grouped by type">
-            <div class="ht-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- The new Accounts tab, built in HTML from the Figma frame (Portfolio Screens, 23:15583) --><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet"><span class="ht-wallet-icon"><img src="images/neo-ui/home/rewards.svg" width="20" height="20" alt=""></span>$58.22</span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span>Afternoon,</span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
+          <div class="case-image case-media case-ht" role="img" aria-label="Home tab refresh: the new Home tab through a day, the greeting rolling from morning to evening and the rewards pill lighting up">
+            <div class="ht-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><!-- The new Accounts tab, built in HTML from the Figma frame (Portfolio Screens, 23:15583) --><div class="ht-app"><div class="na-header ht-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt=""><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt=""><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt=""></span></div><div class="ht-header-row"><span class="ht-wallet rp"><span class="rp-stars" aria-hidden="true"><i style="--x: 10.58; --y: 19.40; --d: 0"></i><i style="--x: 33.15; --y: 25.04; --d: 1"></i><i style="--x: 21.16; --y: 51.85; --d: 2"></i><i style="--x: 45.85; --y: 39.86; --d: 3"></i><i style="--x: 58.54; --y: 25.04; --d: 4"></i><i style="--x: 107.92; --y: 48.32; --d: 5"></i><i style="--x: 73.36; --y: 38.45; --d: 6"></i><i style="--x: 90.29; --y: 22.22; --d: 7"></i><i style="--x: 110.04; --y: 22.22; --d: 8"></i><i style="--x: 100.16; --y: 32.10; --d: 9"></i><i style="--x: 70.54; --y: 52.55; --d: 10"></i><i style="--x: 166.46; --y: 52.55; --d: 11"></i><i style="--x: 148.83; --y: 30.69; --d: 12"></i><i style="--x: 202.44; --y: 41.97; --d: 13"></i><i style="--x: 80.41; --y: 53.96; --d: 14"></i><i style="--x: 138.95; --y: 15.87; --d: 15"></i><i style="--x: 158.70; --y: 32.10; --d: 16"></i><i style="--x: 187.62; --y: 15.87; --d: 17"></i><i style="--x: 229.95; --y: 35.62; --d: 18"></i><i style="--x: 235.59; --y: 4.59; --d: 19"></i><i style="--x: 141.78; --y: 39.86; --d: 20"></i><i style="--x: 213.02; --y: 35.62; --d: 21"></i><i style="--x: 226.42; --y: 15.87; --d: 22"></i><i style="--x: 220.07; --y: 53.26; --d: 23"></i><i style="--x: 129.79; --y: 51.85; --d: 24"></i></span><span class="rp-roll"><span class="rp-icon"><span class="rp-icon-strip"><svg class="rp-ico" viewBox="0 0 18 18" width="18" height="18"><path d="M15.9995 9.0408C16.0035 9.20347 15.9406 9.36066 15.8255 9.47572C15.7105 9.59077 15.5532 9.65362 15.3905 9.6496C10.5215 10.5193 10.4345 10.7802 9.65151 15.3868C9.56451 15.7347 9.39051 15.9956 9.04252 15.9956C8.86755 16.0166 8.69189 15.9622 8.55939 15.8461C8.42688 15.7299 8.35002 15.5629 8.34798 15.3868C7.478 10.6933 7.478 10.5193 2.60899 9.6496C2.261 9.56263 2 9.38869 2 9.0408C2.01458 8.69507 2.26801 8.40612 2.60899 8.34649C7.478 7.56375 7.565 7.21587 8.34798 2.60931C8.38085 2.2541 8.68595 1.98667 9.04252 2.00051C9.20523 1.9965 9.36248 2.05935 9.47757 2.1744C9.59266 2.28945 9.65553 2.44665 9.65151 2.60931C10.4345 7.21587 10.5215 7.47678 15.3905 8.34649C15.7458 8.37935 16.0133 8.68435 15.9995 9.0408Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor"/></svg><svg class="rp-ico rp-ico-pts" viewBox="0 0 16 16" width="16" height="16"><path d="M5.29801 8.09567L7.81204 2L10.3077 8.09293C11.8881 8.32751 12.9574 8.778 12.9574 9.29513C12.9574 9.70487 12.2863 10.0727 11.2218 10.3245L12.9222 14.4758H12.1469L10.3817 10.4862C9.62553 10.6029 8.74798 10.6696 7.81205 10.6696C6.86803 10.6696 5.9834 10.6017 5.22287 10.4832L3.442 14.4758H2.66667L4.38087 10.3194C3.32875 10.0677 2.66667 9.70213 2.66667 9.29513C2.66667 8.78 3.72777 8.33101 5.29801 8.09567ZM5.17477 8.39447C4.24596 8.54959 3.65347 8.78493 3.65347 9.04847C3.65347 9.26107 4.03913 9.45533 4.67594 9.60393L5.17477 8.39447ZM5.54639 9.75787L6.21111 8.26761C6.70388 8.22577 7.2447 8.20266 7.81205 8.20266C8.37426 8.20266 8.91041 8.22535 9.39953 8.26647L10.0604 9.76013C9.41213 9.845 8.64039 9.89427 7.81205 9.89427C6.97634 9.89427 6.1982 9.84413 5.54639 9.75787ZM10.9285 9.60853C11.5771 9.45933 11.9707 9.26327 11.9707 9.04847C11.9707 8.78313 11.3699 8.54632 10.4299 8.39125L10.9285 9.60853ZM9.27139 7.97678C8.80875 7.9403 8.31896 7.92071 7.81205 7.92071C7.30064 7.92071 6.80666 7.94065 6.34039 7.97776L7.81204 4.67841L9.27139 7.97678Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor"/></svg><svg class="rp-ico" viewBox="0 0 18 18" width="18" height="18"><path d="M15.9995 9.0408C16.0035 9.20347 15.9406 9.36066 15.8255 9.47572C15.7105 9.59077 15.5532 9.65362 15.3905 9.6496C10.5215 10.5193 10.4345 10.7802 9.65151 15.3868C9.56451 15.7347 9.39051 15.9956 9.04252 15.9956C8.86755 16.0166 8.69189 15.9622 8.55939 15.8461C8.42688 15.7299 8.35002 15.5629 8.34798 15.3868C7.478 10.6933 7.478 10.5193 2.60899 9.6496C2.261 9.56263 2 9.38869 2 9.0408C2.01458 8.69507 2.26801 8.40612 2.60899 8.34649C7.478 7.56375 7.565 7.21587 8.34798 2.60931C8.38085 2.2541 8.68595 1.98667 9.04252 2.00051C9.20523 1.9965 9.36248 2.05935 9.47757 2.1744C9.59266 2.28945 9.65553 2.44665 9.65151 2.60931C10.4345 7.21587 10.5215 7.47678 15.3905 8.34649C15.7458 8.37935 16.0133 8.68435 15.9995 9.0408Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor"/></svg></span></span><span class="rp-label"><span class="rp-label-strip"><span>Rewards</span><span>+$20.32</span><span>+300 pts</span><span>Rewards</span></span></span></span></span><span class="ht-iconbtn"><img src="images/neo-ui/home/profile.svg" width="24" height="24" alt=""></span></div></div><div class="ht-main"><div class="ht-greeting"><p><span class="ac-roll"><span class="ac-roll-track"><span>Morning,</span><span>Afternoon,</span><span>Evening,</span></span></span> Eddie</p><span class="ht-eye"><img src="images/neo-ui/home/hide.svg" width="20" height="20" alt=""></span></div><div class="ht-actions"><div class="ht-action"><span class="is-primary"><img src="images/neo-ui/home/pay.svg" width="24" height="24" alt=""></span>Pay</div><div class="ht-action"><span><img src="images/neo-ui/home/add.svg" width="24" height="24" alt=""></span>Add funds</div><div class="ht-action"><span><img src="images/neo-ui/home/move.svg" width="24" height="24" alt=""></span>Move funds</div><div class="ht-action"><span><img src="images/neo-ui/home/send.svg" width="24" height="24" alt=""></span>Send</div></div><div class="ht-accounts"><div class="ht-group"><p class="ht-group-head"><span>Credit cards</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-credit.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo World Elite</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Everyday</span><small>$1,234.56</small></p><div class="ht-row is-last"><span class="ht-card"><img src="images/neo-ui/home/mini-card-everyday.png" width="32" height="51" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Neo Everyday</span><small>••••1234</small></span><span class="ht-row-amount"><span>$1,234.56</span></span></div></div></div><div class="ht-group"><p class="ht-group-head"><span>Savings</span><small>$15,703.12</small></p><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/support.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Emergency</span><small>2.9%</small></span><span class="ht-row-amount"><span>$11,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$612.12</span></span></div></div><div class="ht-row"><span class="ht-avatar"><img src="images/neo-ui/home/car.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Car repairs</span><small>2.9%</small></span><span class="ht-row-amount"><span>$1,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$36.32</span></span></div></div><div class="ht-row is-last"><span class="ht-avatar"><img src="images/neo-ui/home/housing.svg" width="24" height="24" alt=""></span><div class="ht-row-body"><span class="ht-row-text"><span>Home renovations</span><small>2.9%</small></span><span class="ht-row-amount"><span>$3,234.56</span><span class="ht-trend"><img src="images/neo-ui/home/trend-up.svg" width="12" height="12" alt="">$112.32</span></span></div></div></div><span class="ht-add"><img src="images/neo-ui/home/add-small.svg" width="20" height="20" alt="">Add account</span></div><div class="ht-refer"><div class="ht-refer-text"><b>Refer and earn</b><p>Every time a friend opens a Neo product.</p><span class="ht-refer-button">Earn more</span></div><img class="ht-refer-image" src="images/neo-ui/home/refer.png" width="224" height="328" alt=""></div><img class="ht-dots" src="images/neo-ui/home/dots.svg" width="374" height="6" alt=""></div><div class="ht-tabbar"><div class="ht-tabs"><span class="ht-tab is-on"><img src="images/neo-ui/home/tab-accounts.svg" width="24" height="24" alt="">Accounts</span><span class="ht-tab"><img src="images/neo-ui/home/tab-insights.svg" width="24" height="24" alt="">Insights</span><span class="ht-tab"><img src="images/neo-ui/home/tab-rewards.svg" width="24" height="24" alt="">Rewards</span><span class="ht-tab"><img src="images/neo-ui/home/tab-payments.svg" width="24" height="24" alt="">Payments</span></div></div></div></div></div></div>
             <a class="case-image-link" href="home-tab-refresh.html" tabindex="-1" aria-hidden="true"></a>
           </div>
           <div class="case-text">
             <p class="case-tag">Neo Financial</p>
-            <h3 class="case-title">Making Room for More</h3>
-            <p class="case-desc">Refreshing Neo's Home and exploring what's next for the app.</p>
+            <h3 class="case-title">Today's Home,<br>Tomorrow's App</h3>
+            <p class="case-desc">Bringing everyday actions forward, and mapping where Neo goes&nbsp;next.</p>
             <a class="glass-button" href="home-tab-refresh.html">View project</a>
           </div>
         </article>
@@ -401,7 +389,7 @@
         </div>
         <!-- Full width and short; a placeholder for now -->
         <div class="fun-tile fun-wide">
-          <!-- A small dotted world spinning above the label (globe.js, three.js) -->
+          <!-- A small dotted world spinning above the label (globe.js, a plain 2D canvas) -->
           <canvas class="fun-globe" aria-hidden="true"></canvas>
           <p class="proto-hint">🚧 3D Experiments Coming Soon</p>
         </div>
@@ -438,7 +426,7 @@
                 </svg>
               </a>
             </h3>
-            <p class="company-years">2020-2026</p>
+            <p class="company-years">2020–2026</p>
           </div>
         </header>
         <!-- A small logo (and caret) that stays pinned under the big one while this
@@ -452,38 +440,38 @@
 
         <div class="roles">
           <article class="role">
-            <p class="role-years">2025 - 2026</p>
+            <p class="role-years">2025–2026</p>
             <div class="role-body">
               <h4 class="role-title">Lead, Product Designer &amp; Design Systems</h4>
               <ul class="highlights">
                 <li>
                   <strong>Design System Unification</strong>
-                  Began unifying product and marketing design foundations through shared components, patterns, and documentation, so both could ship with one consistent look and less duplicated work. Unreleased.
+                  Started unifying product and marketing design with shared components, patterns, and documentation: one look, less duplicated work. Unreleased.
                 </li>
                 <li>
                   <strong>Engineering Partnership</strong>
                   Collaborated on React Native component migration and design fidelity; initiated Figma Code Connect mapping.
                 </li>
                 <li class="narrow">
-                  <strong>App Rebrand</strong>
-                  Led the visual refresh of Neo's app, including home screen, iconography, and supporting assets, to give Neo a more modern, cohesive app that matches its evolving brand. Unreleased.
+                  <strong><span class="popover-trigger" tabindex="0" data-popover="popover-rebrand" aria-describedby="popover-rebrand"><span class="popover-trigger-text">App Rebrand</span><svg class="popover-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg></span></strong>
+                  Led the visual refresh of Neo's app, from the home screen to iconography and supporting assets, to match its evolving brand. Unreleased.
                 </li>
               </ul>
             </div>
           </article>
 
           <article class="role">
-            <p class="role-years">2024 - 2025</p>
+            <p class="role-years">2024–2025</p>
             <div class="role-body">
               <h4 class="role-title">Lead Product Designer</h4>
               <ul class="highlights">
                 <li>
                   <strong><span class="popover-trigger" tabindex="0" data-popover="popover-neo-accounts" aria-describedby="popover-neo-accounts"><span class="popover-trigger-text">Accounts Redesign</span><svg class="popover-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg></span></strong>
-                  Established consistent account structures and visual direction across credit, savings, and chequing, improving discoverability and usability and laying the groundwork for future account features.
+                  Gave credit, savings, and chequing one consistent structure and look, making features easier to find and leaving room for what's next.
                 </li>
                 <li>
                   <strong><span class="popover-trigger" tabindex="0" data-popover="popover-statement-tracker" aria-describedby="popover-statement-tracker"><span class="popover-trigger-text">Credit Card Payments</span><svg class="popover-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg></span></strong>
-                  Simplified statement and payment summaries to clarify balances, payments, and amounts owed, to reduce payment-related calls and increase on-time payments.
+                  Simplified statement and payment summaries so customers know what they owe, aiming for fewer payment calls and more on-time payments.
                 </li>
                 <li class="narrow">
                   <strong>App Architecture</strong>
@@ -494,7 +482,7 @@
           </article>
 
           <article class="role">
-            <p class="role-years">2021 - 2024</p>
+            <p class="role-years">2021–2024</p>
             <div class="role-body">
               <h4 class="role-title">Senior Product Designer</h4>
               <ul class="highlights">
@@ -511,13 +499,13 @@
           </article>
 
           <article class="role">
-            <p class="role-years">2020 - 2021</p>
+            <p class="role-years">2020–2021</p>
             <div class="role-body">
               <h4 class="role-title">Product Designer</h4>
               <ul class="highlights">
                 <li>
                   <strong>Investment Product</strong>
-                  Helped launch Neo's investment experience, covering accounts, portfolios, and holdings, expanding Neo beyond banking into investing.
+                  Helped take Neo beyond banking into investing, with accounts, portfolios, and holdings.
                 </li>
                 <li>
                   <strong>Automatic Payments</strong>
@@ -546,7 +534,7 @@
                 </svg>
               </a>
             </h3>
-            <p class="company-years">2018 - 2020</p>
+            <p class="company-years">2018–2020</p>
           </div>
         </header>
         <div class="company-rail" aria-hidden="true">
@@ -558,7 +546,7 @@
 
         <div class="roles">
           <article class="role">
-            <p class="role-years">2018 - 2020</p>
+            <p class="role-years">2018–2020</p>
             <div class="role-body">
               <h4 class="role-title">UX/UI Designer</h4>
               <ul class="highlights">
@@ -596,6 +584,9 @@
             <!-- App icons; hovering or focusing one shows its name in a tooltip -->
             <ul class="tool-list">
               <li class="tool" tabindex="0" data-tip="Figma"><img class="tool-avatar" src="images/figma-avatar.svg" width="40" height="40" alt="Figma"></li>
+              <li class="tool" tabindex="0" data-tip="Adobe Creative Cloud"><img class="tool-avatar" src="images/adobe-avatar.svg" width="40" height="40" alt="Adobe Creative Cloud"></li>
+              <li class="tool" tabindex="0" data-tip="Confluence"><img class="tool-avatar" src="images/confluence-avatar.svg" width="40" height="40" alt="Confluence"></li>
+              <li class="tool" tabindex="0" data-tip="Slack"><img class="tool-avatar" src="images/slack-avatar.svg" width="40" height="40" alt="Slack"></li>
               <li class="tool" tabindex="0" data-tip="Claude"><img class="tool-avatar" src="images/claude-avatar.svg?v=2" width="40" height="40" alt="Claude"></li>
               <li class="tool" tabindex="0" data-tip="ChatGPT"><img class="tool-avatar" src="images/chatgpt-avatar.svg?v=2" width="40" height="40" alt="ChatGPT"></li>
             </ul>
@@ -674,7 +665,7 @@
       <!-- Email: copies the address. The script swaps "Email" and the icon for the
            copied or failed state, then swaps them back. -->
       <button class="quick-item quick-copy" type="button" data-copy="emarroquinlucha@gmail.com" aria-label="Copy email address">
-        <img class="quick-avatar" src="images/email-avatar.svg" width="32" height="32" alt="">
+        <img class="quick-avatar" src="images/email-avatar.svg?v=2" width="32" height="32" alt="">
         <span class="quick-text">
           <span class="quick-value">Email</span>
         </span>
@@ -696,7 +687,7 @@
 
       <!-- The resume PDF. To update it, replace Edward-Marroquin-Resume.pdf in the site folder -->
       <a class="quick-item" href="Edward-Marroquin-Resume.pdf?v=2" download="Edward-Marroquin-Resume.pdf">
-        <img class="quick-avatar" src="images/resume-avatar.svg?v=3" width="32" height="32" alt="">
+        <img class="quick-avatar" src="images/resume-avatar.svg?v=4" width="32" height="32" alt="">
         <span class="quick-text">
           <span class="quick-value">Resume</span>
         </span>
@@ -728,7 +719,7 @@
       <img src="images/neo-popover.jpg" width="620" height="338" alt="Two Neo Mastercard credit cards, silver and black, on a striped cloth beside sunglasses, keys and a map">
     </div>
     <p><strong>Neo Financial</strong> is a Canadian financial technology company founded in 2019 and headquartered in Calgary, Alberta. It provides digital banking, credit, and savings products in partnership with regulated financial institutions.</p>
-    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+    <svg class="popover-tail" width="34" height="13" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
       <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
       <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
       <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
@@ -738,10 +729,30 @@
   <!-- Video popover: just the video, no card. It plays while open (see the popovers script). -->
   <div class="popover popover-video" id="popover-neo-accounts" role="tooltip">
     <video src="images/neo-accounts.mp4?v=2" poster="images/neo-accounts-poster.jpg?v=2" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Neo account redesign: the credit card screen with balance, utilization and statement"></video>
+    <svg class="popover-tail" width="34" height="13" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
   </div>
 
   <div class="popover popover-video" id="popover-statement-tracker" role="tooltip">
     <video src="images/statement-tracker.mp4" poster="images/statement-tracker-poster.jpg" width="960" height="640" muted loop playsinline preload="metadata" aria-label="Credit card payment feature: the statement card's remaining balance updating as a payment lands"></video>
+    <svg class="popover-tail" width="34" height="13" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
+  </div>
+
+  <!-- Image popover: the rebranded app (Figma, Edward's Wunderland), cut out -->
+  <div class="popover popover-image" id="popover-rebrand" role="tooltip">
+    <img src="images/app-rebrand-popover.webp" width="2000" height="1917" loading="lazy" alt="Neo's rebranded app in dark mode: the home screen with balances and quick actions, and the welcome screen with a photo collage and Fast approvals, instant benefits">
+    <svg class="popover-tail" width="34" height="13" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+      <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
+      <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
+      <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
+    </svg>
   </div>
 
   <a class="popover" id="popover-skip" href="https://www.skipthedishes.com/" tabindex="-1">
@@ -749,7 +760,7 @@
       <img src="images/skip-popover.jpg" width="620" height="338" alt="A Skip courier carrying an orange Skip delivery bag up a front walkway">
     </div>
     <p><strong>SkipTheDishes</strong> (branded as Skip) is a Canadian online food delivery service headquartered in Winnipeg, Manitoba, and a subsidiary of Just Eat Takeaway.com.</p>
-    <svg class="popover-tail" width="41.5" height="23" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
+    <svg class="popover-tail" width="34" height="13" viewBox="0 0 41.5 28" preserveAspectRatio="none" aria-hidden="true">
       <path class="popover-tail-fill" d="M0 0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0Z"/>
       <rect class="popover-tail-fill" x="1.5" y="-2" width="38.5" height="2.2"/>
       <path class="popover-tail-edge" d="M-6 0H0C1.346 0 2.019 0 2.622 .196C3.155 .369 3.646 .652 4.062 1.027C4.533 1.451 4.87 2.034 5.543 3.2L18.995 26.5C19.765 27.833 21.689 27.833 22.459 26.5L35.911 3.2C36.584 2.034 36.921 1.451 37.392 1.027C37.808 .652 38.299 .369 38.832 .196C39.435 0 40.108 0 41.454 0H47.454"/>
@@ -1516,12 +1527,15 @@
   </script>
   <!-- Case study cover videos and the glass button -->
   <script src="case-video.js?v=3"></script>
-  <script src="case-anim.js?v=1"></script>
+  <script src="case-anim.js?v=6"></script>
 
   <script src="poster-tilt.js?v=1"></script>
   <script src="slot-counter.js?v=2"></script>
   <script src="savings-anim.js?v=4"></script>
-  <script type="module" src="globe.js?v=6"></script>
+  <script src="watch-pause.js?v=1"></script>
+  <script src="hero-day.js?v=5"></script>
+  <script src="ht-build.js?v=6"></script>
+  <script src="globe.js?v=8" defer></script>
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>
   <script src="top-blur.js?v=1"></script>
@@ -1556,5 +1570,77 @@
     })();
   </script>
   <div id="page-end"></div>
+  <script>
+    // Selected Impact avatars: each plays its build once, when it first
+    // scrolls into view (after the loading screen); styles under "Avatars
+    // play once" in style.css
+    (function () {
+      var avatars = document.querySelectorAll(".work-avatar");
+      if (!("IntersectionObserver" in window)) {
+        avatars.forEach(function (a) { a.classList.add("is-play"); });
+        return;
+      }
+      function play(a) {
+        if (document.documentElement.classList.contains("is-loading")) {
+          setTimeout(function () { play(a); }, 300);
+          return;
+        }
+        a.classList.add("is-play");
+        // Once its build has finished, a streak of light sweeps across it
+        if (!a.getAnimations) return;
+        requestAnimationFrame(function () {
+          var runs = a.getAnimations({ subtree: true }).filter(function (x) {
+            return isFinite(x.effect.getComputedTiming().endTime);
+          });
+          Promise.all(runs.map(function (x) { return x.finished; })).then(function () {
+            a.classList.add("is-done");
+          }, function () {});
+        });
+      }
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          seen.unobserve(e.target);
+          play(e.target);
+        });
+      }, { threshold: 0.6 });
+      avatars.forEach(function (a) { seen.observe(a); });
+
+      // The light streak: a band masked to the illustration's own shapes
+      var NS = "http://www.w3.org/2000/svg";
+      avatars.forEach(function (a, i) {
+        var svg = a.querySelector("svg.tv-art");
+        if (!svg) return;
+        var vb = svg.viewBox.baseVal;
+        var defs = svg.querySelector("defs") || svg.insertBefore(document.createElementNS(NS, "defs"), svg.firstChild);
+        var art = document.createElementNS(NS, "g");
+        art.id = "tv-art-" + i;
+        Array.prototype.slice.call(svg.childNodes).forEach(function (n) { if (n !== defs) art.appendChild(n); });
+        svg.appendChild(art);
+        var w = vb.width * 0.32;
+        defs.insertAdjacentHTML("beforeend",
+          '<linearGradient id="tv-streak-' + i + '" x1="0" x2="1" y1="0" y2="0">' +
+          '<stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.5"/>' +
+          '<stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+          '<mask id="tv-mask-' + i + '" maskUnits="userSpaceOnUse" x="' + vb.x + '" y="' + vb.y + '" width="' + vb.width + '" height="' + vb.height + '" style="mask-type: alpha">' +
+          '<use href="#tv-art-' + i + '"/></mask>');
+        svg.insertAdjacentHTML("beforeend",
+          '<g mask="url(#tv-mask-' + i + ')"><rect class="tv-streak-band" x="' + (vb.x - w * 1.6) + '" y="' + (vb.y - 20) +
+          '" width="' + w + '" height="' + (vb.height + 40) + '" fill="url(#tv-streak-' + i + ')" style="--run: ' + (vb.width + w * 3) + 'px"/></g>');
+      });
+    })();
+
+    // The Play tiles open like their round button: a click anywhere on one
+    // clicks it (so page transitions still run), and the CSS hovers it
+    document.querySelectorAll(".fun-tile").forEach(function (tile) {
+      var button = tile.querySelector(".fun-tile-button");
+      if (!button) return;
+      tile.addEventListener("click", function (e) {
+        if (e.target.closest("a, button")) return;
+        button.click();
+      });
+    });
+  </script>
+  <script src="offscreen-pause.js?v=1" defer></script>
 </body>
 </html>
