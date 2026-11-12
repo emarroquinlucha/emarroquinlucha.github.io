@@ -21,7 +21,8 @@
       box.classList.remove("is-blueprint", "is-iso", "is-hidden");
       return;
     }
-    var parts = Array.prototype.slice.call(screen.querySelectorAll(PARTS.join(", ")));
+    // A screen rendered to images names its own parts (data-parts)
+    var parts = Array.prototype.slice.call(screen.querySelectorAll(box.dataset.parts || PARTS.join(", ")));
     var built = false, run = 0;
 
     // The boxes, measured once from the parts themselves (in points on a

@@ -85,10 +85,18 @@
   }
 
   // On the page being left: measure what the next page needs to line up with
+  // Browsers without the Navigation API (Safari) don't say which page the
+  // visitor is going to or came from, so the page being left notes its own
+  // name, and the next page reads it (see pagereveal)
   window.addEventListener("pageswap", function (e) {
-    if (!e.viewTransition || !e.activation || !e.activation.entry) return;
-    var from = pageName(location.href), to = pageName(e.activation.entry.url);
-    var type = typeFor(from, to);
+    if (!e.viewTransition) return;
+    var from = pageName(location.href);
+    try { sessionStorage.setItem("page-transition-from", from); } catch (err) {}
+    var known = e.activation && e.activation.entry;
+    var to = known ? pageName(e.activation.entry.url) : null;
+    // Without a destination, assume it's one of the site's own pages (the
+    // arriving page decides the animation)
+    var type = known ? typeFor(from, to) : (transitions[from] ? transitions[from] + "-back" : "stack-forward");
     if (!type) return;
 
     clearCovers();
@@ -111,10 +119,19 @@
 
   // On the page arriving: choose the animation and hand it the measurements
   window.addEventListener("pagereveal", function (e) {
-    if (!e.viewTransition || !window.navigation || !navigation.activation || !navigation.activation.from) return;
-    var from = pageName(navigation.activation.from.url), to = pageName(location.href);
-    var type = typeFor(from, to);
-    if (!type) return;
+    if (!e.viewTransition) return;
+    var noted = null;
+    try {
+      noted = sessionStorage.getItem("page-transition-from");
+      sessionStorage.removeItem("page-transition-from");
+    } catch (err) {}
+    var activation = window.navigation && navigation.activation;
+    var from = activation && activation.from ? pageName(activation.from.url) : noted;
+    var to = pageName(location.href);
+    var type = from ? typeFor(from, to) : null;
+    // Nothing to go on: skip the animation rather than let the browser's
+    // default morph the two sheets into each other
+    if (!type) { e.viewTransition.skipTransition(); return; }
 
     var old = {};
     try { old = JSON.parse(sessionStorage.getItem("page-transition")) || {}; } catch (err) {}

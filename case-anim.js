@@ -38,8 +38,16 @@
     // 375-wide screen), once, while the phone is flat
     function measure() {
       if (zones) return;
-      // Measured face-on: the resting turn is lifted for this one reading
       var rig = media.querySelector(".case-anim-rig");
+      // A screen rendered to an image brings its blocks with it (data-zones,
+      // measured from the HTML screen it was made from)
+      if (media.dataset.zones) zones = JSON.parse(media.dataset.zones);
+      else measureScreen(rig);
+      drawZones();
+    }
+
+    function measureScreen(rig) {
+      // Measured face-on: the resting turn is lifted for this one reading
       rig.style.transition = "none";
       rig.style.transform = "none";
       var s = screen.getBoundingClientRect();
@@ -67,6 +75,12 @@
         actions: box(actions),
         details: details
       };
+      rig.style.transform = "";
+      void rig.offsetWidth;
+      rig.style.transition = "";
+    }
+
+    function drawZones() {
       var layer = document.createElement("div");
       layer.className = "finale-zones";
       Object.keys(zones).forEach(function (name) {
@@ -78,9 +92,6 @@
         layer.appendChild(zone);
       });
       screen.appendChild(layer);
-      rig.style.transform = "";
-      void rig.offsetWidth;
-      rig.style.transition = "";
 
       // Two more blueprint phones for the fan: just a frame and a copy of
       // the drafting zones, each tipped like the phone, stacked above it
