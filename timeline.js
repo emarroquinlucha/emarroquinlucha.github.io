@@ -14,7 +14,7 @@
   var CAPTIONS = {
     now: "Now: The Refreshed Home, Shipped",
     next: "Next: Room for Future Payment Rails",
-    future: "Future: A Broader App Structure"
+    future: "Future: A New App Structure"
   };
   var track = show.querySelector(".tl-track");
   var hint = show.querySelector(".tl-hint");
@@ -56,10 +56,10 @@
     if (baked) {
       var RAILS = [[156.53, 19.98, 335.03, 101.05], [257.57, 19.98, 335.03, 101.05],
         [358.62, 19.98, 335.03, 101.05], [459.66, 19.98, 335.03, 98.93]];
-      var html = '<img src="images/home-qa/tl-send.avif" alt="">' +
+      var html = '<img src="images/home-qa/tl-send.png" alt="">' +
         '<button class="qa-close" type="button" tabindex="-1" aria-label="Close" style="--t: 20.51; --l: 16.01; --w: 31.99; --h: 31.99"></button>';
       RAILS.forEach(function (r, i) {
-        html += '<img class="tl-rail-row qa-baked-rail" src="images/home-qa/tl-rail-' + i + '.avif" alt="" style="--i: ' + i +
+        html += '<img class="tl-rail-row qa-baked-rail" src="images/home-qa/tl-rail-' + i + '.png" alt="" style="--i: ' + i +
           '; --t: ' + r[0] + '; --l: ' + r[1] + '; --w: ' + r[2] + '; --h: ' + r[3] + '">';
       });
       baked.style.setProperty("--h", 598.56);

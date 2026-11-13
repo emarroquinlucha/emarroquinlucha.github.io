@@ -221,7 +221,7 @@
       var blur = root.classList.contains("is-top-blurred") && document.querySelector(".top-blur");
       if (blur) {
         blur.classList.add("is-fading-in");
-        setTimeout(function () { blur.classList.remove("is-fading-in"); }, 600);
+        setTimeout(function () { blur.classList.remove("is-fading-in"); }, 750);
       }
       root.classList.remove("is-page-transition", "is-top-blurred");
     });

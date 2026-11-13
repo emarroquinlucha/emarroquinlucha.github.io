@@ -177,20 +177,26 @@ h1, h2, h3 {
   border-top: none;
 }
 
-/* Resume page: the copyright sits just under the card's bottom-left corner */
+/* Resume and case studies: one row just under the page, the colophon
+   (resume only) at its left and the copyright at its right; they stack on
+   narrow screens */
 .site-footer.resume-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
   max-width: 902px;
   margin: 0 auto;
-  padding: 16px 0 0 8px;
+  padding: 16px 8px 0;
 }
 
 .resume-footer p {
   margin: 0;
 }
 
-/* Colophon: sits right above the copyright */
-.resume-footer .resume-colophon {
-  margin-bottom: 8px;
+.resume-footer p:not(.resume-colophon) {
+  margin-left: auto;
+  text-align: right;
 }
 
 /* Keep the page content above the dot grid */
@@ -6218,10 +6224,10 @@ html:has(.lightbox.is-open) body {
   line-height: 1.6;
 }
 
+/* The name: one weight lighter, in the sign-off line's own colour */
 .case-page-section .case-signoff .case-signoff-name {
   margin-top: -4px;
-  font-weight: 600;
-  color: var(--resume-label);
+  font-weight: 500;
 }
 
 .case-signoff-signature {
@@ -7234,12 +7240,13 @@ html:has(.lightbox.is-open) body {
   opacity: 1;
 }
 
-/* Its Pay button floats at the bottom of the screen with a soft shadow.
-   198.37cqw is the screen's height; the button is 52pt tall, 46pt up, and
-   the sheet itself starts 53pt down. */
+/* Its Pay button floats at the bottom of the screen with a soft shadow,
+   just above the home indicator (the 34pt safe area). 198.37cqw is the
+   screen's height; the button is 52pt tall, 34pt up, and the sheet itself
+   starts 53pt down. */
 .proto-sheet .proto-float {
   position: absolute;
-  top: calc(198.37cqw - (46 + 52 + 53) / 375 * 93.2cqw);
+  top: calc(198.37cqw - (34 + 52 + 53) / 375 * 93.2cqw);
   left: calc(60 / 1125 * 100%);
   width: calc(1005 / 1125 * 100%);
   height: auto;
@@ -7940,15 +7947,17 @@ body::after {
   view-transition-name: top-blur;
 }
 
+/* (blur(0px), not none, so the blur itself can grow in: Safari fades a
+   backdrop blur's opacity poorly, snapping it in, but eases its radius) */
 .is-top-blurred .top-blur > div {
   opacity: 0;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
   transition: none;
 }
 
 .top-blur.is-fading-in > div {
-  transition: opacity 0.45s ease;
+  transition: opacity 0.45s ease, -webkit-backdrop-filter 0.6s ease, backdrop-filter 0.6s ease;
 }
 
 
@@ -16069,17 +16078,17 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
 }
 
 /* ===== Page transitions: a few pages' own touches =====
-   Leaving the posters, the gallery keeps its old exit: a quick slide down
-   and fade over the resume coming back, instead of pushing in under it. */
+   Leaving the posters, the gallery simply fades out over the resume coming
+   back (no slide), instead of pushing in under it. */
 html:active-view-transition-type(posters-back)::view-transition-group(case-sheet) {
   z-index: 4;
 }
 
 html:active-view-transition-type(posters-back)::view-transition-old(case-sheet) {
-  animation-name: sheet-slide;
-  animation-duration: 0.3s;
-  animation-direction: reverse;
-  animation-timing-function: cubic-bezier(0, 0, 0.6, 1);
+  animation-name: sheet-fade;
+  animation-duration: 0.35s;
+  animation-direction: normal;
+  animation-timing-function: ease-out;
 }
 
 /* Opening a case study, the case study itself fades in 0.5s slower */
@@ -16484,6 +16493,8 @@ html.is-docking .floating-dock .stat-pill {
    its boxes over them and renders them back one by one (ht-build.js,
    data-parts); the header's background and status bar behave as before. */
 .case-anim-shot {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -16563,12 +16574,22 @@ html.is-docking .floating-dock .stat-pill {
   color: #111;
 }
 
-/* Before and after, and the challenge: the old and new Home tabs as images */
+/* Before and after, and the challenge: the old and new Home tabs as images,
+   pinned to the screen's edges (a percentage height alone let Safari
+   overfill the screen, cropping its sides) */
 .hc-shot {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* The camera notch and home bar stay over the old tab as it sweeps away */
+.ht-compare .phone-mock-screen::before,
+.ht-compare .phone-mock-screen::after {
+  z-index: 6;
 }
 
 /* Quick actions prototype on images: the Home tab is one image, each quick
