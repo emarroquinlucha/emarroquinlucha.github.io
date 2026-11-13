@@ -69,6 +69,7 @@
   }
   function untrim() {
     document.querySelectorAll(".resume-frame, .pg").forEach(function (el) { el.style.clipPath = ""; el.style.viewTransitionName = ""; });
+    document.querySelectorAll(".page-toc, .case-back, .reading-progress").forEach(function (el) { el.style.viewTransitionName = ""; });
   }
   // Back to a page kept in memory (the browser's back button): no trim left
   window.addEventListener("pageshow", untrim);
@@ -128,6 +129,13 @@
     // ("root-sink" in style.css)
     if (webkit && /-back$/.test(type) && document.documentElement.classList.contains("page-case")) {
       sheet().style.viewTransitionName = "none";
+      // ...but the page's fixed controls (the contents menu, the Back pill
+      // and the progress bar) aren't part of the sinking page: each gets a
+      // layer of its own, so it only fades out
+      [[".page-toc", "toc-out"], [".case-back", "back-out"], [".reading-progress", "progress-out"]].forEach(function (p) {
+        var el = document.querySelector(p[0]);
+        if (el) el.style.viewTransitionName = p[1];
+      });
     } else {
       trim(sheet());
     }
@@ -193,6 +201,16 @@
       void root.offsetWidth;
       root.classList.add("is-docking");
       setTimeout(function () { root.classList.remove("is-docking"); }, 2600);
+      // The contents menu rises in again too, the way a case study's does as
+      // it opens (coming back from the back-forward cache, its own entrance
+      // doesn't replay)
+      var toc = document.querySelector(".page-toc");
+      if (toc && toc.animate && getComputedStyle(toc).display !== "none") {
+        toc.animate([
+          { opacity: 0, transform: "translateY(16px) scale(1.04)", filter: "blur(8px)" },
+          { opacity: 1, transform: "translateY(0) scale(1.04)", filter: "blur(0)" }
+        ], { duration: 600, delay: 900, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" });
+      }
     }
     if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
     // The top blur, when the arriving page is scrolled far enough to show it:

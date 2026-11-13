@@ -1123,6 +1123,33 @@ h1, h2, h3 {
     drop-shadow(0 16px 28px rgba(12, 12, 13, 0.12));
 }
 
+/* Safari draws that drop-shadow around the image's whole box while the
+   stamp sways in 3D (a light box behind it), so there it gets a soft oval
+   shadow on the ground below instead: a plain gradient, no filter */
+.is-webkit .loader-stamp img {
+  position: relative;
+  z-index: 1;
+  filter: none;
+}
+
+.is-webkit .loader-stamp::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -7%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(12, 12, 13, 0.1), rgba(12, 12, 13, 0.04) 55%, transparent);
+  pointer-events: none;
+  /* After the stamp itself has drawn, so it never shows on its own */
+  animation: loader-shadow-in 0.5s ease 0.35s backwards;
+}
+
+@keyframes loader-shadow-in {
+  from { opacity: 0; }
+}
+
 @keyframes loader-stamp-in {
   from {
     opacity: 0;
@@ -7503,9 +7530,12 @@ html:has(.lightbox.is-open) body {
   container-type: inline-size;
 }
 
+/* (min-height: 0 so Safari keeps the aspect ratio instead of growing the
+   phone to fit what's inside it) */
 .phone-mock-body {
   position: relative;
   aspect-ratio: 71.5 / 146.7;
+  min-height: 0;
   padding: 3.4cqw;
   border-radius: 15cqw;
   background: #232325;
@@ -7539,9 +7569,12 @@ html:has(.lightbox.is-open) body {
   border-radius: 0 0.6cqw 0.6cqw 0;
 }
 
+/* Pinned inside the body's padding: a percentage height didn't resolve in
+   Safari, which made the screen taller than in Chrome and cropped the
+   screen images' sides */
 .phone-mock-screen {
-  position: relative;
-  height: 100%;
+  position: absolute;
+  inset: 3.4cqw;
   overflow: hidden;
   border-radius: 11.6cqw;
   background: #f1f3f3;
@@ -16734,5 +16767,21 @@ html:active-view-transition-type(root-sink)::view-transition-old(root) {
   animation-duration: 1.22s;
   animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), linear;
   animation-fill-mode: both;
+}
+
+/* Safari, leaving a case study: its contents menu, Back pill and progress
+   bar (named in page-transitions.js) don't sink and blur with the page
+   snapshot; they just fade out, above it */
+::view-transition-group(toc-out),
+::view-transition-group(back-out),
+::view-transition-group(progress-out) {
+  z-index: 6;
+  animation: none;
+}
+
+::view-transition-old(toc-out),
+::view-transition-old(back-out),
+::view-transition-old(progress-out) {
+  animation: sheet-fade 0.35s ease-out both;
 }
 
