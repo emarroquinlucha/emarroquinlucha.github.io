@@ -138,6 +138,9 @@
       });
     } else {
       trim(sheet());
+      // The progress bar fades out slowly on its own layer, here too
+      var bar = /-back$/.test(type) && document.documentElement.classList.contains("page-case") && document.querySelector(".reading-progress");
+      if (bar) bar.style.viewTransitionName = "progress-out";
     }
     nameDocks("out");
   });
@@ -201,16 +204,23 @@
       void root.offsetWidth;
       root.classList.add("is-docking");
       setTimeout(function () { root.classList.remove("is-docking"); }, 2600);
-      // The contents menu rises in again too, the way a case study's does as
-      // it opens (coming back from the back-forward cache, its own entrance
-      // doesn't replay)
-      var toc = document.querySelector(".page-toc");
-      if (toc && toc.animate && getComputedStyle(toc).display !== "none") {
+    }
+    // The contents menu waits out the move, then fades in and rises into
+    // place once the page has landed, coming or going (its own entrance in
+    // style.css would play unseen while the pages move, and doesn't replay
+    // coming back from the back-forward cache)
+    var toc = document.querySelector(".page-toc");
+    if (toc && toc.animate && getComputedStyle(toc).display !== "none") {
+      toc.style.animation = "none";
+      toc.style.opacity = "0";
+      e.viewTransition.finished.then(function () {
+        toc.style.opacity = "";
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         toc.animate([
-          { opacity: 0, transform: "translateY(16px) scale(1.04)", filter: "blur(8px)" },
-          { opacity: 1, transform: "translateY(0) scale(1.04)", filter: "blur(0)" }
-        ], { duration: 600, delay: 900, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" });
-      }
+          { opacity: 0, transform: "translateY(16px)", filter: "blur(8px)" },
+          { opacity: 1, transform: "translateY(0)", filter: "blur(0)" }
+        ], { duration: 600, delay: 100, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" });
+      });
     }
     if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
     // The top blur, when the arriving page is scrolled far enough to show it:

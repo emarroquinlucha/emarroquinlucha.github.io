@@ -1017,9 +1017,17 @@ h1, h2, h3 {
    shadow once and reuses it while scrolling. (A filter on the card itself had
    to be redrawn every frame because of the animated headline, and a trimmed
    box-shadow left a hard line next to the fold.) */
+/* (The box reaches 160px past the paper on every side and the shape sits
+   back inside it, so Safari, which trims a drop-shadow at its element's
+   box, has room for the whole shadow) */
 .resume-shadow {
   position: absolute;
-  inset: 0;
+  inset: -160px;
+  /* An invisible nudge that follows the fold (padding doesn't move the
+     shape inside): Safari kept drawing the shadow from a stale copy of the
+     shape as the fold lifted, so it poked out past the new crease as a hard
+     line down the paper's edge. A size change makes it redraw every frame. */
+  padding-top: calc(var(--fold-side) / 1000);
   pointer-events: none;
   filter:
     drop-shadow(0 10px 16px rgba(0, 0, 0, 0.05))
@@ -1030,7 +1038,7 @@ h1, h2, h3 {
 .resume-shadow::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 160px;
   border-radius: 6px;
   background: var(--resume-paper);
   clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
@@ -2404,6 +2412,14 @@ html:has(.lightbox.is-open) body {
 /* V2 preview: the headline sits 8px closer to the name */
 .resume-statement-v2 {
   margin-top: 69px;
+}
+
+/* At 34px, a 660px measure wraps the headline into three lines with
+   "finding" starting the second: "…problems," / "…and bringing" /
+   "beauty to the details." */
+.resume-statement-v2 {
+  max-width: 660px;
+  font-size: 34px;
 }
 
 .resume-statement .soft {
@@ -8024,7 +8040,7 @@ body::after {
    lighter with the tint; the blur layers fade in with them */
 ::view-transition-new(reading-progress),
 ::view-transition-new(top-blur) {
-  animation-duration: 0.5s;
+  animation-duration: 0.8s;
   animation-timing-function: ease;
 }
 
@@ -9388,7 +9404,22 @@ html:active-view-transition-type(grow-back)::view-transition-old(case-sheet) {
 }
 
 .joint-inspo {
-  width: var(--inspo);
+  --w: var(--inspo);
+}
+
+/* Each phone is laid out --k times its size and scaled down to it, so
+   zooming in (up to 3x) shows its screen sharp: Safari decodes an image at
+   its laid-out size, and scaling it up blurred it. The negative margins
+   keep its footprint at the shown size (71.5 / 146.7 is the phone's shape). */
+.joint-phone {
+  --k: 3;
+  width: calc(var(--w) * var(--k));
+  margin: 0 calc(var(--w) * (1 - var(--k))) calc(var(--w) * 146.7 / 71.5 * (1 - var(--k))) 0;
+  transform: scale(calc(1 / var(--k)));
+}
+
+.joint-credit {
+  --w: var(--phone);
 }
 
 .joint-phone.is-off {
@@ -16780,8 +16811,12 @@ html:active-view-transition-type(root-sink)::view-transition-old(root) {
 }
 
 ::view-transition-old(toc-out),
-::view-transition-old(back-out),
-::view-transition-old(progress-out) {
+::view-transition-old(back-out) {
   animation: sheet-fade 0.35s ease-out both;
+}
+
+/* The progress bar takes its time (in Chrome too) */
+::view-transition-old(progress-out) {
+  animation: sheet-fade 0.9s ease-out both;
 }
 

@@ -54,13 +54,16 @@
     function zoom(phone) {
       var stage = phone.parentNode;
       var point = offsetIn(phone.querySelector(".joint-target"), phone);
+      // Phones are laid out k times their shown size and scaled down (see
+      // "Joint chip" in style.css), so layout sizes are divided by k
+      var k = parseFloat(getComputedStyle(phone).getPropertyValue("--k")) || 1;
       var scale = Math.min(parseFloat(phone.dataset.zoom),
-        stage.clientWidth * 0.94 / (phone.offsetWidth * parseFloat(phone.dataset.span)));
-      var tx = stage.clientWidth / 2 - phone.offsetLeft - scale * point.x;
-      var ty = stage.clientHeight / 2 - phone.offsetTop - scale * point.y;
+        stage.clientWidth * 0.94 / (phone.offsetWidth / k * parseFloat(phone.dataset.span)));
+      var tx = stage.clientWidth / 2 - phone.offsetLeft - scale * point.x / k;
+      var ty = stage.clientHeight / 2 - phone.offsetTop - scale * point.y / k;
       clearTimeout(uncropTimer);
       stageEl.classList.add("is-cropped");
-      phone.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + scale + ")";
+      phone.style.transform = "translate(" + tx + "px, " + ty + "px) scale(" + scale / k + ")";
       // The screen greys out and fades, all but its header (.joint-dim)
       phone.classList.add("is-focus");
     }
