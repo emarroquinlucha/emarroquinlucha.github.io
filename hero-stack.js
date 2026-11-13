@@ -14,9 +14,16 @@
   var top = box.querySelector(".hs-layer.is-credit");
   var screen = top.querySelector(".phone-mock-screen");
 
-  // The credit screen, copied from the showcase without its animation parts
+  // The credit screen: an image of it (data-shot, rendered from its HTML so
+  // TT Commons shows in every browser) with its blueprint zones measured
+  // beforehand (data-zones); or, without those, copied from the showcase
+  // without its animation parts
+  var shot = box.dataset.shot;
+  var fixedZones = box.dataset.zones ? JSON.parse(box.dataset.zones) : null;
   var source = document.querySelector(".showcase .is-credit .phone-mock-screen");
-  if (source) {
+  if (shot) {
+    screen.innerHTML = '<img class="case-anim-shot" src="' + shot + '" alt="" decoding="async">';
+  } else if (source) {
     screen.innerHTML = source.innerHTML;
     screen.querySelectorAll(".showcase-push, .showcase-press, .showcase-cursor, .na-target").forEach(function (el) { el.remove(); });
     screen.querySelectorAll("[role]").forEach(function (el) { el.removeAttribute("role"); el.removeAttribute("aria-label"); });
@@ -33,6 +40,7 @@
   // The blueprint zones, measured face-on from the credit screen's parts (in
   // points on a 375-wide screen), then given to both blueprints
   function measure() {
+    if (fixedZones) { drawZones(fixedZones); return; }
     box.classList.add("is-measuring");
     var s = screen.getBoundingClientRect();
     var pt = s.width / 375;
@@ -60,6 +68,10 @@
       details: details
     };
     box.classList.remove("is-measuring");
+    drawZones(zones);
+  }
+
+  function drawZones(zones) {
     layers.forEach(function (layer) {
       if (layer === top) return;
       var set = document.createElement("div");
@@ -107,8 +119,11 @@
   }
   if ("onpagereveal" in window) {
     window.addEventListener("pagereveal", function (e) {
-      // Starts while the page is still settling in, not after it
-      setTimeout(whenLoaded, e.viewTransition ? 400 : 0);
+      // Starts just after the page transition ends: playing its entrance
+      // (with its blur) while the page was still moving made the
+      // transition drop frames, especially in Safari
+      if (e.viewTransition) e.viewTransition.finished.then(function () { setTimeout(whenLoaded, 60); });
+      else whenLoaded();
     }, { once: true });
     setTimeout(whenLoaded, 3000);
   } else {

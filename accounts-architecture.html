@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=853">  <!-- bump the number after changing style.css so browsers load the new version -->
-  <script src="page-transitions.js?v=28"></script>
+  <link rel="stylesheet" href="style.css?v=868">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <script src="page-transitions.js?v=46"></script>
   <!-- Hold the first paint until the page is parsed, so a page transition has the whole page to animate -->
   <link rel="expect" href="#page-end" blocking="render">
 </head>
@@ -59,7 +59,7 @@
              (copied in from the showcase below), with two blueprints of the
              same screen fanning out to its left and right when the page
              opens (the drafting zones, measured from it, over a gradient grid). -->
-        <div class="hero-stack case-hero" role="img" aria-label="The Credit account design between two blueprints of its layout">
+        <div class="hero-stack case-hero" data-shot="images/accounts-hero.jpg" data-zones='{"settings":[59.99,315.02,39.99,39.99],"card":[123.98,19.99,334.97,36],"balance":[192.53,20.55,333.9,221.44],"actions":[461.96,20.55,333.9,93.48],"details":[603.43,20.55,333.9,160.73]}' role="img" aria-label="The Credit account design between two blueprints of its layout">
           <div class="hs-stage" aria-hidden="true">
             <div class="hs-layer case-anim" data-layer="0"><div class="case-anim-phone"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div></div>
             <div class="hs-layer case-anim" data-layer="1"><div class="case-anim-phone"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div></div>
@@ -293,9 +293,9 @@
              Built in HTML from the old screens. -->
         <div class="problem-tabs" role="img" aria-label="The old Credit account on each of its three tabs: Transactions, Cards and Details. The card, statements and account settings all sat behind the same row of tabs.">
           <div class="pt-row" aria-hidden="true">
-              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab is-on">Transactions</span><span class="ob-tab">Cards</span><span class="ob-tab">Details</span></div><div class="ob-panel oc-list"><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-park.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b>Park Coffee Roasters</b><small>Jul 10 • Pending</small></span><span class="oc-tx-amount">-$12.45<small class="oc-chip">$5.00</small></span></div><div class="oc-tx"><span class="oc-avatar is-dark"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b>Rewards Cash Out</b><small>Jul 8</small></span><span class="oc-tx-amount">$30.00</span></div><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-perks.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b>Neo Perks Payment</b><small>Jul 5</small></span><span class="oc-tx-amount">-$9.99</span></div><div class="oc-tx"><span class="oc-avatar is-grey"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b>Rush Replacement Fee</b><small>Jul 3</small></span><span class="oc-tx-amount">-$29.99</span></div></div></div></div></div></div>
-              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab">Transactions</span><span class="ob-tab is-on">Cards</span><span class="ob-tab">Details</span></div><div class="ob-panel"><div class="ob-row ob-card-row"><span class="ob-card"><img src="images/neo-ui/card-chequing.avif" width="74" height="48" alt="" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-chequing-logo.png" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%" loading="lazy" decoding="async"></span><span class="ob-card-text"><b>Neo Mastercard</b><small>•••• 1234</small></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></div></div></div></div></div></div>
-              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title">Neo World Mastercard<sup>®</sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label">Current balance</p><div class="ob-amount"><b>$1,234.56</b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details">View details<img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link">Manage credit limit<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span>No payment due</p><span class="oc-button">Pay now</span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async">Auto-Pay</span><span class="oc-off">Off<img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab">Transactions</span><span class="ob-tab">Cards</span><span class="ob-tab is-on">Details</span></div><div class="ob-panel"><div class="ob-row"><span>Account details</span></div><div class="ob-row"><span>View statements</span></div><div class="ob-row"><span>Get balance protection</span></div><div class="ob-row"><span>View agreements</span></div><div class="ob-row is-red"><span>Close account</span></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel oc-list"><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-park.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8652; --h: 1.3333; --x: 13.2969; --y: 1.4375"><i>Park</i></span> <span class="tw" style="--w: 2.9160; --h: 1.3333; --x: 15.2656; --y: 1.4375"><i>Coffee</i></span> <span class="tw" style="--w: 3.7202; --h: 1.3333; --x: 18.2813; --y: 1.4375"><i>Roasters</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.9502; --h: 1.3333; --x: 23.5313; --y: 1.4375"><i>10</i></span> <span class="tw" style="--w: 0.4011; --h: 1.3333; --x: 24.5781; --y: 1.4375"><i>•</i></span> <span class="tw" style="--w: 3.6062; --h: 1.3333; --x: 25.0781; --y: 1.4375"><i>Pending</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.1040; --h: 1.3333; --x: 28.7813; --y: 1.4375"><i>-$12.45</i></span></span><small class="oc-chip"><span class="tw-run"><span class="tw" style="--w: 2.5081; --h: 1.4543; --x: 31.9844; --y: 1.4375"><i>$5.00</i></span></span></small></span></div><div class="oc-tx"><span class="oc-avatar is-dark"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 3.6631; --h: 1.3333; --x: 34.5938; --y: 1.4375"><i>Rewards</i></span> <span class="tw" style="--w: 2.2231; --h: 1.3333; --x: 38.3594; --y: 1.4375"><i>Cash</i></span> <span class="tw" style="--w: 1.6421; --h: 1.3333; --x: 40.6875; --y: 1.4375"><i>Out</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5662; --h: 1.3333; --x: 42.4375; --y: 1.4375"><i>8</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.0742; --h: 1.3333; --x: 43.1094; --y: 1.4375"><i>$30.00</i></span></span></span></div><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-perks.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8062; --h: 1.3333; --x: 46.2813; --y: 1.4375"><i>Neo</i></span> <span class="tw" style="--w: 2.3401; --h: 1.3333; --x: 0.0000; --y: 3.0000"><i>Perks</i></span> <span class="tw" style="--w: 3.7681; --h: 1.3333; --x: 2.4375; --y: 3.0000"><i>Payment</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5581; --h: 1.3333; --x: 6.3125; --y: 3.0000"><i>5</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 2.7351; --h: 1.3333; --x: 6.9688; --y: 3.0000"><i>-$9.99</i></span></span></span></div><div class="oc-tx"><span class="oc-avatar is-grey"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 2.1770; --h: 1.3333; --x: 9.8125; --y: 3.0000"><i>Rush</i></span> <span class="tw" style="--w: 5.7922; --h: 1.3333; --x: 12.0938; --y: 3.0000"><i>Replacement</i></span> <span class="tw" style="--w: 1.6182; --h: 1.3333; --x: 17.9844; --y: 3.0000"><i>Fee</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5391; --h: 1.3333; --x: 19.7031; --y: 3.0000"><i>3</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.2690; --h: 1.3333; --x: 20.3438; --y: 3.0000"><i>-$29.99</i></span></span></span></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel"><div class="ob-row ob-card-row"><span class="ob-card"><img src="images/neo-ui/card-chequing.avif" width="74" height="48" alt="" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-chequing-logo.png" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%" loading="lazy" decoding="async"></span><span class="ob-card-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8062; --h: 1.2500; --x: 23.7188; --y: 3.0000"><i>Neo</i></span> <span class="tw" style="--w: 4.9001; --h: 1.2500; --x: 25.6250; --y: 3.0000"><i>Mastercard</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.6040; --h: 1.3333; --x: 30.6250; --y: 3.0000"><i>••••</i></span> <span class="tw" style="--w: 1.9602; --h: 1.3333; --x: 32.3281; --y: 3.0000"><i>1234</i></span></span></small></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel"><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 3.6982; --h: 1.2500; --x: 34.3906; --y: 3.0000"><i>Account</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 4.8101; --h: 1.2500; --x: 38.1875; --y: 3.0000"><i>statements</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 1.6230; --h: 1.2500; --x: 43.0938; --y: 3.0000"><i>Get</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span> <span class="tw" style="--w: 4.5251; --h: 1.2500; --x: 44.8125; --y: 3.0000"><i>protection</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 5.1650; --h: 1.2500; --x: 0.0000; --y: 4.4375"><i>agreements</i></span></span></span></div><div class="ob-row is-red"><span><span class="tw-run"><span class="tw" style="--w: 2.4971; --h: 1.2500; --x: 5.2656; --y: 4.4375"><i>Close</i></span> <span class="tw" style="--w: 3.5942; --h: 1.2500; --x: 7.8594; --y: 4.4375"><i>account</i></span></span></span></div></div></div></div></div></div>
             <span class="pt-outline"></span>
           </div>
           <p class="proto-hint">Everything Hid Behind the Same Three Tabs</p>
@@ -547,7 +547,7 @@
           <!-- Watch (finale.js, "flip"): the three accounts go back and forth
                between their screens and tilted skeletons (finale.js copies the
                showcase's live screens in); Explore below is unchanged -->
-          <div class="finale combo-finale is-flip" data-scene="trio" aria-hidden="true">
+          <div class="finale combo-finale is-flip" data-shots='{"credit":{"src":"images/accounts-screen-credit.jpg","zones":{"settings":[60,315.01,40,40],"card":[124,20,334.99,36],"balance":[192.41,20.42,334.17,221.49],"actions":[461.89,20.42,334.17,93.49],"details":[603.39,20.42,334.17,160.79]},"missing":false},"savings":{"src":"images/accounts-screen-savings.jpg","zones":{"settings":[60,315.01,40,40],"card":[118,20,335,6],"balance":[131.99,20,335.01,150.99],"actions":[330.99,20,335.01,93.49],"details":[472.48,20,335.01,291.7]},"missing":true},"chequing":{"src":"images/accounts-screen-chequing.jpg","zones":{"settings":[60,315.01,40,40],"card":[124,20,334.99,40],"balance":[196.41,20.42,334.17,150.99],"actions":[395.4,20.42,334.17,110.99],"details":[554.39,20.42,334.17,178.9]},"missing":false}}' data-scene="trio" aria-hidden="true">
             <div class="finale-stage">
               <div class="finale-rig">
                 <div class="finale-phone" data-account="chequing" style="--i: -1"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
@@ -659,337 +659,8 @@
              camera: credit's statement getting paid, chequing's Manage card,
              savings reaching its goal. -->
         <div class="showcase is-closer" data-shot="wide">
-          <div class="showcase-stage">
-            <div class="showcase-rig">
-              <div class="showcase-phone is-credit">
-                <div class="showcase-enter">
-                  <div class="phone-mock-body"><div class="phone-mock-screen">
-                    <!-- The Neo World Mastercard account, built in HTML from the Figma
-                         frame (Portfolio Screens, 11:7315) so its statement can be paid live -->
-                    <div class="showcase-scroll na-app has-card" role="img" aria-label="The Neo World Mastercard account design, with the joint chip in the header, quick actions and the statement tile">
-                      <div class="na-card" aria-hidden="true">
-                        <img class="na-card-art" src="images/neo-ui/card-credit.avif" width="1005" height="634" alt="" loading="lazy" decoding="async">
-                        <img class="na-card-logo" src="images/neo-ui/card-credit-logo.png" width="390" height="120" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 16.03%" loading="lazy" decoding="async">
-                        <img class="na-card-mark" src="images/neo-ui/card-world.svg" alt="" style="top: 10.44%; left: 82.33%; width: 9.96%; height: 4.41%" loading="lazy" decoding="async">
-                        <img class="na-card-mark" src="images/neo-ui/card-mc.svg" alt="" style="top: 66.17%; left: 70.13%; width: 23.79%; height: 24.32%" loading="lazy" decoding="async">
-                      </div>
-                      <div class="na-sheet" style="--sheet-top: 160; --sheet-shadow: 0.15" aria-hidden="true">
-                        <div class="na-content">
-                          <div class="na-account is-credit">
-                            <p class="na-heading">Neo World Mastercard ®</p>
-                            <div class="na-balance-metrics">
-                              <div class="na-balance">
-                              <div class="na-balance-row"><p class="na-display">$2,900.00</p><span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div>
-                              <p class="na-details">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></p>
-                            </div>
-                            <span class="na-divider"></span>
-                            <div class="na-metrics-list">
-                              <div class="na-metric"><span>Utilization</span><span class="na-metric-value"><img class="na-dot" src="images/neo-ui/indicator.svg" width="8" height="8" alt="" loading="lazy" decoding="async">29%<img class="na-flush" src="images/neo-ui/chevron-flush.svg" width="12" height="20" alt="" loading="lazy" decoding="async"></span></div>
-                              <div class="na-metric"><span>Available credit</span><span class="na-metric-value"><b>$7,100.00</b>&nbsp;of $10,000</span></div>
-                            </div>
-                            </div>
-                          </div>
-                          <div class="na-actions">
-                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/pay.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Pay</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/statements.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>View statements</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/card.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Manage card</p></div>
-                        </div>
-                          <div class="na-section">
-                            <p class="na-heading">Statement</p>
-                            <div class="na-stmt-stack">
-                              <div class="na-tile na-stmt">
-                                <span class="na-target" data-target="statement"></span>
-                                <div class="na-stmt-top">
-                                  <div class="na-stmt-head">
-                                    <div class="na-stmt-text"><p class="na-big"><span data-count="statement" data-from="500" data-to="0" data-format="cents">$500.00</span></p><p class="na-sub">Remaining due of $1,000.50</p></div>
-                                    <span class="na-paid-tag"><img src="images/neo-ui/paid-check.svg" width="16" height="16" alt="" loading="lazy" decoding="async">Paid</span>
-                                    <img class="na-stmt-chevron" src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="" loading="lazy" decoding="async">
-                                  </div>
-                                  <div class="na-collapse is-bar"><div><span class="na-bar" data-bar="statement" style="--fill: 50.15%; --c: #000"><span class="showcase-bar-fill"></span></span></div></div>
-                                </div>
-                                <div class="na-collapse"><div>
-                                  <div class="na-stmt-row"><span>Payment due</span><span class="na-stmt-value">March 12 <em>(in 13 days)</em></span></div>
-                                  <div class="na-stmt-row"><span>Minimum payment</span><span class="na-stmt-value"><span class="na-status-dot"><img src="images/neo-ui/check-circle.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>$45.00</span></div>
-                                </div></div>
-                              </div>
-                              <div class="na-tile na-autopay">
-                                <img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async">
-                                <div class="na-autopay-text"><p>Auto-Pay</p><p class="na-sub">Never miss a payment.</p></div>
-                                <span class="na-pill">Off</span><img src="images/neo-ui/statement-chevron.svg" width="24" height="24" alt="" loading="lazy" decoding="async">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="na-transactions">
-                          <p class="na-heading">Transactions</p>
-                          <div class="na-list is-plain">
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-park.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Park Coffee Roasters</p><p class="na-row-date">Jul 10 • Pending</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$12.45</p><span class="na-tag">$5.00</span></div>
-                          </div>
-                          <div class="na-row is-legacy">
-                            <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Rewards Cash Out</p><p class="na-row-date">Jul 8</p></div>
-                            <p class="na-row-amount">$30.00</p>
-                          </div>
-                          <div class="na-row">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-perks.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Neo Perks Payment</p><p class="na-row-date">Jul 5</p></div>
-                            <p class="na-row-amount">-$9.99</p>
-                          </div>
-                          <div class="na-row is-legacy">
-                            <span class="na-avatar-cat" style="background: #828d95"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Rush Replacement Fee</p><p class="na-row-date">Jul 3</p></div>
-                            <p class="na-row-amount">-$29.99</p>
-                          </div>
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-organic.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Organic Grocery</p><p class="na-row-date">Jul 1</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$120.54</p><span class="na-punch"><img src="images/neo-ui/checkmark.svg" width="16" height="16" alt="" loading="lazy" decoding="async"></span></div>
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="proto-header na-header" aria-hidden="true">
-                      <div class="na-status">
-                        <span class="na-time">9:41</span>
-                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async">
-                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async">
-                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                      <div class="na-nav">
-                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                        <span class="na-joint"><img src="images/neo-ui/profile.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="na-joint-faces"><img src="images/neo-ui/joint-photo-1.jpg" width="20" height="20" alt="" loading="lazy" decoding="async"><img src="images/neo-ui/joint-photo-2.jpg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></span>
-                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-              <div class="showcase-phone is-savings">
-                <div class="showcase-enter">
-                  <div class="phone-mock-body"><div class="phone-mock-screen">
-                    <!-- The Hawaii Trip savings account, built in HTML from the Figma
-                         frame (Portfolio Screens, 1:21344) so its numbers can change live -->
-                    <div class="showcase-scroll na-app" role="img" aria-label="A savings account named Hawaii Trip, with its goal progress and interest earned">
-                      <div class="na-content" aria-hidden="true">
-                        <div class="na-account">
-                          <div class="na-name">
-                            <span class="na-avatar"><img src="images/neo-ui/sun.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div><p class="na-heading">Hawaii Trip</p><p class="na-sub">Neo Savings</p></div>
-                          </div>
-                          <div class="na-balance">
-                            <div class="na-balance-row">
-                              <p class="na-display"><span data-count="balance" data-from="1234.56" data-to="10000" data-format="cents">$1,234.56</span></p>
-                              <span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span>
-                            </div>
-                            <p class="na-details">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></p>
-                          </div>
-                        </div>
-                        <div class="na-actions">
-                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/add.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Add funds</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/move-funds.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Move funds</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/automations.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Auto-Save</p></div>
-                        </div>
-                        <div class="na-tile na-goal">
-                          <span class="na-target" data-target="goal"></span>
-                          <div class="na-goal-head">
-                            <div><p class="na-sub">Goal progress</p><p class="na-big"><span data-count="goal" data-from="50" data-to="100" data-format="pct">50%</span></p></div>
-                            <img src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async">
-                          </div>
-                          <span class="na-bar" style="--fill: 50.15%"><span class="showcase-bar-fill"></span></span>
-                          <div class="na-metrics"><p>Saved: <b data-count="goal" data-from="5000" data-to="10000" data-format="dollars" data-step="100">$5,000</b></p><p>Goal: <b>$10,000</b></p></div>
-                        </div>
-                        <div class="na-section">
-                          <p class="na-heading">Interest</p>
-                          <div class="na-tile na-interest">
-                            <span class="na-target" data-target="interest"></span>
-                            <div class="na-interest-top"><p class="na-big"><span data-count="interest" data-from="345.67" data-to="412.38" data-format="cents">$345.67</span></p><p class="na-sub">Lifetime earned</p></div>
-                            <div class="na-interest-row">
-                              <span class="na-label">Interest rate<img src="images/neo-ui/info.svg" width="16" height="16" alt="" loading="lazy" decoding="async"></span>
-                              <span class="na-value"><img src="images/neo-ui/boost.svg" width="16" height="16" alt="" loading="lazy" decoding="async">2.5%<img class="na-chevron" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="na-transactions" aria-hidden="true">
-                        <p class="na-heading">Transactions</p>
-                        <div class="na-list">
-                        <div class="na-row">
-                          <span class="na-avatar-img"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Deposit from Chequing</p><p class="na-row-date">Jun 30</p></div>
-                          <p class="na-row-amount">$2,000.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-cat" style="background: #4bb797"><img src="images/neo-ui/category-interest.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Interest Earned</p><p class="na-row-date">Jun 30</p></div>
-                          <p class="na-row-amount">$10.52</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Deposit from Security Fund</p><p class="na-row-date">Jun 29</p></div>
-                          <p class="na-row-amount">$500.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-person" style="background-image: url(images/neo-ui/avatar-purple.svg)">JS</span>
-                          <div class="na-row-text"><p class="na-row-title">e-Transfer to John Shrimp</p><p class="na-row-date">Jun 28</p></div>
-                          <p class="na-row-amount">-$250.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-person" style="background-image: url(images/neo-ui/avatar-green.svg)">JS</span>
-                          <div class="na-row-text"><p class="na-row-title">e-Transfer from Jane Squid</p><p class="na-row-date">Jun 28</p></div>
-                          <p class="na-row-amount">$50.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-img"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Transfer to Chequing</p><p class="na-row-date">Jun 25</p></div>
-                          <p class="na-row-amount">-$200.00</p>
-                        </div>
-                        <div class="na-row is-failed">
-                          <span class="na-avatar-img is-square"><img src="images/neo-ui/merchant-cibc.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Deposit from Chequing</p><p class="na-row-date">Jun 25 • <span class="na-failed">Failed</span></p></div>
-                          <p class="na-row-amount">$2,000.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Transfer to Security Fund</p><p class="na-row-date">Jun 23</p></div>
-                          <p class="na-row-amount">-$500.00</p>
-                        </div>
-                        <div class="na-row">
-                          <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                          <div class="na-row-text"><p class="na-row-title">Transfer to ABC Financial Services 12345678</p><p class="na-row-date">Jun 23</p></div>
-                          <p class="na-row-amount">-$500.00</p>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="proto-header na-header" aria-hidden="true">
-                      <div class="na-status">
-                        <span class="na-time">9:41</span>
-                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async">
-                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async">
-                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                      <div class="na-nav">
-                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                      <span class="proto-header-title">Hawaii Trip</span>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-              <div class="showcase-phone is-chequing">
-                <div class="showcase-enter">
-                  <div class="phone-mock-body"><div class="phone-mock-screen">
-                    <!-- The My Chequing account, built in HTML from the Figma frame
-                         (Portfolio Screens, 1:11237) -->
-                    <div class="showcase-scroll na-app has-card" role="img" aria-label="The My Chequing account design, with quick actions under the balance">
-                      <div class="na-card" aria-hidden="true">
-                        <div class="na-card-base">
-                          <img class="na-card-art" src="images/neo-ui/card-chequing.avif" width="1005" height="634" alt="" loading="lazy" decoding="async">
-                          <img class="na-card-logo" src="images/neo-ui/card-chequing-logo.png" width="390" height="121" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%" loading="lazy" decoding="async">
-                          <img class="na-card-mark" src="images/neo-ui/card-money.svg" alt="" style="top: 9.72%; left: 81.87%; width: 12.16%; height: 4.38%" loading="lazy" decoding="async">
-                          <img class="na-card-mark" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%" loading="lazy" decoding="async">
-                        </div>
-                      </div>
-                      <div class="na-sheet" style="--sheet-top: 164; --sheet-shadow: 0.06" aria-hidden="true">
-                        <div class="na-content">
-                          <div class="na-account">
-                            <div class="na-name">
-                              <span class="na-avatar"><img src="images/neo-ui/account-money.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                              <div><p class="na-heading">My Chequing</p><p class="na-sub is-medium">Neo Everyday</p></div>
-                            </div>
-                            <div class="na-balance">
-                              <div class="na-balance-row"><p class="na-display">$1,234.56</p><span class="na-iconbtn is-round"><img src="images/neo-ui/eye.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div>
-                              <p class="na-details is-medium">Current balance<img src="images/neo-ui/chevron-small.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></p>
-                            </div>
-                          </div>
-                          <div class="na-actions">
-                          <div class="na-action"><span class="na-action-btn is-primary"><img src="images/neo-ui/add.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Add funds</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/move-funds.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Move funds</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/card.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="showcase-press" aria-hidden="true"></span><span class="showcase-cursor" aria-hidden="true"></span></span><p>Manage card</p></div>
-                          <div class="na-action"><span class="na-action-btn"><img src="images/neo-ui/automations.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><p>Automate</p></div>
-                        </div>
-                          <div class="na-section">
-                            <p class="na-heading">Interest</p>
-                            <div class="na-tile na-interest">
-                              <div class="na-interest-top"><p class="na-big">$345.67</p><p class="na-sub">Lifetime earned</p></div>
-                              <div class="na-interest-row">
-                                <span class="na-label">Interest rate<img src="images/neo-ui/info.svg" width="16" height="16" alt="" loading="lazy" decoding="async"></span>
-                                <span class="na-value">0.2%</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="na-transactions">
-                          <p class="na-heading">Transactions</p>
-                          <div class="na-list is-plain has-end">
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-park.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Park Coffee Roasters</p><p class="na-row-date">Jul 10 • Pending</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$12.45</p><span class="na-tag">$5.00</span></div>
-                          </div>
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-organic.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Organic Grocery</p><p class="na-row-date">Jul 5</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$120.54</p><span class="na-punch"><img src="images/neo-ui/checkmark.svg" width="16" height="16" alt="" loading="lazy" decoding="async"></span></div>
-                          </div>
-                          <div class="na-row">
-                            <span class="na-avatar-cat" style="background: #000"><img src="images/neo-ui/transfer.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Payment to Credit Account</p><p class="na-row-date">Jul 4</p></div>
-                            <p class="na-row-amount">-$1,234.56</p>
-                          </div>
-                          <div class="na-row">
-                            <span class="na-avatar-img"><img src="images/neo-ui/merchant-perks.png" width="40" height="40" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Neo Perks Payment</p><p class="na-row-date">Jul 5</p></div>
-                            <p class="na-row-amount">-$9.99</p>
-                          </div>
-                          <div class="na-row">
-                            <span class="na-avatar-cat" style="background: #ff9b33"><img src="images/neo-ui/category-food.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Non-Neo Merchant</p><p class="na-row-date">Jul 2</p></div>
-                            <p class="na-row-amount">-$12.45</p>
-                          </div>
-                          <div class="na-row is-failed">
-                            <span class="na-avatar-cat" style="background: #ff9b33"><img src="images/neo-ui/category-food.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Non-Neo Merchant</p><p class="na-row-date">Jul 2 • <span class="na-failed">Declined</span></p></div>
-                            <p class="na-row-amount">$12.45</p>
-                          </div>
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-cat" style="background: #8b9bff"><img src="images/neo-ui/category-services.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Neo Merchant without Logo</p><p class="na-row-date">Jul 1</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$1,204.66</p><span class="na-tag">$5.00</span></div>
-                          </div>
-                          <div class="na-row is-tagged">
-                            <span class="na-avatar-cat" style="background: #a4d65e"><img src="images/neo-ui/category-grocery.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                            <div class="na-row-text"><p class="na-row-title">Merchant with a really long name that is truncat...</p><p class="na-row-date">Jul 1</p></div>
-                            <div class="na-row-number"><p class="na-row-amount">-$1,204.66</p><span class="na-tag">$5.00</span></div>
-                          </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="proto-header na-header" aria-hidden="true">
-                      <div class="na-status">
-                        <span class="na-time">9:41</span>
-                        <img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async">
-                        <img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async">
-                        <span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                      <div class="na-nav">
-                        <span class="na-iconbtn"><img src="images/neo-ui/back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                        <span class="na-iconbtn"><img src="images/neo-ui/gear.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span>
-                      </div>
-                      <span class="proto-header-title">My Chequing</span>
-                    </div>
-                    <div class="showcase-push"><img src="images/neo-chequing-card.jpg" width="750" height="1736" alt="The Manage card screen for My Chequing" loading="lazy" decoding="async"></div>
-                  </div></div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- The account designs, recorded from their HTML build so TT Commons shows in every browser (showcase-video.js plays it; the caption and pause button stay live) -->
+          <video class="showcase-video" src="images/accounts-showcase.mp4" poster="images/accounts-showcase-poster.jpg" width="1128" height="846" muted loop playsinline preload="metadata" aria-hidden="true"></video>
           <p class="showcase-caption" aria-live="polite">Chequing, Credit and Savings</p>
           <button class="showcase-pause" type="button" aria-label="Pause the animation" aria-pressed="false"><svg class="showcase-icon-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2" width="2.75" height="10" rx="1" fill="currentColor"/><rect x="8.25" y="2" width="2.75" height="10" rx="1" fill="currentColor"/></svg><svg class="showcase-icon-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.8.8 0 0 0 1.2.7l7-4.4a.8.8 0 0 0 0-1.4l-7-4.4a.8.8 0 0 0-1.2.7z" fill="currentColor"/></svg></button>
         </div>
@@ -1041,10 +712,10 @@
   <script src="approach-board.js?v=12"></script>
   <script src="account-prototype.js?v=24"></script>
   <script src="joint-demo.js?v=6"></script>
-  <script src="hero-stack.js?v=5"></script>
-  <script src="finale.js?v=13"></script>
+  <script src="hero-stack.js?v=7"></script>
+  <script src="finale.js?v=14"></script>
   <script src="caption-fade.js?v=2"></script>
-  <script src="showcase.js?v=25"></script>
+  <script src="showcase-video.js?v=1"></script>
   <!-- Page stats (bottom-left corner), like the resume: the read time, worked
        out from the case study's word count at ~200 words a minute -->
   <div class="floating-dock">

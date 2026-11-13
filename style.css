@@ -158,11 +158,11 @@ h1, h2, h3 {
   border-top: none;
 }
 
-/* Gradient background used on resume.html */
+/* The page background on every page: the lightest colour of what used to
+   be a gradient (to --resume-gradient-end), as a flat colour */
 .page-resume {
   min-height: 100%;
-  /* Fixed to the window, so it doesn't change with how long a page is */
-  background: linear-gradient(162deg, var(--resume-gradient-start) 0%, var(--resume-gradient-end) 101%) fixed;
+  background: var(--resume-gradient-start);
 }
 
 .page-resume body {
@@ -1406,8 +1406,10 @@ html.is-loading body {
   height: calc(24 * var(--pt));
 }
 
+/* The pill, total, its label and the change line sit 16pt further below
+   the header */
 .sv-total {
-  top: calc(140 * var(--pt));
+  top: calc(156 * var(--pt));
   left: calc(20 * var(--pt));
 }
 
@@ -1427,9 +1429,10 @@ html.is-loading body {
   line-height: calc(20 * var(--pt));
 }
 
+/* Above the big number, in line with its left edge */
 .sv-track {
-  top: calc(152 * var(--pt));
-  left: calc(213 * var(--pt));
+  top: calc(122 * var(--pt));
+  left: calc(20 * var(--pt));
   display: flex;
   align-items: center;
   gap: calc(3 * var(--pt));
@@ -1450,7 +1453,7 @@ html.is-loading body {
 }
 
 .sv-change {
-  top: calc(222 * var(--pt));
+  top: calc(238 * var(--pt));
   left: calc(20 * var(--pt));
   color: #697780;
   font-size: calc(15 * var(--pt));
@@ -7926,25 +7929,28 @@ body::after {
   view-transition-name: reading-progress;
 }
 
+/* On the way home (.is-top-blurred, set by page-transitions.js when the
+   resume is scrolled) only the band's tint takes part: a still gradient on
+   its own transition layer over the moving pages, which costs next to
+   nothing. Its four blur layers are switched off while the pages move
+   (blurring them live, every frame, made the transition drop frames,
+   especially in Safari), then fade in once the resume has landed
+   (.is-fading-in). */
 .is-top-blurred .top-blur {
   view-transition-name: top-blur;
 }
 
-.is-top-blurred .top-blur > div:nth-child(1) {
-  view-transition-name: top-blur-1;
+.is-top-blurred .top-blur > div {
+  opacity: 0;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: none;
 }
 
-.is-top-blurred .top-blur > div:nth-child(2) {
-  view-transition-name: top-blur-2;
+.top-blur.is-fading-in > div {
+  transition: opacity 0.45s ease;
 }
 
-.is-top-blurred .top-blur > div:nth-child(3) {
-  view-transition-name: top-blur-3;
-}
-
-.is-top-blurred .top-blur > div:nth-child(4) {
-  view-transition-name: top-blur-4;
-}
 
 .is-returning .top-blur {
   transition: none;
@@ -7980,40 +7986,10 @@ body::after {
   animation: none;
 }
 
-html.is-top-blurred::view-transition-group(top-blur-1),
-html.is-top-blurred::view-transition-group(top-blur-2),
-html.is-top-blurred::view-transition-group(top-blur-3),
-html.is-top-blurred::view-transition-group(top-blur-4) {
-  animation: layer-in 0.5s ease both;
-}
 
-html.is-top-blurred::view-transition-group(top-blur-1) {
-  -webkit-backdrop-filter: blur(1px);
-  backdrop-filter: blur(1px);
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 25%);
-  mask-image: linear-gradient(to top, transparent 0%, #000 25%);
-}
 
-html.is-top-blurred::view-transition-group(top-blur-2) {
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  -webkit-mask-image: linear-gradient(to top, transparent 25%, #000 50%);
-  mask-image: linear-gradient(to top, transparent 25%, #000 50%);
-}
 
-html.is-top-blurred::view-transition-group(top-blur-3) {
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  -webkit-mask-image: linear-gradient(to top, transparent 50%, #000 75%);
-  mask-image: linear-gradient(to top, transparent 50%, #000 75%);
-}
 
-html.is-top-blurred::view-transition-group(top-blur-4) {
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  -webkit-mask-image: linear-gradient(to top, transparent 75%, #000 100%);
-  mask-image: linear-gradient(to top, transparent 75%, #000 100%);
-}
 
 ::view-transition-old(resume-sheet),
 ::view-transition-new(resume-sheet) {
@@ -8086,7 +8062,8 @@ html:active-view-transition-type(slide-back, stack-back, grow-back)::view-transi
   }
 }
 
-/* Goes out of focus first, then fades into the background */
+/* Goes out of focus first, then fades into the background. (Safari only
+   blurs a window-sized snapshot of it: see "root-sink") */
 @keyframes sheet-blur-out {
   50% {
     opacity: 1;
@@ -16542,7 +16519,8 @@ html.is-docking .floating-dock .stat-pill {
   height: calc(var(--h) * var(--pt));
 }
 
-.ht-app.ht-baked img {
+.ht-baked > .bk-part > img,
+.ht-baked > .ht-baked-status > img {
   position: absolute;
   top: calc(var(--it) * var(--pt));
   left: calc(var(--il) * var(--pt));
@@ -16561,5 +16539,172 @@ html.is-docking .floating-dock .stat-pill {
 
 .case-ht:not(.is-blueprint) .ht-baked > .ht-baked-status {
   transition-duration: 2s;
+}
+
+/* Live words in a rendered screen (the Today's Home hero's greeting and
+   rewards pill): each word is a cut-out of TT Commons (an image used as a
+   mask), filled with the text colour, so the words still roll and change
+   colour (the pill turns white as it lights up). --w and --h are the word's
+   box in points. */
+.tx {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(var(--w) * var(--pt));
+  height: calc(var(--h) * var(--pt));
+  background-color: currentColor;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* "Eddie" keeps the greeting's dark ink (the rolling word is grey) */
+.ht-greeting p .tx-eddie {
+  color: #111;
+}
+
+/* Before and after, and the challenge: the old and new Home tabs as images */
+.hc-shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Quick actions prototype on images: the Home tab is one image, each quick
+   action a button over it (its icon tile, which bounces and gets Explore's
+   ring, and its label), and each sheet's content an image in the sheet,
+   with an invisible X and invisible stand-ins for the rows Watch zooms in on
+   and outlines (positioned in points from where they sat). */
+.qa-baked-home .qa-baked-action {
+  position: absolute;
+  top: calc(var(--t) * var(--pt));
+  left: calc(var(--l) * var(--pt));
+  width: calc(var(--w) * var(--pt));
+  height: calc(var(--h) * var(--pt));
+}
+
+.qa-baked-action > span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: calc(var(--ih) * var(--pt));
+  border-radius: calc(12 * var(--pt));
+}
+
+.qa-baked-action > span > img,
+.qa-baked-action > .qa-baked-label {
+  position: absolute;
+  left: calc(-3 * var(--pt));
+  width: calc(100% + 6 * var(--pt));
+  max-width: none;
+}
+
+.qa-baked-action > span > img {
+  top: calc(-3 * var(--pt));
+  height: calc(100% + 3.5 * var(--pt));
+}
+
+.qa-baked-action > .qa-baked-label {
+  top: calc((var(--ih) + 0.5) * var(--pt));
+  height: calc((var(--h) - var(--ih) + 2.5) * var(--pt));
+}
+
+.qa-sheet.qa-baked {
+  padding-bottom: 0;
+}
+
+.qa-baked-sheet {
+  position: relative;
+  height: calc(var(--h) * var(--pt));
+}
+
+.qa-layer .qa-baked-sheet > img:not(.qa-baked-rail) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.qa-baked-sheet .qa-close,
+.qa-baked-sheet .qa-list,
+.qa-baked-sheet .qa-row,
+.qa-layer .qa-baked-sheet .qa-baked-rail {
+  position: absolute;
+  top: calc(var(--t) * var(--pt));
+  left: calc(var(--l) * var(--pt));
+  width: calc(var(--w) * var(--pt));
+  height: calc(var(--h) * var(--pt));
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+
+/* Design 03 (home-tab-refresh.html): the Home refresh camera move as a
+   video, recorded from its HTML build (home-video.js plays it on screen) */
+.ac-show .ac-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* One Structure's outcome showcase as a video (showcase-video.js) */
+.showcase .showcase-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* ===== One Structure: TT Commons as cut-outs (.tw) =====
+   The problem board's old Credit account is built in HTML; each of its words
+   is a cut-out from one sprite of TT Commons (images/accounts-text.avif,
+   rendered at 64px), filled with the text colour, so Neo's typeface shows in
+   every browser. --w and --h are the word's box and --x and --y its place in
+   the sprite, all in ems of the text's own size. The real word stays inside
+   (hidden) for anything that reads the text. */
+.tw {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  width: calc(var(--w) * 1em);
+  height: calc(var(--h) * 1em);
+  background-color: currentColor;
+  -webkit-mask: url("images/accounts-text.avif") no-repeat;
+  mask: url("images/accounts-text.avif") no-repeat;
+  -webkit-mask-size: calc(50 * 1em) calc(5.6875 * 1em);
+  mask-size: calc(50 * 1em) calc(5.6875 * 1em);
+  -webkit-mask-position: calc(var(--x) * -1em) calc(var(--y) * -1em);
+  mask-position: calc(var(--x) * -1em) calc(var(--y) * -1em);
+}
+
+.tw > i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-style: inherit;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Safari, home from a case study (page-transitions.js adds "root-sink"):
+   the case study wasn't captured on its own (Safari captured the whole
+   10,000px sheet, and the transition dropped to a few frames), so the old
+   page's window-sized snapshot sinks and fades instead, the way the sheet
+   would, above the resume's background */
+html:active-view-transition-type(root-sink)::view-transition-old(root) {
+  z-index: 1;
+  transform-origin: 50% 50%;
+  animation-name: sheet-sink, sheet-blur-out;
+  animation-duration: 1.22s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), linear;
+  animation-fill-mode: both;
 }
 

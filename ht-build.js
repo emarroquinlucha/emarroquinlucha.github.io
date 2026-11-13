@@ -143,8 +143,11 @@
       };
       if ("onpagereveal" in window) {
         window.addEventListener("pagereveal", function (e) {
-          // Starts while the page is still settling in, not after it
-          setTimeout(whenLoaded, e.viewTransition ? 400 : 0);
+          // Starts just after the page transition ends: playing its entrance
+          // (with its blur) while the page was still moving made the
+          // transition drop frames, especially in Safari
+          if (e.viewTransition) e.viewTransition.finished.then(function () { setTimeout(whenLoaded, 60); });
+          else whenLoaded();
         }, { once: true });
         setTimeout(whenLoaded, 3000);
       } else {

@@ -3,6 +3,14 @@
 // Each case study page picks its transition here; the animations are under
 // "Page transitions" in style.css. Load this in the <head> of every page.
 (function () {
+  // Safari (and every iPhone browser, which all run on WebKit) needs one
+  // change: leaving a case study, it captures the whole very long sheet,
+  // so there the sheet goes with the window-sized page snapshot instead
+  // ("root-sink"). (.is-webkit / .is-chromium on <html>, set early.)
+  var ua = navigator.userAgent;
+  var webkit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
+  document.documentElement.classList.add(webkit ? "is-webkit" : "is-chromium");
+
   var transitions = {
     "accounts-architecture": "stack",
     "final-final-v7": "stack",
@@ -60,7 +68,7 @@
     el.style.clipPath = "inset(" + top + "px -240px " + bottom + "px -240px)";
   }
   function untrim() {
-    document.querySelectorAll(".resume-frame, .pg").forEach(function (el) { el.style.clipPath = ""; });
+    document.querySelectorAll(".resume-frame, .pg").forEach(function (el) { el.style.clipPath = ""; el.style.viewTransitionName = ""; });
   }
   // Back to a page kept in memory (the browser's back button): no trim left
   window.addEventListener("pageshow", untrim);
@@ -113,7 +121,16 @@
         center: innerHeight / 2 - frame.top
       }));
     } catch (err) {}
-    trim(sheet());
+    // Safari, leaving a case study for home: its sheet isn't captured on its
+    // own (Safari captures the whole sheet, over 10,000px tall, whatever the
+    // trim, and going home dropped to a few frames); it goes with the page's
+    // window-sized snapshot instead, which sinks and fades the same way
+    // ("root-sink" in style.css)
+    if (webkit && /-back$/.test(type) && document.documentElement.classList.contains("page-case")) {
+      sheet().style.viewTransitionName = "none";
+    } else {
+      trim(sheet());
+    }
     nameDocks("out");
   });
 
@@ -166,6 +183,9 @@
     // out ("posters-back"); a case study opening fades itself in more slowly
     // ("case-forward"). See "Page transitions" in style.css.
     if (from === "posters" && type === "stack-back") e.viewTransition.types.add("posters-back");
+    // Safari, home from a case study: the case study left as part of the
+    // page's snapshot (see pageswap), so that snapshot sinks and fades
+    if (webkit && type === "stack-back" && from !== "posters" && from !== "fun-ui") e.viewTransition.types.add("root-sink");
     // Back on the resume, the pills and Connect menu rise in again, the way
     // they do as a case study opens
     if (type === "stack-back") {
@@ -175,15 +195,34 @@
       setTimeout(function () { root.classList.remove("is-docking"); }, 2600);
     }
     if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
-    if (!transitions[to]) {
-      root.classList.add("is-page-transition");
-      root.classList.toggle("is-top-blurred", window.scrollY > 8);
+    // The top blur, when the arriving page is scrolled far enough to show it:
+    // only its tint shows while the pages move, and the blur fades in once
+    // the page has landed (blurring the moving pages live is too costly)
+    if (!transitions[to]) root.classList.add("is-page-transition");
+    if (window.scrollY > 8) root.classList.add("is-top-blurred");
+    // The arriving page's endless loops (the grid glow, drifting phones,
+    // twinkling stars, the illustrations' builds) hold still until the
+    // transition ends: while it runs, anything moving on the page has to be
+    // captured again every frame
+    var held = [];
+    if (document.getAnimations) {
+      document.getAnimations().forEach(function (a) {
+        var t = a.effect && a.effect.getTiming && a.effect.getTiming();
+        if (t && t.iterations === Infinity && a.playState === "running") { a.pause(); held.push(a); }
+      });
     }
     e.viewTransition.finished.then(function () {
+      held.forEach(function (a) { if (a.playState === "paused") a.play(); });
       window.removeEventListener("scroll", retrim);
       clearCovers();
       untrim();
       nameDocks();
+      // The top blur, held back while the pages moved, fades in
+      var blur = root.classList.contains("is-top-blurred") && document.querySelector(".top-blur");
+      if (blur) {
+        blur.classList.add("is-fading-in");
+        setTimeout(function () { blur.classList.remove("is-fading-in"); }, 600);
+      }
       root.classList.remove("is-page-transition", "is-top-blurred");
     });
   });

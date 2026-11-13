@@ -42,10 +42,18 @@
 
     // Copy each hero screen in, without its animation-only parts, and add an
     // empty block for each part of the skeleton
+    // Screens rendered to images (data-shots: each account's image and its
+    // blocks, measured from its HTML screen) so TT Commons shows in every
+    // browser; without them, the showcase's live screens are copied in
+    var shots = finale.dataset.shots ? JSON.parse(finale.dataset.shots) : null;
     phones.forEach(function (phone) {
       var source = document.querySelector(".showcase .is-" + phone.dataset.account + " .phone-mock-screen");
       var screen = phone.querySelector(".phone-mock-screen");
-      if (source) {
+      var shot = shots && shots[phone.dataset.account];
+      if (shot) {
+        screen.innerHTML = '<img class="case-anim-shot" src="' + shot.src + '" alt="" decoding="async">';
+        phone.shot = shot;
+      } else if (source) {
         screen.innerHTML = source.innerHTML;
         screen.querySelectorAll(".showcase-push, .showcase-press, .showcase-cursor, .na-target").forEach(function (el) { el.remove(); });
         screen.querySelectorAll("[role]").forEach(function (el) { el.removeAttribute("role"); el.removeAttribute("aria-label"); });
@@ -68,6 +76,11 @@
       if (measured) return;
       measured = true;
       phones.forEach(function (phone) {
+        if (phone.shot) {
+          phone.zones = JSON.parse(JSON.stringify(phone.shot.zones));
+          if (phone.shot.missing) phone.querySelector('[data-zone="card"]').classList.add("is-missing");
+          return;
+        }
         var screen = phone.querySelector(".phone-mock-screen");
         var s = screen.getBoundingClientRect();
         var pt = s.width / 375;

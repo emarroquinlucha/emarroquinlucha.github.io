@@ -49,6 +49,23 @@
   // Next's Send sheet: just the Interac send row (no "add" badge), then the
   // future payment rails as rows under it
   function addRails(copy) {
+    // The prototype's sheets are images: Next gets its own Send sheet image
+    // (just the Interac send row), with each rail row its own image so they
+    // still ease in one after another
+    var baked = copy.querySelector('.qa-sheet[data-sheet="send"] .qa-baked-sheet');
+    if (baked) {
+      var RAILS = [[156.53, 19.98, 335.03, 101.05], [257.57, 19.98, 335.03, 101.05],
+        [358.62, 19.98, 335.03, 101.05], [459.66, 19.98, 335.03, 98.93]];
+      var html = '<img src="images/home-qa/tl-send.avif" alt="">' +
+        '<button class="qa-close" type="button" tabindex="-1" aria-label="Close" style="--t: 20.51; --l: 16.01; --w: 31.99; --h: 31.99"></button>';
+      RAILS.forEach(function (r, i) {
+        html += '<img class="tl-rail-row qa-baked-rail" src="images/home-qa/tl-rail-' + i + '.avif" alt="" style="--i: ' + i +
+          '; --t: ' + r[0] + '; --l: ' + r[1] + '; --w: ' + r[2] + '; --h: ' + r[3] + '">';
+      });
+      baked.style.setProperty("--h", 598.56);
+      baked.innerHTML = html;
+      return;
+    }
     var list = copy.querySelector('.qa-sheet[data-sheet="send"] .qa-list');
     if (!list) return;
     var rows = list.querySelectorAll(".qa-row");

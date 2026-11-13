@@ -33,9 +33,13 @@
 
     // The greeting rolls to word i, its window fitting the word, and the
     // light follows the time of day
+    // (The width is set in the screen's points, not pixels, so a copy of
+    // this phone at another size, like the timeline's, keeps the fit)
+    var screenEl = phone.querySelector(".phone-mock-screen");
     function setTime(i) {
       track.style.setProperty("--roll", i);
-      rollBox.style.width = words[i].offsetWidth + "px";
+      var pt = screenEl && screenEl.offsetWidth / 375;
+      rollBox.style.width = pt ? "calc(" + (words[i].offsetWidth / pt).toFixed(2) + " * var(--pt))" : words[i].offsetWidth + "px";
       box.dataset.time = TIMES[i];
     }
 
