@@ -2196,16 +2196,17 @@ html:has(.lightbox.is-open) body {
    .fold-flap is the folded-over flap (the back of the paper). Its outline is
    built from the --fold-* values, so it keeps its gentle curl while it reshapes.
    .fold casts the flap's shadow onto the card. */
-/* The box is 60px wider and taller than the flap (which sits in its top-right
-   corner) so the shadow has room around the flap's tip: Safari trims a
-   drop-shadow at the edges of the element's box. */
+/* The box reaches 60px past the flap on every side (the flap sits 60px in
+   from its top and right edges) so the shadow has room all round: Safari
+   trims a drop-shadow at the edges of the element's box, which left a hard
+   line down the paper's edge as the lifted fold's shadow grew. */
 .fold {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -60px;
+  right: -60px;
   z-index: 2;
-  width: calc(var(--fold-top) + 60px);
-  height: calc(var(--fold-tip-y) + 60px);
+  width: calc(var(--fold-top) + 120px);
+  height: calc(var(--fold-tip-y) + 120px);
   pointer-events: none;
   filter: drop-shadow(-5px 8px 12px rgba(24, 24, 32, 0.28));
   transition: filter 0.5s ease;
@@ -2216,10 +2217,16 @@ html:has(.lightbox.is-open) body {
   filter: drop-shadow(-9px 14px 18px rgba(24, 24, 32, 0.3));
 }
 
+/* The fold's shadow box reaches past the paper; it mustn't make the page
+   scroll sideways (clip, unlike hidden, keeps sticky elements working) */
+.resume-wrap {
+  overflow-x: clip;
+}
+
 .fold-flap {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 60px;
+  right: 60px;
   width: var(--fold-top);
   height: var(--fold-tip-y);
   /* A faint shadow at the crease, a soft highlight just past it,
