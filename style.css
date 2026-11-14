@@ -16197,13 +16197,6 @@ html:active-view-transition-type(stack-back)::view-transition-new(resume-sheet) 
   --gc-size: 24px;
 }
 
-/* ===== Back on the resume (page-transitions.js adds .is-docking) =====
-   The pills rise in again after the resume settles, the way they come in
-   as a case study opens (the Connect menu stays put) */
-html.is-docking .floating-dock .stat-pill {
-  animation: dock-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s backwards;
-}
-
 /* The heart pill on hover: lighter, and lifting a little */
 /* The heart pill on hover: a shade darker than the other pills */
 .stat-like:hover {
@@ -16382,7 +16375,14 @@ html.is-docking .floating-dock .stat-pill {
 }
 
 ::view-transition-new(dock-in-1),
-::view-transition-new(dock-in-2) {
+::view-transition-new(dock-in-2),
+::view-transition-new(toc-in) {
+  animation: none;
+}
+
+/* The contents menu, rising in with the pills (page-transitions.js) */
+::view-transition-group(toc-in) {
+  z-index: 6;
   animation: none;
 }
 

@@ -197,29 +197,27 @@
     // Safari, home from a case study: the case study left as part of the
     // page's snapshot (see pageswap), so that snapshot sinks and fades
     if (webkit && type === "stack-back" && from !== "posters" && from !== "fun-ui") e.viewTransition.types.add("root-sink");
-    // Back on the resume, the pills and Connect menu rise in again, the way
-    // they do as a case study opens
-    if (type === "stack-back") {
-      root.classList.remove("is-docking");
-      void root.offsetWidth;
-      root.classList.add("is-docking");
-      setTimeout(function () { root.classList.remove("is-docking"); }, 2600);
-    }
-    // The contents menu waits out the move, then fades in and rises into
-    // place once the page has landed, coming or going (its own entrance in
-    // style.css would play unseen while the pages move, and doesn't replay
-    // coming back from the back-forward cache)
+    // The contents menu rises in with the pills: like them it gets a layer of
+    // its own above the moving pages ("toc-in" in style.css), so its
+    // entrance shows as the page arrives.
     var toc = document.querySelector(".page-toc");
-    if (toc && toc.animate && getComputedStyle(toc).display !== "none") {
-      toc.style.animation = "none";
-      toc.style.opacity = "0";
-      e.viewTransition.finished.then(function () {
-        toc.style.opacity = "";
-        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        toc.animate([
+    if (toc && getComputedStyle(toc).display === "none") toc = null;
+    if (toc) {
+      toc.style.viewTransitionName = "toc-in";
+      e.viewTransition.finished.then(function () { toc.style.viewTransitionName = ""; });
+    }
+    // The pills and the menu rise in together 0.9s in, whichever way the
+    // visitor is going (this also replays them back on the resume, from the
+    // back-forward cache, where their own entrances don't)
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      var rising = Array.prototype.slice.call(document.querySelectorAll(".floating-dock .stat-pill"));
+      if (toc) rising.push(toc);
+      rising.forEach(function (el) {
+        if (!el.animate) return;
+        el.animate([
           { opacity: 0, transform: "translateY(16px)", filter: "blur(8px)" },
           { opacity: 1, transform: "translateY(0)", filter: "blur(0)" }
-        ], { duration: 600, delay: 100, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" });
+        ], { duration: 600, delay: 900, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" });
       });
     }
     if (root.classList.contains("page-case") && type === "stack-forward") e.viewTransition.types.add("case-forward");
