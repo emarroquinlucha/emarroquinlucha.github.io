@@ -2661,7 +2661,7 @@ html:has(.lightbox.is-open) body {
   height: 1em;
   margin-left: 0.12em;
   vertical-align: -0.12em;
-  background: var(--resume-label);
+  background: #b4b4ba;
   animation: cursor-blink 1.8s steps(1, end) infinite;
 }
 
