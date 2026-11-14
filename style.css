@@ -2414,12 +2414,14 @@ html:has(.lightbox.is-open) body {
   margin-top: 69px;
 }
 
-/* At 34px, a 660px measure wraps the headline into three lines with
-   "finding" starting the second: "…problems," / "…and bringing" /
-   "beauty to the details." */
-.resume-statement-v2 {
-  max-width: 660px;
-  font-size: 34px;
+/* At 36px, a 630px measure wraps the headline into three lines:
+   "…digital labyrinths," / "decipher patterns in the chaos, and" /
+   "bring some beauty to the pixels." Phones keep the smaller headline. */
+@media (min-width: 721px) {
+  .resume-statement-v2 {
+    max-width: 630px;
+    font-size: 36px;
+  }
 }
 
 .resume-statement .soft {
