@@ -37,7 +37,13 @@
     if (finale.classList.contains("combo-finale")) {
       var slabs = "";
       for (var z = 1; z <= 6; z++) slabs += '<span class="phone-slab" style="--z: ' + z + '" aria-hidden="true"></span>';
-      phones.forEach(function (phone) { phone.insertAdjacentHTML("afterbegin", slabs); });
+      phones.forEach(function (phone) {
+        phone.insertAdjacentHTML("afterbegin", '<span class="phone-shade" aria-hidden="true"></span>' + slabs);
+        // The skeleton's light frame, over the dark one: it fades in (cheap)
+        // instead of the frame repainting its colour and shadow every frame
+        var body = phone.querySelector(".phone-mock-body");
+        if (body) body.insertAdjacentHTML("afterbegin", '<span class="phone-skin" aria-hidden="true"></span>');
+      });
     }
 
     // Copy each hero screen in, without its animation-only parts, and add an

@@ -2416,7 +2416,7 @@ html:has(.lightbox.is-open) body {
 
 /* At 36px, a 630px measure wraps the headline into three lines:
    "…digital labyrinths," / "decipher patterns in the chaos, and" /
-   "bring some beauty to the pixels." Phones keep the smaller headline. */
+   "bring some glow to the pixels." Phones keep the smaller headline. */
 @media (min-width: 721px) {
   .resume-statement-v2 {
     max-width: 630px;
@@ -15708,26 +15708,70 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
 }
 
-/* Four shadows, inset and outer in the same places as the phone's own, so
-   the dark frame fades into the outline instead of snapping */
+/* Smooth in Chrome and Safari: nothing on the phones repaints while they
+   turn into skeletons in 3D (repainting every frame made Chrome stutter and
+   Safari flicker). The frame and screen keep their look; the skeleton's
+   light frame (.phone-skin) and light screen (on .finale-zones) fade in
+   over them, the drop shadow (.phone-shade, behind the phone) fades to a
+   lighter one, and each zone draws in on a layer of its own. */
+.combo-finale .finale-phone .phone-mock-body,
 .combo-finale.is-skeleton .phone-mock-body {
-  background: #d6d6dc;
+  background: #232325;
   box-shadow:
-    inset 0 0 0 1.5px rgba(12, 12, 13, 0.28),
-    inset 0 0 0 0 rgba(22, 22, 23, 0),
-    0 18px 40px rgba(12, 12, 13, 0.06),
-    0 5px 12px rgba(12, 12, 13, 0);
+    inset 0 0 0 0.6cqw #55555a,
+    inset 0 0 0 1cqw #161617;
+  transition: none;
 }
 
-.combo-finale .phone-mock-screen {
-  outline: 1px solid rgba(12, 12, 13, 0);
-  outline-offset: -1px;
-  transition: background-color 0.7s ease, outline-color 0.6s ease;
+.combo-finale .phone-skin {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #d6d6dc;
+  box-shadow: inset 0 0 0 1.5px rgba(12, 12, 13, 0.28);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
 }
 
+.combo-finale.is-skeleton .phone-skin {
+  opacity: 1;
+}
+
+.combo-finale .phone-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: 15cqw;
+  box-shadow:
+    0 28px 50px rgba(12, 12, 13, 0.18),
+    0 6px 14px rgba(12, 12, 13, 0.1);
+  transform: translateZ(-12px);
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.combo-finale.is-skeleton .phone-shade {
+  opacity: 0.35;
+}
+
+.combo-finale .phone-mock-screen,
 .combo-finale.is-skeleton .phone-mock-screen {
-  background: rgba(250, 250, 251, 0.92);
-  outline-color: rgba(12, 12, 13, 0.24);
+  background: #f1f3f3;
+  transition: none;
+}
+
+.combo-finale .finale-zones {
+  border-radius: inherit;
+  background: #f7f7f8;
+  box-shadow: inset 0 0 0 1px rgba(12, 12, 13, 0.24);
+}
+
+/* The side buttons and home indicator change colour at once (they're tiny;
+   fading them repainted the whole phone) */
+.combo-finale .phone-mock-body::before,
+.combo-finale .phone-mock-body::after,
+.combo-finale .phone-mock-screen::after {
+  transition: none;
 }
 
 .combo-finale.is-skeleton .phone-mock-body::before,
@@ -15750,6 +15794,8 @@ html.page-posters:active-view-transition-type(stack-forward)::view-transition-ne
   /* Hidden, ready to draw in; reset only once the blueprint has faded */
   clip-path: inset(-6px calc(100% + 6px) calc(100% + 6px) -6px);
   transition: clip-path 0s linear 0.7s;
+  /* Its own layer, so drawing it in doesn't repaint the whole phone */
+  will-change: transform;
 }
 
 .combo-finale .finale-zone[data-zone="settings"] { background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' rx='5' fill='none' stroke='%23e02d8c' stroke-width='4' stroke-dasharray='5.5 3.5'/></svg>") 0 0 / 100% 100% no-repeat; }
