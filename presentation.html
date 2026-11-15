@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en" class="page-resume presentation-page">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Presentation | Edward A. Marroquin</title>
+  <!-- Private page for interviews: keep it out of search results, the sitemap and the nav -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f9f9fa">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=894">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <!-- Unlocked earlier this visit? Skip the gate before anything draws -->
+  <script>
+    try { if (sessionStorage.getItem("presentation-unlocked") === "1") document.documentElement.classList.add("is-unlocked"); } catch (e) {}
+  </script>
+  <style>
+    :root {
+      /* One unit that scales with the window, so the slide keeps its proportions */
+      --u: min(1vw, 1.7vh);
+      --qt-green: #c4ffb1;   /* Questrade avatar background */
+      --qt-ink: #151916;     /* Questrade logo ink */
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--resume-text);
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Squircle corners where the browser supports them (Chrome), rounded corners elsewhere.
+       Real corners, not a mask, so the glass edges and shadow follow the shape. */
+    /* Background dots a shade darker than the resume's, on this page only */
+    .dot-grid {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%23BDBDC6'/%3E%3C/svg%3E");
+    }
+    .dot-grid::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect x='11' y='11' width='2' height='2' rx='1' fill='%239A9AA4'/%3E%3C/svg%3E");
+    }
+
+
+    .squircle { border-radius: 27%; overflow: hidden; }
+    @supports (corner-shape: squircle) {
+      .squircle { border-radius: 50%; corner-shape: squircle; }
+    }
+
+    /* ---------- Password gate ----------
+       A simple gate, not real security: the content below is still in the page source.
+       Fine for keeping casual visitors out; don't put anything confidential here. */
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+    .gate-card {
+      width: 100%;
+      max-width: 360px;
+      box-sizing: border-box;
+      padding: 32px 28px 28px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 40px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    .gate-label { margin: 0 0 8px; font: var(--type-label-xs); color: var(--resume-label); }
+    .gate-title { margin: 0 0 24px; font: var(--type-h3); color: var(--resume-text); }
+    .gate-form { display: grid; gap: 12px; }
+    .gate-input {
+      width: 100%;
+      box-sizing: border-box;
+      height: 44px;
+      padding: 0 14px;
+      font: var(--type-ui);
+      color: var(--resume-text);
+      background: #f4f4f5;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .gate-input:focus { background: #fff; border-color: #d4d4d8; }
+    .gate-input[aria-invalid="true"] { border-color: #e5484d; }
+    .gate-submit {
+      height: 44px;
+      font: var(--type-ui);
+      color: #fff;
+      background: var(--resume-text);
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .gate-submit:hover { opacity: 0.88; }
+    .gate-error { min-height: 20px; margin: 0; font: var(--type-caption); color: #e5484d; }
+    .gate-card.is-shaking { animation: gate-shake 0.4s ease; }
+    @keyframes gate-shake {
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    @media (prefers-reduced-motion: reduce) { .gate-card.is-shaking { animation: none; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    /* Locked: show only the gate. Unlocked: hide it. */
+    html:not(.is-unlocked) .presentation { display: none; }
+    html.is-unlocked .gate { display: none; }
+
+    /* ---------- Slide 1: Questrade + Eddie ---------- */
+    .page-resume main.presentation {         /* (beats style.css's .page-resume main) */
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .slide { position: absolute; inset: 0; overflow: hidden; }
+
+    /* The camera: the whole scene zooms in and out on it */
+    .intro-camera { position: absolute; inset: 0; transform-origin: 50% 46%; will-change: transform; }
+    .intro-stage { position: absolute; inset: 0; display: grid; place-items: center; }
+
+    /* The wordmark, traced from the Questrade logo on its 762 × 262 grid.
+       The Q is the logo mark (it becomes the avatar); the other letters leave one by one. */
+    .wordmark {
+      --cap: calc(var(--u) * 7.2);                 /* height of the Q */
+      --k: calc(var(--cap) / 120);                 /* one unit of the 762 × 262 grid */
+      position: relative;
+      width: calc(var(--k) * 762);
+      height: calc(var(--k) * 262);
+      z-index: 2;                  /* above Eddie, who waits behind the Q */
+      opacity: 0;
+      will-change: transform;
+    }
+    .wm-letter {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      will-change: transform, opacity, filter;
+    }
+
+    /* The slot the Q sits in, sized to the Q's ink */
+    .q-slot {
+      position: absolute;
+      left: 0;
+      top: calc(var(--k) * 70);
+      width: calc(var(--cap) * 311 / 291);
+      height: var(--cap);
+    }
+    /* The Q's full 512 box (the avatar), positioned so its ink lines up with the slot */
+    .q-avatar {
+      --box: calc(var(--cap) * 512 / 291);
+      position: absolute;
+      left: calc(var(--box) * -110 / 512);
+      top: calc(var(--box) * -107 / 512);
+      width: var(--box);
+      height: var(--box);
+      z-index: 2;
+      perspective: calc(var(--box) * 4);
+      will-change: transform;
+    }
+    .q-tilt {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    /* The avatar behind the Q: blooms in as one piece */
+    .q-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(0.55);
+    }
+    .q-fill { position: absolute; inset: 0; background: linear-gradient(180deg, #d4ffc6, var(--qt-green) 55%, #b6f7a0); }
+
+    /* ---------- Frosted glass for the avatars ----------
+       The same glass as the resume's floating pills ("Frosted pills" in style.css):
+       a frosted plate a little larger than the avatar, blurred and a touch more
+       saturated behind, with the pills' glass edges (--glass-edge) and light drop
+       shadow (--glass-drop). The avatar face gets the same edges on top.
+       Nothing above the plate may use filter, opacity < 1 or a mask, or the frost
+       stops seeing the page behind it. */
+    .glass-plate {
+      position: absolute;
+      inset: -1.25px;              /* the avatars end at 0.8 scale, so this shows as a 1px border */
+      background: color-mix(in srgb, color-mix(in srgb, #fff 85%, #e4e4e9) 55%, transparent);
+      -webkit-backdrop-filter: blur(18px) saturate(1.6);
+      backdrop-filter: blur(18px) saturate(1.6);
+      box-shadow: var(--glass-edge), var(--glass-drop);
+    }
+    .glass-face-edge {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: var(--glass-edge);
+    }
+    .q-mark { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .q-shine {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .q-shine::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      bottom: -20%;
+      left: 0;
+      width: 45%;
+      background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%);
+      opacity: 0.7;
+      filter: blur(calc(var(--box) * 0.04));
+      transform: translateX(-160%) skewX(-12deg);
+    }
+    .q-shine.is-shining::before { animation: shine 2.2s cubic-bezier(0.45, 0, 0.35, 1) forwards; }
+    @keyframes shine { to { transform: translateX(330%) skewX(-12deg); } }
+
+    /* Eddie's avatar: waits behind the Q, then slides out to the right */
+    .eddie-avatar {
+      --box: calc(var(--u) * 7.2 * 512 / 291);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--box);
+      height: var(--box);
+      margin: calc(var(--box) / -2) 0 0 calc(var(--box) / -2);
+      z-index: 1;
+      opacity: 0;
+      will-change: transform;
+    }
+    .eddie-face {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: linear-gradient(160deg, #f1f1f3, #dcdce1);
+    }
+    .eddie-face img, .eddie-face svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .intro-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      margin: 0;
+      text-align: center;
+      font: 500 clamp(18px, calc(var(--u) * 2.1), 28px)/1.1 var(--font-sans);
+      letter-spacing: -0.015em;
+      color: var(--qt-ink);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+    /* Traced Questrade logo in place of the typed word: cap height ≈ Geist's (0.7em), on the baseline */
+    .title-wordmark {
+      display: inline-block;
+      height: calc(0.7em * 126 / 120);
+      width: calc(0.7em * 762 / 120);
+      vertical-align: calc(-0.7em * 4 / 120);
+    }
+    /* "Eddie" in the Questrade wordmark's style: d and e from the wordmark itself, E and i
+       drawn to its stems, strokes and heights. Same grid and sizing as the logo beside it. */
+    .title-eddie {
+      display: inline-block;
+      height: calc(0.7em * 126 / 120);
+      width: calc(0.7em * 380.9 / 120);
+      vertical-align: calc(-0.7em * 4 / 120);
+    }
+    /* Each label sits centred under its avatar (presentation-intro.js sets --x) */
+    .intro-label {
+      position: absolute;
+      top: 0;
+      left: var(--x, 50%);
+      transform: translateX(-50%);
+      line-height: 0;
+      white-space: nowrap;
+    }
+
+    /* The intro avatars end bigger (1.12 scale), with a deeper shadow; the plate shows as a 1px border */
+    .q-avatar .glass-plate,
+    .eddie-avatar .glass-plate {
+      inset: -0.9px;
+      box-shadow:
+        var(--glass-edge),
+        0 2px 5px rgba(12, 12, 13, 0.07),
+        0 12px 30px rgba(12, 12, 13, 0.13);
+    }
+
+    /* The + between the avatars, drawn like the Questrade Q: the same stroke weight, square ends with
+       one 45° cut on a slightly longer right arm (like the Q's leg), the logo's dark gradient and
+       glass finish */
+    .intro-plus {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--plus, 40px);
+      height: var(--plus, 40px);
+      margin: calc(var(--plus, 40px) / -2) 0 0 calc(var(--plus, 40px) / -2);
+      opacity: 0;
+      overflow: visible;
+      will-change: transform, opacity, filter;
+    }
+
+    /* ---------- Slides ---------- */
+    .slide { opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0s linear 0.5s; }
+    .slide.is-current { opacity: 1; visibility: visible; transition: opacity 0.5s ease, visibility 0s; }
+
+
+    /* ---------- Slide 2: career timeline ----------
+       A frosted sheet of the resume's paper on the right holds the story. A ruler-like progress track
+       runs from off the left edge, through the active avatar, and ends behind the paper. The avatars
+       sit on a reel that slides left one stop at a time: the active one is in focus on the left, the
+       next waits behind the paper with its colour glowing through, past ones leave off the left.
+       Positions (--focus-x, --gap, --line-y, --window-w) are set by presentation-timeline.js. */
+    .slide-timeline {
+      --tl-avatar: clamp(104px, 11.5vw, 160px);
+      --tl-ink: #151916;
+      --tl-muted: #8e8e95;
+      --tl-track: #dadae0;
+      --tl-green: #2f9e5a;
+      --focus-x: 25vw;
+      --gap: 50vw;
+      --line-y: 46vh;
+      --window-w: 85vw;
+      overflow: hidden;
+    }
+
+    /* The paper: the resume's sheet, without the fold. Same colour, 6px corners, lighter hairline border,
+       the white glass rim inside (bright top edge, soft glint at the bottom) and the resume's three-layer
+       drop shadow. Slightly see-through and frosted so the track softens as it passes behind. */
+    /* The page: the resume's sheet, without the fold. Same colour, 6px corners, lighter hairline border,
+       the white glass rim inside (bright top edge, soft glint at the bottom) and the resume's three-layer
+       drop shadow. Slightly see-through and frosted so the track softens as it passes behind. */
+    .ct-paper, .ct-paper-shadow, .ph-page, .ph-page-shadow {
+      /* The folded top-right corner, the resume's fold at about 60% size (same shape and curl,
+         style.css's .fold / .fold-flap draw it; not interactive here) */
+      --fold-top: 120px;
+      --fold-side: 110px;
+      --fold-tip-x: 10.4px;
+      --fold-tip-y: 119.6px;
+      position: absolute;
+      z-index: 2;
+      top: 48px;
+      right: 48px;
+      bottom: 48px;
+      width: 40vw;
+    }
+    /* The page's shadow follows the folded shape: cast by a copy of the shape behind it, like the
+       resume's .resume-shadow (a shadow on the page itself would be cut off by its trimmed corner) */
+    .ct-paper-shadow, .ph-page-shadow {
+      pointer-events: none;
+      filter:
+        drop-shadow(0 10px 16px rgba(0, 0, 0, 0.05))
+        drop-shadow(0 8px 10px rgba(12, 12, 13, 0.04))
+        drop-shadow(40px 30px 40px rgba(0, 0, 0, 0.025));
+    }
+    .ct-paper-shadow::before, .ph-page-shadow::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      background: var(--resume-paper);
+      clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
+    }
+    .ct-paper, .ph-page {
+      top: 48px;
+      right: 48px;
+      bottom: 48px;
+      width: 40vw;
+      box-sizing: border-box;
+      padding: clamp(32px, 3.6vw, 60px);
+      background: color-mix(in srgb, var(--resume-paper) 78%, transparent);
+      -webkit-backdrop-filter: blur(16px) saturate(1.5);
+      backdrop-filter: blur(16px) saturate(1.5);
+      border: 0.5px solid #e2e2e7;
+      border-radius: 6px;
+      color: var(--resume-text);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 0 0 3px rgba(255, 255, 255, 0.6),
+        inset 0 -2px 0 rgba(255, 255, 255, 0.45),
+        inset 0 20px 24px -20px rgba(255, 255, 255, 0.85),
+        inset 0 -14px 20px -14px rgba(12, 12, 13, 0.05);
+      /* Cut off the top-right corner where the page is folded down */
+      clip-path: polygon(0 0, calc(100% - var(--fold-top)) 0, 100% var(--fold-side), 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+
+    .ct-copy { display: grid; }
+    .ct-blurb { grid-area: 1 / 1; visibility: hidden; opacity: 0; }
+    .ct-blurb.is-shown { visibility: visible; opacity: 1; }
+    .ct-label {
+      margin: 0 0 20px;
+      font: var(--type-label-s);
+      letter-spacing: 0.02em;
+      color: var(--resume-label);
+    }
+    .ct-label .ct-num { color: var(--resume-heading); }
+    .ct-blurb-next .ct-label, .ct-blurb-next .ct-label .ct-num { color: var(--tl-green); }
+    .ct-title {
+      margin: 0 0 18px;
+      font: 500 clamp(24px, 2.3vw, 34px)/1.15 var(--font-sans);
+      letter-spacing: -0.025em;
+      color: var(--resume-heading);
+      text-wrap: balance;
+    }
+    .ct-desc {
+      max-width: 30em;
+      margin: 0;
+      font: 400 clamp(15px, 1.2vw, 18px)/1.6 var(--font-sans);
+      color: var(--resume-body);
+      text-wrap: pretty;
+    }
+
+    /* A photo for a stop: a framed image along the bottom of the paper, 16px in from its edges */
+    .ct-media {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-height: 46%;
+      aspect-ratio: 1200 / 710;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 0.5px solid #e2e2e7;
+      border-radius: 4px;
+      background: #e9e9ee;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .ct-media.is-shown { opacity: 1; transform: none; transition-delay: 0.18s; }
+    .ct-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* Step 02's picture: the case studies' grid container (light grid over a soft radial, a vignette
+       at the edges) holding an iPad with the Skip restaurant app's live delivery map, built in HTML.
+       The iPad sits a little low and runs off the bottom of the container. */
+    /* The grid panel: the case studies' container (light grid over a soft radial, a vignette at the
+       edges), 16px inside the paper. The story and each step's picture sit in it. */
+    .ct-copy { position: relative; }
+    /* A mock on the panel: no frame of its own, it runs off the panel's bottom edge */
+    /* A mock in the case studies' grid container (light grid over a soft radial, a vignette at the
+       edges), along the bottom of the page; the device runs off its bottom edge */
+    .ct-media-grid {
+      aspect-ratio: auto;
+      height: 60%;
+      max-height: none;
+      border-radius: 10px;
+      border-color: var(--resume-paper-border);
+      background:
+        radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+        linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 18px 18px,
+        linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 18px 18px,
+        radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
+      isolation: isolate;
+    }
+    .ct-media-grid::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 65% at 50% 45%, transparent 40%, rgba(246, 246, 248, 0.9) 100%);
+      pointer-events: none;
+    }
+    .ipad {
+      position: absolute;
+      left: 50%;
+      top: 8%;
+      width: 70%;
+      transform: translateX(-50%);
+      padding: 4.6%;
+      container-type: inline-size;          /* the screen is sized in points off this (--pt) */
+      border-radius: 8% / 6%;
+      background: linear-gradient(160deg, #fdfdfd, #ececf0);
+      box-shadow:
+        inset 0 0 0 1px #d9d9de,
+        inset 0 1.5px 0 #fff,
+        0 18px 34px rgba(12, 12, 13, 0.14),
+        0 4px 10px rgba(12, 12, 13, 0.08);
+    }
+    .ipad::before {                          /* the camera, centred on the top bezel */
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 1.9%;
+      width: 1.3%;
+      aspect-ratio: 1;
+      margin-left: -0.65%;
+      border-radius: 50%;
+      background: #3a3a3e;
+    }
+    .ipad-screen {
+      --pt: calc(100cqw / 440);
+      position: relative;
+      aspect-ratio: 440 / 600;
+      overflow: hidden;
+      border-radius: calc(var(--pt) * 7);
+      background: #fff;
+      font-family: var(--font-sans);
+      color: #1b1b1b;
+      box-shadow: 0 0 0 1px rgba(12, 12, 13, 0.1);
+    }
+    .ipad-screen * { box-sizing: border-box; }
+    .sk-status {
+      display: flex;
+      justify-content: space-between;
+      height: calc(var(--pt) * 13);
+      padding: 0 calc(var(--pt) * 10);
+      align-items: center;
+      font-size: calc(var(--pt) * 6);
+      font-weight: 500;
+    }
+    .sk-status i { font-style: normal; letter-spacing: calc(var(--pt) * 0.5); }
+    .sk-bar {
+      position: relative;
+      display: grid;
+      place-items: center;
+      height: calc(var(--pt) * 27);
+      background: #ff7a00;
+      color: #fff;
+      font-size: calc(var(--pt) * 9);
+      font-weight: 600;
+    }
+    .sk-bar svg { position: absolute; left: calc(var(--pt) * 12); width: calc(var(--pt) * 12); }
+    .sk-bar span::after {
+      content: "";
+      display: inline-block;
+      width: calc(var(--pt) * 4);
+      height: calc(var(--pt) * 4);
+      margin: 0 0 calc(var(--pt) * 2) calc(var(--pt) * 5);
+      border: solid #fff;
+      border-width: 0 calc(var(--pt) * 1.2) calc(var(--pt) * 1.2) 0;
+      transform: rotate(45deg);
+    }
+    .sk-body { display: flex; height: calc(var(--pt) * 560); }
+    .sk-side { width: calc(var(--pt) * 140); background: #2f3b45; color: #fff; }
+    .sk-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: calc(var(--pt) * 21);
+      padding: 0 calc(var(--pt) * 9);
+      background: #26323b;
+      font-size: calc(var(--pt) * 7);
+      font-weight: 600;
+    }
+    .sk-head b {
+      width: calc(var(--pt) * 5);
+      height: calc(var(--pt) * 5);
+      margin-top: calc(var(--pt) * 3);
+      border: solid #fff;
+      border-width: calc(var(--pt) * 1.2) 0 0 calc(var(--pt) * 1.2);
+      transform: rotate(45deg);
+    }
+    .sk-item {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: calc(var(--pt) * 40);
+      padding: 0 calc(var(--pt) * 10);
+      border-bottom: calc(var(--pt) * 0.6) solid rgba(255, 255, 255, 0.08);
+      font-size: calc(var(--pt) * 8);
+      font-weight: 600;
+    }
+    .sk-item small { display: block; margin-top: calc(var(--pt) * 2); font-size: calc(var(--pt) * 5.5); font-weight: 400; opacity: 0.8; }
+    .sk-item strong { font-size: calc(var(--pt) * 15); font-weight: 600; }
+    .sk-item em { font-style: normal; font-size: calc(var(--pt) * 9.5); font-weight: 500; }
+    .sk-item.is-on { background: #1b1b1b; }
+    .sk-item.is-on::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--pt) * 3); background: #ff7a00; }
+    .sk-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: calc(var(--pt) * 7);
+      padding: calc(var(--pt) * 8) calc(var(--pt) * 9);
+      border-radius: calc(var(--pt) * 5);
+      background: #3c4954;
+      font-size: calc(var(--pt) * 7.5);
+      font-weight: 600;
+    }
+    .sk-card small { display: block; margin-top: calc(var(--pt) * 2); font-size: calc(var(--pt) * 5.5); font-weight: 400; }
+    .sk-card svg { width: calc(var(--pt) * 12); }
+    .sk-main { flex: 1; display: flex; flex-direction: column; }
+    .sk-order { display: flex; height: calc(var(--pt) * 62); border-bottom: calc(var(--pt) * 0.6) solid #e2e2e2; }
+    .sk-order-info { flex: 1; padding: calc(var(--pt) * 10) calc(var(--pt) * 12); }
+    .sk-order-info h3 { margin: 0; font-size: calc(var(--pt) * 14); font-weight: 700; letter-spacing: 0.01em; }
+    .sk-order-info p {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--pt) * 3);
+      margin: calc(var(--pt) * 3) 0 calc(var(--pt) * 5);
+      font-size: calc(var(--pt) * 6);
+      color: #555;
+    }
+    .sk-order-info p svg { width: calc(var(--pt) * 9); }
+    .sk-order-info span {
+      padding: calc(var(--pt) * 1.5) calc(var(--pt) * 4);
+      border-radius: calc(var(--pt) * 2);
+      background: #efefef;
+      font-size: calc(var(--pt) * 5);
+      color: #444;
+    }
+    .sk-eta {
+      display: grid;
+      place-content: center;
+      width: calc(var(--pt) * 68);
+      background: #f3f3f3;
+      text-align: center;
+      font-size: calc(var(--pt) * 8);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .sk-eta b { font-size: calc(var(--pt) * 14); }
+    .sk-map { flex: 1; display: block; width: 100%; }
+
+    /* Step 03's picture: the Neo Home tab (the same baked mock as the resume's Home Tab Refresh card)
+       in an iPhone, in the grid container, running off the bottom */
+    .ct-media-neo .ht-phone {
+      position: absolute;
+      left: 50%;
+      top: 8%;
+      width: 46%;
+      transform: translateX(-50%);
+    }
+
+    /* The window: the track and reel are cut off here, inside the paper, so the line never reaches
+       the right edge of the screen. (overflow, not a mask or clip-path: those would stop the avatars'
+       frosted glass from seeing through.) */
+    .ct-window {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--window-w);
+      overflow: hidden;
+    }
+    .ct-reel { position: absolute; inset: 0; will-change: transform; }
+
+    /* Track pieces, all centred on --line-y: the lead (off the left edge to the first stop, already
+       full), one segment between each pair of stops, and a dashed tail past Questrade.
+       Each piece is a ruler: a 4px line with rounded notches (short every 16px, tall every 80px), cut out
+       by a mask, so the fill inside paints the notches too. --phase keeps the notches lined up across pieces. */
+    .slide-timeline {
+      --c-rrc: #cd1041;
+      --g-rrc: linear-gradient(90deg, #a80c35, #cd1041 55%, #e8306a);
+      --g-skip: linear-gradient(90deg, #ff9121, #ff8000 50%, #ffa142);
+      --g-neo: linear-gradient(90deg, #4a4a4a, #232323 50%, #161616);
+      --g-qt: linear-gradient(90deg, #5cc46a, #48b35a 55%, #6fd27a);
+      --ruler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='22'%3E%3Crect y='9' width='80' height='4'/%3E%3Crect width='3' height='22' rx='1.5'/%3E%3Crect x='16' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='32' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='48' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='64' y='5' width='3' height='12' rx='1.5'/%3E%3C/svg%3E");
+      --ruler-dashed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='22'%3E%3Crect x='6' y='9' width='7' height='4' rx='2'/%3E%3Crect x='22' y='9' width='7' height='4' rx='2'/%3E%3Crect x='38' y='9' width='7' height='4' rx='2'/%3E%3Crect x='54' y='9' width='7' height='4' rx='2'/%3E%3Crect x='70' y='9' width='7' height='4' rx='2'/%3E%3Crect width='3' height='22' rx='1.5'/%3E%3Crect x='16' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='32' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='48' y='5' width='3' height='12' rx='1.5'/%3E%3Crect x='64' y='5' width='3' height='12' rx='1.5'/%3E%3C/svg%3E");
+    }
+    .ct-lead, .ct-seg, .ct-tail {
+      position: absolute;
+      top: var(--line-y);
+      height: 22px;
+      margin-top: -11px;
+      background: var(--tl-track);
+      -webkit-mask: var(--ruler) var(--phase) 0 / 80px 22px repeat-x;
+      mask: var(--ruler) var(--phase) 0 / 80px 22px repeat-x;
+    }
+    .ct-lead { --phase: 200vw; left: calc(var(--focus-x) - 200vw); width: 200vw; background: var(--g-rrc); }
+    .ct-seg { --phase: calc(var(--gap) * var(--i) * -1); left: calc(var(--focus-x) + var(--gap) * var(--i)); width: var(--gap); }
+    .ct-tail { --phase: calc(var(--gap) * -3); left: calc(var(--focus-x) + var(--gap) * 3); width: var(--gap); }
+    /* The last stretch and the tail are a maybe: the line is dashed */
+    .ct-seg-future, .ct-tail {
+      -webkit-mask-image: var(--ruler-dashed);
+      mask-image: var(--ruler-dashed);
+    }
+    .ct-rail { position: absolute; inset: 0; }
+
+    /* Arriving from the intro (presentation-timeline.js): the slide is shown at once (the Questrade
+       avatar hands straight over to its stop at the end of the line), the track isn't cut off at the paper while the camera
+       pulls back, and the name waits until the camera pushes back in */
+    .slide-timeline.is-current.is-arriving { transition: none; }
+    .slide-timeline.is-arriving .ct-window { width: 100%; overflow: visible; }
+    .slide-timeline.is-arriving .ct-stop .ct-name,
+    .slide-timeline.is-arriving .ct-stop .ct-role { opacity: 0; transform: translateY(6px); transition: none; }
+
+    /* Each segment fills (line and notches) with the colour of the stop it leads to */
+    .ct-fill {
+      position: absolute;
+      inset: 0;
+      background: var(--fill);
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    .ct-stop {
+      position: absolute;
+      top: calc(var(--line-y) - var(--tl-avatar) / 2);
+      left: calc(var(--focus-x) + var(--gap) * var(--i));
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ct-stop.is-active { cursor: default; }
+    /* Upcoming stops stay hidden, so nothing glows through the paper; each appears as it slides into focus */
+    .ct-stop { transition: opacity 0.45s ease 0.2s; }
+    .ct-stop:not(.is-active):not(.is-past) { transition-delay: 0s; transition-duration: 0.3s; }
+    .ct-stop:not(.is-active):not(.is-past) { opacity: 0; pointer-events: none; }
+    .ct-stop:focus-visible { outline: none; }
+    .ct-stop:focus-visible .ct-name { text-decoration: underline; text-underline-offset: 4px; }
+
+    .ct-avatar {
+      position: relative;
+      width: var(--tl-avatar);
+      height: var(--tl-avatar);
+      margin-bottom: 24px;
+      will-change: transform;
+    }
+    .ct-glow {
+      position: absolute;
+      inset: -34%;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, var(--glow), transparent);
+      filter: blur(24px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ct-face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+    .ct-face img { display: block; width: 74%; height: auto; }
+    .ct-face-rrc { background: var(--c-rrc); }
+    .ct-face-rrc img { width: 100%; height: 100%; object-fit: cover; }
+    .ct-face-skip { background: linear-gradient(135deg, #ffa142 0%, #ff8000 50.48%, #ff9121 100%); }
+    .ct-face-neo { background: linear-gradient(136deg, #232323 6.09%, #161616 52.69%, #2b2b2b 97.54%); }
+    .ct-face-neo img { width: 66%; }
+    .ct-face-qt { background: linear-gradient(180deg, #d4ffc6, var(--qt-green) 55%, #b6f7a0); }
+    .ct-face-qt svg { width: 100%; height: 100%; }
+
+    /* Name and role sit under the avatar, only for the active stop */
+    .ct-name, .ct-role {
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .ct-name { font: 500 clamp(15px, 1.3vw, 19px)/1.3 var(--font-sans); color: var(--tl-ink); }
+    .ct-role { margin-top: 6px; font: var(--type-label-xs); color: #5f5f66; }
+    .ct-role-next { color: var(--tl-green); }
+    .ct-stop.is-active .ct-name, .ct-stop.is-active .ct-role { opacity: 1; transform: none; transition-delay: 0.15s; }
+    .ct-stop.is-active .ct-role { transition-delay: 0.22s; }
+
+    .ct-status {
+      position: absolute;
+      z-index: 3;
+      top: 28px;
+      left: var(--focus-x);
+      transform: translateX(-50%);
+      margin: 0;
+      font: var(--type-label-xs);
+      color: var(--tl-muted);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .ct-status.is-shown { opacity: 1; }
+
+    /* Narrow screens: the paper becomes a sheet across the bottom, the track runs above it */
+    @media (max-width: 760px) {
+      .slide-timeline { --tl-avatar: 108px; }
+      .ct-paper { top: auto; left: 16px; right: 16px; bottom: 88px; width: auto; height: 44vh; padding: 24px; background: var(--resume-paper); border: 0.5px solid #e2e2e7; border-radius: 6px; }
+      .ct-label { margin-bottom: 12px; }
+      .ct-title { margin-bottom: 12px; }
+      .ct-avatar { margin-bottom: 14px; }
+      .ct-media { display: none; }
+      .ct-paper, .ct-paper-shadow { --fold-top: 0px; --fold-side: 0px; --fold-tip-x: 0px; --fold-tip-y: 0px; }
+      .ct-paper-shadow { top: auto; left: 16px; right: 16px; bottom: 88px; width: auto; height: 44vh; }
+      .ct-paper .fold { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ct-name, .ct-role { transition-duration: 0.01s; transition-delay: 0s !important; }
+    }
+
+    /* ---------- Slide 3: Design Philosophy ----------
+       The big title, and beside it three glass avatars in the resume headline's flowing gradient
+       (orange, peach, pink, lavender), each with an icon for one belief. Each avatar drifts slowly
+       round a small circle, out of step with the others. Entrance: presentation-philosophy.js. */
+    .slide-philosophy {
+      --ph-avatar: clamp(88px, 9vw, 136px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(48px, 8vw, 140px);
+      padding: 0 24px 64px;
+      box-sizing: border-box;
+    }
+    .ph-title {
+      margin: 0;
+      font: 600 clamp(48px, 6.4vw, 104px)/1.02 var(--font-sans);
+      letter-spacing: -0.035em;
+      color: var(--resume-heading);
+    }
+    /* The Questrade wordmark's finish: a dark green-black gradient down each line, a faint light
+       along the top edges and a fine frosted grain (the same SVG filter, #wm-glass) */
+    .ph-title span {
+      display: block;
+      padding-bottom: 0.06em;                /* room for the descenders inside the gradient */
+      background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      filter: url(#wm-glass);
+    }
+    .ph-cluster {
+      position: relative;
+      flex: none;
+      width: calc(var(--ph-avatar) * 2.5);
+      height: calc(var(--ph-avatar) * 2.7);
+    }
+    .ph-item { position: absolute; width: var(--ph-avatar); height: var(--ph-avatar); }
+    .ph-item:nth-child(1) { left: 0; top: 0; }
+    .ph-item:nth-child(2) { right: 0; top: 34%; }
+    .ph-item:nth-child(3) { left: 14%; bottom: 0; }
+    /* The slow circle: the wrapper turns round an offset point, the avatar turns back so it stays upright */
+    .ph-orbit {
+      position: absolute;
+      inset: 0;
+      animation: ph-orbit var(--ph-period, 9s) linear infinite;
+      animation-delay: var(--ph-delay, 0s);
+    }
+    .ph-item:nth-child(1) { --ph-period: 9s; --ph-delay: -1s; --ph-r: 9px; }
+    .ph-item:nth-child(2) { --ph-period: 11s; --ph-delay: -5s; --ph-r: 12px; }
+    .ph-item:nth-child(3) { --ph-period: 10s; --ph-delay: -8s; --ph-r: 10px; }
+    @keyframes ph-orbit {
+      from { transform: rotate(0deg) translateX(var(--ph-r, 10px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(var(--ph-r, 10px)) rotate(-360deg); }
+    }
+    .ph-avatar { position: absolute; inset: 0; }
+    /* A little darker drop shadow than the other glass */
+    .ph-avatar .glass-plate {
+      box-shadow:
+        var(--glass-edge),
+        0 2px 4px rgba(12, 12, 13, 0.07),
+        0 10px 26px rgba(12, 12, 13, 0.12);
+    }
+    .ph-face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background-image: linear-gradient(90deg,
+        #f1842a 0%, #f3912d 10%, #f39980 24%, #ee7dc9 40%,
+        #aa8ce3 55%, #ee7dc9 70%, #f39980 84%, #f1842a 100%);
+      background-size: 300% 300%;
+      animation: ph-flow 12s linear infinite;
+    }
+    /* Each avatar starts at its own part of the band: orange-peach, peach-pink, pink-lavender */
+    .ph-item:nth-child(1) .ph-face { animation-delay: 0s; }
+    .ph-item:nth-child(2) .ph-face { animation-delay: -4s; }
+    .ph-item:nth-child(3) .ph-face { animation-delay: -8s; }
+    @keyframes ph-flow {
+      from { background-position: 0% 50%; }
+      to { background-position: 150% 50%; }
+    }
+    .ph-face svg { width: 46%; height: 46%; overflow: visible; }
+    @media (max-width: 760px) {
+      .slide-philosophy { flex-direction: column; gap: 40px; }
+      .slide-philosophy { --ph-avatar: 84px; }
+      .ph-title { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ph-orbit, .ph-face { animation: none; }
+    }
+
+    /* A principle: its big heading and line on the left, its page (the same sheet as the timeline's)
+       on the right holding the steps */
+    .ph-page, .ph-page-shadow { z-index: 3; }
+    .ph-page, .ph-page-shadow, .ph-head { visibility: hidden; }
+    .slide-philosophy.is-detail .ph-page,
+    .slide-philosophy.is-detail .ph-page-shadow,
+    .slide-philosophy.is-detail .ph-head { visibility: visible; }
+    .ph-page { display: flex; flex-direction: column; padding-top: calc(var(--fold-side) + 8px); }   /* the steps start below the fold */
+    /* An image container (the case studies' grid container) under the steps, empty for now */
+    .ph-media {
+      flex: 1;
+      min-height: 120px;
+      margin-top: clamp(20px, 3vh, 32px);
+      border: 0.5px solid var(--resume-paper-border);
+      border-radius: 10px;
+      background:
+        radial-gradient(ellipse 72% 68% at 50% 45%, rgba(244, 244, 246, 0) 50%, rgba(244, 244, 246, 0.92) 100%),
+        linear-gradient(rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 18px 18px,
+        linear-gradient(90deg, rgba(12, 12, 13, 0.036) 1px, transparent 1px) center / 18px 18px,
+        radial-gradient(ellipse 80% 75% at 50% 40%, #fefefe 0%, #f9f9fa 60%, #f4f4f6 100%);
+    }
+    .ph-head {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: calc(40vw + 48px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;                   /* the block sits centred in the space; its text stays left-aligned */
+      padding: 0 clamp(32px, 4vw, 80px) 40px;
+      box-sizing: border-box;
+    }
+    .ph-head-inner { display: flex; flex-direction: column; align-items: flex-start; max-width: 100%; }
+    /* Each principle's heading and line share one spot (the largest sets the size), so swapping
+       them never shifts anything; only the current one shows */
+    .ph-head-stack { display: grid; }
+    /* While a principle is up, the title and avatars stay hidden (their blur-out plays over this) */
+    .slide-philosophy.is-detail .ph-title,
+    .slide-philosophy.is-detail .ph-cluster { opacity: 0; pointer-events: none; }
+    .ph-head-item, .ph-page-body { opacity: 0; pointer-events: none; }
+    .ph-head-item { grid-area: 1 / 1; }
+    .ph-head-item.is-current, .ph-page-body.is-current { opacity: 1; pointer-events: auto; }
+    .ph-page-body { position: absolute; inset: 0; display: flex; flex-direction: column; padding: inherit; box-sizing: border-box; }
+    /* "Design Philosophy" in the resume's frosted glass pill, above the heading */
+    .ph-pill {
+      margin: 0 0 clamp(16px, 2.4vh, 26px);
+      padding: 7px 14px;
+      border: 0.5px solid rgba(12, 12, 13, 0.05);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      -webkit-backdrop-filter: blur(18px) saturate(1.6);
+      backdrop-filter: blur(18px) saturate(1.6);
+      box-shadow: var(--glass-edge), var(--glass-drop);
+      font: var(--type-ui-small);
+      color: var(--resume-text);
+      overflow: hidden;                      /* the flipping labels turn inside it */
+    }
+    /* The labels flip like a little drum (presentation-philosophy.js): the old one turns up and away,
+       the next turns up into place. They share one spot, so the pill keeps its size. */
+    .ph-pill-flip { display: grid; perspective: 240px; }
+    .ph-pill-label {
+      grid-area: 1 / 1;
+      opacity: 0;
+      backface-visibility: hidden;
+      transform-origin: 50% 50% -0.6em;
+      white-space: nowrap;
+    }
+    .ph-pill-label.is-current { opacity: 1; }
+    .ph-head-title {
+      margin: 0 0 clamp(14px, 2vh, 22px);
+      font: 600 clamp(40px, 4.6vw, 76px)/1.04 var(--font-sans);
+      letter-spacing: -0.035em;
+      color: var(--resume-heading);
+    }
+    .ph-head-title span {                    /* the wordmark finish, like the Design Philosophy title */
+      display: block;
+      padding-bottom: 0.06em;
+      background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      filter: url(#wm-glass);
+    }
+    .ph-head-lede {
+      max-width: 22em;
+      margin: 0;
+      font: 400 clamp(17px, 1.45vw, 22px)/1.5 var(--font-sans);
+      color: var(--resume-body);
+      text-wrap: pretty;
+    }
+    .ph-steps { margin: 0; padding: 0; list-style: none; }
+    .ph-step:last-child { border-bottom: 2px dotted var(--resume-paper-border); }
+    .ph-step {
+      display: grid;
+      grid-template-columns: 2.6em 1fr;
+      padding: clamp(16px, 2.4vh, 24px) 0;
+      border-top: 2px dotted var(--resume-paper-border);
+    }
+    .ph-step-num { font: var(--type-label-s); color: var(--resume-label); padding-top: 0.25em; }
+    .ph-step h4 { margin: 0 0 6px; font: var(--type-h3); color: var(--resume-heading); }
+    .ph-step p { margin: 0; font: 400 clamp(15px, 1.15vw, 17px)/1.55 var(--font-sans); color: var(--resume-body); }
+    .ph-cluster { will-change: transform; }
+    @media (max-width: 760px) {
+      .ph-page, .ph-page-shadow { left: 16px; right: 16px; width: auto; top: 40vh; bottom: 88px; }
+      .ph-head { right: 0; bottom: auto; height: 40vh; padding: 0 24px; }
+      .ph-page, .ph-page-shadow { --fold-top: 0px; --fold-side: 0px; --fold-tip-x: 0px; --fold-tip-y: 0px; }
+      .ph-page .fold { display: none; }
+    }
+
+    /* ---------- Slide 4: Projects ----------
+       The title on its own, in the Design Philosophy title's style (.ph-title: semibold, the
+       Questrade wordmark's gradient and glass finish). Entrance: presentation-projects.js. */
+    .slide-projects {
+      display: grid;
+      place-items: center;
+      padding-bottom: 64px;
+      box-sizing: border-box;
+    }
+    /* A project: pill, title and line on the left, its page on the right (the same pieces as the
+       philosophy principles: .ph-head, .ph-pill, .ph-page) */
+    .slide-projects .ph-head-title, .slide-projects .ph-head-lede { opacity: 1; }
+    .slide-projects.is-detail .ph-page,
+    .slide-projects.is-detail .ph-page-shadow,
+    .slide-projects.is-detail .ph-head { visibility: visible; }
+    .slide-projects.is-detail .pj-title { opacity: 0; pointer-events: none; }
+    .slide-projects .ph-page { justify-content: flex-start; }
+    .pj-sub {
+      margin: 0 0 14px;
+      font: var(--type-label-s);
+      letter-spacing: 0.02em;
+      color: var(--resume-label);
+    }
+    .pj-overview {
+      margin: 0 0 clamp(28px, 4.5vh, 48px);
+      font: 500 clamp(20px, 1.75vw, 28px)/1.3 var(--font-sans);
+      letter-spacing: -0.015em;
+      color: var(--resume-heading);
+      text-wrap: pretty;
+    }
+    .pj-details { margin: 0; }
+    .pj-detail {
+      display: grid;
+      grid-template-columns: minmax(8em, 38%) 1fr;
+      gap: 16px;
+      padding: clamp(10px, 1.6vh, 14px) 0;
+      border-top: 2px dotted var(--resume-paper-border);
+    }
+    .pj-detail:last-child { border-bottom: 2px dotted var(--resume-paper-border); }
+    .pj-detail dt { font: var(--type-label-xs); font-size: 13px; color: var(--resume-label); padding-top: 0.2em; }
+    .pj-detail dd { margin: 0; font: 400 clamp(15px, 1.15vw, 17px)/1.45 var(--font-sans); color: var(--resume-text); }
+
+    /* "Questrade + Eddie" in small, in the top-left corner of every slide step except the title
+       ones. It stays put between slides and blurs in and out (window.presentationBadge, deck.js). */
+    .deck-badge {
+      position: fixed;
+      top: 28px;
+      left: 32px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(-6px);
+      transition: opacity 0.6s ease, filter 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+    }
+    .deck-badge.is-shown { opacity: 1; filter: none; transform: none; }
+    html:not(.is-unlocked) .deck-badge { display: none; }
+    .pb-av {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      box-shadow: var(--glass-edge), 0 1px 3px rgba(12, 12, 13, 0.1), 0 4px 10px rgba(12, 12, 13, 0.08);
+    }
+    .pb-q { background: linear-gradient(180deg, #d4ffc6, var(--qt-green) 55%, #b6f7a0); }
+    .pb-q svg { display: block; width: 100%; height: 100%; }
+    .pb-e img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .pb-plus { width: 10px; height: 10px; overflow: visible; }
+
+    /* ---------- Deck buttons: Back, Replay (first slide only) and Next ---------- */
+    .deck-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 5;
+      display: flex;
+      gap: 8px;
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .deck-nav.is-visible { opacity: 1; pointer-events: auto; }
+    .deck-nav [hidden] { display: none; }
+    /* Back points the arrow the other way */
+    .deck-back .glass-button-arrow { transform: scaleX(-1); }
+    .deck-back { flex-direction: row-reverse; padding: 9px 16px 9px 12px; }
+
+    /* Green buttons on this page only: the hover ring and its glow cycle through
+       greens built from the Questrade avatar's #c4ffb1, deepened so the 1px ring reads on light grey */
+    .presentation-page .glass-button {
+      --cycle: linear-gradient(90deg,
+        #4cc06a 0%, #7ad97f 14%, #b2f59c 28%, #c4ffb1 40%,
+        #3fb58a 58%, #b2f59c 76%, #7ad97f 88%, #4cc06a 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dot-grid" aria-hidden="true"></div>
+
+  <!-- Glass for the Questrade wordmark: a subtle top-to-bottom gradient in the ink, a fine frost
+       of grain, and a thin light catching the top edges. Two versions for the two grids:
+       the letters (762 × 262) and the Q mark (512 box). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="wm-fill" gradientUnits="userSpaceOnUse" x1="0" y1="70" x2="0" y2="192">
+        <stop offset="0" stop-color="#3d443f"/>
+        <stop offset="0.55" stop-color="#1a1e1b"/>
+        <stop offset="1" stop-color="#0f1210"/>
+      </linearGradient>
+      <linearGradient id="plus-fill" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="96">
+        <stop offset="0" stop-color="#3d443f"/>
+        <stop offset="0.55" stop-color="#1a1e1b"/>
+        <stop offset="1" stop-color="#0f1210"/>
+      </linearGradient>
+      <linearGradient id="q-fill" gradientUnits="userSpaceOnUse" x1="0" y1="106" x2="0" y2="398">
+        <stop offset="0" stop-color="#3d443f"/>
+        <stop offset="0.55" stop-color="#1a1e1b"/>
+        <stop offset="1" stop-color="#0f1210"/>
+      </linearGradient>
+      <filter id="wm-glass" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <!-- light along the top edges -->
+        <feOffset in="SourceAlpha" dy="1.3" result="down"/>
+        <feComposite in="SourceAlpha" in2="down" operator="out" result="edge"/>
+        <feGaussianBlur in="edge" stdDeviation="0.5" result="edgeSoft"/>
+        <feFlood flood-color="#fff" flood-opacity="0.28"/>
+        <feComposite in2="edgeSoft" operator="in" result="rim"/>
+        <!-- frost: fine grain, only inside the letters -->
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise"/>
+        <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.16 0" result="grain"/>
+        <feComposite in="grain" in2="SourceAlpha" operator="in" result="frost"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="frost"/><feMergeNode in="rim"/></feMerge>
+      </filter>
+      <filter id="q-glass" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feOffset in="SourceAlpha" dy="3.2" result="down"/>
+        <feComposite in="SourceAlpha" in2="down" operator="out" result="edge"/>
+        <feGaussianBlur in="edge" stdDeviation="1.2" result="edgeSoft"/>
+        <feFlood flood-color="#fff" flood-opacity="0.28"/>
+        <feComposite in2="edgeSoft" operator="in" result="rim"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.37" numOctaves="2" seed="4" result="noise"/>
+        <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.16 0" result="grain"/>
+        <feComposite in="grain" in2="SourceAlpha" operator="in" result="frost"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="frost"/><feMergeNode in="rim"/></feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Password gate -->
+  <div class="gate">
+    <div class="gate-card">
+      <p class="gate-label">Private</p>
+      <h1 class="gate-title">Portfolio Presentation</h1>
+      <form class="gate-form" autocomplete="off">
+        <label class="sr-only" for="gate-password">Password</label>
+        <input class="gate-input" id="gate-password" type="password" placeholder="Password" required autofocus>
+        <button class="gate-submit" type="submit">Unlock</button>
+        <p class="gate-error" role="alert"></p>
+      </form>
+    </div>
+  </div>
+
+  <main class="presentation">
+
+    <!-- Slide 1: the Questrade wordmark becomes the Q avatar, then Eddie joins -->
+    <section class="slide slide-intro is-current" data-slide="intro" aria-label="Questrade + Eddie">
+      <div class="intro-camera">
+        <div class="intro-stage">
+
+          <div class="wordmark" aria-hidden="true">
+            <span class="q-slot">
+              <span class="q-avatar">
+                <span class="q-tilt">
+                  <span class="q-bg">
+                    <span class="glass-plate squircle"></span>
+                    <span class="q-fill squircle"></span>
+                    <span class="glass-face-edge squircle"></span>
+                  </span>
+                  <!-- Questrade Q, redrawn from the logo on a 512 grid -->
+                  <svg class="q-mark" viewBox="0 0 512 512" aria-hidden="true">
+                    <g fill="url(#q-fill)" filter="url(#q-glass)">
+                      <path d="M256 398A146 146 0 1 1 382.4 325L342.6 302A100 100 0 1 0 256 352Z"/>
+                      <path d="M248 225L421 398H356L248 290Z"/>
+                    </g>
+                  </svg>
+                  <span class="q-shine squircle"></span>
+                </span>
+              </span>
+            </span>
+            <!-- "uestrade", one SVG per letter so each can leave on its own -->
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 22.5% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M135.5 104.0 134.7 104.5 134.9 159.5 135.5 167.5 137.2 173.5 140.1 179.5 145.7 185.5 153.5 189.8 161.5 191.5 169.5 191.2 173.5 190.4 177.5 188.9 183.3 185.5 189.5 178.7 190.5 179.4 190.4 188.5 190.7 189.5 191.5 190.0 207.5 190.0 208.7 189.5 208.9 129.5 209.0 104.5 207.5 104.0 191.5 104.0 190.2 104.5 190.3 153.5 189.7 160.5 188.8 163.5 185.5 169.9 182.5 172.9 178.5 175.4 171.5 176.9 164.5 175.6 161.5 174.3 158.4 171.5 156.1 168.5 154.2 163.5 153.5 156.5 153.6 104.5 152.5 104.0Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 34.3% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M255.5 102.3 245.5 105.0 236.5 110.3 230.3 116.5 226.9 121.5 224.3 126.5 221.1 137.5 220.4 146.5 221.1 156.5 222.1 161.5 226.1 171.5 231.7 179.5 238.5 185.5 240.5 186.6 251.5 190.6 262.5 191.8 266.5 191.7 276.5 189.8 284.0 186.5 289.5 182.6 294.5 177.4 298.9 170.5 301.1 164.5 300.5 163.4 288.5 163.5 283.5 163.8 279.7 170.5 276.5 173.7 272.5 175.9 265.5 177.8 258.5 177.7 252.5 175.9 247.5 172.4 243.2 166.5 240.1 157.5 239.7 153.5 240.5 152.2 301.5 152.2 302.0 151.5 301.8 141.5 299.6 130.5 295.8 121.5 289.7 113.5 284.5 109.1 277.5 105.0 271.5 103.1 266.5 102.2ZM258.5 116.2 252.5 118.2 245.8 123.5 243.0 127.5 241.2 131.5 239.6 138.5 240.5 139.1 265.5 139.1 282.5 139.1 283.7 138.5 282.6 133.5 279.0 125.5 276.7 122.5 273.0 119.5 268.5 117.2 264.5 116.2Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 45.5% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M339.5 102.4 330.5 104.3 326.5 106.0 320.5 109.8 316.1 114.5 313.7 118.5 312.0 124.5 312.0 130.5 313.1 135.5 315.5 140.5 317.1 142.5 321.5 146.5 323.5 147.6 331.5 151.0 354.5 156.2 360.5 159.1 363.8 162.5 364.8 164.5 365.0 167.5 364.5 170.4 362.5 173.6 358.5 176.3 351.5 177.9 345.5 177.8 338.5 176.1 334.4 173.5 330.8 169.5 328.5 164.4 327.5 163.5 311.5 163.5 310.3 164.5 313.0 172.5 315.2 176.5 318.1 180.5 324.5 185.7 331.5 189.0 338.5 190.9 344.5 191.8 352.5 191.5 362.5 190.0 367.5 188.1 373.5 184.8 377.5 181.1 381.0 176.5 382.9 171.5 383.8 164.5 382.7 158.5 380.9 154.5 377.8 150.5 375.5 148.3 370.5 145.2 362.5 142.1 340.5 136.9 334.5 134.2 331.8 131.5 330.4 128.5 330.2 124.5 331.0 122.5 333.5 119.3 337.5 117.1 342.5 116.1 350.5 116.2 356.5 118.2 360.5 121.2 362.5 123.7 365.5 129.7 382.5 129.6 382.9 128.5 380.6 121.5 377.7 116.5 372.5 110.7 367.5 107.2 360.5 104.1 356.5 103.1 347.5 102.0Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 54.6% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M396.5 76.5 395.2 77.5 395.2 166.5 395.4 171.5 396.5 176.2 398.5 180.5 401.5 184.0 405.5 186.8 409.5 188.4 417.5 189.9 437.5 190.0 438.6 188.5 438.5 176.1 437.5 175.2 433.5 175.2 422.5 175.2 418.5 174.6 415.5 172.5 414.4 170.5 413.9 166.5 413.9 119.5 415.5 118.9 435.5 118.9 436.2 117.5 436.2 104.5 435.5 104.0 415.5 104.0 413.9 103.5 413.9 77.5 413.5 76.8Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 62.3% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M491.5 102.5 485.5 103.4 477.5 107.3 473.2 111.5 469.5 116.9 468.9 115.5 469.0 104.5 468.5 104.2 451.5 104.0 450.3 104.5 450.4 184.5 450.5 189.0 451.5 190.0 467.5 189.9 468.8 189.5 469.0 145.5 469.3 139.5 470.3 134.5 472.9 128.5 475.5 125.3 478.5 123.0 483.5 121.2 487.5 120.4 498.5 120.2 499.5 119.5 499.5 103.5 498.5 102.4Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 70.7% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M535.5 102.4 524.5 105.3 519.5 108.1 514.9 111.5 510.3 116.5 507.1 121.5 504.9 126.5 504.6 128.5 505.1 129.5 522.5 129.6 524.9 124.5 527.0 121.5 531.5 118.1 537.5 116.1 545.5 116.2 551.2 118.5 555.7 122.5 556.9 124.5 558.1 128.5 558.1 135.5 557.5 136.1 528.5 141.1 519.5 144.4 513.8 147.5 510.0 150.5 507.3 153.5 504.1 159.5 503.1 166.5 504.4 174.5 508.0 181.5 511.5 185.0 517.5 188.7 524.5 190.9 528.5 191.5 536.5 191.2 539.5 190.9 543.5 189.7 549.5 186.7 552.5 184.5 557.5 178.9 558.6 179.5 558.6 188.5 559.5 189.9 574.5 189.9 575.8 189.5 576.0 131.5 574.9 123.5 573.1 118.5 569.9 113.5 567.5 110.9 564.5 108.3 559.5 105.4 556.5 104.2 548.5 102.4 543.5 102.0ZM554.5 149.4 534.5 153.4 529.5 155.4 525.5 158.4 523.1 161.5 522.2 166.5 523.1 170.5 524.2 172.5 527.5 175.7 533.5 177.9 539.5 178.0 546.5 176.1 552.1 172.5 556.0 167.5 558.2 160.5 558.2 149.5 557.5 148.8Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 82.4% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M653.5 72.0 652.6 73.5 652.5 115.5 651.5 115.8 647.5 111.2 643.5 108.0 636.5 104.4 631.5 103.0 625.5 102.5 618.5 103.1 609.5 105.9 602.5 110.0 595.1 117.5 590.0 126.5 587.2 135.5 586.1 142.5 586.2 152.5 588.1 162.5 592.4 172.5 596.5 178.5 599.5 181.6 606.5 186.6 612.5 189.3 619.5 191.0 625.5 191.2 633.5 190.1 638.5 188.5 643.5 185.7 647.5 182.4 651.5 177.6 652.5 178.0 652.6 188.5 653.5 190.0 669.5 189.9 670.9 189.5 671.2 73.5 670.5 72.1ZM627.5 117.4 622.5 118.2 617.5 120.4 611.5 125.6 609.0 129.5 607.0 134.5 605.9 138.5 605.3 147.5 605.9 154.5 607.0 159.5 608.5 163.5 611.6 168.5 615.7 172.5 620.5 175.0 624.5 176.2 630.5 176.4 635.5 175.9 641.5 173.5 647.5 168.1 650.5 163.1 652.5 157.5 653.6 150.5 653.7 146.5 652.7 137.5 651.6 133.5 649.8 129.5 647.1 125.5 642.5 121.2 636.5 118.3 630.5 117.3Z"/></svg>
+            <svg class="wm-letter" viewBox="0 0 762 262" style="transform-origin: 94.6% 56%"><path fill="url(#wm-fill)" filter="url(#wm-glass)" fill-rule="evenodd" d="M715.5 102.5 705.5 105.0 697.5 109.3 689.3 117.5 685.0 124.5 681.3 135.5 680.2 146.5 681.1 157.5 683.2 165.5 685.0 169.5 687.1 173.5 691.7 179.5 694.5 182.4 700.5 186.6 705.5 189.0 712.5 191.0 725.5 191.8 731.5 191.0 741.5 187.6 748.5 183.3 755.1 176.5 757.6 172.5 759.9 167.5 761.0 164.5 760.6 163.5 747.5 163.5 743.5 163.5 740.5 169.2 737.5 172.6 734.5 174.8 729.5 177.1 722.5 178.1 716.5 177.2 710.5 174.8 706.5 171.5 702.5 165.4 700.1 158.5 699.3 153.5 699.6 152.5 700.5 152.2 760.5 152.2 761.5 152.1 761.9 151.5 761.6 141.5 759.7 131.5 756.1 122.5 753.6 118.5 749.5 113.4 741.5 107.1 734.5 104.0 725.5 102.0ZM717.5 116.5 714.5 117.2 710.5 119.2 705.5 123.7 702.2 128.5 700.3 133.5 699.2 138.5 700.5 139.1 724.5 139.1 742.5 139.1 743.3 138.5 741.8 131.5 738.1 124.5 732.5 119.3 728.5 117.2 724.5 116.2Z"/></svg>
+          </div>
+
+          <!-- Placeholder until Eddie's photo arrives: swap the SVG for <img src="images/eddie.jpg" alt=""> -->
+          <div class="eddie-avatar" aria-hidden="true">
+            <span class="glass-plate squircle"></span>
+            <div class="eddie-face squircle">
+              <img src="images/presentation/eddie.jpg" width="349" height="349" alt="">
+            </div>
+            <span class="glass-face-edge squircle"></span>
+          </div>
+
+          <svg class="intro-plus" viewBox="0 0 100 100" aria-hidden="true"><path fill="url(#plus-fill)" filter="url(#q-glass)" d="M41 6H59V41H100L82 59H59V94H41V59H6V41H41Z"/></svg>
+          <p class="intro-title"><span class="intro-label intro-label-q"><svg class="title-wordmark" viewBox="0 68 762 126" role="img" aria-label="Questrade"><path fill="#151916" fill-rule="evenodd" d="M54.5 70.4 44.5 72.0 36.1 74.5 28.5 78.2 22.5 82.1 16.5 87.7 10.2 95.5 7.1 100.5 3.3 109.5 1.3 116.5 0.2 123.5 0.2 133.5 1.2 143.5 4.1 153.5 7.9 161.5 13.4 169.5 18.1 174.5 26.5 181.0 37.5 186.3 48.5 189.1 59.5 189.9 60.9 189.5 61.1 174.5 60.5 172.8 54.5 172.5 46.5 170.8 41.5 168.8 36.5 165.7 32.5 162.3 27.4 156.5 23.0 148.5 21.1 142.5 20.1 137.5 19.7 129.5 20.2 121.5 21.4 116.5 24.0 109.5 27.5 103.6 31.5 99.0 36.5 94.4 43.5 90.3 53.5 87.5 62.5 87.2 71.5 88.7 80.5 92.4 86.0 96.5 91.6 102.5 96.5 111.3 98.7 117.5 99.8 123.5 100.0 135.5 97.9 145.5 94.5 153.0 93.5 153.3 59.5 118.8 58.8 119.5 58.8 144.5 100.5 186.7 104.5 190.0 128.5 190.0 129.5 189.5 107.9 167.5 112.7 159.5 115.0 154.5 117.7 146.5 119.0 140.5 119.8 130.5 119.0 121.5 116.9 111.5 114.7 105.5 110.0 96.5 106.6 91.5 99.5 84.0 94.5 80.2 83.5 74.5 74.5 71.8 65.5 70.4ZM135.5 104.0 134.7 104.5 134.9 159.5 135.5 167.5 137.2 173.5 140.1 179.5 145.7 185.5 153.5 189.8 161.5 191.5 169.5 191.2 173.5 190.4 177.5 188.9 183.3 185.5 189.5 178.7 190.5 179.4 190.4 188.5 190.7 189.5 191.5 190.0 207.5 190.0 208.7 189.5 208.9 129.5 209.0 104.5 207.5 104.0 191.5 104.0 190.2 104.5 190.3 153.5 189.7 160.5 188.8 163.5 185.5 169.9 182.5 172.9 178.5 175.4 171.5 176.9 164.5 175.6 161.5 174.3 158.4 171.5 156.1 168.5 154.2 163.5 153.5 156.5 153.6 104.5 152.5 104.0ZM255.5 102.3 245.5 105.0 236.5 110.3 230.3 116.5 226.9 121.5 224.3 126.5 221.1 137.5 220.4 146.5 221.1 156.5 222.1 161.5 226.1 171.5 231.7 179.5 238.5 185.5 240.5 186.6 251.5 190.6 262.5 191.8 266.5 191.7 276.5 189.8 284.0 186.5 289.5 182.6 294.5 177.4 298.9 170.5 301.1 164.5 300.5 163.4 288.5 163.5 283.5 163.8 279.7 170.5 276.5 173.7 272.5 175.9 265.5 177.8 258.5 177.7 252.5 175.9 247.5 172.4 243.2 166.5 240.1 157.5 239.7 153.5 240.5 152.2 301.5 152.2 302.0 151.5 301.8 141.5 299.6 130.5 295.8 121.5 289.7 113.5 284.5 109.1 277.5 105.0 271.5 103.1 266.5 102.2ZM258.5 116.2 252.5 118.2 245.8 123.5 243.0 127.5 241.2 131.5 239.6 138.5 240.5 139.1 265.5 139.1 282.5 139.1 283.7 138.5 282.6 133.5 279.0 125.5 276.7 122.5 273.0 119.5 268.5 117.2 264.5 116.2ZM339.5 102.4 330.5 104.3 326.5 106.0 320.5 109.8 316.1 114.5 313.7 118.5 312.0 124.5 312.0 130.5 313.1 135.5 315.5 140.5 317.1 142.5 321.5 146.5 323.5 147.6 331.5 151.0 354.5 156.2 360.5 159.1 363.8 162.5 364.8 164.5 365.0 167.5 364.5 170.4 362.5 173.6 358.5 176.3 351.5 177.9 345.5 177.8 338.5 176.1 334.4 173.5 330.8 169.5 328.5 164.4 327.5 163.5 311.5 163.5 310.3 164.5 313.0 172.5 315.2 176.5 318.1 180.5 324.5 185.7 331.5 189.0 338.5 190.9 344.5 191.8 352.5 191.5 362.5 190.0 367.5 188.1 373.5 184.8 377.5 181.1 381.0 176.5 382.9 171.5 383.8 164.5 382.7 158.5 380.9 154.5 377.8 150.5 375.5 148.3 370.5 145.2 362.5 142.1 340.5 136.9 334.5 134.2 331.8 131.5 330.4 128.5 330.2 124.5 331.0 122.5 333.5 119.3 337.5 117.1 342.5 116.1 350.5 116.2 356.5 118.2 360.5 121.2 362.5 123.7 365.5 129.7 382.5 129.6 382.9 128.5 380.6 121.5 377.7 116.5 372.5 110.7 367.5 107.2 360.5 104.1 356.5 103.1 347.5 102.0ZM396.5 76.5 395.2 77.5 395.2 166.5 395.4 171.5 396.5 176.2 398.5 180.5 401.5 184.0 405.5 186.8 409.5 188.4 417.5 189.9 437.5 190.0 438.6 188.5 438.5 176.1 437.5 175.2 433.5 175.2 422.5 175.2 418.5 174.6 415.5 172.5 414.4 170.5 413.9 166.5 413.9 119.5 415.5 118.9 435.5 118.9 436.2 117.5 436.2 104.5 435.5 104.0 415.5 104.0 413.9 103.5 413.9 77.5 413.5 76.8ZM491.5 102.5 485.5 103.4 477.5 107.3 473.2 111.5 469.5 116.9 468.9 115.5 469.0 104.5 468.5 104.2 451.5 104.0 450.3 104.5 450.4 184.5 450.5 189.0 451.5 190.0 467.5 189.9 468.8 189.5 469.0 145.5 469.3 139.5 470.3 134.5 472.9 128.5 475.5 125.3 478.5 123.0 483.5 121.2 487.5 120.4 498.5 120.2 499.5 119.5 499.5 103.5 498.5 102.4ZM535.5 102.4 524.5 105.3 519.5 108.1 514.9 111.5 510.3 116.5 507.1 121.5 504.9 126.5 504.6 128.5 505.1 129.5 522.5 129.6 524.9 124.5 527.0 121.5 531.5 118.1 537.5 116.1 545.5 116.2 551.2 118.5 555.7 122.5 556.9 124.5 558.1 128.5 558.1 135.5 557.5 136.1 528.5 141.1 519.5 144.4 513.8 147.5 510.0 150.5 507.3 153.5 504.1 159.5 503.1 166.5 504.4 174.5 508.0 181.5 511.5 185.0 517.5 188.7 524.5 190.9 528.5 191.5 536.5 191.2 539.5 190.9 543.5 189.7 549.5 186.7 552.5 184.5 557.5 178.9 558.6 179.5 558.6 188.5 559.5 189.9 574.5 189.9 575.8 189.5 576.0 131.5 574.9 123.5 573.1 118.5 569.9 113.5 567.5 110.9 564.5 108.3 559.5 105.4 556.5 104.2 548.5 102.4 543.5 102.0ZM554.5 149.4 534.5 153.4 529.5 155.4 525.5 158.4 523.1 161.5 522.2 166.5 523.1 170.5 524.2 172.5 527.5 175.7 533.5 177.9 539.5 178.0 546.5 176.1 552.1 172.5 556.0 167.5 558.2 160.5 558.2 149.5 557.5 148.8ZM653.5 72.0 652.6 73.5 652.5 115.5 651.5 115.8 647.5 111.2 643.5 108.0 636.5 104.4 631.5 103.0 625.5 102.5 618.5 103.1 609.5 105.9 602.5 110.0 595.1 117.5 590.0 126.5 587.2 135.5 586.1 142.5 586.2 152.5 588.1 162.5 592.4 172.5 596.5 178.5 599.5 181.6 606.5 186.6 612.5 189.3 619.5 191.0 625.5 191.2 633.5 190.1 638.5 188.5 643.5 185.7 647.5 182.4 651.5 177.6 652.5 178.0 652.6 188.5 653.5 190.0 669.5 189.9 670.9 189.5 671.2 73.5 670.5 72.1ZM627.5 117.4 622.5 118.2 617.5 120.4 611.5 125.6 609.0 129.5 607.0 134.5 605.9 138.5 605.3 147.5 605.9 154.5 607.0 159.5 608.5 163.5 611.6 168.5 615.7 172.5 620.5 175.0 624.5 176.2 630.5 176.4 635.5 175.9 641.5 173.5 647.5 168.1 650.5 163.1 652.5 157.5 653.6 150.5 653.7 146.5 652.7 137.5 651.6 133.5 649.8 129.5 647.1 125.5 642.5 121.2 636.5 118.3 630.5 117.3ZM715.5 102.5 705.5 105.0 697.5 109.3 689.3 117.5 685.0 124.5 681.3 135.5 680.2 146.5 681.1 157.5 683.2 165.5 685.0 169.5 687.1 173.5 691.7 179.5 694.5 182.4 700.5 186.6 705.5 189.0 712.5 191.0 725.5 191.8 731.5 191.0 741.5 187.6 748.5 183.3 755.1 176.5 757.6 172.5 759.9 167.5 761.0 164.5 760.6 163.5 747.5 163.5 743.5 163.5 740.5 169.2 737.5 172.6 734.5 174.8 729.5 177.1 722.5 178.1 716.5 177.2 710.5 174.8 706.5 171.5 702.5 165.4 700.1 158.5 699.3 153.5 699.6 152.5 700.5 152.2 760.5 152.2 761.5 152.1 761.9 151.5 761.6 141.5 759.7 131.5 756.1 122.5 753.6 118.5 749.5 113.4 741.5 107.1 734.5 104.0 725.5 102.0ZM717.5 116.5 714.5 117.2 710.5 119.2 705.5 123.7 702.2 128.5 700.3 133.5 699.2 138.5 700.5 139.1 724.5 139.1 742.5 139.1 743.3 138.5 741.8 131.5 738.1 124.5 732.5 119.3 728.5 117.2 724.5 116.2Z"/></svg></span><span class="intro-label intro-label-e"><svg class="title-eddie" viewBox="0 68 380.9 126" role="img" aria-label="Eddie"><path fill="#151916" fill-rule="evenodd" d="M0 72H64V87H18.5V121.5H59V136.5H18.5V175H65.5V190H0ZM140.9 72.0 140.0 73.5 139.9 115.5 138.9 115.8 134.9 111.2 130.9 108.0 123.9 104.4 118.9 103.0 112.9 102.5 105.9 103.1 96.9 105.9 89.9 110.0 82.5 117.5 77.4 126.5 74.6 135.5 73.5 142.5 73.6 152.5 75.5 162.5 79.8 172.5 83.9 178.5 86.9 181.6 93.9 186.6 99.9 189.3 106.9 191.0 112.9 191.2 120.9 190.1 125.9 188.5 130.9 185.7 134.9 182.4 138.9 177.6 139.9 178.0 140.0 188.5 140.9 190.0 156.9 189.9 158.3 189.5 158.6 73.5 157.9 72.1ZM114.9 117.4 109.9 118.2 104.9 120.4 98.9 125.6 96.4 129.5 94.4 134.5 93.3 138.5 92.7 147.5 93.3 154.5 94.4 159.5 95.9 163.5 99.0 168.5 103.1 172.5 107.9 175.0 111.9 176.2 117.9 176.4 122.9 175.9 128.9 173.5 134.9 168.1 137.9 163.1 139.9 157.5 141.0 150.5 141.1 146.5 140.1 137.5 139.0 133.5 137.2 129.5 134.5 125.5 129.9 121.2 123.9 118.3 117.9 117.3ZM237.0 72.0 236.1 73.5 236.0 115.5 235.0 115.8 231.0 111.2 227.0 108.0 220.0 104.4 215.0 103.0 209.0 102.5 202.0 103.1 193.0 105.9 186.0 110.0 178.6 117.5 173.5 126.5 170.7 135.5 169.6 142.5 169.7 152.5 171.6 162.5 175.9 172.5 180.0 178.5 183.0 181.6 190.0 186.6 196.0 189.3 203.0 191.0 209.0 191.2 217.0 190.1 222.0 188.5 227.0 185.7 231.0 182.4 235.0 177.6 236.0 178.0 236.1 188.5 237.0 190.0 253.0 189.9 254.4 189.5 254.7 73.5 254.0 72.1ZM211.0 117.4 206.0 118.2 201.0 120.4 195.0 125.6 192.5 129.5 190.5 134.5 189.4 138.5 188.8 147.5 189.4 154.5 190.5 159.5 192.0 163.5 195.1 168.5 199.2 172.5 204.0 175.0 208.0 176.2 214.0 176.4 219.0 175.9 225.0 173.5 231.0 168.1 234.0 163.1 236.0 157.5 237.1 150.5 237.2 146.5 236.2 137.5 235.1 133.5 233.3 129.5 230.6 125.5 226.0 121.2 220.0 118.3 214.0 117.3ZM268.70000000000005 103.6H287.20000000000005V190H268.70000000000005ZM267.45 82.5A10.5 10.5 0 1 1 288.45 82.5A10.5 10.5 0 1 1 267.45 82.5ZM333.5 102.5 323.5 105.0 315.5 109.3 307.3 117.5 303.0 124.5 299.3 135.5 298.2 146.5 299.1 157.5 301.2 165.5 303.0 169.5 305.1 173.5 309.7 179.5 312.5 182.4 318.5 186.6 323.5 189.0 330.5 191.0 343.5 191.8 349.5 191.0 359.5 187.6 366.5 183.3 373.1 176.5 375.6 172.5 377.9 167.5 379.0 164.5 378.6 163.5 365.5 163.5 361.5 163.5 358.5 169.2 355.5 172.6 352.5 174.8 347.5 177.1 340.5 178.1 334.5 177.2 328.5 174.8 324.5 171.5 320.5 165.4 318.1 158.5 317.3 153.5 317.6 152.5 318.5 152.2 378.5 152.2 379.5 152.1 379.9 151.5 379.6 141.5 377.7 131.5 374.1 122.5 371.6 118.5 367.5 113.4 359.5 107.1 352.5 104.0 343.5 102.0ZM335.5 116.5 332.5 117.2 328.5 119.2 323.5 123.7 320.2 128.5 318.3 133.5 317.2 138.5 318.5 139.1 342.5 139.1 360.5 139.1 361.3 138.5 359.8 131.5 356.1 124.5 350.5 119.3 346.5 117.2 342.5 116.2Z"/></svg></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: career timeline. Right arrow or Space steps forward, left arrow steps back -->
+    <section class="slide slide-timeline" data-slide="timeline" aria-label="Career timeline">
+      <p class="ct-status" aria-live="polite">Paused · Space to resume</p>
+      <div class="ct-window">
+        <div class="ct-reel">
+          <div class="ct-rail" aria-hidden="true">
+          <span class="ct-lead"></span>
+          <span class="ct-seg" style="--i: 0; --fill: var(--g-skip)"><span class="ct-fill"></span></span>
+          <span class="ct-seg" style="--i: 1; --fill: var(--g-neo)"><span class="ct-fill"></span></span>
+          <span class="ct-seg ct-seg-future" style="--i: 2; --fill: var(--g-qt)"><span class="ct-fill"></span></span>
+          <span class="ct-tail"></span>
+          </div>
+          <button class="ct-stop" type="button" data-index="0" aria-label="Red River College, Graphic Design" style="--i: 0; --glow: rgba(205, 16, 65, 0.32)">
+            <span class="ct-avatar">
+              <span class="ct-glow"></span>
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-rrc squircle"><img src="images/presentation/rrc-logo.png" width="500" height="510" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+            <span class="ct-name">Red River College</span>
+            <span class="ct-role">Graphic Design</span>
+          </button>
+          <button class="ct-stop" type="button" data-index="1" aria-label="SkipTheDishes, Product Designer" style="--i: 1; --glow: rgba(255, 128, 0, 0.32)">
+            <span class="ct-avatar">
+              <span class="ct-glow"></span>
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-skip squircle"><img src="images/skip-logo.svg" width="95" height="40" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+            <span class="ct-name">SkipTheDishes</span>
+            <span class="ct-role">Product Designer</span>
+          </button>
+          <button class="ct-stop" type="button" data-index="2" aria-label="Neo Financial, Senior to Lead Product Designer" style="--i: 2; --glow: rgba(22, 22, 22, 0.22)">
+            <span class="ct-avatar">
+              <span class="ct-glow"></span>
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-neo squircle"><img src="images/neo-logo.svg" width="66" height="20" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+            <span class="ct-name">Neo Financial</span>
+            <span class="ct-role">Senior to Lead</span>
+          </button>
+          <button class="ct-stop ct-stop-next" type="button" data-index="3" aria-label="Questrade, the next chapter?" style="--i: 3; --glow: rgba(122, 217, 127, 0.5)">
+            <span class="ct-avatar">
+              <span class="ct-glow"></span>
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-qt squircle"><svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#151916" d="M256 398A146 146 0 1 1 382.4 325L342.6 302A100 100 0 1 0 256 352Z"/><path fill="#151916" d="M248 225L421 398H356L248 290Z"/></svg></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+            <span class="ct-name">Questrade</span>
+            <span class="ct-role ct-role-next">The Next Chapter?</span>
+          </button>
+        </div>
+      </div>
+      <div class="ct-paper-shadow" aria-hidden="true"></div>
+      <div class="ct-paper">
+        <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+        <div class="ct-copy" aria-live="polite">
+          <article class="ct-blurb is-shown" data-index="0">
+            <p class="ct-label"><span class="ct-num">01</span> — The Beginning</p>
+            <h2 class="ct-title">Where it all started.</h2>
+            <p class="ct-desc">I learned the fundamentals of visual design, typography, and composition, and developed a love for making things look and feel good.</p>
+          </article>
+          <article class="ct-blurb" data-index="1">
+            <p class="ct-label"><span class="ct-num">02</span> — Going Digital</p>
+            <h2 class="ct-title">From pixels to products.</h2>
+            <p class="ct-desc">I moved into product design, learning to balance how things look with how they work, and how user needs connect with business goals.</p>
+          </article>
+          <article class="ct-blurb" data-index="2">
+            <p class="ct-label"><span class="ct-num">03</span> — Thinking Bigger</p>
+            <h2 class="ct-title">Learning to think in systems.</h2>
+            <p class="ct-desc">Nearly six years tackling complex financial experiences. I grew into a design leadership role, leading major redesigns, shaping information architecture, and building design systems.</p>
+          </article>
+          <article class="ct-blurb ct-blurb-next" data-index="3">
+            <p class="ct-label"><span class="ct-num">04</span> — The Next Chapter?</p>
+            <h2 class="ct-title">What’s next?</h2>
+            <p class="ct-desc">A chance to bring everything I’ve learned together: product thinking, design craft, and making complicated things feel simple.</p>
+          </article>
+        </div>
+        <figure class="ct-media ct-media-grid" data-index="1" aria-label="The SkipTheDishes restaurant app on an iPad, with a live delivery map">
+          <div class="ipad">
+            <div class="ipad-screen" aria-hidden="true">
+              <div class="sk-status"><span>9:41&nbsp; Mon Jun 3</span><i>●●● 100%</i></div>
+              <div class="sk-bar">
+                <svg viewBox="0 0 12 10"><path d="M0 1h12M0 5h12M0 9h12" stroke="#fff" stroke-width="1.4"/></svg>
+                <span>Availability</span>
+              </div>
+              <div class="sk-body">
+                <div class="sk-side">
+                  <div class="sk-head">Your Orders</div>
+                  <div class="sk-item is-on"><span>#1867</span><strong>27</strong></div>
+                  <div class="sk-item"><span>#1868<small>Prior Jobs</small></span><strong>15</strong></div>
+                  <div class="sk-head">Pre Orders</div>
+                  <div class="sk-item"><span>#1867</span><em>12:00 PM</em></div>
+                  <div class="sk-head">Being Delivered <b></b></div>
+                  <div class="sk-card">
+                    <span>#1867<small>On the way</small></span>
+                    <svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill="#fff"/><path d="M3 7.5h6M4 7.5a2 2 0 0 1 4 0M6 4.2v1" stroke="#2f3b45" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>
+                  </div>
+                </div>
+                <div class="sk-main">
+                  <div class="sk-order">
+                    <div class="sk-order-info">
+                      <h3>0701 - 1867</h3>
+                      <p><svg viewBox="0 0 10 7"><path d="M1 5V3.4L2.2 1h5.6L9 3.4V5H1zM2.5 5.8v.7M7.5 5.8v.7M1.2 3.4h7.6" stroke="#555" stroke-width="0.8" fill="none" stroke-linejoin="round"/></svg>Courier Delivery</p>
+                      <span>2 Items</span>
+                    </div>
+                    <div class="sk-eta"><b>5</b>Min</div>
+                  </div>
+                  <svg class="sk-map" viewBox="0 0 300 498" preserveAspectRatio="xMidYMid slice">
+                    <rect width="300" height="498" fill="#e8e8e8"/>
+                    <g transform="rotate(-10 150 249)" stroke="#fff" fill="none">
+                      <g stroke-width="3.5">
+                        <path d="M-60 20H360M-60 58H360M-60 96H360M-60 134H360M-60 172H360M-60 210H360M-60 248H360M-60 286H360M-60 324H360M-60 362H360M-60 400H360M-60 438H360M-60 476H360M-60 514H360"/>
+                        <path d="M-30 -40V560M12 -40V560M54 -40V560M96 -40V560M138 -40V560M180 -40V560M222 -40V560M264 -40V560M306 -40V560"/>
+                      </g>
+                      <path d="M-60 125H360M-60 300H360M117 -40V560M243 -40V560" stroke-width="7"/>
+                    </g>
+                    <path d="M330 250C270 255 225 290 205 340S195 440 240 520" stroke="#a6dfe6" stroke-width="44" fill="none"/>
+                    <path d="M330 250C270 255 225 290 205 340S195 440 240 520" stroke="#bfe9ee" stroke-width="30" fill="none"/>
+                    <path d="M240 104C222 140 228 180 212 222C196 266 166 304 132 334C112 352 96 362 82 368" stroke="#ff7a00" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g transform="translate(229 90)"><rect width="22" height="13" rx="4.5" fill="#fff" stroke="#1b1b1b" stroke-width="1.6"/><rect x="6.5" y="2.5" width="9" height="8" rx="2" fill="#1b1b1b"/></g>
+                    <circle cx="78" cy="372" r="11" fill="#1b1b1b"/>
+                    <path d="M73 369h10v7h-10zM72.5 369l1.5-3h8l1.5 3" stroke="#fff" stroke-width="1.3" fill="none" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </figure>
+        <figure class="ct-media ct-media-grid ct-media-neo" data-index="2" aria-label="The Neo Financial app's Home tab on an iPhone">
+          <div class="ht-phone" aria-hidden="true"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ht-app ht-baked"><span class="ht-baked-header"></span><span class="ht-baked-status" style="--t: 0; --l: 0; --w: 375; --h: 43.98"><img src="images/cover-home/status.png" style="--it: 0; --il: 0; --iw: 375; --ih: 43.98" alt="" decoding="async"></span><span class="bk-part" style="--t: 59.97; --l: 19.99; --w: 93.98; --h: 39.98"><img src="images/cover-home/rewards.png" style="--it: -3; --il: -3; --iw: 99.98; --ih: 45.98" alt="" decoding="async"></span><span class="bk-part" style="--t: 59.97; --l: 315.02; --w: 39.98; --h: 39.98"><img src="images/cover-home/profile.png" style="--it: -3; --il: -3; --iw: 45.98; --ih: 45.98" alt="" decoding="async"></span><span class="bk-part" style="--t: 147.98; --l: 19.99; --w: 335.02; --h: 31.98"><img src="images/cover-home/greeting.png" style="--it: -3; --il: -3; --iw: 341.02; --ih: 37.98" alt="" decoding="async"></span><span class="bk-part" style="--t: 219.94; --l: 19.99; --w: 74.77; --h: 93.46"><img src="images/cover-home/pay.png" style="--it: -3; --il: -3; --iw: 80.77; --ih: 99.46" alt="" decoding="async"></span><span class="bk-part" style="--t: 219.94; --l: 106.74; --w: 74.77; --h: 93.46"><img src="images/cover-home/add.png" style="--it: -3; --il: -3; --iw: 80.77; --ih: 99.46" alt="" decoding="async"></span><span class="bk-part" style="--t: 219.94; --l: 193.49; --w: 74.77; --h: 93.46"><img src="images/cover-home/move.png" style="--it: -3; --il: -3; --iw: 80.77; --ih: 99.46" alt="" decoding="async"></span><span class="bk-part" style="--t: 219.94; --l: 280.24; --w: 74.77; --h: 93.46"><img src="images/cover-home/send.png" style="--it: -3; --il: -3; --iw: 80.77; --ih: 99.46" alt="" decoding="async"></span><span class="bk-part" style="--t: 353.37; --l: 19.99; --w: 335.02; --h: 142.72"><img src="images/cover-home/credit.png" style="--it: -3; --il: -3; --iw: 341.02; --ih: 148.72" alt="" decoding="async"></span><span class="bk-part" style="--t: 504.08; --l: 19.99; --w: 335.02; --h: 142.72"><img src="images/cover-home/everyday.png" style="--it: -3; --il: -3; --iw: 341.02; --ih: 148.72" alt="" decoding="async"></span><span class="bk-part" style="--t: 654.78; --l: 19.99; --w: 335.02; --h: 299.12"><img src="images/cover-home/savings.png" style="--it: -3; --il: -3; --iw: 341.02; --ih: 146.35" alt="" decoding="async"></span><span class="bk-part" style="--t: 711.84; --l: 0; --w: 375; --h: 86.29"><img src="images/cover-home/tabbar.png" style="--it: 0; --il: 0; --iw: 375; --ih: 86.29" alt="" decoding="async"></span></div></div></div></div>
+        </figure>
+        <figure class="ct-media is-shown" data-index="0"><img src="images/presentation/rrc-campus.webp" width="1200" height="710" alt="Red River College's Exchange District campus in Winnipeg at dusk"></figure>
+      </div>
+    </section>
+
+    <!-- Slide 3: Design Philosophy. Three beliefs as glass avatars that drift slowly round small circles -->
+    <section class="slide slide-philosophy" data-slide="philosophy" aria-label="Design philosophy">
+      <h2 class="ph-title"><span>Design</span><span>Philosophy</span></h2>
+      <div class="ph-cluster">
+        <div class="ph-item" role="img" aria-label="Don’t reinvent the wheel">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ph-face squircle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/><path d="M12 3.5v6.3M12 14.2v6.3M4.64 7.75l5.45 3.15M13.9 13.1l5.46 3.15M4.64 16.25l5.45-3.15M13.9 10.9l5.46-3.15"/></svg></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+        <div class="ph-item" role="img" aria-label="It’s not enough to work, it should look good too">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ph-face squircle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="13.5" r="6.2" stroke-width="2.8" stroke-dasharray="2.43 2.44" stroke-linecap="butt"/><circle cx="10.5" cy="13.5" r="4.4"/><circle cx="10.5" cy="13.5" r="1.5"/><path d="M19 2.5c.35 2 1 2.65 3 3-2 .35-2.65 1-3 3-.35-2-1-2.65-3-3 2-.35 2.65-1 3-3z" fill="#fff" stroke-width="1"/></svg></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+        <div class="ph-item" role="img" aria-label="Design is a team sport: collaborate">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ph-face squircle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.6" cy="8.4" r="2.9"/><circle cx="15.6" cy="9.2" r="2.6"/><path d="M3 19.5c.3-3.4 2.6-5.6 5.6-5.6s5.3 2.2 5.6 5.6"/><path d="M14.6 14.2c.3-.1.7-.1 1-.1 2.7 0 4.8 2 5.1 5.1"/></svg></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="ph-head" aria-live="polite">
+        <div class="ph-head-inner">
+          <p class="ph-pill"><span class="ph-pill-flip">
+            <span class="ph-pill-label" data-step="1">Design Philosophy 01</span>
+            <span class="ph-pill-label" data-step="2">Design Philosophy 02</span>
+            <span class="ph-pill-label" data-step="3">Design Philosophy 03</span>
+          </span></p>
+          <div class="ph-head-stack">
+            <div class="ph-head-item" data-step="1">
+              <h3 class="ph-head-title"><span>Don’t Reinvent</span><span>the Wheel</span></h3>
+              <p class="ph-head-lede">Understand why it works, then make it your own.</p>
+            </div>
+            <div class="ph-head-item" data-step="2">
+              <h3 class="ph-head-title"><span>Useful can be</span><span>beautiful, too.</span></h3>
+              <p class="ph-head-lede">I don’t believe we should have to sacrifice visual craft to solve a problem. The best experiences do both.</p>
+            </div>
+            <div class="ph-head-item" data-step="3">
+              <h3 class="ph-head-title"><span>Design for today.</span><span>Think about tomorrow.</span></h3>
+              <p class="ph-head-lede">The best solutions don’t just solve what’s in front of us. They anticipate what might come next, creating familiar patterns and flexible structures that can evolve alongside the product.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ph-page-shadow" aria-hidden="true"></div>
+      <article class="ph-page" aria-label="Don’t reinvent the wheel: observe, adapt, innovate">
+        <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+        <div class="ph-page-body" data-step="1">
+        <ol class="ph-steps">
+          <li class="ph-step"><span class="ph-step-num">01</span><div><h4>Observe</h4><p>Study proven patterns and understand what makes them work.</p></div></li>
+          <li class="ph-step"><span class="ph-step-num">02</span><div><h4>Adapt</h4><p>Apply what makes sense to your users, product, and constraints.</p></div></li>
+          <li class="ph-step"><span class="ph-step-num">03</span><div><h4>Innovate</h4><p>Explore something new when existing solutions fall short.</p></div></li>
+        </ol>
+        <div class="ph-media" aria-hidden="true"></div>
+        </div>
+        <div class="ph-page-body" data-step="2"></div>
+        <div class="ph-page-body" data-step="3"></div>
+      </article>
+    </section>
+
+    <!-- Slide 4: Projects -->
+    <section class="slide slide-projects" data-slide="projects" aria-label="Projects">
+      <h2 class="ph-title pj-title"><span>Projects</span></h2>
+      <div class="ph-head" aria-live="polite">
+        <div class="ph-head-inner">
+          <p class="ph-pill">Project 01</p>
+          <h3 class="ph-head-title"><span>One Structure,</span><span>Every Account</span></h3>
+          <p class="ph-head-lede">Designing Credit, Chequing, and Savings to work as one family.</p>
+        </div>
+      </div>
+      <div class="ph-page-shadow" aria-hidden="true"></div>
+      <article class="ph-page" aria-label="One Structure, Every Account: overview and project details">
+        <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+        <p class="pj-sub">Overview</p>
+        <p class="pj-overview">As Neo Financial continued to grow, its account experiences needed a refresh.</p>
+        <p class="pj-sub">Project Details</p>
+        <dl class="pj-details">
+          <div class="pj-detail"><dt>Company</dt><dd>Neo Financial</dd></div>
+          <div class="pj-detail"><dt>My Role</dt><dd>Lead Designer</dd></div>
+          <div class="pj-detail"><dt>Collaborators</dt><dd>Head of Design, PM, Mobile Engineering</dd></div>
+          <div class="pj-detail"><dt>Time Period</dt><dd>June–September 2025 (4 months)</dd></div>
+          <div class="pj-detail"><dt>Status</dt><dd>Launched September 2025</dd></div>
+        </dl>
+      </article>
+    </section>
+
+
+
+  </main>
+
+  <div class="deck-badge" aria-hidden="true"><span class="pb-av pb-q squircle"><svg viewBox="0 0 512 512"><path fill="#151916" d="M256 398A146 146 0 1 1 382.4 325L342.6 302A100 100 0 1 0 256 352Z"/><path fill="#151916" d="M248 225L421 398H356L248 290Z"/></svg></span><svg class="pb-plus" viewBox="0 0 100 100"><path fill="url(#plus-fill)" d="M41 6H59V41H100L82 59H59V94H41V59H6V41H41Z"/></svg><span class="pb-av pb-e squircle"><img src="images/presentation/eddie.jpg" width="349" height="349" alt=""></span></div>
+
+  <nav class="deck-nav" aria-label="Slides">
+    <button class="glass-button deck-next" type="button">Next</button>
+  </nav>
+
+  <script>
+    // SHA-256 of the password. To change it, run this in Terminal and paste the result here:
+    //   printf '%s' 'your-new-password' | shasum -a 256
+    var PASSWORD_HASH = "692eef10b6e8b1e7a04486cbf78a1eecbc4acff3b22df7d9db4ed1d539410bda";
+
+    (function () {
+      var form = document.querySelector(".gate-form");
+      var input = document.getElementById("gate-password");
+      var error = document.querySelector(".gate-error");
+      var card = document.querySelector(".gate-card");
+
+      function sha256(text) {
+        return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)).then(function (buf) {
+          return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+        });
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        sha256(input.value).then(function (hash) {
+          if (hash === PASSWORD_HASH) {
+            try { sessionStorage.setItem("presentation-unlocked", "1"); } catch (err) {}
+            document.documentElement.classList.add("is-unlocked");
+            input.value = "";
+            document.dispatchEvent(new Event("presentation:unlocked"));
+          } else {
+            error.textContent = "That password didn't work.";
+            input.setAttribute("aria-invalid", "true");
+            input.select();
+            card.classList.remove("is-shaking");
+            void card.offsetWidth; // restart the shake
+            card.classList.add("is-shaking");
+          }
+        });
+      });
+
+      input.addEventListener("input", function () {
+        error.textContent = "";
+        input.removeAttribute("aria-invalid");
+      });
+    })();
+  </script>
+  <script src="presentation-intro.js?v=18"></script>
+  <script src="presentation-timeline.js?v=18"></script>
+  <script src="presentation-philosophy.js?v=10"></script>
+  <script src="presentation-projects.js?v=3"></script>
+  <script src="presentation-deck.js?v=8"></script>
+  <script src="glass-button.js?v=1"></script>
+  <script src="dot-grid.js?v=1"></script>
+</body>
+</html>
