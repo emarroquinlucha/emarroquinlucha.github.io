@@ -2379,10 +2379,58 @@ html:has(.lightbox.is-open) body {
   100% { opacity: 1; background-position: 0 0; }
 }
 
+/* The headline's plain words in the same finish (the gradient words keep
+   their own): each line gets the gradient top to bottom (clone), and the
+   filter sits on the plain words only, so the animated gradient words
+   don't make it redraw every frame */
+.resume-statement .wm-text {
+  padding-bottom: 0.06em;
+  background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: url(#wm-glass);
+}
+
+/* ===== Title finish (case studies) =====
+   The page title and the section and step titles in the presentation
+   titles' finish: a dark green-black gradient down each line (one gradient
+   per line height), with a faint light along the letters' top edges and a
+   fine frosted grain (#wm-glass, in each case study's page). Highlighted
+   words keep solid text over their marker band, so the band doesn't tint
+   them. */
+.page-case :is(.case-page-title, .case-page-section h2:not(.case-eyebrow), .case-page-section h3) {
+  background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%) 0 0 / 100% 1lh repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: url(#wm-glass);
+}
+
+.page-case :is(.case-page-title, .case-page-section h2:not(.case-eyebrow), .case-page-section h3) .case-mark {
+  color: #1a1e1b;
+  -webkit-text-fill-color: #1a1e1b;
+}
+
+/* The name in the presentation titles' finish: a dark green-black gradient
+   down the letters, a faint light along their top edges and a fine frosted
+   grain (#wm-glass, in index.html) */
 .resume-name {
   font: var(--type-h1);
   letter-spacing: normal;
-  color: var(--resume-text);
+  width: fit-content;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+  background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: url(#wm-glass);
 }
 
 .resume-title,

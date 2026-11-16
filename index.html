@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=897">  <!-- bump the number after changing style.css so browsers load the new version -->
+  <link rel="stylesheet" href="style.css?v=900">  <!-- bump the number after changing style.css so browsers load the new version -->
   <!-- Loading screen: hide the page until it's revealed (see "Loading screen" in style.css).
        Set here, before anything draws, so the page never flashes in first. -->
   <script>
@@ -74,6 +74,25 @@
   <link rel="preload" href="images/stamp.webp?v=2" as="image" fetchpriority="high">
 </head>
 <body>
+
+  <!-- The name's finish (see .resume-name in style.css): a faint light along the
+       letters' top edges and a fine frosted grain, the same filter as the
+       presentation's titles -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="wm-glass" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feOffset in="SourceAlpha" dy="1.3" result="down"/>
+        <feComposite in="SourceAlpha" in2="down" operator="out" result="edge"/>
+        <feGaussianBlur in="edge" stdDeviation="0.5" result="edgeSoft"/>
+        <feFlood flood-color="#fff" flood-opacity="0.28"/>
+        <feComposite in2="edgeSoft" operator="in" result="rim"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="noise"/>
+        <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.16 0" result="grain"/>
+        <feComposite in="grain" in2="SourceAlpha" operator="in" result="frost"/>
+        <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="frost"/><feMergeNode in="rim"/></feMerge>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- ===== Loading screen: the stamp sways while the bar fills, then the page comes in ===== -->
   <div class="loader" role="status" aria-label="Loading">
@@ -142,8 +161,8 @@
       </header>
 
       <p class="resume-statement resume-statement-v2">
-        I like to wander digital labyrinths, decipher patterns in the chaos, and
-        bring some <span class="soft gradient-text">glow to the pixels</span>.<span class="text-cursor" aria-hidden="true"></span>
+        <span class="wm-text">I like to wander digital labyrinths, decipher patterns in the chaos, and
+        bring some </span><span class="soft gradient-text">glow to the pixels</span><span class="wm-text">.</span><span class="text-cursor" aria-hidden="true"></span>
       </p>
 
       <h2 class="resume-label" id="selected-work">Selected Impact</h2>
@@ -1294,51 +1313,71 @@
       document.getElementById("stat-read").textContent = Math.max(1, Math.round(words / 200)) + " min read";
 
       // Shared counters (Abacus). Likes = "likes-up" minus "likes-down", since
-      // the service can only count up.
+      // the service can only count up. The service sometimes goes down:
+      // requests give up after 4s, and each pill shows the last count this
+      // browser saw (kept in localStorage) instead of "–".
       var api = "https://abacus.jasoncameron.dev";
       var ns = "emarroquinlucha-github-io";
       // Preview copies of the page (<html data-preview>) show the
       // live counts but don't add views or likes to them
       var preview = document.documentElement.hasAttribute("data-preview");
       function counter(action, key) {
-        return fetch(api + "/" + action + "/" + ns + "/" + key)
-          .then(function (r) { return r.ok ? r.json() : { value: 0 }; })
-          .then(function (d) { return Math.max(0, d.value || 0); });
+        var ctrl = window.AbortController ? new AbortController() : null;
+        var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 4000);
+        return fetch(api + "/" + action + "/" + ns + "/" + key, ctrl ? { signal: ctrl.signal } : {})
+          .then(function (r) {
+            // A server error means the service is down, not a count of 0
+            if (!r.ok && r.status !== 404) throw new Error("counter " + r.status);
+            return r.ok ? r.json() : { value: 0 };
+          })
+          .then(function (d) { clearTimeout(timer); return Math.max(0, d.value || 0); },
+                function (e) { clearTimeout(timer); throw e; });
       }
       function store(key, value) {
         try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) {}
       }
       function show(el, n) { el.textContent = n.toLocaleString(); }
+      // The last count seen, shown at once and kept if the service is down
+      function last(name, n) {
+        if (n === undefined) { var v = parseInt(store("resume-" + name + "-last"), 10); return isNaN(v) ? null : v; }
+        store("resume-" + name + "-last", String(n));
+      }
 
       // Views: counted once per browser, so refreshes don't inflate it
       var viewsEl = document.getElementById("stat-views-count");
       var seen = store("resume-viewed") === "1";
+      var lastViews = last("views");
+      if (lastViews !== null) show(viewsEl, lastViews);
       counter(seen || preview ? "get" : "hit", "resume-views")
         .then(function (n) {
           if (!seen && !preview) store("resume-viewed", "1");
+          last("views", n);
           show(viewsEl, n);
           document.getElementById("stat-views").setAttribute("aria-label", n.toLocaleString() + " views");
         })
-        .catch(function () { viewsEl.textContent = "–"; });
+        .catch(function () { if (lastViews === null) viewsEl.textContent = "–"; });
 
       // Likes
       var likeBtn = document.getElementById("stat-like");
       var likeEl = document.getElementById("stat-like-count");
       var liked = store("resume-liked") === "1";
-      var likes = 0;
+      var lastLikes = last("likes");
+      var likes = lastLikes || 0;
       function render() {
         likeBtn.classList.toggle("is-liked", liked);
         likeBtn.setAttribute("aria-pressed", liked ? "true" : "false");
         show(likeEl, likes);
       }
+      if (lastLikes !== null) render();
       Promise.all([counter("get", "resume-likes-up"), counter("get", "resume-likes-down")])
-        .then(function (v) { likes = Math.max(0, v[0] - v[1]); render(); })
-        .catch(function () { likeEl.textContent = "–"; });
+        .then(function (v) { likes = Math.max(0, v[0] - v[1]); last("likes", likes); render(); })
+        .catch(function () { if (lastLikes === null) likeEl.textContent = "–"; });
       likeBtn.classList.toggle("is-liked", liked);
 
       likeBtn.addEventListener("click", function () {
         liked = !liked;
         likes = Math.max(0, likes + (liked ? 1 : -1));
+        last("likes", likes);
         if (!preview) store("resume-liked", liked ? "1" : "0");
         render();
         // Restart the bounce (and the heart pop when liking)
