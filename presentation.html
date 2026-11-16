@@ -890,6 +890,9 @@
        on the right holding the steps */
     .ph-page, .ph-page-shadow { z-index: 3; }
     .ph-page, .ph-page-shadow, .ph-head { visibility: hidden; }
+    /* (and no frosting while hidden: Chrome kept drawing a hidden page's backdrop blur over the
+       title steps) */
+    .slide:not(.is-detail) > .ph-page { -webkit-backdrop-filter: none; backdrop-filter: none; }
     .slide-philosophy.is-detail .ph-page,
     .slide-philosophy.is-detail .ph-page-shadow,
     .slide-philosophy.is-detail .ph-head { visibility: visible; }
@@ -1029,6 +1032,53 @@
       text-wrap: pretty;
     }
     .pj-details { margin: 0; }
+    /* Step 2, Context: the page's eyebrow, title and line; the three new account screens in
+       iPhones fill the left side (where the heading was) */
+    .pj-ctx-title {
+      margin: 0 0 clamp(14px, 2vh, 20px);
+      font: 600 clamp(26px, 2.4vw, 38px)/1.12 var(--font-sans);
+      letter-spacing: -0.025em;
+      color: var(--resume-heading);
+      text-wrap: balance;
+    }
+    .pj-ctx-body { margin: 0; font: 400 clamp(16px, 1.25vw, 19px)/1.6 var(--font-sans); color: var(--resume-body); text-wrap: pretty; }
+    .pj-phones {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(25vw + 48px);
+      right: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(16px, 2vw, 36px);
+      padding: 0 clamp(24px, 3vw, 56px) 40px;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+    /* The Context page sits on the left, 25% wide (moved there while it's off screen, see projects.js) */
+    .slide-projects.is-page-left .ph-page,
+    .slide-projects.is-page-left .ph-page-shadow { right: auto; left: 48px; width: 25vw; top: 88px; }   /* below the corner badge */
+    .slide-projects.is-page-left .ph-page { padding-left: clamp(24px, 2.4vw, 40px); padding-right: clamp(24px, 2.4vw, 40px); }
+    .slide-projects.is-page-left .pj-ctx-title { font-size: clamp(20px, 1.75vw, 30px); }
+    /* On the narrow left page the eyebrow pill sits up beside the fold, and the copy is a size smaller,
+       so the longer pages fit */
+    .slide-projects.is-page-left .ph-page { padding-top: clamp(40px, 5.5vh, 60px); }
+    .slide-projects.is-page-left .ph-page-body:not(:has(.pj-pill)) { padding-top: calc(var(--fold-side) + 8px); }
+    .slide-projects.is-page-left .pj-pill { margin-bottom: clamp(36px, 6vh, 64px); padding: 5px 11px; font-size: 11px; letter-spacing: 0.01em; }
+    .slide-projects.is-page-left .pj-ctx-body { font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; }
+    .pj-phone { margin: 0; display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 1.8vh, 18px); opacity: 0; }
+    .pj-phones .phone-mock { width: min(15vw, 30vh); }
+    .pj-phone:nth-child(2) { margin-bottom: 4.5%; }   /* the middle one sits a little higher (margin, not transform: the blur-in animates transform) */
+    .pj-phone-label { font: var(--type-label-s); letter-spacing: 0.02em; color: var(--resume-label); }
+    .pj-phones .phone-mock-body { box-shadow: inset 0 0 0 0.6cqw #55555a, inset 0 0 0 1cqw #161617, 0 12px 28px rgba(12, 12, 13, 0.16), 0 40px 60px rgba(12, 12, 13, 0.08); }
+    .pj-phones .phone-mock-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .slide-projects[data-visual="phones"] .pj-phone { opacity: 1; }
+    .slide-projects.is-context .ph-head .ph-pill,
+    .slide-projects.is-context .ph-head-title,
+    .slide-projects.is-context .ph-head-lede { opacity: 0; }
+    @media (max-width: 760px) { .pj-phones { left: 0; bottom: auto; height: 40vh; } .pj-phones .phone-mock { width: 22vw; } }
     .pj-detail {
       display: grid;
       grid-template-columns: minmax(8em, 38%) 1fr;
@@ -1040,24 +1090,415 @@
     .pj-detail dt { font: var(--type-label-xs); font-size: 13px; color: var(--resume-label); padding-top: 0.2em; }
     .pj-detail dd { margin: 0; font: 400 clamp(15px, 1.15vw, 17px)/1.45 var(--font-sans); color: var(--resume-text); }
 
-    /* "Questrade + Eddie" in small, in the top-left corner of every slide step except the title
-       ones. It stays put between slides and blurs in and out (window.presentationBadge, deck.js). */
+    /* "A Little About My Journey": laid out like the Design Philosophy title (.ph-title, .ph-cluster),
+       with the timeline's own avatar faces */
+    .slide-journey {
+      --ph-avatar: clamp(88px, 9vw, 136px);
+      --c-rrc: #cd1041;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(48px, 8vw, 140px);
+      padding: 0 24px 64px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 760px) { .slide-journey { flex-direction: column; gap: 40px; --ph-avatar: 84px; } .jn-title { text-align: center; } }
+
+    /* ---------- About: "Who the Heck Is Eddie?", About Eddie, What I Bring to the Table ----------
+       Titles in the Design Philosophy title's style (.ph-title). presentation-about.js runs them. */
+    .slide-whois, .slide-bring { display: grid; place-items: center; padding-bottom: 64px; box-sizing: border-box; }
+    .wi-title, .bg-title { text-align: center; }
+    .slide-bring .ph-head-title { opacity: 1; }
+    .slide-bring.is-detail .ph-page,
+    .slide-bring.is-detail .ph-page-shadow,
+    .slide-bring.is-detail .ph-head { visibility: visible; }
+    .slide-bring.is-detail .bg-title { opacity: 0; pointer-events: none; }
+
+    .slide-about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 clamp(32px, 6vw, 120px) 64px;
+      box-sizing: border-box;
+    }
+    .ab-side { justify-self: center; display: flex; flex-direction: column; align-items: flex-start; }
+    .ab-title { font-size: clamp(44px, 5.2vw, 84px); margin-bottom: clamp(24px, 4vh, 44px); }
+    /* The switcher: the picked fact sits in a frosted pill with a caret pointing at it; the pill
+       glides to whichever one is picked (--y / --h, set from presentation-about.js) */
+    .ab-switch { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-left: 28px; }
+    .ab-opt {
+      position: relative;
+      z-index: 1;
+      padding: 10px 18px;
+      border: 0;
+      background: none;
+      font: 500 clamp(18px, 1.6vw, 24px)/1.3 var(--font-sans);
+      letter-spacing: -0.01em;
+      color: var(--resume-label);
+      cursor: pointer;
+      transition: color 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ab-opt:hover { color: var(--resume-body); }
+    .ab-opt.is-current { color: var(--resume-heading); }
+    .ab-opt:focus-visible { outline: 2px solid var(--resume-label); outline-offset: 2px; border-radius: 999px; }
+    .ab-hl {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--w, 0px);
+      height: var(--h, 0px);
+      border: 0.5px solid rgba(12, 12, 13, 0.05);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.6);
+      -webkit-backdrop-filter: blur(18px) saturate(1.6);
+      backdrop-filter: blur(18px) saturate(1.6);
+      box-shadow: var(--glass-edge), var(--glass-drop);
+      transform: translateY(var(--y, 0px));
+      transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .ab-hl.no-anim { transition: none; }
+    .ab-caret {
+      position: absolute;
+      left: -22px;
+      top: 50%;
+      width: 10px;
+      height: 12px;
+      fill: var(--resume-heading);
+      transform: translateY(-50%);
+    }
+
+    /* The asset on the right: a white frosted cube with soft corners, floating and turning slowly,
+       with a soft shadow below (placeholder). Each fact has its own; only the current one shows. */
+    .ab-stage { position: relative; height: 100%; }
+    .ab-asset {
+      --s: clamp(150px, 14vw, 240px);
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      perspective: 1200px;
+      opacity: 0;
+    }
+    .ab-asset.is-current { opacity: 1; }
+    .ab-float { animation: ab-bob 6s ease-in-out infinite; }
+    .ab-cube {
+      position: relative;
+      width: var(--s);
+      height: var(--s);
+      transform-style: preserve-3d;
+      animation: ab-spin 22s linear infinite;
+    }
+    .ab-asset[data-index="1"] .ab-cube { animation-delay: -7s; }
+    .ab-asset[data-index="2"] .ab-cube { animation-delay: -14s; }
+    .ab-core { position: absolute; inset: 7%; transform-style: preserve-3d; }
+    .ab-face {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 24%;
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.96), rgba(244, 245, 248, 0.86));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), inset 0 -10px 24px rgba(12, 12, 13, 0.035);
+      outline: 0.5px solid rgba(12, 12, 13, 0.05);
+      backface-visibility: hidden;
+    }
+    .ab-core .ab-face { border-radius: 10%; background: #f6f7f9; box-shadow: none; outline: 0; }
+    .ab-cube { --z: calc(var(--s) / 2); }
+    .ab-core { --z: calc(var(--s) * 0.43); }
+    .ab-front  { transform: translateZ(var(--z)); }
+    .ab-back   { transform: rotateY(180deg) translateZ(var(--z)); }
+    .ab-right  { transform: rotateY(90deg) translateZ(var(--z)); }
+    .ab-left   { transform: rotateY(-90deg) translateZ(var(--z)); }
+    .ab-top    { transform: rotateX(90deg) translateZ(var(--z)); }
+    .ab-bottom { transform: rotateX(-90deg) translateZ(var(--z)); }
+    .ab-cube > .ab-right, .ab-cube > .ab-left { background: linear-gradient(150deg, rgba(248, 249, 251, 0.95), rgba(233, 235, 239, 0.88)); }
+    .ab-cube > .ab-top { background: linear-gradient(150deg, #fff, rgba(250, 250, 252, 0.95)); }
+    .ab-cube > .ab-bottom { background: rgba(226, 228, 233, 0.92); }
+    .ab-glyph { width: 30%; height: 30%; color: #9a9ea6; }
+    .ab-shadow {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + var(--s) * 0.8);
+      width: calc(var(--s) * 1.1);
+      height: calc(var(--s) * 0.16);
+      margin-left: calc(var(--s) * -0.55);
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(12, 12, 13, 0.16), rgba(12, 12, 13, 0));
+      filter: blur(6px);
+      animation: ab-shadow 6s ease-in-out infinite;
+    }
+    @keyframes ab-bob { 0%, 100% { transform: translateY(-10px); } 50% { transform: translateY(12px); } }
+    @keyframes ab-shadow { 0%, 100% { transform: scale(0.86); opacity: 0.7; } 50% { transform: scale(1); opacity: 1; } }
+    @keyframes ab-spin { from { transform: rotateX(-20deg) rotateY(0deg); } to { transform: rotateX(-20deg) rotateY(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .ab-float, .ab-cube, .ab-shadow { animation: none; } .ab-cube { transform: rotateX(-20deg) rotateY(-32deg); } }
+    @media (max-width: 760px) {
+      .slide-about { grid-template-columns: 1fr; grid-template-rows: auto 1fr; padding-top: 72px; }
+    }
+
+    /* Step 3, the feedback: the page title in the big titles' gradient finish, the three quotes
+       between dotted dividers, and one iPhone on the right (blank screen until the image is ready) */
+    .pj-grad span {
+      background: linear-gradient(180deg, #3d443f 0%, #1a1e1b 55%, #0f1210 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      filter: url(#wm-glass);
+    }
+    .pj-quotes { margin: clamp(18px, 3vh, 28px) 0 0; padding: 0; list-style: none; }
+    .pj-quotes li {
+      padding: clamp(10px, 1.6vh, 14px) 0;
+      border-top: 2px dotted var(--resume-paper-border);
+      font: 400 clamp(14px, 1.05vw, 16px)/1.5 var(--font-sans);
+      color: var(--resume-body);
+      text-wrap: pretty;
+    }
+    .pj-quotes li:last-child { border-bottom: 2px dotted var(--resume-paper-border); }
+    .pj-quotes b { display: block; margin-bottom: 2px; font-weight: 600; color: var(--resume-heading); }
+    .pj-mock {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(25vw + 48px);
+      right: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding-bottom: 40px;
+      pointer-events: none;
+    }
+    .pj-mock .phone-mock { width: min(17vw, 36vh); opacity: 0; }
+    .pj-mock .phone-mock-body { box-shadow: inset 0 0 0 0.6cqw #55555a, inset 0 0 0 1cqw #161617, 0 12px 28px rgba(12, 12, 13, 0.16), 0 40px 60px rgba(12, 12, 13, 0.08); }
+    .slide-projects[data-visual="mock"] .pj-mock .phone-mock { opacity: 1; }
+
+    /* Step 4, competitive analysis: the competitors' account screens in iPhones, a staggered grid of
+       three columns drifting slowly up (each column is its list twice, moved up by half, so it loops) */
+    .pj-pill { align-self: flex-start; }
+    .slide-projects .ph-page-body > * { flex-shrink: 0; }   /* nothing squashes when a page runs long */
+    .pj-ctx-more { margin-top: 1em; }
+    .pj-comp {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(25vw + 48px);
+      right: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: clamp(16px, 2vw, 32px);
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    }
+    .slide-projects[data-visual="comp"] .pj-comp { opacity: 1; }
+    .pj-col { width: min(12vw, 26vh); }
+    .pj-track {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 2vw, 32px);
+      padding-bottom: clamp(16px, 2vw, 32px);   /* the gap after the last phone, so the loop is seamless */
+      animation: pj-rise 90s linear infinite;
+      animation-play-state: paused;
+    }
+    .slide-projects[data-visual="comp"] .pj-track { animation-play-state: running; }
+    .pj-col:nth-child(2) .pj-track { animation-delay: -12s; }
+    .pj-col:nth-child(3) .pj-track { animation-delay: -5s; }
+    .pj-comp .phone-mock-body { box-shadow: inset 0 0 0 0.6cqw #55555a, inset 0 0 0 1cqw #161617, 0 10px 24px rgba(12, 12, 13, 0.14); }
+    .pj-comp .phone-mock-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    @keyframes pj-rise { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .pj-track { animation: none; } }
+
+    /* Step 5's structure: the four sections, numbered in mono, between dotted dividers */
+    .pj-list { margin: clamp(14px, 2.4vh, 22px) 0; padding: 0; list-style: none; counter-reset: pj; }
+    .pj-list li {
+      counter-increment: pj;
+      display: grid;
+      grid-template-columns: 2.2em 1fr;
+      padding: clamp(8px, 1.3vh, 12px) 0;
+      border-top: 2px dotted var(--resume-paper-border);
+      font: 500 clamp(14px, 1.05vw, 16px)/1.45 var(--font-sans);
+      color: var(--resume-heading);
+    }
+    .pj-list li:last-child { border-bottom: 2px dotted var(--resume-paper-border); }
+    .pj-list li::before { content: counter(pj, decimal-leading-zero); font: var(--type-label-s); color: var(--resume-label); padding-top: 0.15em; }
+
+    /* Competitive analysis, sub-slide 1: the old Credit account on its three tabs (the case study's
+       .problem-tabs mocks, without its container), the tabs outlined in red across all three */
+    .slide-projects .pj-oldtabs {
+      --pw: min(13vw, 27vh);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(25vw + 48px);
+      right: 0;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      padding: 0 0 40px;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      overflow: visible;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .slide-projects .pj-oldtabs::after { display: none; }
+    .slide-projects .pj-oldtabs .pt-row { --pt-gap: clamp(20px, 2.4vw, 40px); }
+    .slide-projects[data-visual="oldtabs"] .pj-oldtabs { opacity: 1; }
+
+    /* Sub-slide 2: BMO, RBC, CIBC and TD, their tabs highlighted in green, a caption underneath */
+    .pj-big6 {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(25vw + 48px);
+      right: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(24px, 4vh, 40px);
+      padding: 0 32px 40px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .slide-projects[data-visual="big6"] .pj-big6 { opacity: 1; }
+    /* With the page hidden, the Big 6 take the whole width */
+    .slide-projects.is-pageless .ph-page, .slide-projects.is-pageless .ph-page-shadow { opacity: 0; }
+    .slide-projects.is-pageless .pj-big6 { left: 48px; right: 48px; }
+    .slide-projects.is-pageless .pj-b6-phone .phone-mock { width: min(14vw, 30vh); }
+    .pj-b6-row { display: flex; gap: clamp(16px, 2vw, 32px); }
+    .pj-b6-phone { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .pj-b6-phone .phone-mock { width: min(11.5vw, 25vh); }
+    .pj-b6-phone .phone-mock-body { box-shadow: inset 0 0 0 0.6cqw #55555a, inset 0 0 0 1cqw #161617, 0 12px 28px rgba(12, 12, 13, 0.14); }
+    .pj-b6-phone figcaption { font: var(--type-label-s); letter-spacing: 0.02em; color: var(--resume-label); }
+    .pj-shot { position: relative; }
+    .pj-shot img { display: block; width: 100%; height: auto; }
+    .pj-zone {
+      position: absolute;
+      border: 2px solid #2fa84a;
+      border-radius: 6px;
+      box-shadow: 0 0 0 3px rgba(47, 168, 74, 0.18);
+    }
+    .pj-caption {
+      max-width: 34em;
+      margin: 0;
+      font: 500 clamp(17px, 1.4vw, 22px)/1.4 var(--font-sans);
+      letter-spacing: -0.01em;
+      color: var(--resume-heading);
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    /* "Questrade + Eddie" in small, in the top-left corner of every slide after the intro, lined up
+       with the pages' 48px margin, with the Menu pill beside it. It stays put between slides
+       (window.presentationBadge, deck.js). */
     .deck-badge {
       position: fixed;
       top: 28px;
-      left: 32px;
-      z-index: 4;
+      left: 48px;
+      z-index: 6;
       display: flex;
       align-items: center;
       gap: 8px;
       opacity: 0;
       filter: blur(10px);
       transform: translateY(-6px);
-      transition: opacity 0.6s ease, filter 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-      pointer-events: none;
+      transition: opacity 0.6s ease, filter 0.6s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.6s;
+      visibility: hidden;
     }
-    .deck-badge.is-shown { opacity: 1; filter: none; transform: none; }
-    html:not(.is-unlocked) .deck-badge { display: none; }
+    .deck-badge.is-shown { opacity: 1; filter: none; transform: none; visibility: visible; transition-delay: 0s; }
+    .pb-avatars { display: flex; align-items: center; gap: 8px; }
+    /* The Menu pill: the resume's frosted glass pill */
+    .deck-menu-btn {
+      margin-left: 6px;
+      padding: 6px 13px;
+      border: 0.5px solid rgba(12, 12, 13, 0.05);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      -webkit-backdrop-filter: blur(18px) saturate(1.6);
+      backdrop-filter: blur(18px) saturate(1.6);
+      box-shadow: var(--glass-edge), var(--glass-drop);
+      font: var(--type-ui-small);
+      color: var(--resume-text);
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .deck-menu-btn:hover { background: rgba(255, 255, 255, 0.8); }
+    .deck-menu-btn:focus-visible { outline: 2px solid var(--resume-label); outline-offset: 2px; }
+
+    /* The side menu: a frosted sheet from the left; the slides shift right to make room
+       (html.menu-open, deck.js). Shortcuts to each slide, grouped by section. */
+    :root { --menu-w: clamp(260px, 22vw, 320px); }
+    .page-resume main.presentation { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    html.page-resume.menu-open main.presentation { transform: translateX(var(--menu-w)); }
+    .deck-nav { transition: opacity 0.4s ease, left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    html.menu-open .deck-nav { left: calc(50% + var(--menu-w) / 2); }   /* stays centred under the shifted slides */
+    .deck-menu {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      width: var(--menu-w);
+      box-sizing: border-box;
+      padding: 96px 32px 32px 48px;
+      overflow-y: auto;
+      background: color-mix(in srgb, var(--resume-paper) 80%, transparent);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      backdrop-filter: blur(20px) saturate(1.5);
+      border-right: 0.5px solid var(--resume-paper-border);
+      box-shadow: 8px 0 30px rgba(12, 12, 13, 0.05);
+      transform: translateX(-100%);
+      visibility: hidden;
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.6s;
+    }
+    html.menu-open .deck-menu { transform: none; visibility: visible; transition-delay: 0s; }
+    .dm-section { padding: 16px 0; border-top: 2px dotted var(--resume-paper-border); }
+    .dm-section:last-child { border-bottom: 2px dotted var(--resume-paper-border); }
+    .dm-label { margin: 0 0 8px; font: var(--type-label-xs); font-size: 12px; color: var(--resume-label); }
+    .dm-list { margin: 0; padding: 0; list-style: none; }
+    .dm-item {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 6px 0;
+      border: 0;
+      background: none;
+      font: 500 15px/1.35 var(--font-sans);
+      color: var(--resume-body);
+      text-align: left;
+      cursor: pointer;
+      transition: color 0.25s ease;
+    }
+    /* A project in the menu: its name, then a shortcut to each of its steps */
+    .dm-project { margin: 4px 0 2px; font: 500 15px/1.35 var(--font-sans); color: var(--resume-heading); }
+    .dm-sub { margin: 0 0 4px; padding: 0 0 0 12px; list-style: none; border-left: 2px dotted var(--resume-paper-border); }
+    .dm-sub .dm-item { padding: 4px 0; font-size: 14px; }
+    .dm-sub .dm-item[aria-current="true"]::before { left: -28px; }
+    .dm-sub-2 { margin: 0 0 2px; }
+    .dm-sub-2 .dm-item { font-size: 13px; }
+    .dm-sub-2 .dm-item[aria-current="true"]::before { left: -26px; }
+    .dm-item:hover { color: var(--resume-heading); }
+    .dm-item:focus-visible { outline: 2px solid var(--resume-label); outline-offset: 2px; border-radius: 4px; }
+    .dm-item[aria-current="true"] { color: var(--resume-heading); }
+    .dm-item[aria-current="true"]::before {            /* a small caret at the slide you're on */
+      content: "";
+      position: absolute;
+      left: -16px;
+      top: 50%;
+      border: 5px solid transparent;
+      border-left: 7px solid var(--resume-heading);
+      border-right: 0;
+      transform: translateY(-50%);
+    }
+    html:not(.is-unlocked) .deck-badge, html:not(.is-unlocked) .deck-menu { display: none; }
     .pb-av {
       position: relative;
       width: 30px;
@@ -1215,6 +1656,66 @@
       </div>
     </section>
 
+    <!-- Slide 2: "Who the Heck Is Eddie?" on its own -->
+    <section class="slide slide-whois" data-slide="whois" aria-label="Who the Heck Is Eddie?">
+      <h2 class="ph-title wi-title"><span>Who the Heck</span><span>Is Eddie?</span></h2>
+    </section>
+
+    <!-- Slide 3: About Eddie. The switcher picks a fact (click, or the arrow keys); the asset on the
+         right swaps to match. The cubes are placeholders until the real assets are ready. -->
+    <section class="slide slide-about" data-slide="about" aria-label="About Eddie">
+      <div class="ab-side">
+        <h2 class="ph-title ab-title"><span>About Eddie</span></h2>
+        <div class="ab-switch" role="tablist" aria-label="About Eddie">
+          <span class="ab-hl" aria-hidden="true"><svg class="ab-caret" viewBox="0 0 10 12"><path d="M1.5 1.2 8.5 6l-7 4.8z"/></svg></span>
+          <button class="ab-opt is-current" type="button" role="tab" aria-selected="true" data-index="0">I was born in Winnipeg</button>
+          <button class="ab-opt" type="button" role="tab" aria-selected="false" data-index="1">I like music</button>
+          <button class="ab-opt" type="button" role="tab" aria-selected="false" data-index="2">I like movies</button>
+        </div>
+      </div>
+      <div class="ab-stage" aria-live="polite">
+        <div class="ab-asset is-current" data-index="0" role="img" aria-label="Placeholder for a Winnipeg image"><div class="ab-float"><div class="ab-cube"><div class="ab-core"><span class="ab-face ab-front"></span><span class="ab-face ab-back"></span><span class="ab-face ab-left"></span><span class="ab-face ab-right"></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div><span class="ab-face ab-front"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="ab-face ab-back"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="ab-face ab-left"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="ab-face ab-right"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div></div><span class="ab-shadow"></span></div>
+        <div class="ab-asset" data-index="1" role="img" aria-label="Placeholder for a music image"><div class="ab-float"><div class="ab-cube"><div class="ab-core"><span class="ab-face ab-front"></span><span class="ab-face ab-back"></span><span class="ab-face ab-left"></span><span class="ab-face ab-right"></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div><span class="ab-face ab-front"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="ab-face ab-back"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="ab-face ab-left"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="ab-face ab-right"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div></div><span class="ab-shadow"></span></div>
+        <div class="ab-asset" data-index="2" role="img" aria-label="Placeholder for a movies image"><div class="ab-float"><div class="ab-cube"><div class="ab-core"><span class="ab-face ab-front"></span><span class="ab-face ab-back"></span><span class="ab-face ab-left"></span><span class="ab-face ab-right"></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div><span class="ab-face ab-front"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M3 8l2.5-4.5 15 0L21 8M8.5 3.5 7 8M13.5 3.5 12 8M18.5 3.5 17 8"/></svg></span><span class="ab-face ab-back"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M3 8l2.5-4.5 15 0L21 8M8.5 3.5 7 8M13.5 3.5 12 8M18.5 3.5 17 8"/></svg></span><span class="ab-face ab-left"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M3 8l2.5-4.5 15 0L21 8M8.5 3.5 7 8M13.5 3.5 12 8M18.5 3.5 17 8"/></svg></span><span class="ab-face ab-right"><svg class="ab-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M3 8l2.5-4.5 15 0L21 8M8.5 3.5 7 8M13.5 3.5 12 8M18.5 3.5 17 8"/></svg></span><span class="ab-face ab-top"></span><span class="ab-face ab-bottom"></span></div></div><span class="ab-shadow"></span></div>
+      </div>
+    </section>
+
+
+    <!-- "A Little About My Journey": the title with the timeline's avatars floating beside it (no
+         Questrade). Going on, Red River's avatar glides into its spot on the timeline. -->
+    <section class="slide slide-journey" data-slide="journey" aria-label="A Little About My Journey">
+      <h2 class="ph-title jn-title"><span>A Little About</span><span>My Journey</span></h2>
+      <div class="ph-cluster">
+        <div class="ph-item" role="img" aria-label="Red River College">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-rrc squircle"><img src="images/presentation/rrc-logo.png" width="500" height="510" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+        <div class="ph-item" role="img" aria-label="SkipTheDishes">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-skip squircle"><img src="images/skip-logo.svg" width="95" height="40" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+        <div class="ph-item" role="img" aria-label="Neo Financial">
+          <div class="ph-orbit">
+            <span class="ph-avatar">
+              <span class="glass-plate squircle"></span>
+              <span class="ct-face ct-face-neo squircle"><img src="images/neo-logo.svg" width="66" height="20" alt=""></span>
+              <span class="glass-face-edge squircle"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Slide 2: career timeline. Right arrow or Space steps forward, left arrow steps back -->
     <section class="slide slide-timeline" data-slide="timeline" aria-label="Career timeline">
       <p class="ct-status" aria-live="polite">Paused · Space to resume</p>
@@ -1352,6 +1853,20 @@
       </div>
     </section>
 
+    <!-- What I Bring to the Table. The title, then its page comes in from the right (blank for now) -->
+    <section class="slide slide-bring" data-slide="bring" aria-label="What I Bring to the Table">
+      <h2 class="ph-title bg-title"><span>What I Bring</span><span>to the Table</span></h2>
+      <div class="ph-head">
+        <div class="ph-head-inner">
+          <h3 class="ph-head-title"><span>What I Bring</span><span>to the Table</span></h3>
+        </div>
+      </div>
+      <div class="ph-page-shadow" aria-hidden="true"></div>
+      <article class="ph-page" aria-label="What I Bring to the Table">
+        <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+      </article>
+    </section>
+
     <!-- Slide 3: Design Philosophy. Three beliefs as glass avatars that drift slowly round small circles -->
     <section class="slide slide-philosophy" data-slide="philosophy" aria-label="Design philosophy">
       <h2 class="ph-title"><span>Design</span><span>Philosophy</span></h2>
@@ -1436,6 +1951,7 @@
       <div class="ph-page-shadow" aria-hidden="true"></div>
       <article class="ph-page" aria-label="One Structure, Every Account: overview and project details">
         <span class="fold" aria-hidden="true"><span class="fold-flap"></span></span>
+        <div class="ph-page-body is-current" data-step="1">
         <p class="pj-sub">Overview</p>
         <p class="pj-overview">As Neo Financial continued to grow, its account experiences needed a refresh.</p>
         <p class="pj-sub">Project Details</p>
@@ -1446,14 +1962,159 @@
           <div class="pj-detail"><dt>Time Period</dt><dd>June–September 2025 (4 months)</dd></div>
           <div class="pj-detail"><dt>Status</dt><dd>Launched September 2025</dd></div>
         </dl>
+        </div>
+        <div class="ph-page-body" data-step="2">
+          <p class="pj-sub">Context</p>
+          <h4 class="pj-ctx-title pj-grad"><span>Giving Neo's accounts a fresh start</span></h4>
+          <p class="pj-ctx-body">Neo's banking products were growing, but the account experiences hadn't quite kept up. I led a redesign of chequing, credit, and high-interest savings, building on our existing GIC experience to create a more intuitive and consistent foundation.</p>
+        </div>
+        <div class="ph-page-body" data-step="3">
+          <h4 class="pj-ctx-title pj-grad"><span>The feedback that started it all.</span></h4>
+          <p class="pj-ctx-body">Customer support calls and in-app feedback were pointing to recurring frustrations with Neo's account experiences.</p>
+          <ul class="pj-quotes">
+            <li><b>“Where's my statement?”</b> Customers struggled to locate credit statements.</li>
+            <li><b>“How much do I owe?”</b> Outstanding balances and payment information weren't always clear.</li>
+            <li><b>“Where do I manage my card?”</b> Card controls were difficult to discover.</li>
+          </ul>
+        </div>
+        <div class="ph-page-body" data-step="4">
+          <p class="ph-pill pj-pill">COMPETITIVE ANALYSIS</p>
+          <h4 class="pj-ctx-title pj-grad"><span>Why reinvent the wheel?</span></h4>
+          <p class="pj-ctx-body">Before jumping into solutions, I spent time studying how other financial apps approached account navigation. I looked at Wealthsimple, Revolut, traditional banks, and other fintechs to understand the patterns behind their experiences.</p>
+          <p class="pj-ctx-body pj-ctx-more">The goal wasn't to copy them, but to learn what worked and adapt those ideas to Neo.</p>
+        </div>
+        <div class="ph-page-body" data-step="5">
+          <p class="ph-pill pj-pill">COMPETITIVE ANALYSIS</p>
+          <h4 class="pj-ctx-title pj-grad"><span>Let's get rid of these tabs.</span></h4>
+          <ul class="pj-quotes">
+            <li><b>An uncommon location.</b> They're navigation within the account, and best practice puts navigation near the top of the page.</li>
+            <li><b>Card management was hard to find.</b> Its position made it harder to reach, and the card itself was hidden, losing a natural cue.</li>
+            <li><b>A menu inside a menu.</b> The Details tab opened yet another navigation menu, when there are clearer, more common patterns.</li>
+          </ul>
+        </div>
+        <div class="ph-page-body" data-step="7">
+          <p class="ph-pill pj-pill">INFORMATION ARCHITECTURE</p>
+          <h4 class="pj-ctx-title pj-grad"><span>Rethinking how accounts are organized.</span></h4>
+          <p class="pj-ctx-body">Instead of redesigning each account independently, I started exploring a shared structure built around the information and actions customers needed most.</p>
+          <ol class="pj-list">
+            <li>Account identity and management</li>
+            <li>Primary information and quick actions</li>
+            <li>Supporting account details</li>
+            <li>Transactions and activity</li>
+          </ol>
+          <p class="pj-ctx-body">The structure needed to feel familiar across products, while remaining flexible enough for their individual needs.</p>
+        </div>
+        <div class="ph-page-body" data-step="8">
+          <p class="ph-pill pj-pill">DESIGN EXPLORATION</p>
+          <h4 class="pj-ctx-title pj-grad"><span>Exploring better ways to do things.</span></h4>
+          <p class="pj-ctx-body">With the structure taking shape, I explored different layouts, navigation patterns, and ways to make important account information easier to understand.</p>
+          <p class="pj-ctx-body pj-ctx-more">Some of the key explorations included making cards more visible, introducing quick actions, and using visual indicators to communicate account status at a glance.</p>
+        </div>
+        <div class="ph-page-body" data-step="9">
+          <p class="ph-pill pj-pill">THE REDESIGN</p>
+          <h4 class="pj-ctx-title pj-grad"><span>A clearer, more thoughtful account experience.</span></h4>
+          <p class="pj-ctx-body">The redesigned experience brought important actions and information forward, removed unnecessary navigation complexity, and introduced a refreshed visual direction.</p>
+          <p class="pj-ctx-body pj-ctx-more">It wasn't just about making the accounts look better. It was about helping people understand and manage their money more easily.</p>
+        </div>
+        <div class="ph-page-body" data-step="10">
+          <p class="ph-pill pj-pill">SCALABILITY</p>
+          <h4 class="pj-ctx-title pj-grad"><span>One foundation. Different needs.</span></h4>
+          <p class="pj-ctx-body">The same architecture could accommodate different financial products without forcing them into identical experiences.</p>
+          <p class="pj-ctx-body pj-ctx-more">Credit prioritized payments and available credit, savings emphasized goals and interest, and GICs surfaced information like rates and maturity.</p>
+          <p class="pj-ctx-body pj-ctx-more">We also explored how future features, including joint accounts, could fit into this structure.</p>
+        </div>
+        <div class="ph-page-body" data-step="11">
+          <p class="ph-pill pj-pill">OUTCOME &amp; REFLECTION</p>
+          <h4 class="pj-ctx-title pj-grad"><span>What I'd take forward.</span></h4>
+          <p class="pj-ctx-body">This project reinforced something I strongly believe: a good information architecture can simplify today's experience while helping prepare a product for what's next.</p>
+          <p class="pj-ctx-body pj-ctx-more">It also reminded me that usability and visual craft don't have to compete. The best experiences bring both together.</p>
+        </div>
       </article>
+      <div class="pj-phones" aria-label="The new Credit, Chequing and Savings account screens">
+        <figure class="pj-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/accounts-screen-credit.jpg" width="746" height="1586" alt="The new Neo World Mastercard credit account screen" decoding="async"></div></div></div><figcaption class="pj-phone-label">Credit</figcaption></figure>
+        <figure class="pj-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/accounts-screen-chequing.jpg" width="746" height="1586" alt="The new chequing account screen" decoding="async"></div></div></div><figcaption class="pj-phone-label">Chequing</figcaption></figure>
+        <figure class="pj-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/accounts-screen-savings.jpg" width="746" height="1586" alt="The new high-interest savings account screen" decoding="async"></div></div></div><figcaption class="pj-phone-label">Savings</figcaption></figure>
+      </div>
+      <div class="pj-mock" aria-hidden="true">
+        <div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"></div></div></div>
+      </div>
+      <div class="pj-comp" role="img" aria-label="Account screens from the competitive analysis: Wealthsimple, TD, American Express, BMO, RBC, Chase, Apple Card and CIBC">
+        <div class="pj-col"><div class="pj-track"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-wealthsimple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-td.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-amex.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-bmo.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-wealthsimple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-td.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-amex.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-bmo.jpg" alt="" loading="lazy" decoding="async"></div></div></div></div></div>
+        <div class="pj-col"><div class="pj-track"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-rbc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-chase.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-apple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-cibc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-rbc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-chase.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-apple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-cibc.jpg" alt="" loading="lazy" decoding="async"></div></div></div></div></div>
+        <div class="pj-col"><div class="pj-track"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-amex.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-cibc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-wealthsimple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-rbc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-amex.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-cibc.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-wealthsimple.jpg" alt="" loading="lazy" decoding="async"></div></div></div><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><img src="images/approach-rbc.jpg" alt="" loading="lazy" decoding="async"></div></div></div></div></div>
+      </div>
+      <div class="pj-oldtabs problem-tabs" role="img" aria-label="The old Credit account on each of its three tabs: Transactions, Cards and Details, with the row of tabs outlined in red">
+          <div class="pt-row" aria-hidden="true">
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel oc-list"><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-park.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8652; --h: 1.3333; --x: 13.2969; --y: 1.4375"><i>Park</i></span> <span class="tw" style="--w: 2.9160; --h: 1.3333; --x: 15.2656; --y: 1.4375"><i>Coffee</i></span> <span class="tw" style="--w: 3.7202; --h: 1.3333; --x: 18.2813; --y: 1.4375"><i>Roasters</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.9502; --h: 1.3333; --x: 23.5313; --y: 1.4375"><i>10</i></span> <span class="tw" style="--w: 0.4011; --h: 1.3333; --x: 24.5781; --y: 1.4375"><i>•</i></span> <span class="tw" style="--w: 3.6062; --h: 1.3333; --x: 25.0781; --y: 1.4375"><i>Pending</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.1040; --h: 1.3333; --x: 28.7813; --y: 1.4375"><i>-$12.45</i></span></span><small class="oc-chip"><span class="tw-run"><span class="tw" style="--w: 2.5081; --h: 1.4543; --x: 31.9844; --y: 1.4375"><i>$5.00</i></span></span></small></span></div><div class="oc-tx"><span class="oc-avatar is-dark"><img src="images/neo-ui/category-cashback.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 3.6631; --h: 1.3333; --x: 34.5938; --y: 1.4375"><i>Rewards</i></span> <span class="tw" style="--w: 2.2231; --h: 1.3333; --x: 38.3594; --y: 1.4375"><i>Cash</i></span> <span class="tw" style="--w: 1.6421; --h: 1.3333; --x: 40.6875; --y: 1.4375"><i>Out</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5662; --h: 1.3333; --x: 42.4375; --y: 1.4375"><i>8</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.0742; --h: 1.3333; --x: 43.1094; --y: 1.4375"><i>$30.00</i></span></span></span></div><div class="oc-tx"><img class="oc-avatar" src="images/neo-ui/merchant-perks.png" width="40" height="40" alt="" loading="lazy" decoding="async"><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8062; --h: 1.3333; --x: 46.2813; --y: 1.4375"><i>Neo</i></span> <span class="tw" style="--w: 2.3401; --h: 1.3333; --x: 0.0000; --y: 3.0000"><i>Perks</i></span> <span class="tw" style="--w: 3.7681; --h: 1.3333; --x: 2.4375; --y: 3.0000"><i>Payment</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5581; --h: 1.3333; --x: 6.3125; --y: 3.0000"><i>5</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 2.7351; --h: 1.3333; --x: 6.9688; --y: 3.0000"><i>-$9.99</i></span></span></span></div><div class="oc-tx"><span class="oc-avatar is-grey"><img src="images/neo-ui/category-fees.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span><span class="oc-tx-text"><b><span class="tw-run"><span class="tw" style="--w: 2.1770; --h: 1.3333; --x: 9.8125; --y: 3.0000"><i>Rush</i></span> <span class="tw" style="--w: 5.7922; --h: 1.3333; --x: 12.0938; --y: 3.0000"><i>Replacement</i></span> <span class="tw" style="--w: 1.6182; --h: 1.3333; --x: 17.9844; --y: 3.0000"><i>Fee</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.3191; --h: 1.3333; --x: 22.1094; --y: 1.4375"><i>Jul</i></span> <span class="tw" style="--w: 0.5391; --h: 1.3333; --x: 19.7031; --y: 3.0000"><i>3</i></span></span></small></span><span class="oc-tx-amount"><span class="tw-run"><span class="tw" style="--w: 3.2690; --h: 1.3333; --x: 20.3438; --y: 3.0000"><i>-$29.99</i></span></span></span></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel"><div class="ob-row ob-card-row"><span class="ob-card"><img src="images/neo-ui/card-chequing.avif" width="74" height="48" alt="" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-chequing-logo.png" alt="" style="top: 11.11%; left: 7.16%; width: 33.44%; height: 15.97%" loading="lazy" decoding="async"><img class="ob-card-layer" src="images/neo-ui/card-mc-2.svg" alt="" style="top: 64.58%; left: 70.24%; width: 23.79%; height: 24.33%" loading="lazy" decoding="async"></span><span class="ob-card-text"><b><span class="tw-run"><span class="tw" style="--w: 1.8062; --h: 1.2500; --x: 23.7188; --y: 3.0000"><i>Neo</i></span> <span class="tw" style="--w: 4.9001; --h: 1.2500; --x: 25.6250; --y: 3.0000"><i>Mastercard</i></span></span></b><small><span class="tw-run"><span class="tw" style="--w: 1.6040; --h: 1.3333; --x: 30.6250; --y: 3.0000"><i>••••</i></span> <span class="tw" style="--w: 1.9602; --h: 1.3333; --x: 32.3281; --y: 3.0000"><i>1234</i></span></span></small></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></div></div></div></div></div></div>
+              <div class="ob-phone"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="ob-app"><div class="na-header ob-header oc-header"><div class="na-status"><span class="na-time">9:41</span><img class="na-cellular" src="images/neo-ui/cellular.svg" width="17" height="11" alt="" loading="lazy" decoding="async"><img class="na-wifi" src="images/neo-ui/wifi.svg" width="15" height="11" alt="" loading="lazy" decoding="async"><span class="na-battery"><span></span><img src="images/neo-ui/battery-cap.svg" width="1.33" height="4" alt="" loading="lazy" decoding="async"></span></div><div class="ob-nav"><img src="images/neo-ui/old-back.svg" width="24" height="24" alt="" loading="lazy" decoding="async"><span class="ob-title"><b class="oc-title"><span class="tw-run"><span class="tw" style="--w: 1.8501; --h: 1.2998; --x: 0.0000; --y: 0.0000"><i>Neo</i></span> <span class="tw" style="--w: 2.6421; --h: 1.2998; --x: 1.9531; --y: 0.0000"><i>World</i></span> <span class="tw" style="--w: 5.0581; --h: 1.2998; --x: 4.7031; --y: 0.0000"><i>Mastercard</i></span></span><sup><span class="tw-run"><span class="tw" style="--w: 0.3945; --h: 0.0000; --x: 9.8594; --y: 0.0000"><i>®</i></span></span></sup></b></span></div></div><div class="oc-main"><div class="ob-balance oc-balance"><p class="ob-label"><span class="tw-run"><span class="tw" style="--w: 3.3521; --h: 1.2500; --x: 10.3594; --y: 0.0000"><i>Current</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span></span></p><div class="ob-amount"><b><span class="tw-run"><span class="tw" style="--w: 4.0681; --h: 1.2632; --x: 17.3906; --y: 0.0000"><i>$1,234.56</i></span></span></b><span class="ob-eye"><img src="images/neo-ui/old-hide.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span></div><p class="ob-details"><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span><img src="images/neo-ui/old-chevron-down.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></p></div><p class="oc-link"><span class="tw-run"><span class="tw" style="--w: 3.5332; --h: 1.2500; --x: 26.6875; --y: 0.0000"><i>Manage</i></span> <span class="tw" style="--w: 2.5422; --h: 1.2500; --x: 30.3281; --y: 0.0000"><i>credit</i></span> <span class="tw" style="--w: 1.8201; --h: 1.2500; --x: 32.9688; --y: 0.0000"><i>limit</i></span></span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></p><div class="oc-tile oc-pay"><p class="oc-status"><span class="oc-check"><img src="images/neo-ui/check-circle.svg" width="20" height="20" alt="" loading="lazy" decoding="async"></span><span class="tw-run"><span class="tw" style="--w: 1.2581; --h: 1.2500; --x: 34.8906; --y: 0.0000"><i>No</i></span> <span class="tw" style="--w: 3.7871; --h: 1.2500; --x: 36.2500; --y: 0.0000"><i>payment</i></span> <span class="tw" style="--w: 1.6982; --h: 1.2500; --x: 40.1406; --y: 0.0000"><i>due</i></span></span></p><span class="oc-button"><span class="tw-run"><span class="tw" style="--w: 1.5242; --h: 1.3333; --x: 41.9375; --y: 0.0000"><i>Pay</i></span> <span class="tw" style="--w: 1.8120; --h: 1.3333; --x: 43.5625; --y: 0.0000"><i>now</i></span></span></span></div><div class="oc-tile oc-line"><span class="oc-icon-label"><img src="images/neo-ui/autopay.svg" width="20" height="20" alt="" loading="lazy" decoding="async"><span class="tw-run"><span class="tw" style="--w: 3.9822; --h: 1.3333; --x: 45.4688; --y: 0.0000"><i>Auto-Pay</i></span></span></span><span class="oc-off"><span class="tw-run"><span class="tw" style="--w: 1.3220; --h: 1.3333; --x: 0.0000; --y: 1.4375"><i>Off</i></span></span><img class="ob-chev" src="images/neo-ui/chevron-right.svg" width="24" height="24" alt="" loading="lazy" decoding="async"></span></div></div><div class="ob-tabs"><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 5.7952; --h: 1.2500; --x: 1.4219; --y: 1.4375"><i>Transactions</i></span></span></span><span class="ob-tab"><span class="tw-run"><span class="tw" style="--w: 2.6660; --h: 1.2500; --x: 7.3125; --y: 1.4375"><i>Cards</i></span></span></span><span class="ob-tab is-on"><span class="tw-run"><span class="tw" style="--w: 3.1211; --h: 1.2500; --x: 10.0781; --y: 1.4375"><i>Details</i></span></span></span></div><div class="ob-panel"><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 3.6982; --h: 1.2500; --x: 34.3906; --y: 3.0000"><i>Account</i></span> <span class="tw" style="--w: 2.8562; --h: 1.2500; --x: 23.7344; --y: 0.0000"><i>details</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 4.8101; --h: 1.2500; --x: 38.1875; --y: 3.0000"><i>statements</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 1.6230; --h: 1.2500; --x: 43.0938; --y: 3.0000"><i>Get</i></span> <span class="tw" style="--w: 3.4702; --h: 1.2500; --x: 13.8125; --y: 0.0000"><i>balance</i></span> <span class="tw" style="--w: 4.5251; --h: 1.2500; --x: 44.8125; --y: 3.0000"><i>protection</i></span></span></span></div><div class="ob-row"><span><span class="tw-run"><span class="tw" style="--w: 2.0720; --h: 1.2500; --x: 21.5625; --y: 0.0000"><i>View</i></span> <span class="tw" style="--w: 5.1650; --h: 1.2500; --x: 0.0000; --y: 4.4375"><i>agreements</i></span></span></span></div><div class="ob-row is-red"><span><span class="tw-run"><span class="tw" style="--w: 2.4971; --h: 1.2500; --x: 5.2656; --y: 4.4375"><i>Close</i></span> <span class="tw" style="--w: 3.5942; --h: 1.2500; --x: 7.8594; --y: 4.4375"><i>account</i></span></span></span></div></div></div></div></div></div>
+            <span class="pt-outline"></span>
+          </div>
+      </div>
+      <div class="pj-big6" role="img" aria-label="Credit card screens from BMO, RBC, CIBC and TD, with their tabs highlighted">
+        <div class="pj-b6-row">
+          <figure class="pj-b6-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="pj-shot"><img src="images/approach-bmo.jpg" alt="" loading="lazy" decoding="async"><span class="pj-zone" style="top:32.9%;height:5.5%;left:3%;width:94%"></span></div></div></div></div><figcaption>BMO</figcaption></figure>
+          <figure class="pj-b6-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="pj-shot"><img src="images/approach-rbc.jpg" alt="" loading="lazy" decoding="async"><span class="pj-zone" style="top:48.6%;height:6.7%;left:4%;width:92%"></span></div></div></div></div><figcaption>RBC</figcaption></figure>
+          <figure class="pj-b6-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="pj-shot"><img src="images/approach-cibc.jpg" alt="" loading="lazy" decoding="async"><span class="pj-zone" style="top:13.1%;height:5.4%;left:2.5%;width:95%"></span></div></div></div></div><figcaption>CIBC</figcaption></figure>
+          <figure class="pj-b6-phone"><div class="phone-mock"><div class="phone-mock-body"><div class="phone-mock-screen"><div class="pj-shot"><img src="images/approach-td.jpg" alt="" loading="lazy" decoding="async"><span class="pj-zone" style="top:34.2%;height:5.3%;left:4%;width:92%"></span></div></div></div></div><figcaption>TD</figcaption></figure>
+        </div>
+        <p class="pj-caption">Tabular navigation is common within the Big 6, but notice their position at the <em>top</em> of the page.</p>
+      </div>
     </section>
 
 
 
   </main>
 
-  <div class="deck-badge" aria-hidden="true"><span class="pb-av pb-q squircle"><svg viewBox="0 0 512 512"><path fill="#151916" d="M256 398A146 146 0 1 1 382.4 325L342.6 302A100 100 0 1 0 256 352Z"/><path fill="#151916" d="M248 225L421 398H356L248 290Z"/></svg></span><svg class="pb-plus" viewBox="0 0 100 100"><path fill="url(#plus-fill)" d="M41 6H59V41H100L82 59H59V94H41V59H6V41H41Z"/></svg><span class="pb-av pb-e squircle"><img src="images/presentation/eddie.jpg" width="349" height="349" alt=""></span></div>
+  <div class="deck-badge"><span class="pb-avatars" aria-hidden="true"><span class="pb-av pb-q squircle"><svg viewBox="0 0 512 512"><path fill="#151916" d="M256 398A146 146 0 1 1 382.4 325L342.6 302A100 100 0 1 0 256 352Z"/><path fill="#151916" d="M248 225L421 398H356L248 290Z"/></svg></span><svg class="pb-plus" viewBox="0 0 100 100"><path fill="url(#plus-fill)" d="M41 6H59V41H100L82 59H59V94H41V59H6V41H41Z"/></svg><span class="pb-av pb-e squircle"><img src="images/presentation/eddie.jpg" width="349" height="349" alt=""></span></span><button class="deck-menu-btn" type="button" aria-expanded="false" aria-controls="deck-menu">Menu</button></div>
+  <aside class="deck-menu" id="deck-menu" aria-label="Slides">
+    <section class="dm-section">
+      <p class="dm-label">Introduction</p>
+      <ul class="dm-list">
+        <li><button class="dm-item" type="button" data-go="intro">Questrade + Eddie</button></li>
+      </ul>
+    </section>
+    <section class="dm-section">
+      <p class="dm-label">About Me</p>
+      <ul class="dm-list">
+        <li><button class="dm-item" type="button" data-go="whois">Who the Heck Is Eddie?</button></li>
+        <li><button class="dm-item" type="button" data-go="about">About Eddie</button></li>
+        <li><button class="dm-item" type="button" data-go="journey">A Little About My Journey</button></li>
+        <li><button class="dm-item" type="button" data-go="timeline">Career Timeline</button></li>
+        <li><button class="dm-item" type="button" data-go="bring">What I Bring to the Table</button></li>
+      </ul>
+    </section>
+    <section class="dm-section">
+      <p class="dm-label">Design Philosophy</p>
+      <ul class="dm-list">
+        <li><button class="dm-item" type="button" data-go="philosophy">Design Philosophy</button></li>
+      </ul>
+    </section>
+    <section class="dm-section">
+      <p class="dm-label">Projects</p>
+      <ul class="dm-list">
+        <li>
+          <p class="dm-project">One Structure, Every Account</p>
+          <ul class="dm-sub">
+            <li><button class="dm-item" type="button" data-go="projects" data-step="1">Overview</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="2">Context</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="3">The Feedback</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="4">Competitive Analysis</button>
+              <ul class="dm-sub dm-sub-2">
+                <li><button class="dm-item" type="button" data-go="projects" data-step="5">Why the Tabs Had to Go</button></li>
+                <li><button class="dm-item" type="button" data-go="projects" data-step="6">Tabs Across the Big 6</button></li>
+              </ul>
+            </li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="7">Information Architecture</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="8">Design Exploration</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="9">The Redesign</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="10">Scalability</button></li>
+            <li><button class="dm-item" type="button" data-go="projects" data-step="11">Outcome &amp; Reflection</button></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </aside>
 
   <nav class="deck-nav" aria-label="Slides">
     <button class="glass-button deck-next" type="button">Next</button>
@@ -1502,10 +2163,11 @@
     })();
   </script>
   <script src="presentation-intro.js?v=18"></script>
-  <script src="presentation-timeline.js?v=18"></script>
+  <script src="presentation-timeline.js?v=20"></script>
   <script src="presentation-philosophy.js?v=10"></script>
-  <script src="presentation-projects.js?v=3"></script>
-  <script src="presentation-deck.js?v=8"></script>
+  <script src="presentation-projects.js?v=12"></script>
+  <script src="presentation-about.js?v=2"></script>
+  <script src="presentation-deck.js?v=13"></script>
   <script src="glass-button.js?v=1"></script>
   <script src="dot-grid.js?v=1"></script>
 </body>

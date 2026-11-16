@@ -371,12 +371,7 @@
       { transform: "translate(" + dx + "px, " + dy + "px) scale(" + (qRest * from.width / qTo.width) + ")" },
       { transform: "scale(" + qRest + ")" }
     ], 0, 1250, "cubic-bezier(0.55, 0, 0.25, 1)");
-    // (sweeps across the screen, done before the page arrives)
-    anim(rail, [
-      { offset: 0, clipPath: "inset(0 " + W + "px 0 -" + (W * 4) + "px)", easing: "cubic-bezier(0.5, 0, 0.3, 1)" },
-      { offset: 0.99, clipPath: "inset(0 0px 0 -" + (W * 4) + "px)" },
-      { offset: 1, clipPath: "inset(0 -" + (W * 4) + "px 0 -" + (W * 4) + "px)" }
-    ], 200, 1000, "linear");
+    sweepIn(anim, W, 200);
     anim(avatar, [
       { opacity: 0, transform: "translateY(" + A * 0.35 + "px) scale(0.7)" },
       { opacity: 1, transform: "scale(1)" }
@@ -389,8 +384,19 @@
       { offset: 1, opacity: 0 }
     ], 0, 1400, "linear");
 
+    paperIn(anim, W, 1250);
+  }
+
+  // The track draws in from the left edge (sweeps across the screen, done before the page arrives)
+  function sweepIn(anim, W, delay) {
+    anim(rail, [
+      { offset: 0, clipPath: "inset(0 " + W + "px 0 -" + (W * 4) + "px)", easing: "cubic-bezier(0.5, 0, 0.3, 1)" },
+      { offset: 0.99, clipPath: "inset(0 0px 0 -" + (W * 4) + "px)" },
+      { offset: 1, clipPath: "inset(0 -" + (W * 4) + "px 0 -" + (W * 4) + "px)" }
+    ], delay, 1000, "linear");
+  }
+  function paperIn(anim, W, PAPER) {
     // 2. The page slides in as Red River settles; then the name fades in
-    var PAPER = 1250;
     [paper, slide.querySelector(".ct-paper-shadow")].forEach(function (el) {
       anim(el, [
         { opacity: 0, transform: "translateX(64px)" },
@@ -405,6 +411,34 @@
     ], PAPER, 700, "cubic-bezier(0.4, 0, 0.2, 1)", "forwards");
     arriveTimers.push(setTimeout(function () { slide.classList.remove("is-arriving"); }, PAPER + 500));
     arriveTimers.push(setTimeout(endArrival, PAPER + 1000));
+  }
+  function arriveAnim(el, frames, delay, duration, easing, fill) {
+    var a = el.animate(frames, { delay: delay, duration: duration, easing: easing, fill: fill || "both" });
+    arriveAnims.push(a);
+    return a;
+  }
+
+  // ---------- Arriving from "A Little About My Journey" ----------
+  // Red River's avatar glides from its spot on the title slide into its place on the line, the track
+  // draws in from the left behind it, then the page slides in.
+  function arriveFromJourney() {
+    var journey = window.presentationJourney;
+    if (!journey || reduced.matches) return;
+    var from = journey.handoff();
+    if (!from.width) return;
+    arriving = true;
+    slide.classList.add("is-arriving");
+    var W = slide.clientWidth;
+    var avatar = stops[0].querySelector(".ct-avatar");
+    var to = avatar.getBoundingClientRect();
+    var dx = (from.left + from.width / 2) - (to.left + to.width / 2);
+    var dy = (from.top + from.height / 2) - (to.top + to.height / 2);
+    arriveAnim(avatar, [
+      { transform: "translate(" + dx + "px, " + dy + "px) scale(" + (from.width / to.width) + ")" },
+      { transform: "none" }
+    ], 0, 1150, GLIDE);
+    sweepIn(arriveAnim, W, 250);
+    paperIn(arriveAnim, W, 1150);
   }
 
   // ---------- Leaving for the next slide ----------
@@ -492,9 +526,10 @@
       endArrival();
       layout();
       window.presentationBadge && window.presentationBadge(true);
-      if (opts && opts.from === "philosophy") { clearHold(); stopLine(); setPaused(false); showEnd(); return; }
+      if (opts && (opts.from === "bring" || opts.from === "philosophy")) { clearHold(); stopLine(); setPaused(false); showEnd(); return; }
       replay(false);
       if (opts && opts.from === "intro" && !reduced.matches) arriveFromIntro();
+      if (opts && opts.from === "journey" && !reduced.matches) arriveFromJourney();
     },
     leave: leave,
     replay: function () { replay(true); },
