@@ -1331,14 +1331,11 @@ html.is-loading body {
 
 /* ===== Page 2 (resume) =====
    Experience and Expertise sit on a second sheet, 56px below the first, with
-   its own folded corner. Its fold lifts on hover but hides no stamp. */
+   its own folded corner. Only the first sheet's fold lifts on hover; this
+   one stays still (it has no hover area). */
 .resume-frame.resume-page-2 {
   margin-top: 56px;
   view-transition-name: none;
-}
-
-.resume-page-2 .fold-hotspot {
-  cursor: default;
 }
 
 /* ===== Fun (resume) =====
@@ -3537,10 +3534,8 @@ html:has(.lightbox.is-open) body {
   --fold-side: 0px;
 }
 
-/* On a case study the fold just lifts: there's no stamp under it to open */
-.page-case .fold-hotspot {
-  cursor: default;
-}
+/* On a case study the fold stays still (no hover area): only the resume's
+   first fold lifts, over its stamp */
 
 .case-back {
   position: fixed;
