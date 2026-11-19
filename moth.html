@@ -7,7 +7,7 @@
 <!-- Unlisted prototype: not linked from the site and kept out of search results -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Moth: a fictional peer-to-peer handoff app prototype.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#1e2125">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -35,9 +35,9 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </head>
 <body>
 <div id="stage">
-<div id="moth" style="width: 390px; height: 844px;  position: relative; overflow: hidden; background: radial-gradient(130% 55% at 50% -4%, #23272c 0%, #0d0f11 50%, #000000 100%); color: #F5F5F7; font-family: 'Inter', -apple-system, 'SF Pro Display', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent">
+<div id="moth" style="width: 100%; height: 844px;  position: relative; overflow: hidden; background: radial-gradient(130% 55% at 50% -4%, #23272c 0%, #0d0f11 50%, #000000 100%); color: #F5F5F7; font-family: 'Inter', -apple-system, 'SF Pro Display', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent">
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s1.o}}; transform: translateY({{s1.y}}px) scale({{s1.sc}}); pointer-events: {{s1.pe}}; transition: {{s1.tr}}; filter: blur({{s1.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s1.o}}; transform: translateY({{s1.y}}px) scale({{s1.sc}}); pointer-events: {{s1.pe}}; transition: {{s1.tr}}; filter: blur({{s1.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
 <div style="margin-top: 22px; display: flex; flex-direction: column; align-items: center">
 <div style="display: flex; align-items: center; justify-content: center; width: 76px; height: 76px; border-radius: 22px; background: linear-gradient(160deg, #34373c 0%, #17181a 100%); border: 1px solid rgba(255, 255, 255, 0.09); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5)"><svg width="46" height="46" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
@@ -52,7 +52,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </div>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s2.o}}; transform: translateY({{s2.y}}px) scale({{s2.sc}}); pointer-events: {{s2.pe}}; transition: {{s2.tr}}; filter: blur({{s2.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s2.o}}; transform: translateY({{s2.y}}px) scale({{s2.sc}}); pointer-events: {{s2.pe}}; transition: {{s2.tr}}; filter: blur({{s2.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
 <div style="margin-top: 30px; text-align: center">
 <div style="font-size: 16px; color: #8E8E93">{{s2.lbl}}</div>
@@ -68,7 +68,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </div>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s3.o}}; transform: translateY({{s3.y}}px) scale({{s3.sc}}); pointer-events: {{s3.pe}}; transition: {{s3.tr}}; filter: blur({{s3.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s3.o}}; transform: translateY({{s3.y}}px) scale({{s3.sc}}); pointer-events: {{s3.pe}}; transition: {{s3.tr}}; filter: blur({{s3.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
 <div style="margin-top: 22px; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: #E5E5EA">{{s3.title}}</div>
 <div style="margin-top: 6px; font-size: 15px; line-height: 1.4; color: #8E8E93">{{s3.sub}}</div>
@@ -83,13 +83,13 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="position: absolute; left: 20px; right: 20px; bottom: 54px">
 <div style="position: relative; height: 62px; overflow: hidden; border-radius: 31px; background: linear-gradient(180deg, #2c2e32 0%, #1f2023 100%); border: 1px solid rgba(255, 255, 255, 0.10); opacity: {{s3.holdO}}; touch-action: none; user-select: none" onPointerDown="{{s3.down}}" onPointerUp="{{s3.up}}" onPointerLeave="{{s3.up}}" onPointerCancel="{{s3.up}}">
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #F5F5F7; pointer-events: none">{{s3.holdLbl}}</div>
-<div style="position: absolute; left: 0; top: 0; height: 62px; width: {{s3.holdW}}%; overflow: hidden; background: linear-gradient(90deg, {{accent}}, {{accent2}}); pointer-events: none"><div style="width: 348px; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #04120B">{{s3.holdLbl}}</div></div>
+<div style="position: absolute; left: 0; top: 0; height: 62px; width: {{s3.holdW}}%; overflow: hidden; background: linear-gradient(90deg, {{accent}}, {{accent2}}); pointer-events: none"><div style="width: var(--holdw, 348px); height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #04120B">{{s3.holdLbl}}</div></div>
 </div>
 <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; color: #8E8E93; opacity: {{s3.waitO}}; pointer-events: none"><span class="m-anim" style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; animation: mothBlink 1.2s ease-in-out infinite"></span>Waiting for confirmation</div>
 </div>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s4.o}}; transform: translateY({{s4.y}}px) scale({{s4.sc}}); pointer-events: {{s4.pe}}; transition: {{s4.tr}}; filter: blur({{s4.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s4.o}}; transform: translateY({{s4.y}}px) scale({{s4.sc}}); pointer-events: {{s4.pe}}; transition: {{s4.tr}}; filter: blur({{s4.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; transform: translateY({{pu.hdr.y}}px) scale({{pu.hdr.s}}); opacity: {{pu.hdr.o}}; filter: blur({{pu.hdr.b}}px); will-change: transform, filter, opacity"><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
 <div style="margin-top: 44px; text-align: center; transform: translateY({{pu.amt.y}}px) scale({{pu.amt.s}}); opacity: {{pu.amt.o}}; filter: blur({{pu.amt.b}}px); will-change: transform, filter, opacity"><div style="font-size: 15px; color: #8E8E93">{{s4.dirTxt}}</div><div style="margin-top: 8px; line-height: 1"><span style="font-size: 44px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">{{s4.amt}}</span><span style="margin-left: 8px; font-size: 18px; font-weight: 500; color: #8E8E93">MOTE</span></div></div>
 <button onClick="{{s4.tap}}" aria-label="Touch phones together" style="position: relative; display: block; margin: 56px auto 0; width: 300px; height: 300px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: translateY({{pu.btn.y}}px) scale({{pu.btn.s}}); opacity: {{pu.btn.o}}; filter: blur({{pu.btn.b}}px); will-change: transform, filter, opacity">
@@ -101,7 +101,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </button>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s5.o}}; transform: translateY({{s5.y}}px) scale({{s5.sc}}); pointer-events: {{s5.pe}}; transition: {{s5.tr}}; filter: blur({{s5.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s5.o}}; transform: translateY({{s5.y}}px) scale({{s5.sc}}); pointer-events: {{s5.pe}}; transition: {{s5.tr}}; filter: blur({{s5.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; transform: scale({{w.hdr.s}}); opacity: {{w.hdr.o}}; filter: blur({{w.hdr.b}}px); will-change: transform"><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div><div style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px 0 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.08); font-size: 14px; font-weight: 500"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; box-shadow: 0 0 8px {{accent}}"></span>{{peerName}}</div></div>
 <div style="margin-top: 90px; display: flex; justify-content: center; transform: scale({{w.chip.s}}); opacity: {{w.chip.o}}; filter: blur({{w.chip.b}}px); will-change: transform"><div style="display: inline-flex; align-items: center; gap: 10px; height: 36px; padding: 0 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 14px; font-weight: 500"><span class="m-anim" style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; box-shadow: 0 0 10px {{accent}}; animation: mothBlink 1.2s ease-in-out infinite"></span>Transaction in process</div></div>
 <div style="margin-top: 44px; display: flex; justify-content: center; transform: scale({{w.ring.s}}); opacity: {{w.ring.o}}; filter: blur({{w.ring.b}}px); will-change: transform">
@@ -114,7 +114,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="margin-top: 10px; text-align: center; font-size: 16px; color: #8E8E93; transform: scale({{w.who.s}}); opacity: {{w.who.o}}; filter: blur({{w.who.b}}px); will-change: transform">{{s5.who}}</div>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s6.o}}; transform: translateY({{s6.y}}px) scale({{s6.sc}}); pointer-events: {{s6.pe}}; transition: {{s6.tr}}; filter: blur({{s6.bl}}px); ">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s6.o}}; transform: translateY({{s6.y}}px) scale({{s6.sc}}); pointer-events: {{s6.pe}}; transition: {{s6.tr}}; filter: blur({{s6.bl}}px); ">
 <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
 <div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center">
 <div style="display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 70%); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5)"><svg width="46" height="46" viewBox="0 0 48 48" fill="none" role="img" aria-label="Confirmed"><defs><linearGradient id="mg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{accent}}"></stop><stop offset="1" stop-color="{{accent2}}"></stop></linearGradient></defs><path d="M10 25 L20 35 L38 13" stroke="url(#mg6)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
@@ -134,14 +134,14 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </div>
 </div>
 
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; overflow: hidden; pointer-events: none">
-<div style="position: absolute; left: -60px; top: -80px; width: 510px; height: 220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0) 100%); filter: blur(14px); opacity: {{nd.bloomO}}; transform: scale({{nd.bloomS}})"></div>
-<div style="position: absolute; left: -405px; top: {{nd.top}}px; width: 1200px; height: 1200px; border-radius: 50%; background: {{nd.dome}}; filter: blur(5px); mix-blend-mode: screen; opacity: {{nd.domeO}}"></div>
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.35) 70%); opacity: {{nd.veilO}}"></div>
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none">
+<div style="position: absolute; left: calc(50% - 255px); top: -80px; width: 510px; height: 220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0) 100%); filter: blur(14px); opacity: {{nd.bloomO}}; transform: scale({{nd.bloomS}})"></div>
+<div style="position: absolute; left: calc(50% - 600px); top: {{nd.top}}px; width: 1200px; height: 1200px; border-radius: 50%; background: {{nd.dome}}; filter: blur(5px); mix-blend-mode: screen; opacity: {{nd.domeO}}"></div>
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.35) 70%); opacity: {{nd.veilO}}"></div>
 </div>
 
-<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-shadow: inset 0 0 0 1.5px {{gl.a95}}, inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
-<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, #E8E8EC 100%); pointer-events: none; opacity: {{flashO}}"></div>
+<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-shadow: inset 0 0 0 1.5px {{gl.a95}}, inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, #E8E8EC 100%); pointer-events: none; opacity: {{flashO}}"></div>
 <div style="position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; opacity: {{ctlO}}; pointer-events: {{ctlPe}}; transition: opacity 0.3s ease">
 <div style="display: flex; align-items: center; gap: 12px; height: 32px; box-sizing: border-box; padding: 0 6px 0 6px; border-radius: 16px; background: rgba(40, 40, 44, 0.78); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 12px; font-weight: 500; color: #8E8E93">
 <button onClick="{{roleTap}}" style="height: 24px; padding: 0 12px; border: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.12); color: #F5F5F7; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{roleLbl}} ⇄</button>
@@ -384,14 +384,17 @@ renderVals() {
   var stage = document.getElementById('stage'), app = document.getElementById('moth');
   function fit() {
     var vw = window.innerWidth, vh = window.innerHeight;
-    var phone = vw < 600;
-    /* keep at least 820 design px of height so nothing overlaps on short phones */
-    var s = phone ? Math.min(vw / 390, vh / 820) : Math.min(1.1, vh / 844);
-    var h = vh / s;
-    app.style.height = h + 'px';
+    /* full width on phones, a centred column on wider screens */
+    var colW = vw < 600 ? vw : Math.min(430, vw);
+    /* the layout is fluid; it only shrinks a little when the window is shorter than 820px, so nothing overlaps */
+    var s = Math.min(1, vh / 820);
+    var W = colW / s, H = vh / s;
+    app.style.width = W + 'px';
+    app.style.height = H + 'px';
+    app.style.setProperty('--holdw', (W - 40) + 'px');
     stage.style.transform = 'scale(' + s + ')';
-    stage.style.left = Math.max(0, (vw - 390 * s) / 2) + 'px';
-    stage.style.top = phone ? '0px' : Math.max(0, (vh - h * s) / 2) + 'px';
+    stage.style.left = Math.round((vw - colW) / 2) + 'px';
+    stage.style.top = '0px';
   }
   window.addEventListener('resize', fit);
   window.addEventListener('orientationchange', fit);
