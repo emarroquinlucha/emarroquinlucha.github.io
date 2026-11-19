@@ -140,7 +140,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.35) 70%); opacity: {{nd.veilO}}"></div>
 </div>
 
-<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-shadow: inset 0 0 0 1.5px {{gl.a95}}, inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
+<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-shadow: inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, #E8E8EC 100%); pointer-events: none; opacity: {{flashO}}"></div>
 <div style="position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; opacity: {{ctlO}}; pointer-events: {{ctlPe}}; transition: opacity 0.3s ease">
 <div style="display: flex; align-items: center; gap: 12px; height: 32px; box-sizing: border-box; padding: 0 6px 0 6px; border-radius: 16px; background: rgba(40, 40, 44, 0.78); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 12px; font-weight: 500; color: #8E8E93">
@@ -178,7 +178,7 @@ componentDidMount() {
     if (role === 'R' && step === 2 && u > 3.4) { patch.step = 3; patch.t0 = now; }
     if (role === 'R' && step === 3 && u > 3.8) { patch.step = 4; patch.t0 = now; }
     this.setState(patch);
-  }, 50);
+  }, 16);
 }
 componentWillUnmount() { clearInterval(this._iv); }
 renderVals() {
@@ -193,7 +193,8 @@ renderVals() {
   const step = frozen ? clamp(Number(P.step) || 1, 1, 6) : (st.step || 1);
   const role = frozen ? (P.role === 'R' ? 'R' : 'P') : (st.role || 'P');
   const defU = { 1: 0, 2: 2, 3: 1.5, 4: 0, 5: 4.8, 6: 1.6 }[step];
-  const u = frozen ? ((P.u !== undefined && P.u !== '') ? Number(P.u) : defU) : (((st.now || 0) - (st.t0 || st.now || 0)) / 1000);
+  const NOW = frozen ? 0 : performance.now();
+  const u = frozen ? ((P.u !== undefined && P.u !== '') ? Number(P.u) : defU) : ((NOW - (st.t0 || NOW)) / 1000);
   const amtStr = frozen ? '250' : (st.amtStr === undefined ? '250' : st.amtStr);
   const amtNum = parseFloat(amtStr) || 0;
   const RATE = 0.42;
@@ -259,7 +260,7 @@ renderVals() {
   });
 
   /* 4 touch */
-  const ap = (!frozen && step === 4 && st.armT) ? clamp(((st.now || 0) - st.armT) / 5000, 0, 1) : 0;
+  const ap = (!frozen && step === 4 && st.armT) ? clamp((NOW - st.armT) / 5000, 0, 1) : 0;
   const s4 = Object.assign(scr(4), {
     dirTxt: isP ? 'Total sending' : 'Total receiving', amt: amtTxt,
     ringO: ap > 0 ? 1 : 0, ringOff: (930 * (1 - ap)).toFixed(1),
@@ -376,7 +377,7 @@ renderVals() {
   bindTree(document.getElementById('moth'), function () { return vals; });
   comp.componentDidMount();
   render();
-  setInterval(render, 33);
+  (function loop() { render(); requestAnimationFrame(loop); })();
   document.addEventListener('pointerdown', function () { setTimeout(render, 0); }, true);
   document.addEventListener('pointerup', function () { setTimeout(render, 0); }, true);
 
