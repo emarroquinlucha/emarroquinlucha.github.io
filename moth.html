@@ -389,8 +389,10 @@ renderVals() {
     /* use the full screen height, including the strip behind the home indicator */
     var probe = document.getElementById('probe');
     var sab = parseFloat(getComputedStyle(probe).paddingBottom) || 0;
-    vh = Math.max(vh, probe.offsetHeight);
-    if (window.navigator.standalone) { vh = Math.max(vh, vw < window.innerHeight ? screen.height : screen.width); }
+    /* from the Home Screen, iOS can report a height that stops above the home-indicator strip:
+       add that strip back, but never grow past the physical screen */
+    var screenH = vw < window.innerHeight ? screen.height : screen.width;
+    vh = Math.min(Math.max(vh, probe.offsetHeight, window.innerHeight + sab), Math.max(screenH, window.innerHeight));
     /* full width on phones, a centred column on wider screens */
     var colW = vw < 600 ? vw : Math.min(430, vw);
     /* the layout is fluid; it only shrinks a little when the window is shorter than 820px, so nothing overlaps */
