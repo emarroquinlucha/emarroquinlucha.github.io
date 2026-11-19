@@ -34,6 +34,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 </style>
 </head>
 <body>
+<div id="probe" aria-hidden="true" style="position: fixed; left: 0; top: 0; bottom: 0; width: 0; padding-bottom: env(safe-area-inset-bottom); visibility: hidden; pointer-events: none"></div>
 <div id="stage">
 <div id="moth" style="width: 100%; height: 844px;  position: relative; overflow: hidden; background: radial-gradient(130% 55% at 50% -4%, #23272c 0%, #0d0f11 50%, #000000 100%); color: #F5F5F7; font-family: 'Inter', -apple-system, 'SF Pro Display', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent">
 
@@ -62,7 +63,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="margin-top: 26px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); opacity: {{s2.ctl}}; pointer-events: {{s2.keyPe}}">
 <div data-for="s2.keys" data-as="ak" style="display: contents"><template><button onClick="{{ak.tap}}" style="height: 70px; padding: 0; border: 0; background: transparent; color: #F5F5F7; font-family: inherit; font-size: 32px; font-weight: 400; cursor: pointer">{{ak.l}}</button></template></div>
 </div>
-<div style="position: absolute; left: 20px; right: 20px; bottom: 54px">
+<div style="position: absolute; left: 20px; right: 20px; bottom: calc(54px + var(--sab, 0px))">
 <div style="margin-bottom: 14px; text-align: center; font-size: 13px; color: #636366">Private handoff · no fee · nothing is stored online</div>
 <button onClick="{{s2.tap}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; background: {{s2.btnBg}}; color: {{s2.btnFg}}">{{s2.btn}}</button>
 </div>
@@ -80,7 +81,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 18px; font-size: 16px; font-weight: 600"><span>Total</span><span style="font-variant-numeric: tabular-nums">{{s3.amt}} MOTE</span></div>
 </div>
 <div style="margin-top: 14px; padding: 0 6px; font-size: 13px; line-height: 1.5; color: #636366">This address is used once and is never shown again.</div>
-<div style="position: absolute; left: 20px; right: 20px; bottom: 54px">
+<div style="position: absolute; left: 20px; right: 20px; bottom: calc(54px + var(--sab, 0px))">
 <div style="position: relative; height: 62px; overflow: hidden; border-radius: 31px; background: linear-gradient(180deg, #2c2e32 0%, #1f2023 100%); border: 1px solid rgba(255, 255, 255, 0.10); opacity: {{s3.holdO}}; touch-action: none; user-select: none" onPointerDown="{{s3.down}}" onPointerUp="{{s3.up}}" onPointerLeave="{{s3.up}}" onPointerCancel="{{s3.up}}">
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #F5F5F7; pointer-events: none">{{s3.holdLbl}}</div>
 <div style="position: absolute; left: 0; top: 0; height: 62px; width: {{s3.holdW}}%; overflow: hidden; background: linear-gradient(90deg, {{accent}}, {{accent2}}); pointer-events: none"><div style="width: var(--holdw, 348px); height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #04120B">{{s3.holdLbl}}</div></div>
@@ -128,7 +129,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 <div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 15px"><span style="color: #8E8E93">Time</span><span style="font-variant-numeric: tabular-nums">02:14</span></div>
 <div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; font-size: 15px"><span style="color: #8E8E93">Reference</span><span>MNRCH-N07</span></div>
 </div>
-<div style="position: absolute; left: 20px; right: 20px; bottom: 54px; display: flex; flex-direction: column; gap: 10px">
+<div style="position: absolute; left: 20px; right: 20px; bottom: calc(54px + var(--sab, 0px)); display: flex; flex-direction: column; gap: 10px">
 <button onClick="{{s6.done}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; background: linear-gradient(180deg, #FFFFFF 0%, #DCDCDF 100%); color: #0B0B0C">Done</button>
 <button onClick="{{s6.done}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; height: 54px; background: rgba(255, 255, 255, 0.09); color: #F5F5F7">Erase this record</button>
 </div>
@@ -142,7 +143,7 @@ button { touch-action: manipulation; -webkit-appearance: none; appearance: none;
 
 <div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-shadow: inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, #E8E8EC 100%); pointer-events: none; opacity: {{flashO}}"></div>
-<div style="position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; opacity: {{ctlO}}; pointer-events: {{ctlPe}}; transition: opacity 0.3s ease">
+<div style="position: absolute; left: 0; right: 0; bottom: calc(10px + var(--sab, 0px)); display: flex; justify-content: center; opacity: {{ctlO}}; pointer-events: {{ctlPe}}; transition: opacity 0.3s ease">
 <div style="display: flex; align-items: center; gap: 12px; height: 32px; box-sizing: border-box; padding: 0 6px 0 6px; border-radius: 16px; background: rgba(40, 40, 44, 0.78); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 12px; font-weight: 500; color: #8E8E93">
 <button onClick="{{roleTap}}" style="height: 24px; padding: 0 12px; border: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.12); color: #F5F5F7; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{roleLbl}} ⇄</button>
 <span style="display: flex; gap: 6px; padding-right: 8px"><div data-for="dots" data-as="dt" style="display: contents"><template><button onClick="{{dt.tap}}" aria-label="Step {{dt.n}}" style="width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: {{dt.bg}}; cursor: pointer"></button></template></div></span>
@@ -385,6 +386,11 @@ renderVals() {
   var stage = document.getElementById('stage'), app = document.getElementById('moth');
   function fit() {
     var vw = window.innerWidth, vh = window.innerHeight;
+    /* use the full screen height, including the strip behind the home indicator */
+    var probe = document.getElementById('probe');
+    var sab = parseFloat(getComputedStyle(probe).paddingBottom) || 0;
+    vh = Math.max(vh, probe.offsetHeight);
+    if (window.navigator.standalone) { vh = Math.max(vh, vw < window.innerHeight ? screen.height : screen.width); }
     /* full width on phones, a centred column on wider screens */
     var colW = vw < 600 ? vw : Math.min(430, vw);
     /* the layout is fluid; it only shrinks a little when the window is shorter than 820px, so nothing overlaps */
@@ -393,6 +399,7 @@ renderVals() {
     app.style.width = W + 'px';
     app.style.height = H + 'px';
     app.style.setProperty('--holdw', (W - 40) + 'px');
+    app.style.setProperty('--sab', (sab / s) + 'px');
     stage.style.transform = 'scale(' + s + ')';
     stage.style.left = Math.round((vw - colW) / 2) + 'px';
     stage.style.top = '0px';
