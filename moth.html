@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moth</title>
+<!-- Unlisted prototype: not linked from the site and kept out of search results -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Moth: a fictional peer-to-peer handoff app prototype.">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moth">
+<link rel="icon" href="images/moth/moth-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/moth/moth-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html, body { margin: 0; height: 100%; background: radial-gradient(130% 55% at 50% -4%, #23272c 0%, #0d0f11 50%, #000 100%) #000; overflow: hidden; overscroll-behavior: none; }
+body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+button { touch-action: manipulation; -webkit-appearance: none; appearance: none; }
+#stage { position: fixed; left: 0; top: 0; transform-origin: 0 0; }
+@media (min-width: 600px) { #stage { box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 40px 120px rgba(0,0,0,0.8); } body { background: radial-gradient(120% 80% at 50% 0%, #15171a 0%, #050506 60%, #000 100%); } }
+
+
+@keyframes mothPulse{0%{transform:scale(0.7);opacity:0.7}100%{transform:scale(1.15);opacity:0}}
+@keyframes mothGlow{0%,100%{opacity:0.55}50%{opacity:1}}
+@keyframes mothSpin{to{transform:rotate(360deg)}}
+@keyframes mothBlink{50%{opacity:0.3}}
+@media (prefers-reduced-motion: reduce){.m-anim{animation:none!important}}
+
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="moth" style="width: 390px; height: 844px;  position: relative; overflow: hidden; background: radial-gradient(130% 55% at 50% -4%, #23272c 0%, #0d0f11 50%, #000000 100%); color: #F5F5F7; font-family: 'Inter', -apple-system, 'SF Pro Display', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent">
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s1.o}}; transform: translateY({{s1.y}}px) scale({{s1.sc}}); pointer-events: {{s1.pe}}; transition: {{s1.tr}}; filter: blur({{s1.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
+<div style="margin-top: 22px; display: flex; flex-direction: column; align-items: center">
+<div style="display: flex; align-items: center; justify-content: center; width: 76px; height: 76px; border-radius: 22px; background: linear-gradient(160deg, #34373c 0%, #17181a 100%); border: 1px solid rgba(255, 255, 255, 0.09); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5)"><svg width="46" height="46" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
+<div style="margin-top: 16px; font-size: 20px; font-weight: 500; letter-spacing: -0.01em; color: #E5E5EA">Welcome back</div>
+<div style="margin-top: 6px; font-size: 16px; color: #8E8E93">Enter your passcode</div>
+</div>
+<div style="margin-top: 30px; display: flex; justify-content: center; gap: 18px">
+<div data-for="pinDots" data-as="pd" style="display: contents"><template><div style="width: 13px; height: 13px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid {{pd.bd}}; background: {{pd.bg}}; transition: background 0.15s ease"></div></template></div>
+</div>
+<div style="margin-top: 36px; display: grid; grid-template-columns: repeat(3, 76px); justify-content: center; gap: 14px 22px">
+<div data-for="keys" data-as="k" style="display: contents"><template><button onClick="{{k.tap}}" style="width: 76px; height: 76px; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.07); background: linear-gradient(180deg, #303236 0%, #222326 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); color: #F5F5F7; font-family: inherit; font-size: 30px; font-weight: 300; opacity: {{k.vis}}; cursor: pointer">{{k.l}}</button></template></div>
+</div>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s2.o}}; transform: translateY({{s2.y}}px) scale({{s2.sc}}); pointer-events: {{s2.pe}}; transition: {{s2.tr}}; filter: blur({{s2.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
+<div style="margin-top: 30px; text-align: center">
+<div style="font-size: 16px; color: #8E8E93">{{s2.lbl}}</div>
+<div style="margin-top: 10px; display: flex; align-items: baseline; justify-content: center; gap: 10px; line-height: 1"><span style="font-size: 76px; font-weight: 600; letter-spacing: -0.035em; font-variant-numeric: tabular-nums">{{s2.amt}}</span><span style="font-size: 22px; font-weight: 500; color: #8E8E93">MOTE</span></div>
+<div style="margin-top: 12px; font-size: 17px; color: #8E8E93">≈ ${{s2.fiat}} CDN</div>
+</div>
+<div style="margin-top: 26px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); opacity: {{s2.ctl}}; pointer-events: {{s2.keyPe}}">
+<div data-for="s2.keys" data-as="ak" style="display: contents"><template><button onClick="{{ak.tap}}" style="height: 70px; padding: 0; border: 0; background: transparent; color: #F5F5F7; font-family: inherit; font-size: 32px; font-weight: 400; cursor: pointer">{{ak.l}}</button></template></div>
+</div>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 54px">
+<div style="margin-bottom: 14px; text-align: center; font-size: 13px; color: #636366">Private handoff · no fee · nothing is stored online</div>
+<button onClick="{{s2.tap}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; background: {{s2.btnBg}}; color: {{s2.btnFg}}">{{s2.btn}}</button>
+</div>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s3.o}}; transform: translateY({{s3.y}}px) scale({{s3.sc}}); pointer-events: {{s3.pe}}; transition: {{s3.tr}}; filter: blur({{s3.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
+<div style="margin-top: 22px; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; color: #E5E5EA">{{s3.title}}</div>
+<div style="margin-top: 6px; font-size: 15px; line-height: 1.4; color: #8E8E93">{{s3.sub}}</div>
+<div style="margin-top: 22px; text-align: center; line-height: 1"><span style="font-size: 54px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">{{s3.amt}}</span><span style="margin-left: 8px; font-size: 20px; font-weight: 500; color: #8E8E93">MOTE</span></div>
+<div style="margin-top: 26px; border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, #27292d 0%, #1d1e21 100%); border: 1px solid rgba(255, 255, 255, 0.07); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05)">
+<div style="display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 16px"><span style="color: #8E8E93">{{s3.dirLbl}}</span><span>{{s3.who}}</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 16px"><span style="color: #8E8E93">Address</span><span style="font-variant-numeric: tabular-nums">mth1·····3f9k</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 16px"><span style="color: #8E8E93">Network fee</span><span>None</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 56px; padding: 0 18px; font-size: 16px; font-weight: 600"><span>Total</span><span style="font-variant-numeric: tabular-nums">{{s3.amt}} MOTE</span></div>
+</div>
+<div style="margin-top: 14px; padding: 0 6px; font-size: 13px; line-height: 1.5; color: #636366">This address is used once and is never shown again.</div>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 54px">
+<div style="position: relative; height: 62px; overflow: hidden; border-radius: 31px; background: linear-gradient(180deg, #2c2e32 0%, #1f2023 100%); border: 1px solid rgba(255, 255, 255, 0.10); opacity: {{s3.holdO}}; touch-action: none; user-select: none" onPointerDown="{{s3.down}}" onPointerUp="{{s3.up}}" onPointerLeave="{{s3.up}}" onPointerCancel="{{s3.up}}">
+<div style="position: absolute; left: 0; top: 0; width: 100%; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #F5F5F7; pointer-events: none">{{s3.holdLbl}}</div>
+<div style="position: absolute; left: 0; top: 0; height: 62px; width: {{s3.holdW}}%; overflow: hidden; background: linear-gradient(90deg, {{accent}}, {{accent2}}); pointer-events: none"><div style="width: 348px; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 600; color: #04120B">{{s3.holdLbl}}</div></div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 62px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; color: #8E8E93; opacity: {{s3.waitO}}; pointer-events: none"><span class="m-anim" style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; animation: mothBlink 1.2s ease-in-out infinite"></span>Waiting for confirmation</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s4.o}}; transform: translateY({{s4.y}}px) scale({{s4.sc}}); pointer-events: {{s4.pe}}; transition: {{s4.tr}}; filter: blur({{s4.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; transform: translateY({{pu.hdr.y}}px) scale({{pu.hdr.s}}); opacity: {{pu.hdr.o}}; filter: blur({{pu.hdr.b}}px); will-change: transform, filter, opacity"><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
+<div style="margin-top: 44px; text-align: center; transform: translateY({{pu.amt.y}}px) scale({{pu.amt.s}}); opacity: {{pu.amt.o}}; filter: blur({{pu.amt.b}}px); will-change: transform, filter, opacity"><div style="font-size: 15px; color: #8E8E93">{{s4.dirTxt}}</div><div style="margin-top: 8px; line-height: 1"><span style="font-size: 44px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">{{s4.amt}}</span><span style="margin-left: 8px; font-size: 18px; font-weight: 500; color: #8E8E93">MOTE</span></div></div>
+<button onClick="{{s4.tap}}" aria-label="Touch phones together" style="position: relative; display: block; margin: 56px auto 0; width: 300px; height: 300px; padding: 0; border: 0; background: transparent; cursor: pointer; transform: translateY({{pu.btn.y}}px) scale({{pu.btn.s}}); opacity: {{pu.btn.o}}; filter: blur({{pu.btn.b}}px); will-change: transform, filter, opacity">
+<span class="m-anim" style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; box-sizing: border-box; border: 1.5px solid {{accent}}; border-radius: 50%; animation: mothPulse 2.8s ease-out infinite"></span>
+<span class="m-anim" style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; box-sizing: border-box; border: 1.5px solid {{accent2}}; border-radius: 50%; animation: mothPulse 2.8s ease-out 0.93s infinite"></span>
+<span class="m-anim" style="position: absolute; left: 0; top: 0; width: 300px; height: 300px; box-sizing: border-box; border: 1.5px solid {{accent}}; border-radius: 50%; animation: mothPulse 2.8s ease-out 1.86s infinite"></span>
+<span style="position: absolute; left: 50px; top: 50px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 60%, rgba(255, 255, 255, 0.02) 100%); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18)"></span>
+<svg style="position: absolute; left: 90px; top: 80px" width="120" height="140" viewBox="0 0 120 140" fill="none" aria-hidden="true"><rect x="10" y="20" width="56" height="104" rx="14" stroke="#F5F5F7" stroke-width="2.2"></rect><rect x="54" y="16" width="56" height="104" rx="14" stroke="{{accent}}" stroke-width="2.2"></rect></svg>
+</button>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s5.o}}; transform: translateY({{s5.y}}px) scale({{s5.sc}}); pointer-events: {{s5.pe}}; transition: {{s5.tr}}; filter: blur({{s5.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; transform: scale({{w.hdr.s}}); opacity: {{w.hdr.o}}; filter: blur({{w.hdr.b}}px); will-change: transform"><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div><div style="display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 14px 0 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.08); font-size: 14px; font-weight: 500"><span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; box-shadow: 0 0 8px {{accent}}"></span>{{peerName}}</div></div>
+<div style="margin-top: 90px; display: flex; justify-content: center; transform: scale({{w.chip.s}}); opacity: {{w.chip.o}}; filter: blur({{w.chip.b}}px); will-change: transform"><div style="display: inline-flex; align-items: center; gap: 10px; height: 36px; padding: 0 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 14px; font-weight: 500"><span class="m-anim" style="display: block; width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; box-shadow: 0 0 10px {{accent}}; animation: mothBlink 1.2s ease-in-out infinite"></span>Transaction in process</div></div>
+<div style="margin-top: 44px; display: flex; justify-content: center; transform: scale({{w.ring.s}}); opacity: {{w.ring.o}}; filter: blur({{w.ring.b}}px); will-change: transform">
+<div style="position: relative; width: 200px; height: 200px">
+<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 200px; height: 200px; animation: mothSpin 2.6s linear infinite"><svg width="200" height="200" viewBox="0 0 170 170" fill="none" aria-hidden="true"><defs><linearGradient id="mg5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{accent}}"></stop><stop offset="1" stop-color="{{accent2}}"></stop></linearGradient></defs><circle cx="85" cy="85" r="76" stroke="rgba(255,255,255,0.08)" stroke-width="8"></circle><path d="M85 9 A76 76 0 0 1 161 85" stroke="url(#mg5)" stroke-width="8" stroke-linecap="round"></path><path d="M85 161 A76 76 0 0 1 9 85" stroke="url(#mg5)" stroke-width="8" stroke-linecap="round" opacity="0.55"></path></svg></div>
+<div style="position: absolute; left: 68px; top: 68px; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #303236 0%, #222326 100%); border: 1px solid rgba(255, 255, 255, 0.08)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F5F5F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s5.arrow}}"></path></svg></div>
+</div></div>
+<div style="margin-top: 40px; text-align: center; font-size: 15px; color: #8E8E93; transform: scale({{w.dir.s}}); opacity: {{w.dir.o}}; filter: blur({{w.dir.b}}px); will-change: transform">{{s5.dir}}</div>
+<div style="margin-top: 8px; text-align: center; line-height: 1; transform: scale({{w.amt.s}}); opacity: {{w.amt.o}}; filter: blur({{w.amt.b}}px); will-change: transform"><span style="font-size: 46px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">{{s5.amt}}</span><span style="margin-left: 8px; font-size: 18px; font-weight: 500; color: #8E8E93">MOTE</span></div>
+<div style="margin-top: 10px; text-align: center; font-size: 16px; color: #8E8E93; transform: scale({{w.who.s}}); opacity: {{w.who.o}}; filter: blur({{w.who.b}}px); will-change: transform">{{s5.who}}</div>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-sizing: border-box; padding: 56px 20px 0; opacity: {{s6.o}}; transform: translateY({{s6.y}}px) scale({{s6.sc}}); pointer-events: {{s6.pe}}; transition: {{s6.tr}}; filter: blur({{s6.bl}}px); ">
+<div style="display: flex; align-items: center; justify-content: space-between; height: 44px; "><div style="display: flex; align-items: center; gap: 10px"><button onClick="{{toggleCtl}}" aria-label="Show or hide demo controls" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border-radius: 11px; background: linear-gradient(160deg, #303338 0%, #1a1b1e 100%); border: 1px solid rgba(255, 255, 255, 0.08); cursor: pointer"><svg width="22" height="22" viewBox="0 0 64 64" fill="none" role="img" aria-label="Moth mark"><path fill="{{accent}}" d="M30 20 L6 12 L10 44 L30 38 Z M34 20 L58 12 L54 44 L34 38 Z M32 14 L36 52 L32 60 L28 52 Z"></path><path d="M30 14 L24 4 M34 14 L40 4" stroke="{{accent}}" stroke-width="2.4" stroke-linecap="round"></path></svg></button><span style="font-size: 18px; font-weight: 600; letter-spacing: -0.01em">Moth</span></div></div>
+<div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center">
+<div style="display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: 50%; background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 70%); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5)"><svg width="46" height="46" viewBox="0 0 48 48" fill="none" role="img" aria-label="Confirmed"><defs><linearGradient id="mg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{accent}}"></stop><stop offset="1" stop-color="{{accent2}}"></stop></linearGradient></defs><path d="M10 25 L20 35 L38 13" stroke="url(#mg6)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<div style="margin-top: 20px; font-size: 16px; color: #8E8E93">{{s6.status}}</div>
+<div style="margin-top: 8px; line-height: 1"><span style="font-size: 54px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums">{{s6.amt}}</span><span style="margin-left: 8px; font-size: 20px; font-weight: 500; color: #8E8E93">MOTE</span></div>
+<div style="margin-top: 10px; font-size: 16px; color: #8E8E93">{{s6.who}}</div>
+</div>
+<div style="margin-top: 30px; border-radius: 22px; overflow: hidden; background: linear-gradient(180deg, #27292d 0%, #1d1e21 100%); border: 1px solid rgba(255, 255, 255, 0.07); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05)">
+<div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 15px"><span style="color: #8E8E93">Transaction ID</span><span style="font-variant-numeric: tabular-nums">9c1e4f07…b2d85a</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 15px"><span style="color: #8E8E93">Confirmations</span><span>3 of 3</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); font-size: 15px"><span style="color: #8E8E93">Time</span><span style="font-variant-numeric: tabular-nums">02:14</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; height: 54px; padding: 0 18px; font-size: 15px"><span style="color: #8E8E93">Reference</span><span>MNRCH-N07</span></div>
+</div>
+<div style="position: absolute; left: 20px; right: 20px; bottom: 54px; display: flex; flex-direction: column; gap: 10px">
+<button onClick="{{s6.done}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; background: linear-gradient(180deg, #FFFFFF 0%, #DCDCDF 100%); color: #0B0B0C">Done</button>
+<button onClick="{{s6.done}}" style="width: 100%; height: 58px; border: 0; border-radius: 29px; font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; height: 54px; background: rgba(255, 255, 255, 0.09); color: #F5F5F7">Erase this record</button>
+</div>
+</div>
+
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; overflow: hidden; pointer-events: none">
+<div style="position: absolute; left: -60px; top: -80px; width: 510px; height: 220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.22) 55%, rgba(255, 255, 255, 0) 100%); filter: blur(14px); opacity: {{nd.bloomO}}; transform: scale({{nd.bloomS}})"></div>
+<div style="position: absolute; left: -405px; top: {{nd.top}}px; width: 1200px; height: 1200px; border-radius: 50%; background: {{nd.dome}}; filter: blur(5px); mix-blend-mode: screen; opacity: {{nd.domeO}}"></div>
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, rgba(255, 255, 255, 0.35) 70%); opacity: {{nd.veilO}}"></div>
+</div>
+
+<div class="m-anim" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; pointer-events: none; opacity: {{glowO}}; transition: opacity 0.6s ease"><div class="m-anim" style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; box-shadow: inset 0 0 0 1.5px {{gl.a95}}, inset 0 0 38px 6px {{gl.a45}}, inset 0 0 120px 14px {{gl.b25}}; animation: mothGlow 2s ease-in-out infinite"></div></div>
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 100%; background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, #E8E8EC 100%); pointer-events: none; opacity: {{flashO}}"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; opacity: {{ctlO}}; pointer-events: {{ctlPe}}; transition: opacity 0.3s ease">
+<div style="display: flex; align-items: center; gap: 12px; height: 32px; box-sizing: border-box; padding: 0 6px 0 6px; border-radius: 16px; background: rgba(40, 40, 44, 0.78); border: 1px solid rgba(255, 255, 255, 0.10); font-size: 12px; font-weight: 500; color: #8E8E93">
+<button onClick="{{roleTap}}" style="height: 24px; padding: 0 12px; border: 0; border-radius: 12px; background: rgba(255, 255, 255, 0.12); color: #F5F5F7; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">{{roleLbl}} ⇄</button>
+<span style="display: flex; gap: 6px; padding-right: 8px"><div data-for="dots" data-as="dt" style="display: contents"><template><button onClick="{{dt.tap}}" aria-label="Step {{dt.n}}" style="width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: {{dt.bg}}; cursor: pointer"></button></template></div></span>
+</div>
+</div>
+
+</div>
+</div>
+<noscript><p style="color:#fff;font-family:system-ui;padding:24px">This prototype needs JavaScript.</p></noscript>
+<script>
+
+class Component {
+constructor(props) { this.props = props; this.state = {}; }
+setState(p) { Object.assign(this.state, p); }
+_frozen() { const f = (this.props || {}).frozen; return f === true || f === '1' || f === 1 || f === 'true'; }
+componentDidMount() {
+  if (this._frozen()) return;
+  const t = performance.now();
+  this.setState({ now: t, t0: t, step: 1, role: 'P', pin: 0, amtStr: '250', amtFresh: true, hold: 0, holding: false });
+  this._iv = setInterval(() => {
+    const st = this.state || {};
+    const now = performance.now();
+    const patch = { now: now };
+    const step = st.step || 1, role = st.role || 'P';
+    const u = (now - (st.t0 || now)) / 1000;
+    if (st.holding) {
+      const h = Math.min(1, (now - st.holdT0) / 1100);
+      patch.hold = h;
+      if (h >= 1) { patch.holding = false; patch.hold = 0; patch.step = 4; patch.t0 = now; patch.armT = null; }
+    }
+    if (step === 4 && st.armT && now - st.armT > 5000) { patch.step = 5; patch.t0 = now; patch.armT = null; }
+    if (step === 5 && u > 11.0) { patch.step = 6; patch.t0 = now; }
+    if (role === 'R' && step === 2 && u > 3.4) { patch.step = 3; patch.t0 = now; }
+    if (role === 'R' && step === 3 && u > 3.8) { patch.step = 4; patch.t0 = now; }
+    this.setState(patch);
+  }, 50);
+}
+componentWillUnmount() { clearInterval(this._iv); }
+renderVals() {
+  const P = this.props || {};
+  const frozen = this._frozen();
+  const st = this.state || {};
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const accent = P.accent || '#5CF2B4';
+  const accent2 = P.accent2 || '#5CC8FF';
+  const rgb = (h, a) => { const n = parseInt(String(h).replace('#', ''), 16); return 'rgba(' + ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', ' + a + ')'; };
+  const step = frozen ? clamp(Number(P.step) || 1, 1, 6) : (st.step || 1);
+  const role = frozen ? (P.role === 'R' ? 'R' : 'P') : (st.role || 'P');
+  const defU = { 1: 0, 2: 2, 3: 1.5, 4: 0, 5: 4.8, 6: 1.6 }[step];
+  const u = frozen ? ((P.u !== undefined && P.u !== '') ? Number(P.u) : defU) : (((st.now || 0) - (st.t0 || st.now || 0)) / 1000);
+  const amtStr = frozen ? '250' : (st.amtStr === undefined ? '250' : st.amtStr);
+  const amtNum = parseFloat(amtStr) || 0;
+  const RATE = 0.42;
+  const pin = frozen ? 4 : (st.pin || 0);
+  const hold = frozen ? 0 : (st.hold || 0);
+  const act = (fn) => () => { if (!frozen) fn(); };
+  const go = (n) => act(() => this.setState({ step: n, t0: performance.now(), hold: 0, holding: false, armT: null }));
+  const isP = role === 'P';
+  const peer = isP ? 'Wren-3F' : 'Kestrel-7';
+  const amtTxt = amtNum.toFixed(2);
+  const scr = (i) => ({ o: step === i ? 1 : 0, y: step === i ? 0 : (((i - step + 6) % 6) >= 4 ? -14 : 14), pe: step === i ? 'auto' : 'none', tr: step === i ? 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s, filter 0.8s ease 0.3s' : 'opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease', sc: step === i ? 1 : (((i - step + 6) % 6) >= 4 ? 0.96 : 1.04), bl: step === i ? 0 : 18 });
+  const eo = (x) => 1 - Math.pow(1 - x, 3);
+  const hu = step === 5 ? u : 99; /* time since the phones touched */
+
+  /* 1 unlock */
+  const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'];
+  const keys = digits.map((d) => ({ l: d, vis: d === '' ? 0 : 1, tap: act(() => {
+    const p = (this.state && this.state.pin) || 0;
+    if (d === '⌫') { this.setState({ pin: Math.max(0, p - 1) }); }
+    else if (d !== '') { const np = p + 1; this.setState({ pin: np }); if (np >= 6) { setTimeout(() => this.setState({ step: 2, t0: performance.now(), pin: 0 }), 260); } }
+  }) }));
+  const pinDots = [0, 1, 2, 3, 4, 5].map((i) => ({ bg: i < pin ? '#F5F5F7' : 'transparent', bd: i < pin ? '#F5F5F7' : 'rgba(255,255,255,0.35)' }));
+
+  /* 2 amount */
+  const full = amtStr === '' ? '0' : amtStr;
+  const rShown = u > 0.6 ? full.slice(0, Math.max(1, Math.floor((u - 0.6) * 3))) : '0';
+  const shownAmt = isP ? full : rShown;
+  const amtKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', '⌫'].map((d) => ({ l: d, tap: act(() => {
+    const cs = this.state || {};
+    let s = cs.amtFresh ? '' : (cs.amtStr || '');
+    if (d === '⌫') { s = s.slice(0, -1); }
+    else if (d === '.') { if (s.indexOf('.') < 0) { s = (s === '' ? '0' : s) + '.'; } }
+    else {
+      if (s === '0') { s = d; } else if (s.length < 8) { s = s + d; }
+      const dot = s.indexOf('.');
+      if (dot >= 0 && s.length - dot > 3) { s = s.slice(0, dot + 3); }
+    }
+    this.setState({ amtStr: s, amtFresh: false });
+  }) }));
+  const canReview = amtNum > 0;
+  const s2 = Object.assign(scr(2), {
+    lbl: isP ? 'You are sending' : peer + ' is entering an amount',
+    amt: shownAmt,
+    fiat: ((parseFloat(shownAmt) || 0) * RATE).toFixed(2),
+    ctl: isP ? 1 : 0.25, keyPe: isP ? 'inherit' : 'none',
+    keys: amtKeys,
+    btn: isP ? 'Review' : 'Waiting for ' + peer + '…',
+    btnBg: (isP && canReview) ? 'linear-gradient(180deg, #FFFFFF 0%, #DCDCDF 100%)' : 'rgba(255,255,255,0.10)',
+    btnFg: (isP && canReview) ? '#0B0B0C' : 'rgba(255,255,255,0.45)',
+    tap: act(() => { if (isP && canReview) this.setState({ step: 3, t0: performance.now() }); })
+  });
+
+  /* 3 review */
+  const s3 = Object.assign(scr(3), {
+    title: isP ? 'Review' : peer + ' is reviewing',
+    sub: isP ? 'Check everything before you send.' : 'The amount is locked while they confirm.',
+    dirLbl: isP ? 'To' : 'From', who: peer + ' · 2 m',
+    amt: amtTxt,
+    holdLbl: 'Hold to confirm',
+    holdO: isP ? 1 : 0, waitO: isP ? 0 : 1, holdW: (hold * 100).toFixed(1),
+    down: act(() => this.setState({ holding: true, holdT0: performance.now() })),
+    up: act(() => this.setState({ holding: false, hold: 0 }))
+  });
+
+  /* 4 touch */
+  const ap = (!frozen && step === 4 && st.armT) ? clamp(((st.now || 0) - st.armT) / 5000, 0, 1) : 0;
+  const s4 = Object.assign(scr(4), {
+    dirTxt: isP ? 'Total sending' : 'Total receiving', amt: amtTxt,
+    ringO: ap > 0 ? 1 : 0, ringOff: (930 * (1 - ap)).toFixed(1),
+    tap: act(() => { if ((this.state || {}).armT) return; try { if (navigator.vibrate) navigator.vibrate(60); } catch (e) {} this.setState({ armT: performance.now() }); })
+  });
+
+  /* the arc pushes the touch-screen elements down; they resist (spring), then blur out */
+  const arcY = (h) => -60 + 1060 * eio(clamp((h - 0.5) / 1.2, 0, 1));
+  const tcross = (yc) => { let lo = 0.5, hi = 1.7; for (let k = 0; k < 14; k++) { const m = (lo + hi) / 2; if (arcY(m) < yc) lo = m; else hi = m; } return hi; };
+  const rest = { y: '0.0', s: '1.000', b: '0.00', o: '1.000' };
+  const pu1 = (yc, amp) => {
+    if (step !== 5) return rest;
+    const tau = hu - tcross(yc);
+    if (tau < 0) return rest;
+    const push = amp * (1 - Math.exp(-5 * tau) * (1 + 5 * tau));
+    const p = eio(clamp((tau - 0.3) / 0.8, 0, 1));
+    return { y: push.toFixed(1), s: (1 - 0.04 * p).toFixed(3), b: (20 * p).toFixed(2), o: (1 - p).toFixed(3) };
+  };
+  const pu = { hdr: pu1(72, 46), amt: pu1(185, 40), btn: pu1(430, 26) };
+  const s4h = (step === 5 && hu < 2.4) ? { o: 1, y: 0, sc: 1, bl: 0, tr: 'none' } : {};
+  Object.assign(s4, s4h);
+
+  /* 5 in process, with a wave that sweeps down the screen and distorts the elements */
+  const wt = frozen ? ((P.wt !== undefined && P.wt !== '') ? Number(P.wt) : 9) : (u - 1.4);
+  const wv = (yc) => {
+    const yf = -80 + 1000 * eio(clamp(wt / 5.2, 0, 1));
+    const r = clamp((yf - yc + 70) / 320, 0, 1);
+    return { s: (0.86 + 0.14 * eo(r)).toFixed(3), b: (22 * (1 - r)).toFixed(2), o: r.toFixed(3) };
+  };
+  const w = { hdr: wv(72), chip: wv(208), ring: wv(370), dir: wv(519), amt: wv(559), who: wv(602) };
+  const cp = eo(clamp((hu - 1.3) / 1.1, 0, 1));
+  const s5 = Object.assign(scr(5), {
+    dir: isP ? 'Sending' : 'Receiving', amt: amtTxt,
+    who: isP ? 'to Wren-3F' : 'from Kestrel-7',
+    arrow: isP ? 'M12 19 V5 M5 12 L12 5 L19 12' : 'M12 5 V19 M5 12 L12 19 L19 12'
+  });
+  if (step === 5) { s5.tr = 'none'; }
+
+  /* 6 receipt */
+  const s6 = Object.assign(scr(6), {
+    status: isP ? 'Sent' : 'Received', amt: amtTxt, who: isP ? 'to Wren-3F' : 'from Kestrel-7',
+    done: act(() => this.setState({ step: 1, t0: performance.now(), pin: 0, amtStr: '250', amtFresh: true }))
+  });
+
+  const glowO = (step === 5 && hu > 2.2) ? 1 : 0;
+  const bloomP = eio(clamp(hu / 0.9, 0, 1));
+  const nd = {
+    bloomO: (step === 5 && hu < 2.4) ? (bloomP * (1 - eio(clamp((hu - 1.6) / 0.7, 0, 1)))).toFixed(3) : 0,
+    bloomS: (0.7 + 0.5 * bloomP).toFixed(3),
+    top: (-60 + 1060 * eio(clamp((hu - 0.5) / 1.2, 0, 1)) - 1200).toFixed(1),
+    domeO: (step === 5 && hu > 0.45 && hu < 2.1) ? (clamp((hu - 0.45) / 0.25, 0, 1) * (1 - eio(clamp((hu - 1.5) / 0.5, 0, 1)))).toFixed(3) : 0,
+    veilO: step === 5 ? (0.18 * Math.exp(-Math.pow((hu - 1.25) / 0.4, 2))).toFixed(3) : 0,
+    dome: 'radial-gradient(closest-side, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.10) 84%, rgba(255,255,255,0.5) 88%, ' + rgb(accent2, 0.42) + ' 91%, rgba(255,214,140,0.28) 94.5%, rgba(255,150,210,0.2) 97.5%, rgba(255,255,255,0) 100%)'
+  };
+  const gl = { a95: rgb(accent, 0.9), a45: rgb(accent, 0.42), b25: rgb(accent2, 0.24) };
+  const flashO = 0;
+  const ctl = !(frozen || P.controls === false) && st.ctlOn !== false;
+  const dots = [1, 2, 3, 4, 5, 6].map((n) => ({ n: n, bg: n === step ? '#F5F5F7' : 'rgba(255,255,255,0.28)', tap: go(n) }));
+
+  return { toggleCtl: act(() => this.setState({ ctlOn: (this.state || {}).ctlOn === false })), accent, accent2, nd, pu, peerName: peer, s1: scr(1), s2, s3, s4, s5, s6, w, gl, pinDots, keys, glowO, flashO, ctlO: ctl ? 1 : 0, ctlPe: ctl ? 'auto' : 'none', roleLbl: isP ? 'Payer' : 'Receiver', roleTap: act(() => this.setState({ role: isP ? 'R' : 'P' })), dots };
+}
+}
+
+(function () {
+  var q = new URLSearchParams(location.search);
+  var comp = new Component({ controls: q.get('demo') !== '0' });
+  var get = function (o, p) { return p.split('.').reduce(function (a, k) { return a == null ? undefined : a[k]; }, o); };
+  var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
+  var sub = function (t, sc) { return t.replace(HOLE, function (m, p) { var v = get(sc, p); return v == null ? '' : String(v); }); };
+  var EV = { onclick: 'click', onpointerdown: 'pointerdown', onpointerup: 'pointerup', onpointerleave: 'pointerleave', onpointercancel: 'pointercancel' };
+  var vals = {};
+  var binds = [];   /* { set(scope) } */
+  function bindTree(root, scopeOf) {
+    (function walk(n) {
+      if (n.nodeType === 3) {
+        if (n.nodeValue.indexOf('{{') >= 0) { var t = n.nodeValue, last = null; binds.push(function () { var v = sub(t, scopeOf()); if (v !== last) { n.nodeValue = v; last = v; } }); }
+        return;
+      }
+      if (n.nodeType !== 1) return;
+      if (n.tagName === 'TEMPLATE') return;
+      if (n.hasAttribute('data-for')) { bindList(n, scopeOf); return; }
+      Array.prototype.slice.call(n.attributes).forEach(function (a) {
+        if (a.value.indexOf('{{') < 0) return;
+        var name = a.name.toLowerCase();
+        if (EV[name]) {
+          var path = a.value.replace(/[{}\s]/g, '');
+          n.removeAttribute(a.name);
+          n.addEventListener(EV[name], function (e) { var fn = get(scopeOf(), path); if (typeof fn === 'function') fn(e); });
+        } else {
+          var t = a.value, an = a.name, last = null;
+          binds.push(function () { var v = sub(t, scopeOf()); if (v !== last) { n.setAttribute(an, v); last = v; } });
+        }
+      });
+      Array.prototype.slice.call(n.childNodes).forEach(walk);
+    })(root);
+  }
+  function bindList(host, scopeOf) {
+    var path = host.getAttribute('data-for'), as = host.getAttribute('data-as');
+    var tplEl = host.querySelector('template');
+    var list = get(scopeOf(), path) || [];
+    list.forEach(function (_, i) {
+      var frag = tplEl.content.cloneNode(true);
+      var kids = Array.prototype.slice.call(frag.childNodes);
+      host.appendChild(frag);
+      var itemScope = function () { var sc = scopeOf(); var o = Object.create(sc); o[as] = (get(sc, path) || [])[i]; return o; };
+      kids.forEach(function (k) { bindTree(k, itemScope); });
+    });
+  }
+  function render() {
+    vals = comp.renderVals();
+    for (var i = 0; i < binds.length; i++) binds[i]();
+  }
+  vals = comp.renderVals();
+  bindTree(document.getElementById('moth'), function () { return vals; });
+  comp.componentDidMount();
+  render();
+  setInterval(render, 33);
+  document.addEventListener('pointerdown', function () { setTimeout(render, 0); }, true);
+  document.addEventListener('pointerup', function () { setTimeout(render, 0); }, true);
+
+  /* fit the 390px-wide design to the screen: full height on phones, a centred column on desktop */
+  var stage = document.getElementById('stage'), app = document.getElementById('moth');
+  function fit() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var phone = vw < 600;
+    /* keep at least 820 design px of height so nothing overlaps on short phones */
+    var s = phone ? Math.min(vw / 390, vh / 820) : Math.min(1.1, vh / 844);
+    var h = vh / s;
+    app.style.height = h + 'px';
+    stage.style.transform = 'scale(' + s + ')';
+    stage.style.left = Math.max(0, (vw - 390 * s) / 2) + 'px';
+    stage.style.top = phone ? '0px' : Math.max(0, (vh - h * s) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  fit();
+})();
+</script>
+</body>
+</html>
