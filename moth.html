@@ -169,7 +169,7 @@ body[data-app="moth"] #moth, body[data-app="ghost"] #ghost { display: block; }
 <div id="ghost" class="app" style="width: 100%; height: 100%; position: relative; overflow: hidden; background: #050706; color: #D8E6DD; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; -webkit-font-smoothing: antialiased">
 <div style="position: absolute; left: 0; top: 0; width: 100%; height: 90px; background: #0E1311"></div>
 <div style="position: absolute; left: 10px; right: 10px; top: 42px; display: flex; align-items: flex-end; gap: 2px; height: 48px">
-<div style="display: flex; align-items: center; justify-content: space-between; width: 214px; height: 48px; box-sizing: border-box; padding: 0 14px 0 16px; border-radius: 16px 16px 0 0; background: #1C2420; font-size: 13px; color: #D8E6DD"><span style="display: flex; align-items: center; gap: 10px"><span class="" style="display: block; width: 7px; height: 7px; border-radius: 50%; background: {{st.c}}; box-shadow: 0 0 8px {{st.c}}"></span>ghost@relay: ~</span><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5 L12.5 12.5 M12.5 3.5 L3.5 12.5" stroke="{{st.c}}" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
+<div style="display: flex; align-items: center; justify-content: space-between; width: 214px; height: 48px; box-sizing: border-box; padding: 0 14px 0 16px; border-radius: 16px 16px 0 0; background: #1C2420; font-size: 13px; color: #D8E6DD"><span style="display: flex; align-items: center; gap: 10px"><span class="" style="display: block; width: 7px; height: 7px; border-radius: 50%; background: {{st.c}}; box-shadow: 0 0 8px {{st.c}}"></span>ghost@relay: ~</span><span onClick="{{restartTap}}" role="button" aria-label="Restart the session" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin-right: -8px; cursor: pointer"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5 L12.5 12.5 M12.5 3.5 L3.5 12.5" stroke="{{st.c}}" stroke-width="1.8" stroke-linecap="round"></path></svg></span></div>
 <div onClick="{{appTap}}" role="button" aria-label="Switch to the Moth app" style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 14px; font-size: 13px; color: #8FB5A0; cursor: pointer"><span style="display: block; width: 6px; height: 6px; border-radius: 50%; background: #4E6B5C"></span>pb07</div>
 <div aria-label="New session" style="display: flex; align-items: center; justify-content: center; width: 42px; height: 48px"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3 V17 M3 10 H17" stroke="#39FF88" stroke-width="1.9" stroke-linecap="round"></path></svg></div>
 <div style="flex: 1"></div>
@@ -443,6 +443,10 @@ componentDidMount() {
   window.addEventListener('keydown', this._kd);
 }
 componentWillUnmount() { clearInterval(this._iv); window.removeEventListener('keydown', this._kd); }
+restart() {
+  /* the × on the session tab starts the session again from the top */
+  this.setState({ lines: [], i: 0, pos: 0, buf: '', wait: false, caps: false, num: false, pct: 0, barT0: 0, lostT: 0, flash: '', at: performance.now() + 500 });
+}
 cmdLine(step, txt) { const { G, C, D, W, s } = this.C; return [s(G, 'root@pb07'), s(D, ':'), s(C, step.path), s(D, '# '), s(W, txt)]; }
 barLines(p) {
   const { C, W, G, s } = this.C;
@@ -541,6 +545,7 @@ renderVals() {
   const stt = lostT ? { c: '#FF4D5E', lbl: 'link down', rest: '· tunnel held · session expires ' + mmss } : { c: G, lbl: 'tunnel 41 ms', rest: '· relay north-07 · ssh' };
   return {
     appTap: () => { if (window.__switchApp) window.__switchApp('moth'); },
+    restartTap: () => this.restart(),
     st: stt,
     lines, xk, r1, r2, r3, r4,
     kbBd: wait ? 'rgba(57,255,136,0.45)' : 'rgba(57,255,136,0.10)',
